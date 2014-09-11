@@ -1,4 +1,4 @@
-.vim
+.vim folder for .vimrc
 ====
 
 Entire .vim folder
