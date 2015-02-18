@@ -94,6 +94,10 @@ endtry
 
 "LaTeX  \tex builds latex file
 map <Leader>tex :!pdflatex %<CR>
+" C++ \cpp builds C++ file with no extension, using g++
+map <Leader>cpp :!g++ % -o %:r<CR>
+" C \gcc builds C file with no extensions, using gcc
+map <Leader>gcc :!gcc % -o %:r<CR>
 
 "Pathogen
 execute pathogen#infect()
