@@ -11,10 +11,14 @@ Since the .vimrc file is contained in here I would suggest running the command
 
 ln -s /path/to/.vim/.vimrc ~/.vimrc
 
-so that it is always used, and you can update as you please.
+If you do it this way then you can update with git and not have to copy the rc file over every time you update
 
 To get the colours, pathogen, and nerdtree to work properly do the following
 
-Move /path/.vim/vim-vividchalk/colors/vividchalk.vim to /path/.vim/colors
-Move /path/.vim/nerdtree to /path/.vim/bundle/
-Move /path/.vim/vim-pathogen/ to /path/.vim/bundle
+Run the following commands
+----------------------------
+git clone https://github.com/tpope/vim-vividchalk
+mv vim-cicidchalk/colors/vividchalk /colors
+cd bundle
+git clone https://github.com/tpope/vim-pathogen
+git clone https://github.com/scrooloose/nerdtree.git
