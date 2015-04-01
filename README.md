@@ -18,7 +18,11 @@ To get the colours, pathogen, and nerdtree to work properly do the following
 Run the following commands
 ----------------------------
 git clone https://github.com/tpope/vim-vividchalk
+
 mv vim-cicidchalk/colors/vividchalk /colors
+
 cd bundle
+
 git clone https://github.com/tpope/vim-pathogen
+
 git clone https://github.com/scrooloose/nerdtree.git
