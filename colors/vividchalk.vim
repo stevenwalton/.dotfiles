@@ -134,7 +134,7 @@ call s:hibg("VisualNOS" ,"#444444","DarkBlue",81)
 call s:hibg("MatchParen","#1100AA","DarkBlue",18)
 highlight WarningMsg    guifg=Red ctermfg=Red
 highlight Error         ctermbg=DarkRed
-highlight SpellBad      ctermbg=DarkRed
+highlight SpellBad      ctermbg=DarkGrey
 " FIXME: Comments
 highlight SpellRare     ctermbg=DarkMagenta
 highlight SpellCap      ctermbg=DarkBlue
@@ -175,7 +175,7 @@ endif
 hi Identifier cterm=none
 " Commented numbers at the end are *old* 256 color values
 "highlight PreProc       guifg=#EDF8F9
-call s:hifg("Comment"        ,"#9933CC","DarkMagenta",34) " 92
+call s:hifg("Comment"        ,"#9933CC","DarkMagenta",30) " 92
 " 26 instead?
 call s:hifg("Constant"       ,"#339999","DarkCyan",21) " 30
 call s:hifg("rubyNumber"     ,"#CCFF33","Yellow",60) " 190
