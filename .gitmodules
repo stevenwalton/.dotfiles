@@ -1,0 +1,11 @@
+[sumbodule "vim-vividchalk"]
+   path = colors/vim-vividchalk
+   url = https://github.com/tpope/vim-vividchalk
+
+[submodule "pathogen"]
+   path = bundle/vim-pathogen
+   url = https://github.com/tpope/vim-pathogen
+
+[submodule "nerdtree"]
+   path = bundle/nerdtree
+   url = https://github.com/scrooloose/nerdtree.git
