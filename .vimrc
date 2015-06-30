@@ -115,3 +115,4 @@ try
    autocmd VimEnter * wincmd l      "When Vim starts the focus is on the editing screen and not on NERDTreee 
 catch
 endtry
+
