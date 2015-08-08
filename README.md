@@ -9,18 +9,19 @@ Run the following commands
 ----------------------------
 To get your vimrc file running correctly
 
-`rm ~/.vimrc
+```
+rm ~/.vimrc
 
-`ln -s ~/.vim/vimrc ~/.vimrc
-
+ln -s ~/.vim/vimrc ~/.vimrc
+```
 If you would like to use the bashrc file, then do the same. Note that it has archey3 in it and you might want to remove that line
 
 To update submodules
+```
+git submodule init
 
-`git submodule init
-
-`git submodule update
-
+git submodule update
+```
 Included Plugins
 --------------------------------------
 - Vim-pathogen: Makes installing plugins easier
