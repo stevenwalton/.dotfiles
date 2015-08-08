@@ -1,7 +1,3 @@
-call pathogen#runtime_append_all_bundles()
-execute pathogen#infect()
-call pathogen#helptags() " generate helptags for everything in 'runtimepath'
-
 
 syntax on               "Turns on Syntax highlighting 
 "Will try to use vividchalk.  If it doesn't exist then dark blue will be used
@@ -112,6 +108,8 @@ try
    "makes easier to install plugins by extracting zip to ~/.vim/bundles
    "https://github.com/tpope/vim-pathogen
    execute pathogen#infect()
+   call pathogen#helptags() " generate helptags for everything in 'runtimepath'
+
 
    "git clone https://github.com/scrooloose/nerdtree.git
    autocmd VimEnter * NERDTree      "Autostart NERDTree with vim
