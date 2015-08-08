@@ -1,3 +1,8 @@
+call pathogen#runtime_append_all_bundles()
+execute pathogen#infect()
+call pathogen#helptags() " generate helptags for everything in 'runtimepath'
+
+
 syntax on               "Turns on Syntax highlighting 
 "Will try to use vividchalk.  If it doesn't exist then dark blue will be used
 "for the colorscheme.
@@ -100,8 +105,6 @@ map <Leader>cpp :!g++ % -o %:r<CR>
 map <Leader>gcc :!gcc % -o %:r<CR>
 
 "Pathogen
-execute pathogen#infect()
-call pathogen#helptags() " generate helptags for everything in 'runtimepath'
 syntax on
 filetype plugin indent on
 try 
