@@ -26,3 +26,12 @@ cd bundle
 git clone https://github.com/tpope/vim-pathogen
 
 git clone https://github.com/scrooloose/nerdtree.git
+
+Included Plugins
+--------------------------------------
+- Vim-pathogen: Makes installing plugins easier
+- Nerdtree: Shows file tree on left
+- Vim-fugitive: Git wrapper, see https://github.com/tpope/vim-fugitive for more details
+- Vim-sensible: Sensible commands that most people like
+- Syntastic: Syntax editor, will work for most languages.
+- Airline: Makes a nice status bar. See fonts folder to install powerline fonts.
