@@ -18,6 +18,7 @@ To get the colours, pathogen, and nerdtree to work properly do the following
 Run the following commands
 ----------------------------
 git submodule init
+
 git submodule update
 
 Included Plugins
