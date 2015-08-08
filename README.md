@@ -24,6 +24,8 @@ git submodule update
 ```
 If you would like to use the font that I have, use `Meslo LG S for Powerline Bold`
 If you are not using a powerline font then comment or delete line 134 `let g:airline_powerline_fonts = 1`
+
+If you are on windows and using PUTTY then see pdalinis.blogspot.com/2013/08/putty-powerline.html
 Included Plugins
 --------------------------------------
 - Vim-pathogen: Makes installing plugins easier
