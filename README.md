@@ -22,6 +22,7 @@ git submodule init
 
 git submodule update
 ```
+If you would like to use the font that I have, use `Meslo LG S for Powerline Bold`
 Included Plugins
 --------------------------------------
 - Vim-pathogen: Makes installing plugins easier
