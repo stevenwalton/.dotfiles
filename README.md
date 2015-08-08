@@ -5,21 +5,17 @@ Entire .vim folder
 
 This includes everything that is needed to run my current .vimrc as written.
 
-Pathogen, NerdTree, and vividchalk are included in this.
-
-Since the .vimrc file is contained in here I would suggest running the command
-
-ln -s /path/to/.vim/.vimrc ~/.vimrc
-
-If you do it this way then you can update with git and not have to copy the rc file over every time you update
-
-To get the colours, pathogen, and nerdtree to work properly do the following
-
 Run the following commands
 ----------------------------
-git submodule init
+To get your vimrc file running correctly
+   rm ~/.vimrc
+   ln -s ~/.vim/vimrc ~/.vimrc
 
-git submodule update
+If you would like to use the bashrc file, then do the same. Note that it has archey3 in it and you might want to remove that line
+
+To update submodules
+   git submodule init
+   git submodule update
 
 Included Plugins
 --------------------------------------
