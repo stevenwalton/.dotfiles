@@ -116,6 +116,8 @@ try
    autocmd VimEnter * wincmd l      "When Vim starts the focus is on the editing screen and not on NERDTreee 
 catch
 endtry
+" Toggle NERDTree with \nt
+map <Leader>nt :NERDTreeToggle<CR>
 
 " Syntastic defaults
 set statusline+=%#warningmsg#
@@ -126,6 +128,9 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
+let g:syntastic_cpp_check_header = 1
+
 
 " Airline configuration
 let g:airline#extensions#tabline#enabled = 1
