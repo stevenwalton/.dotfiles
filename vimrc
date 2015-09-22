@@ -114,6 +114,7 @@ try
    "git clone https://github.com/scrooloose/nerdtree.git
    autocmd VimEnter * NERDTree      "Autostart NERDTree with vim
    autocmd VimEnter * wincmd l      "When Vim starts the focus is on the editing screen and not on NERDTreee 
+   autocmd VimEnter * NERDTreeToggle
 catch
 endtry
 " Toggle NERDTree with \nt
