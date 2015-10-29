@@ -120,6 +120,7 @@ endtry
 " Toggle NERDTree with \nt
 map <Leader>nt :NERDTreeToggle<CR>
 
+
 " Syntastic defaults
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}

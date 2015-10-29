@@ -1,16 +1,5 @@
 let g:netrw_dirhistmax  =10
-<<<<<<< HEAD
-let g:netrw_dirhist_cnt =7
-let g:netrw_dirhist_1='/home/steven/GEANT4/Builds/AnaBHLTest-dir/data'
-let g:netrw_dirhist_2='/home/steven/GEANT4/Builds/AnaBHLTest-dir'
-let g:netrw_dirhist_3='/home/steven/GEANT4/Builds/AnaBHLTest-dir/data'
-let g:netrw_dirhist_4='/home/steven/GEANT4/Builds/AnaBHLTest-dir'
-let g:netrw_dirhist_5='/home/steven/OpenFOAM/steven-2.2.1/run/tutorials/incompressible/icoFoam/cavityFine/constant/polyMesh'
-let g:netrw_dirhist_6='/home/steven/OpenFOAM/steven-2.2.1/run/tutorials/incompressible/icoFoam/cavityFine'
-let g:netrw_dirhist_7='/home/steven/GEANT4/Builds/AnaBHLTest-dir/data'
-=======
 let g:netrw_dirhist_cnt =3
-let g:netrw_dirhist_1='/home/steven/.antigen/repos/https-COLON--SLASH--SLASH-github.com-SLASH-robbyrussell-SLASH-oh-my-zsh.git'
-let g:netrw_dirhist_2='/home/steven/.antigen/repos/https-COLON--SLASH--SLASH-github.com-SLASH-robbyrussell-SLASH-oh-my-zsh.git/plugins'
-let g:netrw_dirhist_3='/home/steven/.antigen/repos/https-COLON--SLASH--SLASH-github.com-SLASH-robbyrussell-SLASH-oh-my-zsh.git/plugins/colorized'
->>>>>>> 36c3fd2be9dc6c3cd820e01224f482de57473948
+let g:netrw_dirhist_1='/home/steven/OpenFOAM/steven-2.2.1/run/Examples/airFoil2D/0'
+let g:netrw_dirhist_2='/home/steven/OpenFOAM/steven-2.2.1/run/Examples/airFoil2D/constant/polyMesh'
+let g:netrw_dirhist_3='/home/steven/OpenFOAM/steven-2.2.1/run/Examples/airFoil2D/constant'
