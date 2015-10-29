@@ -55,7 +55,8 @@ map <leader>sp [s
 map <leader>sa zg
 map <leader>s? z=
 
-
+" Folding
+set foldmethod=indent
 
 
 "" Mapping and Plugin section
