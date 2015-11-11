@@ -10,7 +10,7 @@ endtry
 
 set t_Co=256
 set mouse=a             "Enables mouse function, won't highlight numbers
-set cursorline          "Highlight current line
+"set cursorline          "Highlight current line
 set nocompatible        "Cool stuff in Vim
 set lazyredraw          "Faster rendering
 set showcmd             "Show command as typing

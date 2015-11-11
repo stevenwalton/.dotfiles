@@ -13,5 +13,8 @@ export PS1='\[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]$\[\e[m\] 
 
 export SUDO_EDITOR=rvim
 
-source /home/steven/GEANT4/geant4.10.1-install/bin/geant4.sh
-. /opt/openfoam221/etc/bashrc
+#source /home/steven/GEANT4/geant4.10.1-install/bin/geant4.sh
+#. /opt/openfoam221/etc/bashrc
+
+# added by Anaconda2 2.4.0 installer
+export PATH="/home/steven/anaconda2/bin:$PATH"
