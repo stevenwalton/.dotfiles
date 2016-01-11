@@ -29,3 +29,6 @@
 [submodule "fonts"]
    path = fonts
    url = https://github.com/powerline/fonts
+[submodule "bundle/tabular"]
+	path = bundle/tabular
+	url = https://github.com/godlygeek/tabular
