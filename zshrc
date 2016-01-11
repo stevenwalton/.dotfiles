@@ -108,6 +108,9 @@ alias mountRepo='sudo mount //192.168.0.129/Repository /mnt/Repo -o "username=st
 # Tmux doesn't like to recognize 256 colouring, so let's force it
 alias tmux='tmux -2'
 
+########## GTL #############
+alias vnc='wakeonlan FC:AA:14:C9:B2:ED; xtightvncviewer 192.168.0.153'
+
 # You have to use npm to install npm, and that will give you the
 # # completion.sh file you need.
 # source /usr/local/lib/node_modules/npm/lib/utils/completion.sh
@@ -126,3 +129,11 @@ antigen theme jdavis/zsh-files themes/jdavis
 antigen-apply
 
 export PATH="/home/steven/anaconda2/bin:$PATH"
+
+# Emulate bash sources. Needed for GEANT4 and ROOT
+sh_source() {
+   emulate -L sh
+   source /opt/geant4/bin/geant4.sh
+   source /usr/local/bin/thisroot.sh
+}
+export LD_LIBRARY_PATH=/opt/geant4/lib/:$LD_LIBRARY_PATH

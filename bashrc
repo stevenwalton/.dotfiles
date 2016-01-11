@@ -18,3 +18,6 @@ export SUDO_EDITOR=rvim
 
 # added by Anaconda2 2.4.0 installer
 export PATH="/home/steven/anaconda2/bin:$PATH"
+source /usr/local/bin/thisroot.sh
+export LD_LIBRARY_PATH=/home/steven/Tools/geant4.10.01.p02-install/lib/:$LD_LIBRARY_PATH
+source ~/Tools/geant4.10.01.p02-install/bin/geant4.sh
