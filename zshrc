@@ -107,6 +107,7 @@ alias top='htop'
 alias mountRepo='sudo mount //192.168.0.129/Repository /mnt/Repo -o "username=steven.walton";sudo mount //192.168.0.129/CFD\ Repository/ /mnt/CFDRepo -o "username=steven.walton"'
 # Tmux doesn't like to recognize 256 colouring, so let's force it
 alias tmux='tmux -2'
+alias df='df -h'
 
 ########## GTL #############
 alias vnc='wakeonlan FC:AA:14:C9:B2:ED; xtightvncviewer 192.168.0.153'
