@@ -8,7 +8,6 @@ catch
    colorscheme peachpuff   "backup colour scheme (in /usr/share/vim...)
 endtry
 
-set inoremap # X#     "Disables the auto-unindent from octothrope for python
 set t_Co=256
 set mouse=a             "Enables mouse function, won't highlight numbers
 "set cursorline          "Highlight current line
@@ -20,6 +19,7 @@ set wildmenu            "wildmenu buffer, auto completion
 " Indenting
 set autoindent          "Auto indent
 set smartindent         "Guesses when to indent
+inoremap # X#     "Disables the auto-unindent from octothrope for python
 set wrap                "Wraps text
 set expandtab           "Spaces and not tabs
 set smarttab            "Trys to figure out when to tab
