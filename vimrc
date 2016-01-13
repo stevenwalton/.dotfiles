@@ -8,6 +8,7 @@ catch
    colorscheme peachpuff   "backup colour scheme (in /usr/share/vim...)
 endtry
 
+set inoremap # X#     "Disables the auto-unindent from octothrope for python
 set t_Co=256
 set mouse=a             "Enables mouse function, won't highlight numbers
 "set cursorline          "Highlight current line
