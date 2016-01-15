@@ -143,8 +143,6 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 
 
-" Starts vim obsessive automatically
-autocmd VimEnter * :Obsess
 " Map vim obsessive
 " starts Obsessive
 map <Leader>ob :Obsess<CR>
