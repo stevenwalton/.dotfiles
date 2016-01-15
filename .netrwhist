@@ -1,6 +1,2 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =4
-let g:netrw_dirhist_1='/mnt/Repo/!Users/Steven Walton/PythonFiniteVolume/py.1DSteadyHeatEquation'
-let g:netrw_dirhist_2='/home/steven/Programs/3DCellCenteredDifferentiation'
-let g:netrw_dirhist_3='/home/steven/Programs'
-let g:netrw_dirhist_4='/home/steven/Programs/2DCellCenteredDifferentiationV2'
+let g:netrw_dirhist_cnt =0

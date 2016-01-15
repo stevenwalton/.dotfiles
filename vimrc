@@ -19,7 +19,7 @@ set wildmenu            "wildmenu buffer, auto completion
 " Indenting
 set autoindent          "Auto indent
 set smartindent         "Guesses when to indent
-inoremap # X#     "Disables the auto-unindent from octothrope for python
+"inoremap # X#     "Disables the auto-unindent from octothrope for python
 set wrap                "Wraps text
 set expandtab           "Spaces and not tabs
 set smarttab            "Trys to figure out when to tab
@@ -141,3 +141,12 @@ let g:airline#extensions#tabline#enabled = 1
 " Comment this out if you don't have powerline fonts. Or install them from the
 " font directory
 let g:airline_powerline_fonts = 1
+
+
+" Starts vim obsessive automatically
+autocmd VimEnter * :Obsess
+" Map vim obsessive
+" starts Obsessive
+map <Leader>ob :Obsess<CR>
+" stops obsessive
+map <Leader>ob! :Obsess!<CR>
