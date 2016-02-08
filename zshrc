@@ -104,10 +104,11 @@ alias ls='ls --color=auto'
 alias la='ls -a'
 alias vi='vim'
 alias top='htop'
-alias mountRepo='sudo mount //192.168.0.129/Repository /mnt/Repo -o "username=steven.walton";sudo mount //192.168.0.129/CFD\ Repository/ /mnt/CFDRepo -o "username=steven.walton";sudo mount //192.168.0.129/GitRepos /mnt/GitRepos -o "username=steven.walton"'
+alias mountRepo='/home/steven/.scripts/mountRepo'
 # Tmux doesn't like to recognize 256 colouring, so let's force it
 alias tmux='tmux -2'
 alias df='df -h'
+alias log='git log --graph --oneline --decorate'
 
 ########## GTL #############
 alias vnc='wakeonlan FC:AA:14:C9:B2:ED; xtightvncviewer 192.168.0.153'

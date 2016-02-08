@@ -9,7 +9,6 @@ catch
 endtry
 
 set t_Co=256
-set mouse=a             "Enables mouse function, won't highlight numbers
 "set cursorline          "Highlight current line
 set nocompatible        "Cool stuff in Vim
 set lazyredraw          "Faster rendering
@@ -19,6 +18,8 @@ set wildmenu            "wildmenu buffer, auto completion
 " Indenting
 set autoindent          "Auto indent
 set smartindent         "Guesses when to indent
+"set cinkeys-=0#
+"set indentkeys-=0#
 "inoremap # X#     "Disables the auto-unindent from octothrope for python
 set wrap                "Wraps text
 set expandtab           "Spaces and not tabs
@@ -44,6 +45,9 @@ set showmatch           "Shows matching brackets
 nnoremap <silent> <Space> :silent noh<Bar>echo<CR>
 set smartcase           "for searching
 
+set splitright
+set splitbelow
+
 "Spell checking
 " Pressing ,ss will toggle and untoggle spell checking
 map <leader>ss :setlocal spell!<cr>
@@ -58,6 +62,9 @@ map <leader>s? z=
 
 " Folding
 set foldmethod=indent
+"set foldnestmax=2
+"nnoremap <space> za
+"vnoremap <space> zf
 
 
 "" Mapping and Plugin section
