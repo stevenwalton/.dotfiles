@@ -17,10 +17,11 @@ set wildmenu            "wildmenu buffer, auto completion
 
 " Indenting
 set autoindent          "Auto indent
-set smartindent         "Guesses when to indent
-"set cinkeys-=0#
-"set indentkeys-=0#
-"inoremap # X#     "Disables the auto-unindent from octothrope for python
+"set smartindent         "Guesses when to indent
+" No indenting on # mark 
+set cindent
+set cinkeys-=0#
+set indentkeys-=0#
 set wrap                "Wraps text
 set expandtab           "Spaces and not tabs
 set smarttab            "Trys to figure out when to tab
