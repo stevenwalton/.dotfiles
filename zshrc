@@ -138,4 +138,5 @@ sh_source() {
    source /opt/geant4/bin/geant4.sh
    source /usr/local/bin/thisroot.sh
 }
-export LD_LIBRARY_PATH=/opt/geant4/lib/:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/opt/geant4/lib/:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=/usr/share/boost/:${LD_LIBRARY_PATH}
