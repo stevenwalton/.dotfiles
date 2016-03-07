@@ -35,5 +35,5 @@
    url = https://github.com/octol/vim-cpp-enhanced-highlight.git
 
 [submodule "fonts"]
-   path = fonts
-   url = https://github.com/powerline/fonts
+	path = fonts
+	url = https://github.com/powerline/fonts
