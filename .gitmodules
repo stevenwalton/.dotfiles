@@ -26,12 +26,14 @@
    path = bundle/vim-sensible
    url = https://github.com/tpope/vim-sensible
 
+[submodule "bundle/tabular"]
+   path = bundle/tabular
+   url = https://github.com/godlygeek/tabular
+
+[submodule "bundle/syntax"]
+   path = bundle/syntax
+   url = https://github.com/octol/vim-cpp-enhanced-highlight.git
+
 [submodule "fonts"]
    path = fonts
    url = https://github.com/powerline/fonts
-[submodule "bundle/tabular"]
-	path = bundle/tabular
-	url = https://github.com/godlygeek/tabular
-[submodule "bundle/syntax"]
-	path = bundle/syntax
-	url = https://github.com/octol/vim-cpp-enhanced-highlight.git
