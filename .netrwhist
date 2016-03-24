@@ -1,11 +1,3 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =9
-let g:netrw_dirhist_1='/home/steven/Programs/SimDAT'
-let g:netrw_dirhist_2='/home/steven/Programs/testingstuff'
-let g:netrw_dirhist_3='/home/steven/Programs'
-let g:netrw_dirhist_4='/home/steven/Programs/SimDAT'
-let g:netrw_dirhist_5='/home/steven/Programs/codezeug/armadillo'
-let g:netrw_dirhist_6='/home/steven/Programs/codezeug/eigen'
-let g:netrw_dirhist_7='/home/steven/Programs/codezeug/clustered'
-let g:netrw_dirhist_8='/home/steven/Programs/codezeug/boost'
-let g:netrw_dirhist_9='/home/steven/Programs/codezeug/clustered'
+let g:netrw_dirhist_cnt =1
+let g:netrw_dirhist_1='/home/steven/Programs/GTL_Projects/SimDAT'

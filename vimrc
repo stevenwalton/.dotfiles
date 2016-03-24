@@ -164,3 +164,10 @@ let g:airline_powerline_fonts = 1
 map <Leader>ob :Obsess<CR>
 " stops obsessive
 map <Leader>ob! :Obsess!<CR>
+
+" Map for version incrementation. 
+" Will save and update version
+map <Leader>x  :g/Version/norm! $h <C-A><CR>:x<CR>
+map <Leader>w  :g/Version/norm! $h <C-A><CR>:w<CR>
+map <Leader>v+ :g/Version/norm! $h <C-A><CR>:w<CR>
+map <Leader>v- :g/Version/norm! $h <C-X><CR>:w<CR>

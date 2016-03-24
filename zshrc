@@ -111,7 +111,7 @@ alias df='df -h'
 alias log='git log --graph --oneline --decorate'
 
 ########## GTL #############
-alias vnc='wakeonlan FC:AA:14:C9:B2:ED; xtightvncviewer 192.168.0.153'
+alias vnc='xtightvncviewer'
 
 # You have to use npm to install npm, and that will give you the
 # # completion.sh file you need.
@@ -130,7 +130,7 @@ antigen bundle colored-man-pages
 antigen theme jdavis/zsh-files themes/jdavis
 antigen-apply
 
-export PATH="/home/steven/anaconda2/bin:$PATH"
+export PATH="/home/steven/.anaconda/bin:$PATH"
 
 # Emulate bash sources. Needed for GEANT4 and ROOT
 sh_source() {
