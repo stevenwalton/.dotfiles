@@ -168,6 +168,6 @@ map <Leader>ob! :Obsess!<CR>
 " Map for version incrementation. 
 " Will save and update version
 map <Leader>x  :g/Version/norm! $h <C-A><CR>:x<CR>
-map <Leader>w  :g/Version/norm! $h <C-A><CR>:w<CR>
-map <Leader>v+ :g/Version/norm! $h <C-A><CR>:w<CR>
-map <Leader>v- :g/Version/norm! $h <C-X><CR>:w<CR>
+map <Leader>w  :g/Version/norm! $h <C-A><CR>:call feedkeys("``")<CR>:w<CR>
+map <Leader>v+ :g/Version/norm! $h <C-A><CR>:call feedkeys("``")<CR>:w<CR>
+map <Leader>v- :g/Version/norm! $h <C-X><CR>:call feedkeys("``")<CR>:w<CR>
