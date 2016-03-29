@@ -109,6 +109,7 @@ alias mountRepo='/home/steven/.scripts/mountRepo'
 alias tmux='tmux -2'
 alias df='df -h'
 alias log='git log --graph --oneline --decorate'
+export GREP_OPTIONS='--color=always'
 
 ########## GTL #############
 alias vnc='xtightvncviewer'
