@@ -141,3 +141,4 @@ sh_source() {
 }
 export LD_LIBRARY_PATH=/opt/geant4/lib/:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH=/usr/share/boost/:${LD_LIBRARY_PATH}
+export 'GTL_LIB_PATH=/home/steven/Programs/GUT'
