@@ -1,4 +1,3 @@
-let g:NERDTreeDirArrows=0
 syntax on               "Turns on Syntax highlighting 
 "Will try to use vividchalk.  If it doesn't exist then dark blue will be used
 "for the colorscheme.
@@ -71,8 +70,25 @@ set foldmethod=indent
 "nnoremap <space> za
 "vnoremap <space> zf
 
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+   Plugin 'VundleVim/Vundle.vim'
+   Plugin 'scrooloose/nerdtree'
+   Plugin 'godlygeek/tabular'
+   Plugin 'vim-airline/vim-airline'
+   Plugin 'tpope/vim-fugitive'
+   Plugin 'scrooloose/syntastic'
+   Plugin 'octol/vim-cpp-enhanced-highlight'
+call vundle#end()
 
+filetype plugin indent on
+" :PluginInstall Install plugins
+" :PluginClean cleans removal of unused plugins
+" :PluginList
+" :PluginSearch foo -searches for foo
 "" Mapping and Plugin section
+
 
 " C shortcuts \m executes make, \mc executes make clean
 autocmd FileType cpp call MapCShortcuts()
@@ -114,23 +130,11 @@ map <Leader>cpp :!g++ % -o %:r<CR>
 " C \gcc builds C file with no extensions, using gcc
 map <Leader>gcc :!gcc % -o %:r<CR>
 
-"Pathogen
-syntax on
-filetype plugin indent on
-try 
-   "Pathogen 
-   "makes easier to install plugins by extracting zip to ~/.vim/bundles
-   "https://github.com/tpope/vim-pathogen
-   execute pathogen#infect()
-   call pathogen#helptags() " generate helptags for everything in 'runtimepath'
-
-
-   "git clone https://github.com/scrooloose/nerdtree.git
-   autocmd VimEnter * NERDTree      "Autostart NERDTree with vim
-   autocmd VimEnter * wincmd l      "When Vim starts the focus is on the editing screen and not on NERDTreee 
-   autocmd VimEnter * NERDTreeToggle
-catch
-endtry
+"git clone https://github.com/scrooloose/nerdtree.git
+let g:NERDTreeDirArrows=0
+autocmd VimEnter * NERDTree      "Autostart NERDTree with vim
+autocmd VimEnter * wincmd l      "When Vim starts the focus is on the editing screen and not on NERDTreee 
+autocmd VimEnter * NERDTreeToggle
 " Toggle NERDTree with \nt
 map <Leader>nt :NERDTreeToggle<CR>
 
