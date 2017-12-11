@@ -1,5 +1,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
+ZSH_THEME="jdavis"
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -49,7 +50,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(thefuck git colored-man-pages)
+plugins=(git colored-man-pages)
 
 # User configuration
 
@@ -104,7 +105,8 @@ alias ls='ls --color=auto'
 alias la='ls -a'
 alias vi='vim'
 alias top='htop'
-alias mountRepo='/home/steven/.scripts/mountRepo'
+alias pacman='pacman --color=auto'
+#alias mountRepo='/home/steven/.scripts/mountRepo'
 # Tmux doesn't like to recognize 256 colouring, so let's force it
 alias tmux='tmux -2'
 alias df='df -h'
@@ -112,7 +114,7 @@ alias log='git log --graph --oneline --decorate'
 export GREP_OPTIONS='--color=always'
 
 ########## GTL #############
-alias vnc='xtightvncviewer'
+#alias vnc='xtightvncviewer'
 
 # You have to use npm to install npm, and that will give you the
 # # completion.sh file you need.
@@ -121,24 +123,25 @@ alias vnc='xtightvncviewer'
 #. $HOME/.antigen/powerline/powerline/bindings/zsh/powerline.zsh
  source "$HOME/.antigen/antigen.zsh"
 #
-antigen use oh-my-zsh
-#
-# # bundles from oh-my-zsh
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle screen
-antigen bundle colored-man-pages
-#antigen-theme jreese
-antigen theme jdavis/zsh-files themes/jdavis
-antigen-apply
+#antigen use oh-my-zsh
+##
+## # bundles from oh-my-zsh
+#antigen bundle zsh-users/zsh-syntax-highlighting
+#antigen bundle screen
+#antigen bundle colored-man-pages
+##antigen-theme jreese
+#antigen theme jdavis/zsh-files themes/jdavis
+#antigen-apply
 
-export PATH="/home/steven/.anaconda/bin:$PATH"
+#export PATH="/home/steven/.anaconda/bin:$PATH"
 
 # Emulate bash sources. Needed for GEANT4 and ROOT
-sh_source() {
-   emulate -L sh
-   source /opt/geant4/bin/geant4.sh
-   source /usr/local/bin/thisroot.sh
-}
-export LD_LIBRARY_PATH=/opt/geant4/lib/:${LD_LIBRARY_PATH}
-export LD_LIBRARY_PATH=/usr/share/boost/:${LD_LIBRARY_PATH}
-export 'GTL_LIB_PATH=/home/steven/Programs/GUT'
+#sh_source() {
+#   emulate -L sh
+#   source /opt/geant4/bin/geant4.sh
+#   source /usr/local/bin/thisroot.sh
+#}
+#export LD_LIBRARY_PATH=/opt/geant4/lib/:${LD_LIBRARY_PATH}
+#export LD_LIBRARY_PATH=/usr/share/boost/:${LD_LIBRARY_PATH}
+#export 'GTL_LIB_PATH=/home/steven/Programs/GUT'
+export DISPLAY=0.0
