@@ -1,4 +1,5 @@
 let g:netrw_dirhistmax  =10
+<<<<<<< HEAD
 let g:netrw_dirhist_cnt =9
 let g:netrw_dirhist_1='/home/steven'
 let g:netrw_dirhist_2='/home/steven/.dotfiles'
@@ -9,3 +10,7 @@ let g:netrw_dirhist_6='/home/steven/Programming/Github/variance_ride'
 let g:netrw_dirhist_7='/home/steven/Programming/ORNL/ascent/host-configs'
 let g:netrw_dirhist_8='/home/steven/Programming/ORNL/vtk-h/src/cmake/thirdparty'
 let g:netrw_dirhist_9='/home/steven'
+=======
+let g:netrw_dirhist_cnt =1
+let g:netrw_dirhist_1='/opt/ascent/examples/proxies/cloverleaf3d'
+>>>>>>> ca1a27f11c0fa1b6a3db6eb1e1a4566306ae313a
