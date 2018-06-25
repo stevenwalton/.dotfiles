@@ -6,11 +6,16 @@
 [[ $- != *i* ]] && return
 
 #alias ls='ls --color=auto'
+alias ls='ls -h' # make things human readable
 alias ls='ls -G' # for macs because we have to be different -_____-
 
 alias la='ls -a'
+alias ll='ls -l'
 alias vi='vim'
+alias grep='grep --color=always --line-number --binary-file=without-match'
 export PS1='\[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]$\[\e[m\] \[\e[1;37m\]'
+export PATH="${PATH}:/opt"
+export DYLD_LIBRARY_PATH=/opt/adios2/lib
 
 export SUDO_EDITOR=rvim
 
