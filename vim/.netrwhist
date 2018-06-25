@@ -12,5 +12,9 @@ let g:netrw_dirhist_8='/home/steven/Programming/ORNL/vtk-h/src/cmake/thirdparty'
 let g:netrw_dirhist_9='/home/steven'
 =======
 let g:netrw_dirhist_cnt =1
+<<<<<<< HEAD
 let g:netrw_dirhist_1='/opt/ascent/examples/proxies/cloverleaf3d'
 >>>>>>> ca1a27f11c0fa1b6a3db6eb1e1a4566306ae313a
+=======
+let g:netrw_dirhist_1='/Users/zsw/Programming/Software/ascent/src/ascent/runtimes/flow_filters'
+>>>>>>> f9d20dc81de7e9350053c0cfa0ea0464be359bec

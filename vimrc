@@ -46,12 +46,12 @@ set showmatch           "Shows matching brackets
 nnoremap <silent> <Space> :silent noh<Bar>echo<CR>
 set smartcase           "for searching
 
-set splitright
-set splitbelow
-
 "Splitting
 set splitright
 set splitbelow
+
+"Ctags
+set tags=./tags;$HOME
 
 "Spell checking
 " Pressing ,ss will toggle and untoggle spell checking
@@ -82,6 +82,7 @@ call vundle#begin()
    Plugin 'vim-airline/vim-airline'
    Plugin 'tpope/vim-fugitive'
    Plugin 'scrooloose/syntastic'
+   Plugin 'taglist.vim'
    " From jez/vim-as-an-ide
    Plugin 'octol/vim-cpp-enhanced-highlight'
    Plugin 'xolox/vim-misc'
