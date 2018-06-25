@@ -1,39 +1,3 @@
 [sumbodule "vim-vividchalk"]
    path = colors/vim-vividchalk
    url = https://github.com/tpope/vim-vividchalk
-
-[submodule "pathogen"]
-   path = bundle/vim-pathogen
-   url = https://github.com/tpope/vim-pathogen
-
-[submodule "nerdtree"]
-   path = bundle/nerdtree
-   url = https://github.com/scrooloose/nerdtree.git
-
-[submodule "syntastic"]
-   path = bundle/syntastic
-   url = https://github.com/scrooloose/syntastic
-
-[submodule "vim-airline"]
-   path = bundle/vim-airline
-   url = https://github.com/bling/vim-airline
-
-[submodule "vim-fugitive"]
-   path = bundle/vim-fugitive
-   url = https://github.com/tpope/vim-fugitive
-
-[submodule "vim-sensible"]
-   path = bundle/vim-sensible
-   url = https://github.com/tpope/vim-sensible
-
-[submodule "bundle/tabular"]
-   path = bundle/tabular
-   url = https://github.com/godlygeek/tabular
-
-[submodule "bundle/syntax"]
-   path = bundle/syntax
-   url = https://github.com/octol/vim-cpp-enhanced-highlight.git
-
-[submodule "fonts"]
-	path = fonts
-	url = https://github.com/powerline/fonts
