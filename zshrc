@@ -26,7 +26,7 @@ HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
 setopt appendhistory autocd
-bindkey -v
+#bindkey -v
 # Enable history search with up/down keys
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
@@ -44,15 +44,17 @@ compinit
 
 # Exports
 export EDITOR="vim"
-export GREP_OPTIONS='--color=always'
 export DISPLAY=:0.0
 
 # Alieses
-alias ls='ls --color=auto'
+alias ls='ls --color=auto' # add a splash of color
+alias ls='ls -h' # make human readable
 alias la='ls -a'
 alias vi='vim'
 alias top='htop'
 alias pacman='pacman --color=auto'
+alias aura='aura --color=auto'
+alias grep='grep --color=always'
 #alias mountRepo='/home/steven/.scripts/mountRepo'
 # Tmux doesn't like to recognize 256 colouring, so let's force it
 alias tmux='tmux -2'

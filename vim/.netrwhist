@@ -1,4 +1,11 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_cnt =9
 let g:netrw_dirhist_1='/home/steven'
 let g:netrw_dirhist_2='/home/steven/.dotfiles'
+let g:netrw_dirhist_3='/home/steven/Programming/Coursera/machine-learning-ex2/ex2'
+let g:netrw_dirhist_4='/home/steven/Programming/testingStuff/geneticAlgos'
+let g:netrw_dirhist_5='/home/steven/Pictures/Other'
+let g:netrw_dirhist_6='/home/steven/Programming/Github/variance_ride'
+let g:netrw_dirhist_7='/home/steven/Programming/ORNL/ascent/host-configs'
+let g:netrw_dirhist_8='/home/steven/Programming/ORNL/vtk-h/src/cmake/thirdparty'
+let g:netrw_dirhist_9='/home/steven'
