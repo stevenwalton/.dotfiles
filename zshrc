@@ -61,6 +61,8 @@ alias tmux='tmux -2'
 alias df='df -h'
 alias log='git log --graph --oneline --decorate'
 
+export LD_LIBRARY_PATH=:${LD_LIBRARY_PATH}:/home/ascent/Programming/Programs/adios2/lib/
+
 ########## GTL #############
 #alias vnc='xtightvncviewer'
 
