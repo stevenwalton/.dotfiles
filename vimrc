@@ -93,6 +93,7 @@ call vundle#begin()
    Plugin 'Raimondi/delimitMate'
    " Add debug
    Plugin 'idanarye/vim-vebugger'
+   Plugin 'Shougo/vimproc'
 call vundle#end()
 
 filetype plugin indent on
@@ -181,34 +182,17 @@ map <Leader>nt :NERDTreeToggle<CR>
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-let g:syntastic_enable_balloons = 1
-
-"let g:syntastic_cpp_check_header = 1
+let g:syntastic_cpp_check_header = 1
+let g:syntastic_loc_list_height = 3
 
 " Syntax for c++
 let g:cpp_class_scope_highlight = 1
 let g:cpp_experimental_template_highlight = 1
-hi clear SignColumn
-let g:syntastic_error_symbol = 'x'
-let g:syntastic_warning_symbol = "^"
-augroup mySyntastic
-    au!
-    au FileType tex let b:syntastic_mode = "passive"
-augroup END
-"   set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_mode_map = {'passive_filetypes':['cpp','c']}                                             
-"   
-let g:syntastic_cpp_check_header = 1
-"   
-"   " Syntax for c++
-let g:cpp_class_scope_highlight = 1
-
 
 " Airline configuration
 let g:airline#extensions#tabline#enabled = 1
