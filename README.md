@@ -1,36 +1,16 @@
-.vim folder for .vimrc
+All my dotfiles
 ====
 
 Entire .vim folder
 
-This includes everything that is needed to run my current .vimrc as written.
+You should probably soft link all the config files.
 
-Run the following commands
-----------------------------
-To get your vimrc file running correctly
-
-```
-rm ~/.vimrc
-
-ln -s ~/.vim/vimrc ~/.vimrc
-```
-If you would like to use the bashrc file, then do the same. Note that it has archey3 in it and you might want to remove that line
-
-To update submodules
-```
-git submodule init
-
-git submodule update
-```
 If you would like to use the font that I have, use `Meslo LG S for Powerline Bold`
 If you are not using a powerline font then comment or delete line 134 `let g:airline_powerline_fonts = 1`
 
 If you are on windows and using PUTTY then see pdalinis.blogspot.com/2013/08/putty-powerline.html
-Included Plugins
---------------------------------------
-- Vim-pathogen: Makes installing plugins easier
-- Nerdtree: Shows file tree on left
-- Vim-fugitive: Git wrapper, see https://github.com/tpope/vim-fugitive for more details
-- Vim-sensible: Sensible commands that most people like
-- Syntastic: Syntax editor, will work for most languages.
-- Airline: Makes a nice status bar. See fonts folder to install powerline fonts.
+
+## Setting up ZSH
+Oh-my-zsh: https://github.com/robbyrussell/oh-my-zsh
+Antigen: https://github.com/zsh-users/antigen
+(jDavis seems to have been moved, so adding to here. Do not use `ln -s` just create a normal link)
