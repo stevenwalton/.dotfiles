@@ -84,6 +84,7 @@ call vundle#begin()
    " From jez/vim-as-an-ide
    Plugin 'octol/vim-cpp-enhanced-highlight'
    Plugin 'xolox/vim-misc'
+   Plugin 'xolox/vim-easytags'
    Plugin 'majutsushi/tagbar'
    Plugin 'ctrlpvim/ctrlp.vim'
    Plugin 'vim-scripts/a.vim'
