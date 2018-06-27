@@ -1,5 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
-let g:netrw_dirhist_1='/Users/zsw/Programming/Software/ascent/src/ascent/runtimes/flow_filters'
-let g:netrw_dirhist_2='/home/steven/.oh-my-zsh/themes'
-let g:netrw_dirhist_3='/home/steven'

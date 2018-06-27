@@ -66,8 +66,7 @@ map <leader>sa zg
 map <leader>s? z=
 
 " Folding
-set foldmethod=indent
-autocmd VimEnter * execute "normal zR"
+"set foldmethod=indent
 "set foldnestmax=2
 "nnoremap <space> za
 "vnoremap <space> zf
@@ -77,7 +76,6 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
    Plugin 'VundleVim/Vundle.vim'
    Plugin 'scrooloose/nerdtree'
-   Plugin 'jistr/vim-nerdtree-tabs'
    Plugin 'godlygeek/tabular'
    Plugin 'vim-airline/vim-airline'
    Plugin 'tpope/vim-fugitive'
@@ -90,10 +88,10 @@ call vundle#begin()
    Plugin 'ctrlpvim/ctrlp.vim'
    Plugin 'vim-scripts/a.vim'
    Plugin 'airblade/vim-gitgutter'
-   Plugin 'Raimondi/delimitMate'
    " Add debug
    Plugin 'idanarye/vim-vebugger'
    Plugin 'Shougo/vimproc'
+   Plugin 'mbbill/undotree'
 call vundle#end()
 
 filetype plugin indent on
@@ -102,6 +100,10 @@ filetype plugin indent on
 " :PluginList
 " :PluginSearch foo -searches for foo
 "" Mapping and Plugin section
+
+" CtrlP
+map <Leader>p :CtrlP<CR>
+map <Leader>bp :CtrlPBuffer<CR>
 
 "" Easytags settings
 set tags=./tags;~/.vimtags
@@ -113,21 +115,59 @@ let g:easytags_resolve_links = 1
 let g:easytags_suppress_ctags_warning = 1
 " tagbar settings
 " Open close tagbar with \b
-nmap <silent> <leader>b :TagbarToggle <CR>
+nmap <silent> <leader>tb :TagbarToggle <CR>
 
 " Gitgutter settings
 let g:airline#extensions#hunks#non_zero_only = 1
 
-" Delimitmate settings
-let delimitMate_expand_cr = 1
-augroup mydelimitMate
-    au!
-    au FileType markdown let b:delimitMate_nesting_quotes = ["`"]
-    au FileType tex let b:delimitMate_quotes = ""
-    au FileType tex let b:delimitMate_matchpairs = "(:),[:],{:},`:'"
-    au FileType python let b:delimitMate_nesting_quotes = ['"', "'"]
-augroup END
 
+" NERDTree Options
+let g:NERDTreeDirArrows=0
+" Toggle NERDTree with \nt
+map <Leader>nt :NERDTreeToggle<CR>
+
+" auto open UndoTree
+let g:undotree_SplitWidth = 25
+map <Leader>ut :UndotreeToggle<CR>
+
+" Syntastic Options
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_cpp_check_header = 1
+let g:syntastic_loc_list_height = 3
+
+" Syntax for c++
+let g:cpp_class_scope_highlight = 1
+let g:cpp_experimental_template_highlight = 1
+let g:syntastic_cpp_check_header = 1 " Checks headers
+let g:syntastic_cpp_compiler = "g++"
+let g:syntastic_cpp_checkers = ['gcc']
+
+" Airline configuration
+let g:airline#extensions#tabline#enabled = 1
+" Comment this out if you don't have powerline fonts. Or install them from the
+" font directory
+let g:airline_powerline_fonts = 1
+
+" Map for version incrementation. 
+" Will save and update version
+map <Leader>x  :g/Version/norm! $h <C-A><CR>:x<CR>
+map <Leader>w  :g/Version/norm! $h <C-A><CR>:call feedkeys("``")<CR>:w<CR>
+map <Leader>v+ :g/Version/norm! $h <C-A><CR>:call feedkeys("``")<CR>:w<CR>
+map <Leader>v- :g/Version/norm! $h <C-X><CR>:call feedkeys("``")<CR>:w<CR>
+
+"LaTeX  \tex builds latex file
+map <Leader>tex :!pdflatex %<CR>
+" C++ \cpp builds C++ file with no extension, using g++
+map <Leader>cpp :!g++ % -o %:r<CR>
+" C \gcc builds C file with no extensions, using gcc
+map <Leader>gcc :!gcc % -o %:r<CR>
 
 " C shortcuts \m executes make, \mc executes make clean
 autocmd FileType cpp call MapCShortcuts()
@@ -151,65 +191,12 @@ map <leader>g :vimgrep // **/*.<left><left><left><left><left><left><left>
 " Vimgrep in the current file
 map <leader><space> :vimgrep // <C-R>%<C-A><right><right><right><right><right><right><right><right><right>
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Turn persistent undo on
 " means that you can undo even when you close a buffer/VIM
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 try
-    set undodir=~/.vim_runtime/temp_dirs/undodir
     set undofile
- catch
+    set undodir=~/.vim/undodir
+catch
 endtry
-
-"LaTeX  \tex builds latex file
-map <Leader>tex :!pdflatex %<CR>
-" C++ \cpp builds C++ file with no extension, using g++
-map <Leader>cpp :!g++ % -o %:r<CR>
-" C \gcc builds C file with no extensions, using gcc
-map <Leader>gcc :!gcc % -o %:r<CR>
-
-"git clone https://github.com/scrooloose/nerdtree.git
-let g:NERDTreeDirArrows=0
-autocmd VimEnter * NERDTree      "Autostart NERDTree with vim
-autocmd VimEnter * wincmd l      "When Vim starts the focus is on the editing screen and not on NERDTreee 
-autocmd VimEnter * NERDTreeToggle
-" Toggle NERDTree with \nt
-map <Leader>nt :NERDTreeToggle<CR>
-
-
-" Syntastic defaults
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_cpp_check_header = 1
-let g:syntastic_loc_list_height = 3
-
-" Syntax for c++
-let g:cpp_class_scope_highlight = 1
-let g:cpp_experimental_template_highlight = 1
-
-" Airline configuration
-let g:airline#extensions#tabline#enabled = 1
-" Comment this out if you don't have powerline fonts. Or install them from the
-" font directory
-let g:airline_powerline_fonts = 1
-
-
-" Map vim obsessive
-" starts Obsessive
-map <Leader>ob :Obsess<CR>
-" stops obsessive
-map <Leader>ob! :Obsess!<CR>
-
-" Map for version incrementation. 
-" Will save and update version
-map <Leader>x  :g/Version/norm! $h <C-A><CR>:x<CR>
-map <Leader>w  :g/Version/norm! $h <C-A><CR>:call feedkeys("``")<CR>:w<CR>
-map <Leader>v+ :g/Version/norm! $h <C-A><CR>:call feedkeys("``")<CR>:w<CR>
-map <Leader>v- :g/Version/norm! $h <C-X><CR>:call feedkeys("``")<CR>:w<CR>
