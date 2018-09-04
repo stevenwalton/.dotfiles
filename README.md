@@ -1,7 +1,7 @@
 All my dotfiles
 ====
 
-Entire .vim folder
+Previously .vimrc repo
 
 You should probably soft link all the config files.
 

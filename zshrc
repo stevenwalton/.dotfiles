@@ -54,14 +54,15 @@ alias vi='vim'
 alias top='htop'
 alias pacman='pacman --color=auto'
 alias aura='aura --color=auto'
-alias grep='grep --color=always'
+# Grep to have color, give line number, don't tell me it can't access restricted files (sudo), and don't process binary files (garbage output ):
+alias grep='grep --color=always --line-number --no-messages --binary-files=without-match'
 #alias mountRepo='/home/steven/.scripts/mountRepo'
 # Tmux doesn't like to recognize 256 colouring, so let's force it
 alias tmux='tmux -2'
 alias df='df -h'
 alias log='git log --graph --oneline --decorate'
 
-export LD_LIBRARY_PATH=:${LD_LIBRARY_PATH}:/home/ascent/Programming/Programs/adios2/lib/
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/ascent/Programming/Programs/adios2/lib/
 
 ########## GTL #############
 #alias vnc='xtightvncviewer'
