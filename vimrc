@@ -51,7 +51,7 @@ set splitright
 set splitbelow
 
 "Ctags
-set tags=./tags;$HOME
+set tags="./.tags,../.tags,~/.tags"
 
 "Spell checking
 " Pressing ,ss will toggle and untoggle spell checking
@@ -90,9 +90,9 @@ call vundle#begin()
    Plugin 'vim-scripts/a.vim'
    Plugin 'airblade/vim-gitgutter'
    " Add debug
-   Plugin 'idanarye/vim-vebugger'
    Plugin 'Shougo/vimproc'
    Plugin 'mbbill/undotree'
+   Plugin 'vim-scripts/Conque-GDB'
 call vundle#end()
 
 filetype plugin indent on
@@ -106,8 +106,6 @@ filetype plugin indent on
 map <Leader>p :CtrlP<CR>
 map <Leader>bp :CtrlPBuffer<CR>
 
-"" Easytags settings
-set tags=./tags;~/.vimtags
 " Sensible defaults
 let g:easytags_events = ['BufReadPost', 'BufWritePost']
 let g:easytags_async = 1
@@ -155,6 +153,12 @@ let g:airline#extensions#tabline#enabled = 1
 " Comment this out if you don't have powerline fonts. Or install them from the
 " font directory
 let g:airline_powerline_fonts = 1
+
+" ConqueGDB
+let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
+let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
+let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly  
+
 
 " Map for version incrementation. 
 " Will save and update version
