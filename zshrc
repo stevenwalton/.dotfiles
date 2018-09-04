@@ -71,3 +71,4 @@ export LD_LIBRARY_PATH=:${LD_LIBRARY_PATH}:/home/ascent/Programming/Programs/adi
 # source /usr/local/lib/node_modules/npm/lib/utils/completion.sh
 #
 #. $HOME/.antigen/powerline/powerline/bindings/zsh/powerline.zsh
+export LD_LIBRARY_PATH=:/home/steven/.build/geant4-install/lib64:/usr/lib:/home/ascent/Programming/Programs/adios2/lib/:/home/steven/.build/adios2/lib:~/.build/adios2/lib
