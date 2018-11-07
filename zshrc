@@ -42,18 +42,20 @@ compinit
 #[ -e "${HOME}/.zsh_aliases" ] && source "${HOME}/.zsh_aliases"
 #[ -e "${HOME}/.zshrc_local" ] && source "${HOME}/.zshrc_local"
 
-# Exports
+# General Exports
 export EDITOR="vim"
 export DISPLAY=:0.0
 
-# Alieses
-alias ls='ls --color=auto' # add a splash of color
-alias ls='ls -h' # make human readable
+##########
+# Aliases
+##########
+# Add color and make human readable
+alias ls='ls --color=auto -h'
 alias la='ls -a'
+alias ll='ls -lh'
 alias vi='vim'
 alias top='htop'
 alias pacman='pacman --color=auto'
-alias aura='aura --color=auto'
 # Grep to have color, give line number, don't tell me it can't access restricted files (sudo), and don't process binary files (garbage output ):
 alias grep='grep --color=always --line-number --no-messages --binary-files=without-match'
 #alias mountRepo='/home/steven/.scripts/mountRepo'
@@ -62,14 +64,16 @@ alias tmux='tmux -2'
 alias df='df -h'
 alias log='git log --graph --oneline --decorate'
 
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/ascent/Programming/Programs/adios2/lib/
+# FOR UO
+alias cmake='~/.build/cmake-3.11.4-Linux-x86_64/bin/cmake'
+alias ccmake='~/.build/cmake-3.11.4-Linux-x86_64/bin/cmake'
+alias visit='~/.build/visit2_13_2.linux-x86_64/bin/visit'
 
-########## GTL #############
-#alias vnc='xtightvncviewer'
-
-# You have to use npm to install npm, and that will give you the
-# # completion.sh file you need.
-# source /usr/local/lib/node_modules/npm/lib/utils/completion.sh
-#
-#. $HOME/.antigen/powerline/powerline/bindings/zsh/powerline.zsh
-export LD_LIBRARY_PATH=:/home/steven/.build/geant4-install/lib64:/usr/lib:/home/ascent/Programming/Programs/adios2/lib/:/home/steven/.build/adios2/lib:~/.build/adios2/lib
+##########
+# Exports For UO
+##########
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/conduit-install/lib
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/vtk-h-install/lib/
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/vtk-m-install/lib/
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/adios2-install/lib
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/ascent-official-install/lib

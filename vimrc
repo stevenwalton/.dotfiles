@@ -32,6 +32,7 @@ set number ruler        "Show line number
 set showmode            "Shows mode in bottom left
 
 set scrolloff=5         "Keep at lease 5 lines above and below
+set colorcolumn=80      " Vertical white bar at 80 chars
 
 "Error bells.  All are off
 set noerrorbells        "Removes error bells
@@ -44,6 +45,7 @@ set incsearch
 set hlsearch            "Highlights all misspelled words
 set showmatch           "Shows matching brackets
 nnoremap <silent> <Space> :silent noh<Bar>echo<CR>
+set ignorecase          " ignore case. Same as /csearchterm
 set smartcase           "for searching
 
 "Splitting
@@ -130,6 +132,7 @@ let g:undotree_SplitWidth = 25
 map <Leader>ut :UndotreeToggle<CR>
 
 " Syntastic Options
+cnoremap syntastic :SyntasticToggleMode<CR>
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -167,12 +170,6 @@ map <Leader>w  :g/Version/norm! $h <C-A><CR>:call feedkeys("``")<CR>:w<CR>
 map <Leader>v+ :g/Version/norm! $h <C-A><CR>:call feedkeys("``")<CR>:w<CR>
 map <Leader>v- :g/Version/norm! $h <C-X><CR>:call feedkeys("``")<CR>:w<CR>
 
-"LaTeX  \tex builds latex file
-map <Leader>tex :!pdflatex %<CR>
-" C++ \cpp builds C++ file with no extension, using g++
-map <Leader>cpp :!g++ % -o %:r<CR>
-" C \gcc builds C file with no extensions, using gcc
-map <Leader>gcc :!gcc % -o %:r<CR>
 
 " C shortcuts \m executes make, \mc executes make clean
 autocmd FileType cpp call MapCShortcuts()
@@ -205,3 +202,28 @@ try
     set undodir=~/.vim/undodir
 catch
 endtry
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"   Custom Commands
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" Make
+map <Leader>mm :make<CR>
+map <Leader>mc :make clean<CR>
+map <Leader>md :make distclean<CR>
+
+""LaTeX  \tex builds latex file
+map <Leader>tex :!pdflatex %<CR>
+cnoremap texmake :make<CR> touch %<CR> make<CR>
+" C++ \cpp builds C++ file with no extension, using g++
+map <Leader>cpp :!g++ % -o %:r<CR>
+" C \gcc builds C file with no extensions, using gcc
+map <Leader>gcc :!gcc % -o %:r<CR>
+
+"" Git commands (Uses command line mode ":")
+cnoremap add :!git add %<CR>
+cnoremap commit :!git commit<CR>
+cnoremap push :!git push<CR>
+cnoremap pull :!git pull<CR>
+cnoremap log :!git log --graph --oneline --decorate<CR> 
+cnoremap status :!git status<CR>
