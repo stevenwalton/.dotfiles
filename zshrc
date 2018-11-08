@@ -50,7 +50,7 @@ export DISPLAY=:0.0
 # Aliases
 ##########
 # Add color and make human readable
-alias ls='ls --color=auto -h'
+alias ls='ls --color=auto -h' # add a splash of color, human readable
 alias la='ls -a'
 alias ll='ls -lh'
 alias vi='vim'
