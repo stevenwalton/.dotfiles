@@ -132,7 +132,7 @@ let g:undotree_SplitWidth = 25
 map <Leader>ut :UndotreeToggle<CR>
 
 " Syntastic Options
-cnoremap syntastic :SyntasticToggleMode<CR>
+command Synt normal! :SyntasticToggleMode<CR>
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -221,9 +221,9 @@ map <Leader>cpp :!g++ % -o %:r<CR>
 map <Leader>gcc :!gcc % -o %:r<CR>
 
 "" Git commands (Uses command line mode ":")
-cnoremap add :!git add %<CR>
-cnoremap commit :!git commit<CR>
-cnoremap push :!git push<CR>
-cnoremap pull :!git pull<CR>
-cnoremap log :!git log --graph --oneline --decorate<CR> 
-cnoremap status :!git status<CR>
+command Add normal! :!git add %<CR>
+command Commit normal! :!git commit<CR>
+command Push normal! :!git push<CR>
+command Log normal! :!git log --graph --oneline --decorate<CR>
+command Pull normal! :!git pull<CR>
+command Status normal! :!git status<CR>
