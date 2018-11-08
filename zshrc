@@ -47,8 +47,7 @@ export EDITOR="vim"
 export DISPLAY=:0.0
 
 # Alieses
-alias ls='ls --color=auto' # add a splash of color
-alias ls='ls -h' # make human readable
+alias ls='ls --color=auto -h' # add a splash of color, human readable
 alias la='ls -a'
 alias vi='vim'
 alias top='htop'
