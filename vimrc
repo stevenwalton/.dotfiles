@@ -77,24 +77,25 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
    Plugin 'VundleVim/Vundle.vim'
-   Plugin 'scrooloose/nerdtree'
-   Plugin 'godlygeek/tabular'
-   Plugin 'vim-airline/vim-airline'
-   Plugin 'tpope/vim-fugitive'
-   Plugin 'scrooloose/syntastic'
+   Plugin 'scrooloose/nerdtree' "Bound to \nt (left)
+   Plugin 'godlygeek/tabular' "Tab /delimiter
+   Plugin 'vim-airline/vim-airline' " That bottum line you have
+   "Plugin 'tpope/vim-fugitive' " Git wrapper
+   Plugin 'scrooloose/syntastic' " Syntax highlighting
    Plugin 'taglist.vim'
    " From jez/vim-as-an-ide
    Plugin 'octol/vim-cpp-enhanced-highlight'
-   Plugin 'xolox/vim-misc'
-   Plugin 'xolox/vim-easytags'
-   Plugin 'majutsushi/tagbar'
-   Plugin 'ctrlpvim/ctrlp.vim'
-   Plugin 'vim-scripts/a.vim'
-   Plugin 'airblade/vim-gitgutter'
+   "Plugin 'xolox/vim-misc'
+   "Plugin 'xolox/vim-easytags'
+   Plugin 'majutsushi/tagbar'  " Bound to \tb (right)
+   "Plugin 'ctrlpvim/ctrlp.vim'
+   "Plugin 'vim-scripts/a.vim'
+   Plugin 'airblade/vim-gitgutter' " Shows diff from git in left sidebar (fantastic)
    " Add debug
-   Plugin 'Shougo/vimproc'
-   Plugin 'mbbill/undotree'
-   Plugin 'vim-scripts/Conque-GDB'
+   "Plugin 'Shougo/vimproc'
+   Plugin 'mbbill/undotree' " Creates an undo tree, bound to \ut (left)
+   "Plugin 'vim-scripts/Conque-GDB' " :(
+   Plugin 'ludovicchabant/vim-gutentags' " Auto generates tab
 call vundle#end()
 
 filetype plugin indent on
