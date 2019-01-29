@@ -56,6 +56,7 @@ alias ll='ls -lh'
 alias vi='vim'
 alias top='htop'
 alias pacman='pacman --color=auto'
+alias ssh='ssh -X'
 # Grep to have color, give line number, don't tell me it can't access restricted files (sudo), and don't process binary files (garbage output ):
 alias grep='grep --color=always --line-number --no-messages --binary-files=without-match'
 #alias mountRepo='/home/steven/.scripts/mountRepo'
@@ -65,8 +66,8 @@ alias df='df -h'
 alias log='git log --graph --oneline --decorate'
 
 # FOR UO
-alias cmake='~/.build/cmake-3.11.4-Linux-x86_64/bin/cmake'
-alias ccmake='~/.build/cmake-3.11.4-Linux-x86_64/bin/cmake'
+#alias cmake='~/.build/cmake-3.11.4-Linux-x86_64/bin/cmake'
+#alias ccmake='~/.build/cmake-3.11.4-Linux-x86_64/bin/cmake'
 alias visit='~/.build/visit2_13_2.linux-x86_64/bin/visit'
 
 ##########
