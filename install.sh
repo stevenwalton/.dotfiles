@@ -1,4 +1,10 @@
 #!/bin/sh
+# Simple install script to get zsh up and running as well as soft link all the
+#  associated dotfiles to my home directory
+
+# Tell user what we're doing
+echo "This script creates soft links to the home directory for dot files that are used"
+echo "It will also install oh-my-zsh and antigen"
 
 # Check that home is located correctly
 echo "Will install files to $HOME"
@@ -6,8 +12,7 @@ read -p "Is this correct? [y/n]: " -n 1 -r
 if [[ $REPLY =~ [Nn]$ ]]
 then
     exit 1
-fi
-
+fi 
 # Check that .dotfiles is in home
 if [[ ! -d $HOME/.dotfiles ]]
 then
@@ -42,9 +47,10 @@ fi
 # Setup zsh
 echo "Installing oh-my-zsh to home folder (hidden)"
 git clone https://github.com/robbyrussell/oh-my-zsh ~/.oh-my-zsh
-ln ~/.dotfiles/jdavis.zsh-theme ~/.oh-my-zsh/themes/
+ln -s ~/.dotfiles/jdavis-modified.zsh-theme ~/.oh-my-zsh/themes/
 echo "Installing antigen to home folder (hidden)"
 git clone https://github.com/zsh-users/antigen ~/.antigen
+
 
 echo "Installation complete"
 echo "It is suggested that you install powerline fonts."
