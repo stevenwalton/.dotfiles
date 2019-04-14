@@ -1,6 +1,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="jdavis"
+ZSH_THEME="jdavis-modified"
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
 
@@ -78,3 +78,8 @@ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/vtk-h-in
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/vtk-m-install/lib/
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/adios2-install/lib
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/ascent-official-install/lib
+
+# PyEnv - allows different versions of python (including folder specific)
+export PYENV_ROOT=${HOME}/.pyenv/
+export PATH=${PYENV_ROOT}/bin:${PATH}
+eval "$(pyenv init -)"
