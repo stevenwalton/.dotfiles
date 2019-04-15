@@ -79,7 +79,8 @@ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/vtk-m-in
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/adios2-install/lib
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/ascent-official-install/lib
 
-# PyEnv - allows different versions of python (including folder specific)
-export PYENV_ROOT=${HOME}/.pyenv/
-export PATH=${PYENV_ROOT}/bin:${PATH}
+# Pyenv
+export PYENV_ROOT="${HOME}/.pyenv"
+export PATH="${PYENV_ROOT}/bin:${PATH}"
 eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
