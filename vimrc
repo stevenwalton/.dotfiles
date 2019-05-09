@@ -229,9 +229,13 @@ command Log normal! :!git log --graph --oneline --decorate<CR>
 command Pull normal! :!git pull<CR>
 command Status normal! :!git status<CR>
 
+" Turn into a hex editor
+command Hex normal! :%!xxd<CR>
+
 " Hack
 try
    colorscheme vividchalk   "Colour Scheme (in ~/.vim/colors)
 catch
    colorscheme peachpuff   "backup colour scheme (in /usr/share/vim...)
 endtry
+
