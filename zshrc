@@ -64,6 +64,7 @@ alias grep='grep --color=always --line-number --no-messages --binary-files=witho
 alias tmux='tmux -2'
 alias df='df -h'
 alias log='git log --graph --oneline --decorate'
+alias open='xdg-open' 
 
 # FOR UO
 #alias cmake='~/.build/cmake-3.11.4-Linux-x86_64/bin/cmake'
