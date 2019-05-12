@@ -1,31 +1,24 @@
 syntax on               "Turns on Syntax highlighting 
-"Will try to use vividchalk.  If it doesn't exist then dark blue will be used
-"for the colorscheme.
-try
-   colorscheme vividchalk   "Colour Scheme (in ~/.vim/colors)
-catch
-   colorscheme peachpuff   "backup colour scheme (in /usr/share/vim...)
-endtry
 set mouse=a             "For people that can't use vim
+set path+=**            "Recursive path lookup
 
 set t_Co=256
 "set cursorline          "Highlight current line
-set nocompatible        "Cool stuff in Vim
+set nocompatible        "Cool stuff in Vim. Makes vi non-compatible 
 set lazyredraw          "Faster rendering
 set showcmd             "Show command as typing
 set wildmenu            "wildmenu buffer, auto completion
 
 " Indenting
 set autoindent          "Auto indent
-"set smartindent         "Guesses when to indent
 " No indenting on # mark 
-set cindent
+set cindent             " Uses C indenting rules (spaces)
 set cinkeys-=0#
 set indentkeys-=0#
 set wrap                "Wraps text
 set expandtab           "Spaces and not tabs
 set smarttab            "Trys to figure out when to tab
-set shiftwidth=4        "Tab width of 3
+set shiftwidth=4        "Tab width 
 set softtabstop=4
 
 set number ruler        "Show line number
@@ -37,11 +30,11 @@ set colorcolumn=80      " Vertical white bar at 80 chars
 "Error bells.  All are off
 set noerrorbells        "Removes error bells
 set novisualbell        "Removes visual bells
-set t_vb=
+set t_vb=               "Sets visual bell
 
 
 "searching
-set incsearch
+set incsearch           "Search command while typing
 set hlsearch            "Highlights all misspelled words
 set showmatch           "Shows matching brackets
 nnoremap <silent> <Space> :silent noh<Bar>echo<CR>
@@ -49,8 +42,8 @@ set ignorecase          " ignore case. Same as /csearchterm
 set smartcase           "for searching
 
 "Splitting
-set splitright
-set splitbelow
+set splitright          "Puts new window to right of current (vsplit)
+set splitbelow          "Same but below (split)
 
 "Ctags
 set tags="./.tags,../.tags,~/.tags"
@@ -66,12 +59,6 @@ map <leader>sn ]s
 map <leader>sp [s
 map <leader>sa zg
 map <leader>s? z=
-
-" Folding
-"set foldmethod=indent
-"set foldnestmax=2
-"nnoremap <space> za
-"vnoremap <space> zf
 
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -229,9 +216,13 @@ command Log normal! :!git log --graph --oneline --decorate<CR>
 command Pull normal! :!git pull<CR>
 command Status normal! :!git status<CR>
 
-" Hack
+" Turn into a hex editor
+command Hex normal! :%!xxd<CR>
+
+" Hack (keep at bottom)
 try
    colorscheme vividchalk   "Colour Scheme (in ~/.vim/colors)
 catch
    colorscheme peachpuff   "backup colour scheme (in /usr/share/vim...)
 endtry
+

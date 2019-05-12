@@ -64,6 +64,7 @@ alias grep='grep --color=always --line-number --no-messages --binary-files=witho
 alias tmux='tmux -2'
 alias df='df -h'
 alias log='git log --graph --oneline --decorate'
+alias open='xdg-open' 
 
 # FOR UO
 #alias cmake='~/.build/cmake-3.11.4-Linux-x86_64/bin/cmake'
@@ -78,6 +79,8 @@ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/vtk-h-in
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/vtk-m-install/lib/
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/adios2-install/lib
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/ascent-official-install/lib
+
+alias pycharm="sh ~/.build/pycharm-community-2019.1.1/bin/pycharm.sh"
 
 # Pyenv
 export PYENV_ROOT="${HOME}/.pyenv"
