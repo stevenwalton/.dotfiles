@@ -83,4 +83,6 @@ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/ascent-o
 export PYENV_ROOT="${HOME}/.pyenv"
 export PATH="${PYENV_ROOT}/bin:${PATH}"
 eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+#eval "$(pyenv virtualenv-init -)"
+eval "$(ssh-agent -s)" > /dev/null
+ssh-add ~/.ssh/github_rsa 1&> /dev/null
