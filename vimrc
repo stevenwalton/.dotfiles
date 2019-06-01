@@ -1,6 +1,7 @@
 syntax on               "Turns on Syntax highlighting 
 set mouse=a             "For people that can't use vim
 set path+=**            "Recursive path lookup
+set paste
 
 set t_Co=256
 "set cursorline          "Highlight current line
@@ -83,6 +84,7 @@ call vundle#begin()
    Plugin 'mbbill/undotree' " Creates an undo tree, bound to \ut (left)
    "Plugin 'vim-scripts/Conque-GDB' " :(
    Plugin 'ludovicchabant/vim-gutentags' " Auto generates tab
+   Plugin 'linediff.vim'
 call vundle#end()
 
 filetype plugin indent on

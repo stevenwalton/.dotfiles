@@ -87,3 +87,8 @@ export PYENV_ROOT="${HOME}/.pyenv"
 export PATH="${PYENV_ROOT}/bin:${PATH}"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
+#eval SSH_AUTH_SOCK=/tmp/ssh-JRcwZIOC86Ah/agent.25003; export SSH_AUTH_SOCK;
+#SSH_AGENT_PID=25004; export SSH_AGENT_PID;
+#echo Agent pid 25004;
+eval $(ssh-agent -s) > /dev/null
+ssh-add ~/.ssh/*_rsa 1&> /dev/null
