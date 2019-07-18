@@ -76,4 +76,3 @@ try
     set undodir=~/.vim/undodir
 catch
 endtry
-
