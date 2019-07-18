@@ -2,15 +2,16 @@
 """""""""""""""""""""""""" VIM Remaps """""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remove trailing whitespaces on write
-autocmd BufWrite * :%s/\s\+$//g 
+"autocmd BufWrite * :%s/\s\+$//g
+command CleanFile normal! :%s/\s\+$//g<CR>
 
-" Shortcuts using <leader> 
+" Shortcuts using <leader>
 map <leader>sn ]s
 map <leader>sp [s
 map <leader>sa zg
 map <leader>s? z=
 
-" Map for version incrementation. 
+" Map for version incrementation.
 " Will save and update version
 map <Leader>x  :g/Version/norm! $h <C-A><CR>:x<CR>
 map <Leader>w  :g/Version/norm! $h <C-A><CR>:call feedkeys("``")<CR>:w<CR>
@@ -20,7 +21,7 @@ map <Leader>v- :g/Version/norm! $h <C-X><CR>:call feedkeys("``")<CR>:w<CR>
 " C shortcuts \m executes make, \mc executes make clean
 autocmd FileType cpp call MapCShortcuts()
 function MapCShortcuts()
-    map <leader>m :make<cr>          
+    map <leader>m :make<cr>
     map <leader>mc :make clean<cr>
 endfunction
 

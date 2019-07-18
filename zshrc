@@ -44,51 +44,59 @@ compinit
 
 # General Exports
 export EDITOR="vim"
-export DISPLAY=:0.0
 
 ##########
 # Aliases
 ##########
 # Add color and make human readable
-alias ls='ls --color=auto -h' # add a splash of color, human readable
+#alias ls='ls --color=auto -h' # add a splash of color, human readable
 alias la='ls -a'
 alias ll='ls -lh'
 alias vi='vim'
 alias top='htop'
 alias pacman='pacman --color=auto'
-alias ssh='ssh -X'
+alias ssh='ssh -Y'
 # Grep to have color, give line number, don't tell me it can't access restricted files (sudo), and don't process binary files (garbage output ):
 alias grep='grep --color=always --line-number --no-messages --binary-files=without-match'
-#alias mountRepo='/home/steven/.scripts/mountRepo'
+
 # Tmux doesn't like to recognize 256 colouring, so let's force it
 alias tmux='tmux -2'
 alias df='df -h'
 alias log='git log --graph --oneline --decorate'
 alias open='xdg-open' 
 
-# FOR UO
-#alias cmake='~/.build/cmake-3.11.4-Linux-x86_64/bin/cmake'
-#alias ccmake='~/.build/cmake-3.11.4-Linux-x86_64/bin/cmake'
-alias visit='~/.build/visit2_13_2.linux-x86_64/bin/visit'
-
-##########
-# Exports For UO
-##########
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/conduit-install/lib
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/vtk-h-install/lib/
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/vtk-m-install/lib/
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/adios2-install/lib
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/ascent-official-install/lib
-
-alias pycharm="sh ~/.build/pycharm-community-2019.1.1/bin/pycharm.sh"
+alias alaska='ssh -L 21:ix.cs.uoregon.edu:21 -l swalton2 alaska.cs.uoregon.edu'
+alias ix='ssh -L 21:ix.cs.uoregon.edu:21 -l swalton2 ix.cs.uoregon.edu'
 
 # Pyenv
 export PYENV_ROOT="${HOME}/.pyenv"
 export PATH="${PYENV_ROOT}/bin:${PATH}"
 eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-#eval SSH_AUTH_SOCK=/tmp/ssh-JRcwZIOC86Ah/agent.25003; export SSH_AUTH_SOCK;
-#SSH_AGENT_PID=25004; export SSH_AGENT_PID;
-#echo Agent pid 25004;
-eval $(ssh-agent -s) > /dev/null
-ssh-add ~/.ssh/*_rsa 1&> /dev/null
+#eval $(ssh-agent -s) > /dev/null
+#ssh-add ~/.ssh/*_rsa 1&> /dev/null
+
+#################################
+# Machine Specific Configurations
+#################################
+# UO
+if [ `hostname` == "Orion" ]; then
+    alias visit='~/.build/visit2_13_2.linux-x86_64/bin/visit'
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/conduit-install/lib
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/vtk-h-install/lib/
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/vtk-m-install/lib/
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/adios2-install/lib
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/ascent-official-install/lib
+    
+    alias pycharm="sh ~/.build/pycharm-community-2019.1.1/bin/pycharm.sh"
+fi
+
+# Alaska
+if [ `hostname` == "Alaska" ]; then
+    export DISPLAY=:0.0
+fi
+
+# LLNL
+if [ `hostname` == safflower.llnl.gov ]; then
+    export PATH=${PATH}:/Users/walton16/.homebrew/bin:~/.homebrew/bin
+fi
+

@@ -24,7 +24,7 @@ call vundle#begin()
     "Plugin 'Shougo/vimproc'
     Plugin 'mbbill/undotree' " Creates an undo tree, bound to \ut (left)
     "Plugin 'vim-scripts/Conque-GDB' " :(
-    Plugin 'ludovicchabant/vim-gutentags' " Auto generates tab
+    "Plugin 'ludovicchabant/vim-gutentags' " Auto generates tab
     Plugin 'linediff.vim'
 call vundle#end()
 
@@ -79,6 +79,7 @@ let g:cpp_experimental_template_highlight = 1
 let g:syntastic_cpp_check_header = 1 " Checks headers
 let g:syntastic_cpp_compiler = "g++"
 let g:syntastic_cpp_checkers = ['gcc']
+let g:syntastic_cpp_compiler_options = "-std=c++11 -stdlib=c++11"
 
 " Airline configuration
 "   let g:airline#extensions#tabline#enabled = 1
@@ -89,4 +90,4 @@ let g:syntastic_cpp_checkers = ['gcc']
 " ConqueGDB
 let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
 let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
-let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly  
+let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
