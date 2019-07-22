@@ -79,7 +79,8 @@ eval "$(pyenv init -)"
 # Machine Specific Configurations
 #################################
 # UO
-if [ `hostname` == "Orion" ]; then
+if [ `hostname` = "Orion" ] 
+then
     alias visit='~/.build/visit2_13_2.linux-x86_64/bin/visit'
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/conduit-install/lib
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/vtk-h-install/lib/
@@ -88,15 +89,13 @@ if [ `hostname` == "Orion" ]; then
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/ascent-official-install/lib
     
     alias pycharm="sh ~/.build/pycharm-community-2019.1.1/bin/pycharm.sh"
-fi
-
 # Alaska
-if [ `hostname` == "Alaska" ]; then
+elif [ `hostname` = "Alaska" ] 
+then
     export DISPLAY=:0.0
-fi
-
 # LLNL
-if [ `hostname` == safflower.llnl.gov ]; then
+elif [ `hostname` = "safflower.llnl.gov" ] 
+then
     export PATH=${PATH}:/Users/walton16/.homebrew/bin:~/.homebrew/bin
 fi
 
