@@ -26,6 +26,7 @@ call vundle#begin()
     "Plugin 'vim-scripts/Conque-GDB' " :(
     "Plugin 'ludovicchabant/vim-gutentags' " Auto generates tab
     Plugin 'linediff.vim'
+    "Plugin 'zxqfl/tabnine-vim'
 call vundle#end()
 
 filetype plugin indent on
