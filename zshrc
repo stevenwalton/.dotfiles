@@ -45,6 +45,9 @@ compinit
 # General Exports
 export EDITOR="vim"
 
+# Unset the autonaming for tmux
+DISABLE_AUTO_TITLE="true"
+
 ##########
 # Aliases
 ##########
