@@ -66,7 +66,12 @@ alias grep='grep --color=always --line-number --no-messages --binary-files=witho
 alias tmux='tmux -2'
 alias df='df -h'
 alias log='git log --graph --oneline --decorate'
-alias open='xdg-open' 
+
+# Linux only commands. This is kinda hacky
+if [[ `command -v lsb_release` ]]
+then
+    alias open='xdg-open' 
+fi
 
 alias alaska='ssh -L 21:ix.cs.uoregon.edu:21 -l swalton2 alaska.cs.uoregon.edu'
 alias ix='ssh -L 21:ix.cs.uoregon.edu:21 -l swalton2 ix.cs.uoregon.edu'
@@ -100,5 +105,6 @@ then
 elif [ `hostname` = "safflower.llnl.gov" ] 
 then
     export PATH=${PATH}:/Users/walton16/.homebrew/bin:~/.homebrew/bin
+    export PATH=${PATH}:/Library/TeX/texbin/
 fi
 
