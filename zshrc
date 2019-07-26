@@ -45,6 +45,9 @@ compinit
 # General Exports
 export EDITOR="vim"
 
+# Fixes tmux window renaming
+DISABLE_AUTO_TITLE="true"
+
 # Unset the autonaming for tmux
 DISABLE_AUTO_TITLE="true"
 
