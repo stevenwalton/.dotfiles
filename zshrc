@@ -83,8 +83,6 @@ alias ix='ssh -L 21:ix.cs.uoregon.edu:21 -l swalton2 ix.cs.uoregon.edu'
 export PYENV_ROOT="${HOME}/.pyenv"
 export PATH="${PYENV_ROOT}/bin:${PATH}"
 eval "$(pyenv init -)"
-#eval $(ssh-agent -s) > /dev/null
-#ssh-add ~/.ssh/*_rsa 1&> /dev/null
 
 #################################
 # Machine Specific Configurations
@@ -100,6 +98,10 @@ then
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/ascent-official-install/lib
     
     alias pycharm="sh ~/.build/pycharm-community-2019.1.1/bin/pycharm.sh"
+elif [ `hostname` = "Serenity" ]
+then
+    eval $(ssh-agent -s) > /dev/null
+    ssh-add ~/.ssh/*_rsa 1&> /dev/null
 # Alaska
 elif [ `hostname` = "Alaska" ] 
 then
