@@ -38,8 +38,8 @@ set number ruler        "Show line number
 set showmode            "Shows mode in bottom left
 
 set scrolloff=5         "Keep at lease 5 lines above and below
-set colorcolumn=80      " Vertical white bar at 80 chars
-set tw=79               " Line wrapping
+set colorcolumn=81      " Vertical white bar at 80 chars
+set tw=80               " Line wrapping
 " use `gq` to wrap selected text and `gqG` to wrap text till end of file
 " all ranges work like normal. `gqip` wraps current paragraph
 
