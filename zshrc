@@ -67,7 +67,8 @@ alias ssh='ssh -Y'
 alias grep='grep --color=always --line-number --no-messages --binary-files=without-match'
 
 # Tmux doesn't like to recognize 256 colouring, so let's force it
-alias tmux='tmux -2'
+# -u fixes backspace error thing
+alias tmux='tmux -2 -u'
 alias df='df -h'
 alias log='git log --graph --oneline --decorate'
 
