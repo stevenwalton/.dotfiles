@@ -56,6 +56,7 @@ DISABLE_AUTO_TITLE="true"
 ##########
 # Add color and make human readable
 #alias ls='ls --color=auto -h' # add a splash of color, human readable
+alias ls='ls -v' # numerical sort
 alias la='ls -a'
 alias ll='ls -lh'
 alias vi='vim'
