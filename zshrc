@@ -62,7 +62,7 @@ alias ll='ls -lh'
 alias vi='vim'
 alias top='htop'
 alias pacman='pacman --color=auto'
-alias ssh='ssh -Y'
+alias ssh='ssh -YC'
 # Grep to have color, give line number, don't tell me it can't access restricted files (sudo), and don't process binary files (garbage output ):
 alias grep='grep --color=always --line-number --no-messages --binary-files=without-match'
 
