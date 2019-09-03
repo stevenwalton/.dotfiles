@@ -5,6 +5,9 @@
 "autocmd BufWrite * :%s/\s\+$//g
 command CleanFile normal! :%s/\s\+$//g<CR>
 
+" Open all buffers in a new tab (open bunch of files then run this)
+command Buf2Tab normal! :bufdo tab split<CR>
+
 " Shortcuts using <leader>
 map <leader>sn ]s
 map <leader>sp [s
