@@ -27,6 +27,7 @@ call vundle#begin()
     "Plugin 'ludovicchabant/vim-gutentags' " Auto generates tab
     Plugin 'linediff.vim'
     "Plugin 'zxqfl/tabnine-vim'
+    Plugin 'segeljakt/vim-silicon' " Screenshot highlighted text :Silicon fname
 call vundle#end()
 
 filetype plugin indent on
