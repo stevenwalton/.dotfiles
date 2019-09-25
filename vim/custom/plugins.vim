@@ -93,3 +93,19 @@ let g:syntastic_cpp_compiler_options = "-std=c++11 -stdlib=c++11"
 let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
 let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
 let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
+
+let g:silicon = {
+    \ 'theme':              'Dracula',
+    \ 'font':                  'Hack',
+    \ 'background':         '#FFFFFF',
+    \ 'shadow-color':       '#555555',
+    \ 'line-pad':                   2,
+    \ 'pad-horiz':                  0,
+    \ 'pad-vert':                   0,
+    \ 'shadow-blur-radius':         0,
+    \ 'shadow-offset-x':            0,
+    \ 'shadow-offset-y':            0,
+    \ 'line-number':           v:true,
+    \ 'round-corner':          v:false,
+    \ 'window-controls':       v:false,
+    \ }
