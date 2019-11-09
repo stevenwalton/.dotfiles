@@ -34,6 +34,8 @@ set smarttab            "Trys to figure out when to tab
 set shiftwidth=4        "Tab width 
 set softtabstop=4
 
+set backspace=indent,eol,start  " backspace works through indents, end of line, etc
+
 set number ruler        "Show line number
 set showmode            "Shows mode in bottom left
 
