@@ -67,6 +67,7 @@ set tags="./.tags,../.tags,~/.tags"
 
 "Spell checking
 " Pressing ,ss will toggle and untoggle spell checking
+syntax spell toplevel   " Spell check fixing for tex
 map <leader>ss :setlocal spell!<cr>
 set spell                     "Turns on Spellcheck
 hi clear SpellBad             "Highlights misspelled words
