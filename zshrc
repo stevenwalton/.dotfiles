@@ -92,14 +92,14 @@ eval "$(pyenv init -)"
 # UO
 if [ `hostname` = "Orion" ] 
 then
-    alias visit='~/.build/visit2_13_2.linux-x86_64/bin/visit'
+    alias visit='~/.builds/visit2_13_2.linux-x86_64/bin/visit'
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/conduit-install/lib
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/vtk-h-install/lib/
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/vtk-m-install/lib/
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/adios2-install/lib
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/ascent-official-install/lib
     
-    alias pycharm="sh ~/.build/pycharm-community-2019.1.1/bin/pycharm.sh"
+    alias pycharm="sh ~/.builds/pycharm-community-2019.1.1/bin/pycharm.sh"
 elif [ `hostname` = "Serenity" ]
 then
     eval $(ssh-agent -s) > /dev/null
