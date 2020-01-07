@@ -28,7 +28,9 @@ call vundle#begin()
     Plugin 'linediff.vim'
     "Plugin 'zxqfl/tabnine-vim'
     Plugin 'segeljakt/vim-silicon' " Screenshot highlighted text :Silicon fname
+    Plugin 'iamcco/markdown-preview.nvim' 
 call vundle#end()
+call mkdp#util#install()
 
 filetype plugin indent on
 " :PluginInstall Install plugins
@@ -109,3 +111,4 @@ let g:silicon = {
     \ 'round-corner':          v:false,
     \ 'window-controls':       v:false,
     \ }
+
