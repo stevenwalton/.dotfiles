@@ -92,7 +92,7 @@ eval "$(pyenv init -)"
 # UO
 if [ `hostname` = "Orion" ] 
 then
-    alias visit='~/.builds/visit2_13_2.linux-x86_64/bin/visit'
+    alias visit='~/.builds/visit*.linux-x86_64/bin/visit'
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/conduit-install/lib
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/vtk-h-install/lib/
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/vtk-m-install/lib/
