@@ -1,6 +1,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
-if [ `hostname` = "Orion" || `hostname` = "Serenity" ]
+if [ `hostname` = "Orion" ] || [ `hostname` = "Serenity" ]
 then
     ZSH_THEME="jdavis-modified"
 else
