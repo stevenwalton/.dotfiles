@@ -107,9 +107,11 @@ then
     eval $(ssh-agent -s) > /dev/null
     ssh-add ~/.ssh/*_rsa 1&> /dev/null
 # Alaska
-elif [ `hostname` = "Alaska" ] 
+elif [ `hostname` = "alaska" ] 
 then
     export DISPLAY=:0.0
+    eval "$(ssh-agent -s)"
+    ssh-add ~/.ssh/alaska
 # LLNL
 elif [ `hostname` = "safflower.llnl.gov" ] 
 then
