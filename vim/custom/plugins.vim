@@ -12,21 +12,13 @@ call vundle#begin()
     "Plugin 'tpope/vim-fugitive' " Git wrapper
     Plugin 'scrooloose/syntastic' " Syntax highlighting
     Plugin 'taglist.vim'
-    " From jez/vim-as-an-ide
     Plugin 'octol/vim-cpp-enhanced-highlight'
-    "Plugin 'xolox/vim-misc'
-    "Plugin 'xolox/vim-easytags'
     Plugin 'majutsushi/tagbar'  " Bound to \tb (right)
-    "Plugin 'ctrlpvim/ctrlp.vim'
-    "Plugin 'vim-scripts/a.vim'
     Plugin 'airblade/vim-gitgutter' " Shows diff from git in left sidebar (fantastic)
-    " Add debug
-    "Plugin 'Shougo/vimproc'
     Plugin 'mbbill/undotree' " Creates an undo tree, bound to \ut (left)
     "Plugin 'vim-scripts/Conque-GDB' " :(
     "Plugin 'ludovicchabant/vim-gutentags' " Auto generates tab
     Plugin 'linediff.vim'
-    "Plugin 'zxqfl/tabnine-vim'
     Plugin 'segeljakt/vim-silicon' " Screenshot highlighted text :Silicon fname
     Plugin 'iamcco/markdown-preview.nvim' 
 call vundle#end()
@@ -57,6 +49,7 @@ nmap <silent> <leader>tb :TagbarToggle <CR>
 
 " NERDTree Options
 let g:NERDTreeDirArrows=0
+let NERDTreeWinSize=20
 " Toggle NERDTree with \nt
 map <Leader>nt :NERDTreeToggle<CR>
 
