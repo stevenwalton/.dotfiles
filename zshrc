@@ -1,6 +1,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
-if [ `hostname` = "Orion" ] || [ `hostname` = "Serenity" ]
+if [ `hostname` = "Orion" ] || [ `hostname` = "Serenity" ] || [ `hostname` = "Bebop" ]
 then
     ZSH_THEME="jdavis-modified"
 else
@@ -89,7 +89,12 @@ alias ix='ssh -L 21:ix.cs.uoregon.edu:21 -l swalton2 ix.cs.uoregon.edu'
 
 # Pyenv
 export PYENV_ROOT="${HOME}/.pyenv"
-export PATH="${PYENV_ROOT}/bin:${PATH}"
+if [ `hostname` = "Bebop" ]
+then
+    export PATH="${HOME}/.homebrew/bin:${PATH}"
+else
+    export PATH="${PYENV_ROOT}/bin:${PATH}"
+fi
 eval "$(pyenv init -)"
 
 #################################
