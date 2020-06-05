@@ -114,6 +114,8 @@ then
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/ascent-official-install/lib
     
     alias pycharm="sh ~/.builds/pycharm-community-2019.1.1/bin/pycharm.sh"
+    eval $(ssh-agent -s) > /dev/null
+    ssh-add ~/.ssh/*_rsa 1&> /dev/null
 elif [ `hostname` = "Serenity" ]
 then
     alias ls='ls -v --color=auto -h' # numerical sort
