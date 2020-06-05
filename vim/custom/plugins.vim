@@ -72,7 +72,10 @@ let g:syntastic_loc_list_height = 3
 
 " Syntax for c++
 let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
 let g:cpp_experimental_template_highlight = 1
+let g:cpp_concepts_highlight = 1
 let g:syntastic_cpp_check_header = 1 " Checks headers
 let g:syntastic_cpp_compiler = "g++"
 let g:syntastic_cpp_checkers = ['gcc']
