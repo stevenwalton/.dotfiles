@@ -29,6 +29,7 @@ call vundle#begin()
     "Plugin 'zxqfl/tabnine-vim'
     Plugin 'segeljakt/vim-silicon' " Screenshot highlighted text :Silicon fname
     Plugin 'iamcco/markdown-preview.nvim' 
+    Plugin 'dense-analysis/ale'
 call vundle#end()
 call mkdp#util#install()
 
