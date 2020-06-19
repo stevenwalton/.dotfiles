@@ -12,21 +12,13 @@ call vundle#begin()
     "Plugin 'tpope/vim-fugitive' " Git wrapper
     Plugin 'scrooloose/syntastic' " Syntax highlighting
     Plugin 'taglist.vim'
-    " From jez/vim-as-an-ide
     Plugin 'octol/vim-cpp-enhanced-highlight'
-    "Plugin 'xolox/vim-misc'
-    "Plugin 'xolox/vim-easytags'
     Plugin 'majutsushi/tagbar'  " Bound to \tb (right)
-    "Plugin 'ctrlpvim/ctrlp.vim'
-    "Plugin 'vim-scripts/a.vim'
     Plugin 'airblade/vim-gitgutter' " Shows diff from git in left sidebar (fantastic)
-    " Add debug
-    "Plugin 'Shougo/vimproc'
     Plugin 'mbbill/undotree' " Creates an undo tree, bound to \ut (left)
     "Plugin 'vim-scripts/Conque-GDB' " :(
     "Plugin 'ludovicchabant/vim-gutentags' " Auto generates tab
     Plugin 'linediff.vim'
-    "Plugin 'zxqfl/tabnine-vim'
     Plugin 'segeljakt/vim-silicon' " Screenshot highlighted text :Silicon fname
     Plugin 'iamcco/markdown-preview.nvim' 
     Plugin 'dense-analysis/ale'
@@ -58,6 +50,7 @@ nmap <silent> <leader>tb :TagbarToggle <CR>
 
 " NERDTree Options
 let g:NERDTreeDirArrows=0
+let NERDTreeWinSize=20
 " Toggle NERDTree with \nt
 map <Leader>nt :NERDTreeToggle<CR>
 
@@ -80,7 +73,10 @@ let g:syntastic_loc_list_height = 3
 
 " Syntax for c++
 let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
 let g:cpp_experimental_template_highlight = 1
+let g:cpp_concepts_highlight = 1
 let g:syntastic_cpp_check_header = 1 " Checks headers
 let g:syntastic_cpp_compiler = "g++"
 let g:syntastic_cpp_checkers = ['gcc']
@@ -96,6 +92,9 @@ let g:syntastic_cpp_compiler_options = "-std=c++11 -stdlib=c++11"
 let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
 let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
 let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
+
+" Markdown Preview
+let g:mkdp_auto_close = 0
 
 let g:silicon = {
     \ 'theme':              'Dracula',
