@@ -1,6 +1,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
-if [ `hostname` = "Orion" ] || [ `hostname` = "Serenity" ]
+if [ `hostname` = "Orion" ] || [ `hostname` = "Serenity" ] || [ `hostname` = "Bebop" ]
 then
     ZSH_THEME="jdavis-modified"
 else
@@ -62,7 +62,7 @@ DISABLE_AUTO_TITLE="true"
 ##########
 # Add color and make human readable
 #alias ls='ls --color=auto -h' # add a splash of color, human readable
-alias ls='ls -v --color=auto -h' # numerical sort
+#alias ls='ls -v --color=auto -h' # numerical sort
 alias la='ls -a'
 alias ll='ls -lh'
 alias vi='vim'
@@ -89,7 +89,12 @@ alias ix='ssh -L 21:ix.cs.uoregon.edu:21 -l swalton2 ix.cs.uoregon.edu'
 
 # Pyenv
 export PYENV_ROOT="${HOME}/.pyenv"
-export PATH="${PYENV_ROOT}/bin:${PATH}"
+if [ `hostname` = "Bebop" ]
+then
+    export PATH="${HOME}/.homebrew/bin:${PATH}"
+else
+    export PATH="${PYENV_ROOT}/bin:${PATH}"
+fi
 eval "$(pyenv init -)"
 
 #################################
@@ -98,6 +103,7 @@ eval "$(pyenv init -)"
 # UO
 if [ `hostname` = "Orion" ] 
 then
+    alias ls='ls -v --color=auto -h' # numerical sort
     alias visit='~/.builds/visit*.linux-x86_64/bin/visit'
     # For some reason this isn't there
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib
@@ -108,13 +114,17 @@ then
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/ascent-official-install/lib
     
     alias pycharm="sh ~/.builds/pycharm-community-2019.1.1/bin/pycharm.sh"
+    eval $(ssh-agent -s) > /dev/null
+    ssh-add ~/.ssh/*_rsa 1&> /dev/null
 elif [ `hostname` = "Serenity" ]
 then
+    alias ls='ls -v --color=auto -h' # numerical sort
     eval $(ssh-agent -s) > /dev/null
     ssh-add ~/.ssh/*_rsa 1&> /dev/null
 # Alaska
 elif [ `hostname` = "alaska" ] 
 then
+    alias ls='ls -v --color=auto -h' # numerical sort
     export DISPLAY=:0.0
     eval "$(ssh-agent -s)"
     ssh-add ~/.ssh/alaska
@@ -123,5 +133,9 @@ elif [ `hostname` = "safflower.llnl.gov" ]
 then
     export PATH=${PATH}:/Users/walton16/.homebrew/bin:~/.homebrew/bin
     export PATH=${PATH}:/Library/TeX/texbin/
+# Air
+elif [ `hostname` = "Bebop" ] 
+then
+    export PATH=${PATH}:~/.homebrew/bin/
+    #export PATH=${PATH}:/Library/TeX/texbin/
 fi
-
