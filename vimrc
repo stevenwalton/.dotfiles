@@ -65,6 +65,9 @@ set splitbelow          "Same but below (split)
 "Ctags
 set tags="./.tags,../.tags,~/.tags"
 
+" MARKDOWN
+syn match markdownIgnore "\$.*_.*\$" " Doesn't highlight _ while in latex
+
 "Spell checking
 " Pressing ,ss will toggle and untoggle spell checking
 syntax spell toplevel   " Spell check fixing for tex

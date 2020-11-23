@@ -11,17 +11,18 @@ call vundle#begin()
     "Plugin 'vim-airline/vim-airline' " That bottum line you have
     "Plugin 'tpope/vim-fugitive' " Git wrapper
     Plugin 'scrooloose/syntastic' " Syntax highlighting
-    Plugin 'taglist.vim'
+    "Plugin 'taglist.vim'
     Plugin 'octol/vim-cpp-enhanced-highlight'
-    Plugin 'majutsushi/tagbar'  " Bound to \tb (right)
+    "Plugin 'majutsushi/tagbar'  " Bound to \tb (right)
     Plugin 'airblade/vim-gitgutter' " Shows diff from git in left sidebar (fantastic)
-    Plugin 'mbbill/undotree' " Creates an undo tree, bound to \ut (left)
+    "Plugin 'mbbill/undotree' " Creates an undo tree, bound to \ut (left)
     "Plugin 'vim-scripts/Conque-GDB' " :(
     "Plugin 'ludovicchabant/vim-gutentags' " Auto generates tab
     Plugin 'linediff.vim'
     Plugin 'segeljakt/vim-silicon' " Screenshot highlighted text :Silicon fname
     Plugin 'iamcco/markdown-preview.nvim' 
     Plugin 'dense-analysis/ale'
+    Plugin 'rhysd/git-messenger.vim' " Shows commit message associated with line of code
 call vundle#end()
 call mkdp#util#install()
 
