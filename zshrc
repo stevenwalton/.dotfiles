@@ -1,6 +1,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
-if [ `hostname` = "Orion" ] || [ `hostname` = "Serenity" ] || [ `hostname` = "Bebop" ]
+if [ `hostname` = "Orion" ] || [ `hostname` = "Serenity" ] || [ `hostname` = "Bebop" ] || [ `hostname` = "rama" ]
 then
     ZSH_THEME="jdavis-modified"
 else
@@ -88,14 +88,14 @@ alias alaska='ssh -L 21:ix.cs.uoregon.edu:21 -l swalton2 alaska.cs.uoregon.edu'
 alias ix='ssh -L 21:ix.cs.uoregon.edu:21 -l swalton2 ix.cs.uoregon.edu'
 
 # Pyenv
-export PYENV_ROOT="${HOME}/.pyenv"
-if [ `hostname` = "Bebop" ]
-then
-    export PATH="${HOME}/.homebrew/bin:${PATH}"
-else
-    export PATH="${PYENV_ROOT}/bin:${PATH}"
-fi
-eval "$(pyenv init -)"
+#export PYENV_ROOT="${HOME}/.pyenv"
+#if [ `hostname` = "Bebop" ]
+#then
+#    export PATH="${HOME}/.homebrew/bin:${PATH}"
+#else
+#    export PATH="${PYENV_ROOT}/bin:${PATH}"
+#fi
+#eval "$(pyenv init -)"
 
 #################################
 # Machine Specific Configurations
@@ -117,10 +117,17 @@ then
     eval $(ssh-agent -s) > /dev/null
     ssh-add ~/.ssh/*_rsa 1&> /dev/null
 elif [ `hostname` = "Serenity" ]
+# Serenity
 then
     alias ls='ls -v --color=auto -h' # numerical sort
     eval $(ssh-agent -s) > /dev/null
     ssh-add ~/.ssh/*_rsa 1&> /dev/null
+# Rama
+elif [ `hostname` = "Rama" ]
+then
+    alias ls='ls -v --color=auto -h' # numerical sort
+    #eval $(ssh-agent -s) > /dev/null
+    #ssh-add ~/.ssh/*_rsa 1&> /dev/null
 # Alaska
 elif [ `hostname` = "alaska" ] 
 then
