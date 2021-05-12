@@ -123,11 +123,13 @@ then
     eval $(ssh-agent -s) > /dev/null
     ssh-add ~/.ssh/*_rsa 1&> /dev/null
 # Rama
-elif [ `hostname` = "Rama" ]
+elif [ `hostname` = "rama" ]
 then
     alias ls='ls -v --color=auto -h' # numerical sort
-    #eval $(ssh-agent -s) > /dev/null
-    #ssh-add ~/.ssh/*_rsa 1&> /dev/null
+    eval $(ssh-agent -s) > /dev/null
+    ssh-add ~/.ssh/*_rsa 1&> /dev/null
+    source /home/steven/.anaconda3/bin/activate
+    export PATH=${PATH}:/home/steven/.anaconda3/bin/
 # Alaska
 elif [ `hostname` = "alaska" ] 
 then
