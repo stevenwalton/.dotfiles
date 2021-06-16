@@ -26,6 +26,26 @@ ln -s ~/.dotfiles/zshrc ~/.zshrc
 echo "Linking tmux.conf to ~/.tmux.conf"
 ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf
 
+# i3
+read -p "Add i3 script?\n [y/n]: "-n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    ln -s ~/.dotfiles/i3.config ~/.i3.config
+fi
+
+# Polybar
+read -p "Add polybar script?\n [y/n]: "-n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    ln -s ~/.dotfiles/scripts/polybar/launch.sh ~/.config/polybar/launch.sh
+    ln -s ~/.dotfiles/scripts/polybar/config ~/.config/polybar/config
+fi
+# Kitty
+read -p "Add Kitty config?\n [y/n]: "-n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+    ln -s ~/.dotfiles/kitty.conf ~/.config/kitty/kitty.conf
+fi
+
 # Replace the vim files
 read -p "Replace $HOME/.vim and $HOME/.vimrc With those from .dotfile?\n [y/n]: " -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
