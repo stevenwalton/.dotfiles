@@ -23,6 +23,7 @@ call vundle#begin()
     Plugin 'iamcco/markdown-preview.nvim' 
     Plugin 'dense-analysis/ale'
     Plugin 'rhysd/git-messenger.vim' " Shows commit message associated with line of code
+    Plugin 'pineapplegiant/spaceduck' " Spaceduck theme
 call vundle#end()
 call mkdp#util#install()
 

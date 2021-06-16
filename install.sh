@@ -50,6 +50,9 @@ git clone https://github.com/robbyrussell/oh-my-zsh ~/.oh-my-zsh
 ln -s ~/.dotfiles/jdavis-modified.zsh-theme ~/.oh-my-zsh/themes/
 echo "Installing antigen to home folder (hidden)"
 git clone https://github.com/zsh-users/antigen ~/.antigen
+# Spaceduck
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+git clone git@github.com:bigpick/spaceduck-zsh-syntax-highlighting.git ~/.spaceduck-zsh-syntax-highlighting
 
 
 echo "Installation complete"

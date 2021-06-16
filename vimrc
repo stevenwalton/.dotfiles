@@ -8,7 +8,8 @@ source ~/.vim/custom/remaps.vim " Personal Remaps
 " These settings will override those from above
 syntax on               "Turns on Syntax highlighting 
 try
-    colorscheme vividchalk   "Colour Scheme (in ~/.vim/colors)
+    "colorscheme vividchalk   "Colour Scheme (in ~/.vim/colors)
+    colorscheme spaceduck "Colour Scheme (in ~/.vim/colors)
 catch
     colorscheme peachpuff   "backup colour scheme (in /usr/share/vim...)
 endtry
