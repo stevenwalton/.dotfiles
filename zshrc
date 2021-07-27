@@ -97,6 +97,16 @@ alias ix='ssh -L 21:ix.cs.uoregon.edu:21 -l swalton2 ix.cs.uoregon.edu'
 #fi
 #eval "$(pyenv init -)"
 
+# Kitty
+if [ $TERM = xterm-kitty ]
+then
+    autoload -Uz compinit
+    compinit
+    kitty + complete setup zsh | source /dev/stdin
+    # Makes backspace work in python
+    export TERMINFO=/usr/share/terminfo
+fi
+
 #################################
 # Machine Specific Configurations
 #################################
@@ -125,6 +135,7 @@ then
 # Rama
 elif [ `hostname` = "rama" ]
 then
+    alias ssh='TERM="xterm-256color" ssh'
     alias ls='ls -v --color=auto -h' # numerical sort
     eval $(ssh-agent -s) > /dev/null
     ssh-add ~/.ssh/*_rsa 1&> /dev/null
@@ -153,7 +164,22 @@ then
     eval $(ssh-agent -s) > /dev/null
     ssh-add ~/.ssh/*_rsa 1&> /dev/null
 # source ${HOME}/workspace/anaconda3/bin/activate  # commented out by conda initialize
-    export PATH=${PATH}:${HOME}/workspace/anaconda3/bin/
+    #export PATH=${PATH}:${HOME}/workspace/anaconda3/bin/
+
+    # >>> conda initialize >>>
+    # !! Contents within this block are managed by 'conda init' !!
+    __conda_setup="$('/workspace/swalton2/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
+    else
+        if [ -f "/workspace/swalton2/anaconda3/etc/profile.d/conda.sh" ]; then
+            . "/workspace/swalton2/anaconda3/etc/profile.d/conda.sh"
+        else
+            export PATH="/workspace/swalton2/anaconda3/bin:$PATH"
+        fi
+    fi
+    unset __conda_setup
+    # <<< conda initialize <<<
 fi
 
 # SpaceDuck Theme (for zsh-syntax-highlighting)
@@ -240,19 +266,4 @@ ZSH_HIGHLIGHT_STYLES[arg0]='fg=#ecf0c1'
 ZSH_HIGHLIGHT_STYLES[default]='fg=#ecf0c1'
 #
 ZSH_HIGHLIGHT_STYLES[cursor]='standout'
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/workspace/swalton2/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/workspace/swalton2/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/workspace/swalton2/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/workspace/swalton2/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
 
