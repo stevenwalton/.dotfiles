@@ -8,12 +8,12 @@ call vundle#begin()
     Plugin 'VundleVim/Vundle.vim'
     Plugin 'scrooloose/nerdtree' "Bound to \nt (left)
     Plugin 'godlygeek/tabular' "Tab /delimiter
-    "Plugin 'vim-airline/vim-airline' " That bottum line you have
+    Plugin 'vim-airline/vim-airline' " That bottum line you have
     "Plugin 'tpope/vim-fugitive' " Git wrapper
     Plugin 'scrooloose/syntastic' " Syntax highlighting
     "Plugin 'taglist.vim'
     Plugin 'octol/vim-cpp-enhanced-highlight'
-    "Plugin 'majutsushi/tagbar'  " Bound to \tb (right)
+    Plugin 'majutsushi/tagbar'  " Bound to \tb (right)
     Plugin 'airblade/vim-gitgutter' " Shows diff from git in left sidebar (fantastic)
     "Plugin 'mbbill/undotree' " Creates an undo tree, bound to \ut (left)
     "Plugin 'vim-scripts/Conque-GDB' " :(
@@ -36,7 +36,13 @@ filetype plugin indent on
 " CtrlP
 "map <Leader>p :CtrlP<CR>
 "map <Leader>bp :CtrlPBuffer<CR>
-
+"
+"SpaceDuck
+if exists('+termguicolors')
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    set termguicolors
+endif
 " Sensible defaults
 let g:easytags_events = ['BufReadPost', 'BufWritePost']
 let g:easytags_async = 1
