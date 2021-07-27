@@ -97,6 +97,16 @@ alias ix='ssh -L 21:ix.cs.uoregon.edu:21 -l swalton2 ix.cs.uoregon.edu'
 #fi
 #eval "$(pyenv init -)"
 
+# Kitty
+if [ $TERM = xterm-kitty ]
+then
+    autoload -Uz compinit
+    compinit
+    kitty + complete setup zsh | source /dev/stdin
+    # Makes backspace work in python
+    export TERMINFO=/usr/share/terminfo
+fi
+
 #################################
 # Machine Specific Configurations
 #################################
@@ -125,6 +135,7 @@ then
 # Rama
 elif [ `hostname` = "rama" ]
 then
+    alias ssh='TERM="xterm-256color" ssh'
     alias ls='ls -v --color=auto -h' # numerical sort
     eval $(ssh-agent -s) > /dev/null
     ssh-add ~/.ssh/*_rsa 1&> /dev/null
@@ -240,3 +251,6 @@ ZSH_HIGHLIGHT_STYLES[arg0]='fg=#ecf0c1'
 ZSH_HIGHLIGHT_STYLES[default]='fg=#ecf0c1'
 #
 ZSH_HIGHLIGHT_STYLES[cursor]='standout'
+
+# opam configuration
+test -r /home/steven/.opam/opam-init/init.zsh && . /home/steven/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
