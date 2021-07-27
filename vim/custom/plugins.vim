@@ -9,6 +9,7 @@ call vundle#begin()
     Plugin 'scrooloose/nerdtree' "Bound to \nt (left)
     Plugin 'godlygeek/tabular' "Tab /delimiter
     Plugin 'vim-airline/vim-airline' " That bottum line you have
+    Plugin 'vim-airline/vim-airline-themes'
     "Plugin 'tpope/vim-fugitive' " Git wrapper
     Plugin 'scrooloose/syntastic' " Syntax highlighting
     "Plugin 'taglist.vim'
@@ -43,6 +44,7 @@ if exists('+termguicolors')
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
     set termguicolors
 endif
+
 " Sensible defaults
 let g:easytags_events = ['BufReadPost', 'BufWritePost']
 let g:easytags_async = 1
@@ -54,7 +56,7 @@ let g:easytags_suppress_ctags_warning = 1
 nmap <silent> <leader>tb :TagbarToggle <CR>
 
 " Gitgutter settings
-"   let g:airline#extensions#hunks#non_zero_only = 1
+let g:airline#extensions#hunks#non_zero_only = 1
 
 " NERDTree Options
 let g:NERDTreeDirArrows=0
@@ -91,10 +93,11 @@ let g:syntastic_cpp_checkers = ['gcc']
 let g:syntastic_cpp_compiler_options = "-std=c++11 -stdlib=c++11"
 
 " Airline configuration
-"   let g:airline#extensions#tabline#enabled = 1
-"   " Comment this out if you don't have powerline fonts. Or install them from the
-"   " font directory
-"   let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+" Comment this out if you don't have powerline fonts. Or install them from the
+" font directory
+let g:airline_powerline_fonts = 1
+let g:airline_theme='spaceduck'
 
 " ConqueGDB
 let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
