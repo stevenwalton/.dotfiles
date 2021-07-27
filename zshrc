@@ -18,7 +18,7 @@ plugins=(history-substring-search colored-man-pages zsh-syntax-highlighting)
 
 # User configuration
 
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+#export PATH=$HOME/bin:/usr/local/bin:$PATH
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -128,7 +128,7 @@ then
     alias ls='ls -v --color=auto -h' # numerical sort
     eval $(ssh-agent -s) > /dev/null
     ssh-add ~/.ssh/*_rsa 1&> /dev/null
-    source /home/steven/.anaconda3/bin/activate
+# source /home/steven/.anaconda3/bin/activate  # commented out by conda initialize
     export PATH=${PATH}:/home/steven/.anaconda3/bin/
 # Alaska
 elif [ `hostname` = "alaska" ] 
@@ -152,8 +152,8 @@ elif [[ `hostname` = shi* ]]
 then
     eval $(ssh-agent -s) > /dev/null
     ssh-add ~/.ssh/*_rsa 1&> /dev/null
-    source /home/steven/.anaconda3/bin/activate
-    export PATH=${PATH}:/home/steven/.anaconda3/bin/
+# source ${HOME}/workspace/anaconda3/bin/activate  # commented out by conda initialize
+    export PATH=${PATH}:${HOME}/workspace/anaconda3/bin/
 fi
 
 # SpaceDuck Theme (for zsh-syntax-highlighting)
@@ -240,3 +240,19 @@ ZSH_HIGHLIGHT_STYLES[arg0]='fg=#ecf0c1'
 ZSH_HIGHLIGHT_STYLES[default]='fg=#ecf0c1'
 #
 ZSH_HIGHLIGHT_STYLES[cursor]='standout'
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/workspace/swalton2/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/workspace/swalton2/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/workspace/swalton2/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/workspace/swalton2/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
