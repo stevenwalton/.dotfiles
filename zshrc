@@ -86,6 +86,26 @@ fi
 
 alias alaska='ssh -L 21:ix.cs.uoregon.edu:21 -l swalton2 alaska.cs.uoregon.edu'
 alias ix='ssh -L 21:ix.cs.uoregon.edu:21 -l swalton2 ix.cs.uoregon.edu'
+#################################
+# KILL SSH AGENTS
+# ###############################
+#function sshpid()
+#{
+#    echo `ps aux | grep ssh-agent -s | cut -d " " -f6 | head -n1`
+#}
+#sshpid
+#if [[ ! -z "$(sshpid)" ]]; then
+#    export SSH_AGENT_PID=$(sshpid)
+#    ssh-add ~/.ssh/*_rsa 1&> /dev/null
+#else
+eval $(ssh-agent -s) > /dev/null
+ssh-add ~/.ssh/*_rsa 1&> /dev/null
+#fi
+function killssh()
+{
+    kill -9 $SSH_AGENT_PID
+}
+trap killssh 0
 
 # Pyenv
 #export PYENV_ROOT="${HOME}/.pyenv"
@@ -124,30 +144,25 @@ then
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/ascent-official-install/lib
     
     alias pycharm="sh ~/.builds/pycharm-community-2019.1.1/bin/pycharm.sh"
-    eval $(ssh-agent -s) > /dev/null
-    ssh-add ~/.ssh/*_rsa 1&> /dev/null
 elif [ `hostname` = "Serenity" ]
 # Serenity
 then
     alias ls='ls -v --color=auto -h' # numerical sort
-    eval $(ssh-agent -s) > /dev/null
-    ssh-add ~/.ssh/*_rsa 1&> /dev/null
 # Rama
 elif [ `hostname` = "rama" ]
 then
     alias ssh='TERM="xterm-256color" ssh'
     alias ls='ls -v --color=auto -h' # numerical sort
-    eval $(ssh-agent -s) > /dev/null
-    ssh-add ~/.ssh/*_rsa 1&> /dev/null
-# source /home/steven/.anaconda3/bin/activate  # commented out by conda initialize
-    export PATH=${PATH}:/home/steven/.anaconda3/bin/
+    source ${HOME}/.anaconda3/bin/activate  # commented out by conda initialize
+    export PATH=${PATH}:${HOME}/.anaconda3/bin/
+    # Algorand node
+    export ALGORAND_DATA="$HOME/.algonode/data"
+    export PATH="$PATH:$HOME/.algonode"
 # Alaska
 elif [ `hostname` = "alaska" ] 
 then
     alias ls='ls -v --color=auto -h' # numerical sort
     export DISPLAY=:0.0
-    eval "$(ssh-agent -s)"
-    ssh-add ~/.ssh/alaska
 # LLNL
 elif [ `hostname` = "safflower.llnl.gov" ] 
 then
@@ -161,13 +176,6 @@ then
 # Shi Machines
 elif [[ `hostname` = shi* ]]
 then
-    eval $(ssh-agent -s) > /dev/null
-    ssh-add ~/.ssh/*_rsa 1&> /dev/null
-# source ${HOME}/workspace/anaconda3/bin/activate  # commented out by conda initialize
-    #export PATH=${PATH}:${HOME}/workspace/anaconda3/bin/
-
-    # >>> conda initialize >>>
-    # !! Contents within this block are managed by 'conda init' !!
     __conda_setup="$('/workspace/swalton2/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
     if [ $? -eq 0 ]; then
         eval "$__conda_setup"
@@ -181,6 +189,8 @@ then
     unset __conda_setup
     # <<< conda initialize <<<
 fi
+
+
 
 # SpaceDuck Theme (for zsh-syntax-highlighting)
 #
