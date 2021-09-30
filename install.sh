@@ -13,6 +13,7 @@ if [[ $REPLY =~ [Nn]$ ]]
 then
     exit 1
 fi 
+echo ""
 # Check that .dotfiles is in home
 if [[ ! -d $HOME/.dotfiles ]]
 then
@@ -22,9 +23,35 @@ fi
 
 # Do the linking
 echo "Linking zhsrc to ~/.zshrc"
-ln -s ~/.dotfiles/zshrc ~/.zshrc
+ln -s ~/.dotfiles/zshrc ~/.zshrc 2> /dev/null || echo -e "~/.zshrc already exists!\n"
 echo "Linking tmux.conf to ~/.tmux.conf"
-ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf
+ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf  2> /dev/null || echo -e "~/.tmux.conf already exists!\n"
+
+# i3
+#read -n 1 -p "Add i3 script?\n [y/n "
+read -p "Add i3 script? [y/n]: " -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    ln -s ~/.dotfiles/i3.config ~/.i3.config 2> /dev/null || echo "i3.config already exists"
+fi
+echo ""
+
+# Polybar
+read -n 1 -r -p "Add polybar script? [y/n]: "
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    ln -s ~/.dotfiles/scripts/polybar/launch.sh ~/.config/polybar/launch.sh 2> /dev/null || echo "polybar launch.sh already exists"
+    ln -s ~/.dotfiles/scripts/polybar/config ~/.config/polybar/config 2> /dev/null || echo "polybar config already exists"
+fi
+echo ""
+
+# Kitty
+read -n 1 -r -p "Add Kitty config?\n [y/n]: "
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    ln -s ~/.dotfiles/kitty.conf ~/.config/kitty/kitty.conf 2> /dev/null || echo "kitty.conf already exists"
+fi
+echo ""
 
 # Replace the vim files
 read -p "Replace $HOME/.vim and $HOME/.vimrc With those from .dotfile?\n [y/n]: " -n 1 -r
@@ -50,6 +77,9 @@ git clone https://github.com/robbyrussell/oh-my-zsh ~/.oh-my-zsh
 ln -s ~/.dotfiles/jdavis-modified.zsh-theme ~/.oh-my-zsh/themes/
 echo "Installing antigen to home folder (hidden)"
 git clone https://github.com/zsh-users/antigen ~/.antigen
+# Spaceduck
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+git clone https://github.com/bigpick/spaceduck-zsh-syntax-highlighting.git ~/.spaceduck-zsh-syntax-highlighting
 
 
 echo "Installation complete"
