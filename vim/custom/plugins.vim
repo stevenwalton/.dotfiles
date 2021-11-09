@@ -70,6 +70,7 @@ map <Leader>ut :UndotreeToggle<CR>
 
 " Syntastic Options
 command Synt normal! :SyntasticToggleMode<CR>
+let g:syntastic_mode_map = {"mode": "passive"}
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
