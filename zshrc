@@ -1,6 +1,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
-if [ `hostname` = "Orion" ] || [ `hostname` = "Serenity" ] || [ `hostname` = "Bebop" ] || [ `hostname` = "rama" ]
+if [ `hostname` = "Orion" ] || [ `hostname` = "Serenity" ] || [ `hostname` = "Bebop" ] || [ `hostname` = "Rama" ]
 then
     ZSH_THEME="jdavis-modified"
 else
@@ -60,13 +60,36 @@ DISABLE_AUTO_TITLE="true"
 ##########
 # Aliases
 ##########
+############################################
+############ Fancy Bash Tools ##############
+############################################
+if hash htop &> /dev/null
+then
+    alias top='htop'
+fi
+if (hash bat &> /dev/null) || (hash batcat &> /dev/null)
+then
+    if hash batcat &> /dev/null
+    then
+        # Ubuntu
+        alias cat='batcat'
+    else
+        alias cat='bat'
+    fi
+fi
+
+# Make sure this is above ls aliases 
+if hash exa &> /dev/null
+then
+    alias ls='exa'
+fi
+
 # Add color and make human readable
 #alias ls='ls --color=auto -h' # add a splash of color, human readable
 #alias ls='ls -v --color=auto -h' # numerical sort
 alias la='ls -a'
 alias ll='ls -lh'
 alias vi='vim'
-alias top='htop'
 alias pacman='pacman --color=auto'
 alias ssh='ssh -YC'
 # Grep to have color, give line number, don't tell me it can't access restricted files (sudo), and don't process binary files (garbage output ):
@@ -83,6 +106,7 @@ if [[ `command -v lsb_release` ]]
 then
     alias open='xdg-open' 
 fi
+
 
 alias alaska='ssh -L 21:ix.cs.uoregon.edu:21 -l swalton2 alaska.cs.uoregon.edu'
 alias ix='ssh -L 21:ix.cs.uoregon.edu:21 -l swalton2 ix.cs.uoregon.edu'
@@ -153,7 +177,7 @@ elif [ `hostname` = "rama" ]
 then
     alias ssh='TERM="xterm-256color" ssh'
     alias ls='ls -v --color=auto -h' # numerical sort
-    source ${HOME}/.anaconda3/bin/activate  # commented out by conda initialize
+# source ${HOME}/.anaconda3/bin/activate  # commented out by conda initialize  # commented out by conda initialize
     export PATH=${PATH}:${HOME}/.anaconda3/bin/
     # Algorand node
     export ALGORAND_DATA="$HOME/.algonode/data"
@@ -181,9 +205,9 @@ then
         eval "$__conda_setup"
     else
         if [ -f "/workspace/swalton2/anaconda3/etc/profile.d/conda.sh" ]; then
-            . "/workspace/swalton2/anaconda3/etc/profile.d/conda.sh"
+# . "/workspace/swalton2/anaconda3/etc/profile.d/conda.sh"  # commented out by conda initialize
         else
-            export PATH="/workspace/swalton2/anaconda3/bin:$PATH"
+# export PATH="/workspace/swalton2/anaconda3/bin:$PATH"  # commented out by conda initialize
         fi
     fi
     unset __conda_setup
@@ -276,4 +300,21 @@ ZSH_HIGHLIGHT_STYLES[arg0]='fg=#ecf0c1'
 ZSH_HIGHLIGHT_STYLES[default]='fg=#ecf0c1'
 #
 ZSH_HIGHLIGHT_STYLES[cursor]='standout'
+
+export PATH=$PATH:$HOME/.bin
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/steven/.anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/steven/.anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/steven/.anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/steven/.anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
 
