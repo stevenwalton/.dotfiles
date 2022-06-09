@@ -72,9 +72,9 @@ then
     if hash batcat &> /dev/null
     then
         # Ubuntu
-        alias cat='batcat'
+        alias cat='batcat -p'
     else
-        alias cat='bat'
+        alias cat='bat -p'
     fi
 fi
 

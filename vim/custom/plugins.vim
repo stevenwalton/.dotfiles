@@ -25,8 +25,21 @@ call vundle#begin()
     Plugin 'dense-analysis/ale'
     Plugin 'rhysd/git-messenger.vim' " Shows commit message associated with line of code
     Plugin 'pineapplegiant/spaceduck' " Spaceduck theme
+    Plugin 'frazrepo/vim-rainbow'
 call vundle#end()
 call mkdp#util#install()
+
+" Rainbow Parenthesis 
+let g:rainbow_active = 1
+let g:rainbow_load_separately = [
+    \ [ '*' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
+    \ [ '*.tex' , [['(', ')'], ['\[', '\]']] ],
+    \ [ '*.cpp' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
+    \ [ '*.{html,htm}' , [['(', ')'], ['\[', '\]'], ['{', '}'], ['<\a[^>]*>', '</[^>]*>']] ],
+    \ ]
+
+let g:rainbow_guifgs = ['RoyalBlue3', 'DarkOrange3', 'DarkOrchid3', 'FireBrick']
+let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
 
 filetype plugin indent on
 " :PluginInstall Install plugins
