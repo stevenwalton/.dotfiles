@@ -22,18 +22,29 @@ fi
 ## zplug ##
 ###########
 # See list of all plugins:
-# https://github.com/unixorn/awesome-zsh-plugins#antigen
+# https://github.com/unixorn/awesome-zsh-plugins
 source ${ZPLUG_HOME}/init.zsh
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 zplug 'zsh-users/zsh-history-substring-search'
 zplug 'ael-code/zsh-colored-man-pages'
 zplug 'zdharma-continuum/fast-syntax-highlighting'
 zplug 'z-shell/zsh-diff-so-fancy'
-zplug 'icatalina/zsh-navi-plugin/'
 zplug 'kaplanelad/shellfirm'
 zplug 'justjanne/powerline-go'
 zplug 'xylous/gitstatus'
 zplug 'arialdomartini/oh-my-git'
+
+# Install plugins if there are plugins that have not been installed
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+
+# Then, source plugins and add commands to $PATH
+zplug load 
+eval "$(navi widget zsh)" &> /dev/null
 
 
 if (hash shellfirm &> /dev/null)
@@ -153,6 +164,9 @@ if [[ $(uname) == "Darwin" ]]; then
     then
         alias ssh='kitty +kitten ssh'
     fi
+    export ZSH_ASK_API_KEY=`cat ${HOME}/.dotfiles/api_keys/openai.api`
+    source ${HOME}/.dotfiles/zsh-ask/zsh-ask.zsh
+    alias ask='ask -mi' # Add markdown and interactive
 elif [[ $(uname) == "Linux" ]]; then
     if [[ `hostname` = shi* ]]
     then

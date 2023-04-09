@@ -82,6 +82,33 @@ git clone https://github.com/zsh-users/antigen ~/.antigen
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 git clone https://github.com/bigpick/spaceduck-zsh-syntax-highlighting.git ~/.spaceduck-zsh-syntax-highlighting
 
+if [[ $(uname) == "Darwin" ]]; then
+    read -p "Install homebrew? [y/n]: " -n 1 -r
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    fi
+    read -p "Install brew packages? [y/n]: " -n 1 -r
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        brew install \
+            tmux \
+            exa \
+            tre \
+            stats \
+            git-lfs \
+            zplug \
+            navi \
+            vifm \
+            curl \
+            jq \
+            glow
+        brew install --cask \
+            mactex \
+            kitty
+    fi
+fi
+
 
 echo "Installation complete"
 echo "It is suggested that you install powerline fonts."
