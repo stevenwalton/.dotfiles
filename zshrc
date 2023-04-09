@@ -69,6 +69,8 @@ alias vi='vim'
 alias top='htop'
 alias pacman='pacman --color=auto'
 alias ssh='ssh -YC'
+# Tree replacement 
+alias tree='find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"'
 # Grep to have color, give line number, don't tell me it can't access restricted files (sudo), and don't process binary files (garbage output ):
 alias grep='grep --color=always --line-number --no-messages --binary-files=without-match'
 
@@ -153,7 +155,7 @@ elif [ `hostname` = "rama" ]
 then
     alias ssh='TERM="xterm-256color" ssh'
     alias ls='ls -v --color=auto -h' # numerical sort
-    source ${HOME}/.anaconda3/bin/activate  # commented out by conda initialize
+# source ${HOME}/.anaconda3/bin/activate  # commented out by conda initialize  # commented out by conda initialize
     export PATH=${PATH}:${HOME}/.anaconda3/bin/
     # Algorand node
     export ALGORAND_DATA="$HOME/.algonode/data"
@@ -181,9 +183,9 @@ then
         eval "$__conda_setup"
     else
         if [ -f "/workspace/swalton2/anaconda3/etc/profile.d/conda.sh" ]; then
-            . "/workspace/swalton2/anaconda3/etc/profile.d/conda.sh"
+# . "/workspace/swalton2/anaconda3/etc/profile.d/conda.sh"  # commented out by conda initialize
         else
-            export PATH="/workspace/swalton2/anaconda3/bin:$PATH"
+# export PATH="/workspace/swalton2/anaconda3/bin:$PATH"  # commented out by conda initialize
         fi
     fi
     unset __conda_setup
@@ -276,4 +278,20 @@ ZSH_HIGHLIGHT_STYLES[arg0]='fg=#ecf0c1'
 ZSH_HIGHLIGHT_STYLES[default]='fg=#ecf0c1'
 #
 ZSH_HIGHLIGHT_STYLES[cursor]='standout'
+
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/users/swalton2/.anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/users/swalton2/.anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/users/swalton2/.anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/users/swalton2/.anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
 
