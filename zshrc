@@ -1,6 +1,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
-if [ `hostname` = "Orion" ] || [ `hostname` = "Serenity" ] || [ `hostname` = "Bebop" ] || [ `hostname` = "Rama" ]
+if [ `hostname` = "Orion" ] || [ `hostname` = "Serenity" ] || [ `hostname` = "Bebop" ] || [ `hostname` = "Rama" ] || [ `hostname` = "Swordfish" ]
 then
     ZSH_THEME="jdavis-modified"
 else
@@ -142,14 +142,14 @@ trap killssh 0
 #eval "$(pyenv init -)"
 
 # Kitty
-if [ $TERM = xterm-kitty ]
-then
-    autoload -Uz compinit
-    compinit
-    kitty + complete setup zsh | source /dev/stdin
-    # Makes backspace work in python
-    export TERMINFO=/usr/share/terminfo
-fi
+#if [ $TERM = xterm-kitty ]
+#then
+#    autoload -Uz compinit
+#    compinit
+#    kitty + complete setup zsh | source /dev/stdin
+#    # Makes backspace work in python
+#    export TERMINFO=/usr/share/terminfo
+#fi
 
 #################################
 # Machine Specific Configurations
@@ -187,11 +187,10 @@ elif [ `hostname` = "alaska" ]
 then
     alias ls='ls -v --color=auto -h' # numerical sort
     export DISPLAY=:0.0
-# LLNL
-elif [ `hostname` = "safflower.llnl.gov" ] 
+# M2 Air
+elif [ `hostname` = "Swordfish" ]
 then
-    export PATH=${PATH}:/Users/walton16/.homebrew/bin:~/.homebrew/bin
-    export PATH=${PATH}:/Library/TeX/texbin/
+    alias ssh='kitty +kitten ssh'
 # Air
 elif [ `hostname` = "Bebop" ] 
 then
@@ -305,16 +304,18 @@ export PATH=$PATH:$HOME/.bin
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/steven/.anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/home/steven/.anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/steven/.anaconda3/etc/profile.d/conda.sh"
+    if [ -f "/opt/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/opt/anaconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/home/steven/.anaconda3/bin:$PATH"
+        export PATH="/opt/anaconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+# Shell like vim
+set -o vi

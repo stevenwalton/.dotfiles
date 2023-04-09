@@ -61,7 +61,8 @@ then
     rm -r ~/.vimrc
     ln -s ~/.dotfiles/vim ~/.vim
     ln -s ~/.dotfiles/vimrc ~/.vimrc
-    echo "Remember to run :PluginInstall from vim"
+    # Install vim plugins
+    vim +PluginInstall +qall
 else
     echo "You should probably do this"
     echo "When you have backuped please run: "
