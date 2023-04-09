@@ -13,7 +13,11 @@ source ${HOME}/.antigen/antigen.zsh
 #####################
 export EDITOR="vim"
 # Plug dir (in process of replacing antigen)
-export ZPLUG_HOME=${HOME}/.zplug
+if [[ $(uname) == "Darwin" ]]; then
+    export ZPLUG_HOME=/opt/homebrew/opt/zplug
+else
+    export ZPLUG_HOME=${HOME}/.zplug
+fi
 ###########
 ## zplug ##
 ###########
