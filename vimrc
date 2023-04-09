@@ -13,6 +13,8 @@ try
 catch
     colorscheme peachpuff   "backup colour scheme (in /usr/share/vim...)
 endtry
+" Transparency
+"hi Normal guibg=NONE ctermbg=None
 set mouse=a             "For people that can't use vim
 set path+=**            "Recursive path lookup
 

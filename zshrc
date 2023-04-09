@@ -1,10 +1,40 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
-if [ `hostname` = "Orion" ] || [ `hostname` = "Serenity" ] || [ `hostname` = "Bebop" ] || [ `hostname` = "rama" ]
+if [ `hostname` = "Orion" ] || [ `hostname` = "Serenity" ] || [ `hostname` = "Bebop" ] || [ `hostname` = "Rama" ] || [ `hostname` = "Swordfish" ]
 then
     ZSH_THEME="jdavis-modified"
 else
     ZSH_THEME="lambda"
+fi
+# Source Antigen
+source ${HOME}/.antigen/antigen.zsh
+#####################
+## General Exports ##
+#####################
+export EDITOR="vim"
+# Plug dir (in process of replacing antigen)
+export ZPLUG_HOME=${HOME}/.zplug
+###########
+## zplug ##
+###########
+# See list of all plugins:
+# https://github.com/unixorn/awesome-zsh-plugins#antigen
+source ${ZPLUG_HOME}/init.zsh
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+zplug 'zsh-users/zsh-history-substring-search'
+zplug 'ael-code/zsh-colored-man-pages'
+zplug 'zdharma-continuum/fast-syntax-highlighting'
+zplug 'z-shell/zsh-diff-so-fancy'
+zplug 'icatalina/zsh-navi-plugin/'
+zplug 'kaplanelad/shellfirm'
+zplug 'justjanne/powerline-go'
+zplug 'xylous/gitstatus'
+zplug 'arialdomartini/oh-my-git'
+
+
+if (hash shellfirm &> /dev/null)
+then
+    source ${HOME}/.dotfiles/shellfirm-plugin.sh
 fi
 
 # Uncomment the following line to enable command auto-correction.
@@ -14,7 +44,7 @@ fi
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(history-substring-search colored-man-pages zsh-syntax-highlighting)
+#plugins=(history-substring-search colored-man-pages zsh-syntax-highlighting diff-so-fancy navi shellfirm powerline-go gitstatus oh-my-git ranger)
 
 # User configuration
 
@@ -25,9 +55,6 @@ source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
-#
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
@@ -44,12 +71,6 @@ zle -N down-line-or-beginning-search
 zstyle :compinstall filename "$HOME/.zshrc"
 autoload -Uz compinit
 compinit
-# End of lines added by compinstall
-#[ -e "${HOME}/.zsh_aliases" ] && source "${HOME}/.zsh_aliases"
-#[ -e "${HOME}/.zshrc_local" ] && source "${HOME}/.zshrc_local"
-
-# General Exports
-export EDITOR="vim"
 
 # Fixes tmux window renaming
 DISABLE_AUTO_TITLE="true"
@@ -57,20 +78,47 @@ DISABLE_AUTO_TITLE="true"
 # Unset the autonaming for tmux
 DISABLE_AUTO_TITLE="true"
 
-##########
+# Shell like vim
+set -o vi
+
+#################################
 # Aliases
-##########
-# Add color and make human readable
-#alias ls='ls --color=auto -h' # add a splash of color, human readable
-#alias ls='ls -v --color=auto -h' # numerical sort
+#################################
+# Fancy Bash Tools #
+if (hash htop &> /dev/null)
+then
+    alias top='htop'
+fi
+if (hash bat &> /dev/null) || (hash batcat &> /dev/null)
+then
+    if (hash batcat &> /dev/null)
+    then
+        # Ubuntu
+        alias cat='batcat -p'
+    else
+        alias cat='bat -p'
+    fi
+    export MANPAGER="sh -c 'col -bx | bat -l man -p"
+fi
+
+# Make sure this is above ls aliases 
+if (hash exa &> /dev/null)
+then
+    alias ls='exa'
+fi
+####################
+# Normal Aliases
+
+alias ls='ls -v --color=auto -h' # numerical sort, color, human readable
 alias la='ls -a'
 alias ll='ls -lh'
 alias vi='vim'
-alias top='htop'
-alias pacman='pacman --color=auto'
 alias ssh='ssh -YC'
-# Tree replacement 
-alias tree='find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"'
+# Tree replacement if don't have tree
+if ! (hash tree &> /dev/null)
+then
+    alias tree='find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"'
+fi
 # Grep to have color, give line number, don't tell me it can't access restricted files (sudo), and don't process binary files (garbage output ):
 alias grep='grep --color=always --line-number --no-messages --binary-files=without-match'
 
@@ -85,12 +133,51 @@ if [[ `command -v lsb_release` ]]
 then
     alias open='xdg-open' 
 fi
-
-alias alaska='ssh -L 21:ix.cs.uoregon.edu:21 -l swalton2 alaska.cs.uoregon.edu'
-alias ix='ssh -L 21:ix.cs.uoregon.edu:21 -l swalton2 ix.cs.uoregon.edu'
 #################################
+# Exports 
+#################################
+# Add custom bin to path and make it take priority
+export PATH=$HOME/.bin:$PATH
+
+#################################
+# Machine Specific Configurations
+#################################
+if [[ $(uname) == "Darwin" ]]; then
+    CONDA_ROOT="/opt/anaconda3"
+
+    if (hash kitty &> /dev/null)
+    then
+        alias ssh='kitty +kitten ssh'
+    fi
+elif [[ $(uname) == "Linux" ]]; then
+    if [[ `hostname` = shi* ]]
+    then
+        CONDA_ROOT="/workspace/swalton2/anaconda3"
+    else
+        CONDA_ROOT="${HOME}/.anaconda3"
+    fi
+else
+    echo "I don't know the conda path for a machine of type `uname`"
+fi
+
+#################################
+# Custom Functions
+#################################
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('${CONDA_ROOT}/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "${CONDA_ROOT}/etc/profile.d/conda.sh" ]; then
+        . "${CONDA_ROOT}/etc/profile.d/conda.sh"
+    else
+        export PATH="${CONDA_ROOT}/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+
 # KILL SSH AGENTS
-# ###############################
 #function sshpid()
 #{
 #    echo `ps aux | grep ssh-agent -s | cut -d " " -f6 | head -n1`
@@ -100,8 +187,9 @@ alias ix='ssh -L 21:ix.cs.uoregon.edu:21 -l swalton2 ix.cs.uoregon.edu'
 #    export SSH_AGENT_PID=$(sshpid)
 #    ssh-add ~/.ssh/*_rsa 1&> /dev/null
 #else
-eval $(ssh-agent -s) > /dev/null
-ssh-add ~/.ssh/*_rsa 1&> /dev/null
+eval $(ssh-agent -s) &> /dev/null
+#ssh-add ~/.ssh/*_rsa &> /dev/null
+
 #fi
 function killssh()
 {
@@ -109,95 +197,13 @@ function killssh()
 }
 trap killssh 0
 
-# Pyenv
-#export PYENV_ROOT="${HOME}/.pyenv"
-#if [ `hostname` = "Bebop" ]
-#then
-#    export PATH="${HOME}/.homebrew/bin:${PATH}"
-#else
-#    export PATH="${PYENV_ROOT}/bin:${PATH}"
-#fi
-#eval "$(pyenv init -)"
-
-# Kitty
-if [ $TERM = xterm-kitty ]
-then
-    autoload -Uz compinit
-    compinit
-    kitty + complete setup zsh | source /dev/stdin
-    # Makes backspace work in python
-    export TERMINFO=/usr/share/terminfo
-fi
 
 #################################
-# Machine Specific Configurations
+# Theming
 #################################
-# UO
-if [ `hostname` = "Orion" ] 
-then
-    alias ls='ls -v --color=auto -h' # numerical sort
-    alias visit='~/.builds/visit*.linux-x86_64/bin/visit'
-    # For some reason this isn't there
-    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib
-    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/conduit-install/lib
-    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/vtk-h-install/lib/
-    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/vtk-m-install/lib/
-    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/adios2-install/lib
-    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/walton/Programming/ORNL/ascent-official-install/lib
-    
-    alias pycharm="sh ~/.builds/pycharm-community-2019.1.1/bin/pycharm.sh"
-elif [ `hostname` = "Serenity" ]
-# Serenity
-then
-    alias ls='ls -v --color=auto -h' # numerical sort
-# Rama
-elif [ `hostname` = "rama" ]
-then
-    alias ssh='TERM="xterm-256color" ssh'
-    alias ls='ls -v --color=auto -h' # numerical sort
-# source ${HOME}/.anaconda3/bin/activate  # commented out by conda initialize  # commented out by conda initialize
-    export PATH=${PATH}:${HOME}/.anaconda3/bin/
-    # Algorand node
-    export ALGORAND_DATA="$HOME/.algonode/data"
-    export PATH="$PATH:$HOME/.algonode"
-# Alaska
-elif [ `hostname` = "alaska" ] 
-then
-    alias ls='ls -v --color=auto -h' # numerical sort
-    export DISPLAY=:0.0
-# LLNL
-elif [ `hostname` = "safflower.llnl.gov" ] 
-then
-    export PATH=${PATH}:/Users/walton16/.homebrew/bin:~/.homebrew/bin
-    export PATH=${PATH}:/Library/TeX/texbin/
-# Air
-elif [ `hostname` = "Bebop" ] 
-then
-    export PATH=${PATH}:~/.homebrew/bin/
-    #export PATH=${PATH}:/Library/TeX/texbin/
-# Shi Machines
-elif [[ `hostname` = shi* ]]
-then
-    __conda_setup="$('/workspace/swalton2/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-    if [ $? -eq 0 ]; then
-        eval "$__conda_setup"
-    else
-        if [ -f "/workspace/swalton2/anaconda3/etc/profile.d/conda.sh" ]; then
-# . "/workspace/swalton2/anaconda3/etc/profile.d/conda.sh"  # commented out by conda initialize
-        else
-# export PATH="/workspace/swalton2/anaconda3/bin:$PATH"  # commented out by conda initialize
-        fi
-    fi
-    unset __conda_setup
-    # <<< conda initialize <<<
-fi
-
-
-
+#
 # SpaceDuck Theme (for zsh-syntax-highlighting)
-#
 # Code licensed under the MIT license
-#
 # @author George Pickering <@bigpick>
 
 # Paste this files contents inside your ~/.zshrc before you activate zsh-syntax-highlighting
@@ -278,20 +284,4 @@ ZSH_HIGHLIGHT_STYLES[arg0]='fg=#ecf0c1'
 ZSH_HIGHLIGHT_STYLES[default]='fg=#ecf0c1'
 #
 ZSH_HIGHLIGHT_STYLES[cursor]='standout'
-
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/users/swalton2/.anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/users/swalton2/.anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/users/swalton2/.anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/users/swalton2/.anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
 

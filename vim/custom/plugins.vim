@@ -6,27 +6,24 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
     Plugin 'VundleVim/Vundle.vim'
-    "Plugin 'scrooloose/nerdtree' "Bound to \nt (left)
     Plugin 'godlygeek/tabular' "Tab /delimiter
     Plugin 'vim-airline/vim-airline' " That bottum line you have
     Plugin 'vim-airline/vim-airline-themes'
-    "Plugin 'tpope/vim-fugitive' " Git wrapper
     "Plugin 'scrooloose/syntastic' " Syntax highlighting
     "Plugin 'taglist.vim'
-    "Plugin 'octol/vim-cpp-enhanced-highlight'
     Plugin 'majutsushi/tagbar'  " Bound to \tb (right)
     Plugin 'airblade/vim-gitgutter' " Shows diff from git in left sidebar (fantastic)
     "Plugin 'mbbill/undotree' " Creates an undo tree, bound to \ut (left)
-    "Plugin 'vim-scripts/Conque-GDB' " :(
-    "Plugin 'ludovicchabant/vim-gutentags' " Auto generates tab
     Plugin 'linediff.vim'
     "Plugin 'segeljakt/vim-silicon' " Screenshot highlighted text :Silicon fname
     Plugin 'iamcco/markdown-preview.nvim' 
     "Plugin 'dense-analysis/ale'
     Plugin 'rhysd/git-messenger.vim' " Shows commit message associated with line of code
-    Plugin 'pineapplegiant/spaceduck' " Spaceduck theme
+    "Plugin 'pineapplegiant/spaceduck' " Spaceduck theme
+    Plugin 'frazrepo/vim-rainbow'   " Improved Parentheses
     Plugin 'sheerun/vim-polyglot'
-    Plugin 'vifm/vifm.vim' " Filemanager. Replace Nerdtree
+    Plugin 'vimwiki/vimwiki'
+    Plugin 'lervag/vimtex'
 call vundle#end()
 call mkdp#util#install()
 
@@ -39,6 +36,21 @@ filetype plugin indent on
 " CtrlP
 "map <Leader>p :CtrlP<CR>
 "map <Leader>bp :CtrlPBuffer<CR>
+
+" Rainbow Parenthesis 
+let g:rainbow_active = 1
+autocmd VimEnter * RainbowLoad
+"let g:rainbow_load_separately = [
+"    \ [ '*' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
+"    \ [ '*.tex' , [['(', ')'], ['\[', '\]']] ],
+"    \ [ '*.cpp' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
+"    \ [ '*.{html,htm}' , [['(', ')'], ['\[', '\]'], ['{', '}'], ['<\a[^>]*>', '</[^>]*>']] ],
+"    \ ]
+"
+"let g:rainbow_guifgs = ['RoyalBlue3', 'DarkOrange3', 'DarkOrchid3', 'FireBrick']
+"let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
+"autocmd VimEnter * RainbowLoad
+
 "
 "SpaceDuck
 if exists('+termguicolors')
@@ -125,3 +137,27 @@ let g:silicon = {
     \ 'window-controls':       v:false,
     \ }
 
+" Vimwiki
+let g:vimwiki_list = [{'path': '~/.vimwiki/',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_global_ext = 0
+
+" Vimtex
+" Viewer options: One may configure the viewer either by specifying a built-in
+" viewer method:
+let g:vimtex_view_method = 'zathura'
+
+" Or with a generic interface:
+let g:vimtex_view_general_viewer = 'okular'
+let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
+
+" VimTeX uses latexmk as the default compiler backend. If you use it, which is
+" strongly recommended, you probably don't need to configure anything. If you
+" want another compiler backend, you can change it as follows. The list of
+" supported backends and further explanation is provided in the documentation,
+" see ":help vimtex-compiler".
+let g:vimtex_compiler_method = 'latexrun'
+
+" Most VimTeX mappings rely on localleader and this can be changed with the
+" following line. The default is usually fine and is the symbol "\".
+let maplocalleader = ","
