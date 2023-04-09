@@ -6,25 +6,27 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
     Plugin 'VundleVim/Vundle.vim'
-    Plugin 'scrooloose/nerdtree' "Bound to \nt (left)
+    "Plugin 'scrooloose/nerdtree' "Bound to \nt (left)
     Plugin 'godlygeek/tabular' "Tab /delimiter
     Plugin 'vim-airline/vim-airline' " That bottum line you have
     Plugin 'vim-airline/vim-airline-themes'
     "Plugin 'tpope/vim-fugitive' " Git wrapper
-    Plugin 'scrooloose/syntastic' " Syntax highlighting
+    "Plugin 'scrooloose/syntastic' " Syntax highlighting
     "Plugin 'taglist.vim'
-    Plugin 'octol/vim-cpp-enhanced-highlight'
+    "Plugin 'octol/vim-cpp-enhanced-highlight'
     Plugin 'majutsushi/tagbar'  " Bound to \tb (right)
     Plugin 'airblade/vim-gitgutter' " Shows diff from git in left sidebar (fantastic)
     "Plugin 'mbbill/undotree' " Creates an undo tree, bound to \ut (left)
     "Plugin 'vim-scripts/Conque-GDB' " :(
     "Plugin 'ludovicchabant/vim-gutentags' " Auto generates tab
     Plugin 'linediff.vim'
-    Plugin 'segeljakt/vim-silicon' " Screenshot highlighted text :Silicon fname
+    "Plugin 'segeljakt/vim-silicon' " Screenshot highlighted text :Silicon fname
     Plugin 'iamcco/markdown-preview.nvim' 
-    Plugin 'dense-analysis/ale'
+    "Plugin 'dense-analysis/ale'
     Plugin 'rhysd/git-messenger.vim' " Shows commit message associated with line of code
     Plugin 'pineapplegiant/spaceduck' " Spaceduck theme
+    Plugin 'sheerun/vim-polyglot'
+    Plugin 'vifm/vifm.vim' " Filemanager. Replace Nerdtree
 call vundle#end()
 call mkdp#util#install()
 
@@ -69,28 +71,28 @@ let g:undotree_SplitWidth = 25
 map <Leader>ut :UndotreeToggle<CR>
 
 " Syntastic Options
-command Synt normal! :SyntasticToggleMode<CR>
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_cpp_check_header = 1
-let g:syntastic_loc_list_height = 3
-
-" Syntax for c++
-let g:cpp_class_scope_highlight = 1
-let g:cpp_member_variable_highlight = 1
-let g:cpp_class_decl_highlight = 1
-let g:cpp_experimental_template_highlight = 1
-let g:cpp_concepts_highlight = 1
-let g:syntastic_cpp_check_header = 1 " Checks headers
-let g:syntastic_cpp_compiler = "g++"
-let g:syntastic_cpp_checkers = ['gcc']
-let g:syntastic_cpp_compiler_options = "-std=c++11 -stdlib=c++11"
+"command Synt normal! :SyntasticToggleMode<CR>
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+"
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 0
+"let g:syntastic_check_on_wq = 0
+"let g:syntastic_cpp_check_header = 1
+"let g:syntastic_loc_list_height = 3
+"
+"" Syntax for c++
+"let g:cpp_class_scope_highlight = 1
+"let g:cpp_member_variable_highlight = 1
+"let g:cpp_class_decl_highlight = 1
+"let g:cpp_experimental_template_highlight = 1
+"let g:cpp_concepts_highlight = 1
+"let g:syntastic_cpp_check_header = 1 " Checks headers
+"let g:syntastic_cpp_compiler = "g++"
+"let g:syntastic_cpp_checkers = ['gcc']
+"let g:syntastic_cpp_compiler_options = "-std=c++11 -stdlib=c++11"
 
 " Airline configuration
 let g:airline#extensions#tabline#enabled = 1
