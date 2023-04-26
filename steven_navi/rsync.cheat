@@ -1,0 +1,16 @@
+% rsync
+
+# Sync between folders
+rsync -avzhP <src> <dest>
+
+# dry run, don't actually copy
+rsync -avzhPn <src> <dest>
+
+# Exclude directory (Can use * if "")
+rsync -avzhP --exclude-dir <excluded_dir> <src> <dest>
+
+# Exclude File (can use * if "")
+rsync -avzhP --exclude <excluded_file> <src> <dest>
+
+# Exclude File and directory (can use * if "")
+rsync -avzhP --exclude <excluded_file> --exclude-dir <excluded_dir> <src> <dest>

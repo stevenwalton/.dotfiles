@@ -138,9 +138,14 @@ let g:silicon = {
     \ }
 
 " Vimwiki
+filetype plugin on
 let g:vimwiki_list = [{'path': '~/.vimwiki/',
-                      \ 'syntax': 'markdown', 'ext': '.md'}]
+                      \ 'syntax': 'markdown',
+                      \ 'ext': '.md',
+                      \ 'auto_toc': 1}]
 let g:vimwiki_global_ext = 0
+" For todo lists
+let g:vimwiki_listsyms = '✗○◐●✓'
 
 " Vimtex
 " Viewer options: One may configure the viewer either by specifying a built-in

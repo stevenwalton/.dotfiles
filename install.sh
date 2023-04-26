@@ -92,7 +92,9 @@ if [[ $(uname) == "Darwin" ]]; then
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
         brew install \
+            htop \
             tmux \
+            mactex-no-gui \
             exa \
             tre \
             stats \
@@ -102,13 +104,36 @@ if [[ $(uname) == "Darwin" ]]; then
             vifm \
             curl \
             jq \
-            glow
+            glow \
+            zathura \
+            zathura --with-synctex \
+            zathura-pdf-poppler
         brew install --cask \
             mactex \
             kitty
     fi
 fi
+mkdir -p $(brew --prefix zathura)/lib/zathura
+ln -s $(brew --prefix zathura-pdf-poppler)/libpdf-poppler.dylib $(brew --prefix zathura)/lib/zathura/libpdf-poppler.dylib
+ln -s ~/.dotfiles/vifm ~/.config/vifm
+# Make a root bin folder
+mkdir ~/.bin
+ln -s ~/.dotfiles/vifm/vifmimg ~/.bin/vifmimg
+ln -s ~/.dotfiles/vifm/vifmrun ~/.bin/vifmrun
 
+# Nerd fonts
+if [[ $(uname) == "Darwin" ]]; then
+    read -p "Install Nerd fonts? [y/n]: " -n 1 -r
+    if [[ $REPLY =~ ^[Yy]$ ]]
+        brew tap homebrew/cask-fonts
+        brew install font-hack-nerd-font
+    fi
+fi
+
+# Add the git templates
+git config --global init.templatedir $HOME/.git_template
+# Gives command `git ctags` to run ctags hook
+git config --global alias.ctags '!.git/hooks/ctags'
 
 echo "Installation complete"
 echo "It is suggested that you install powerline fonts."

@@ -1,0 +1,279 @@
+source ~/.dotfiles/vifm/favicons.vifm
+
+fileviewer *.pdf
+    \ vifmimg pdf %px %py %pw %ph %c
+    \ %pc
+    \ vifmimg clear
+
+fileviewer *.djvu
+    \ vifmimg djvu %px %py %pw %ph %c
+    \ %pc
+    \ vifmimg clear
+
+fileviewer *.epub
+    \ vifmimg epub %px %py %pw %ph %c
+    \ %pc
+    \ vifmimg clear
+
+fileviewer <video/*>
+    \ vifmimg video %px %py %pw %ph %c
+    \ %pc
+    \ vifmimg clear
+
+fileviewer <image/*>
+    \ vifmimg draw %px %py %pw %ph %c
+    \ %pc
+    \ vifmimg clear
+
+fileviewer <audio/*>
+    \ vifmimg audio %px %py %pw %ph %c
+    \ %pc
+    \ vifmimg clear
+
+fileviewer <font/*>
+    \ vifmimg font %px %py %pw %ph %c
+    \ %pc
+    \ vifmimg clear
+
+" Mostly from https://github.com/rockyzhang24/dotfiles
+
+" General settings -------------------- {{{
+
+set vicmd=$EDITOR
+set syscalls
+set trash
+set trashdir='~/.Trash'
+set history=1000
+set nofollowlinks
+set sortnumbers
+set undolevels=1000
+set vimhelp
+set norunexec
+set wildmenu
+set wildstyle=popup
+set suggestoptions=normal,visual,view,otherpane,keys,marks,registers
+set ignorecase
+set smartcase
+set nohlsearch
+set incsearch
+set scrolloff=4
+set tabstop=2
+set slowfs=curlftpfs
+set vifminfo=dhistory,savedirs,chistory,state,tui,shistory,phistory,fhistory,dirstack,registers,bookmarks,bmarks
+set viewcolumns=*{name}..,6{}.
+set timefmt=%m/%d/%Y\ %H:%M
+set statusline="%10A %10u:%g %8s[%8E] %18d   %{&sort} %= %a free"
+set rulerformat="%l/%S%[ +%x%]"
+set grepprg='rg --line-number %i %a %s'
+colorscheme gruvbox
+
+" Icons
+source $HOME/.config/vifm/favicons.vifm
+
+" }}}
+
+" Marks -------------------- {{{
+
+mark b ~/Library/CloudStorage/Dropbox/
+mark c ~/.config/
+mark d ~/Documents/
+mark D ~/Downloads/
+mark h ~/
+
+" }}}
+
+" Commands definition -------------------- {{{
+
+command! run !! ./%f
+command! mkcd :mkdir %a | cd %a
+
+" Toggle detailed/brief information about files
+command! togglefilesinfo
+            \ : if &viewcolumns == '*{name}..,6{}.'
+            \ |   set viewcolumns=*{name}.,10{size}.,12{perms},10{uname},-7{gname},18{mtime}
+            \ |   echo 'Files information: detailed'
+            \ | else
+            \ |   set viewcolumns=*{name}..,6{}.
+            \ |   echo 'Files information: brief'
+            \ | endif
+
+" Diff for selections in the current pane if it contains more than one file, otherwise
+" diff the file in the left (upper) pane with the file in the right (lower) pane
+command! diff : if expand('%%c') == expand('%%f')
+            \ |   if paneisat('right') && paneisat('bottom')
+            \ |     execute '!$EDITOR -d %%C %%c'
+            \ |   else
+            \ |     execute '!$EDITOR -d %%c %%C'
+            \ |   endif
+            \ | else
+            \ |   execute '!$EDITOR -d %%f'
+            \ | endif
+
+" Reset sort
+command! resetsort
+            \ : if &sort != '+name'
+            \ |   set sort=+name
+            \ |   echo 'Reset sort to +name'
+            \ | endif
+
+" FZF integration
+command! FZFfind :set noquickview | :execute 'goto' fnameescape(term('fd -H | fzf --height 10 2>/dev/tty'))
+
+" }}}
+
+" Mappings -------------------- {{{
+
+" NOTE: <space> performs like the leader key
+
+" Restart vifm
+nnoremap R :restart<cr>
+
+" Open sort selection menu
+nnoremap S :sort<cr>
+
+" Exit vifm and cd to the dir
+nnoremap s :shell<cr>
+
+" Edit vifmrc
+nnoremap <space>ev :write | edit $MYVIFMRC | restart<cr>
+
+" Preview in another pane
+nnoremap w :view<cr>
+vnoremap w :view<cr>gv
+
+" Fast renaming
+nnoremap I cw<c-a>
+nnoremap cc cw<c-u>
+nnoremap A cw
+
+" Copy the path of the dir of the current pane
+nnoremap yd :!printf %d | pbcopy<cr>
+
+" Copy the path of the dir/file under the cursor
+nnoremap yc :!printf %c:p | pbcopy<cr>
+
+" macOS builtin preview
+nnoremap <space><space> :!qlmanage -p %f > /dev/null 2>&1<cr>
+
+" Move focus between panes
+noremap <C-k> <C-w>k
+noremap <C-j> <C-w>j
+noremap <C-h> <C-w>h
+noremap <BS> <C-w>h
+noremap <C-l> <C-w>l
+
+" Adjust pane size (left for decreasing, right for increasing)
+nnoremap <left> <C-w><
+nnoremap <right> <C-w>>
+
+" Moving cursor in another pane
+nnoremap <silent> J <tab>j<tab>
+nnoremap <silent> K <tab>k<tab>
+
+" Toggle wrap in the preview
+nnoremap <silent> <space>tw :set wrap!<cr>
+
+" Toggle detailed/brief information about files
+nnoremap <silent> <space>ti :togglefilesinfo<cr>
+
+" Reset sort to +name
+nnoremap <silent> <space>s :resetsort<cr>
+
+" fzf
+nnoremap <C-p> :FZFfind<cr>
+
+" }}}
+
+" Opener and viewer -------------------- {{{
+
+" Pdf
+filetype *.pdf open -a PDF\ Expert.app,
+fileviewer *.pdf pdftotext -nopgbrk %c -
+
+" PostScript
+filetype *.ps,*.eps open -a Preview.app
+
+" Djvu
+filetype *.djvu open -a MacDjView.app
+
+" Audio
+filetype *.wav,*.mp3,*.flac,*.m4a,*.wma,*.ape,*.ac3,*.og[agx],*.spx,*.opus open -a IINA.app,
+fileviewer *.mp3 mp3info
+fileviewer *.flac soxi
+
+" Video
+filetype *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,*.as[fx] open -a IINA.app,
+fileviewer *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,*.as[fx] ffprobe -pretty %c 2>&1
+
+" Web
+filetype *.html,*.htm open -a Google\ Chrome.app,
+fileviewer *.html,*.htm w3m -dump -T text/html
+
+" Object
+filetype *.o nm %f | less
+
+" Man page
+filetype *.[1-8] man ./%c
+fileviewer *.[1-8] man ./%c | col -b
+
+" Image
+filetype *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm open -a Preview.app,
+fileviewer *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm
+\ kitty +icat --silent --transfer-mode=stream --place %pwx%ph@%pxx%py %c %N
+\ %pc
+\ kitty icat --clear --silent %pd
+
+" MD5
+filetype *.md5 md5sum -c %f %S
+
+" SHA1
+filetype *.sha1 sha1sum -c %f %S
+
+" SHA256
+filetype *.sha256 sha256sum -c %f %S
+
+" SHA512
+filetype *.sha512 sha512sum -c %f %S
+
+" Torrent
+filetype *.torrent open -a Transmission.app
+
+" Extract zip files
+filetype *.zip unzip %f
+fileviewer *.zip,*.jar,*.war,*.ear zip -sf %c
+
+" Extract tar archives
+filetype *.tar,*.tar.bz2,*.tbz2,*.tgz,*.tar.gz tar -xf %f
+fileviewer *.tar,*.tar.bz2,*.tbz2,*.tgz,*.tar.gz tar -tf %f
+
+" Extract .bz2 archives
+filetype *.bz2 bzip2 -d %f
+
+" Extract .gz files
+filetype *.gz gunzip %f
+
+" Mount .dmg archives
+filetype *.dmg open
+
+" Mount disk .img
+filetype *.img open
+
+" Open .pkg binaries
+filetype *.pkg open
+
+" Office files
+filetype *.odt,*.doc,*.docx open -a Microsoft\ Word.app
+filetype *.ods,*.xls,*.xlsx open -a Microsoft\ Excel.app
+filetype *.odp,*.pptx,*.ppt open -a Microsoft\ PowerPoint.app
+fileviewer *.doc antiword -
+fileviewer *.docx docx2txt.pl %f -
+
+"CSV
+filetype *.csv open -a Numbers.app
+
+" Source code (with highlighting)
+fileviewer *.[ch],*.[ch]pp,*.html,*.css,*.less,*.js,*.java,*.go,*.py,*.coffee,*.dart,*.lua,*.md,*.rb,*.ts,*.php,*.cs,*.vim,*.conf,*.swift,*.json,*.xml highlight -O xterm256 -s dante %c --force
+fileviewer Makefile,Makefile.* highlight -O xterm256 -s dante --syntax make %c
+
+" }}}
+

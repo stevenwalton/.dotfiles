@@ -1,0 +1,13 @@
+% bat
+
+# Print everything to screen (no pager)
+cat <file> --paging=never
+
+# curl to bat
+curl <address> | cat
+
+# Diff only w.r.t git
+cat -d <file>
+
+# Show spaces and tabs
+cat --show-all <file>
