@@ -65,6 +65,12 @@ set smartcase           "for searching
 set splitright          "Puts new window to right of current (vsplit)
 set splitbelow          "Same but below (split)
 
+" Folding:  Press zf to fold highlighted text (zfap for paragraph) 
+set foldmethod=indent   " We use python and markdown a lot
+autocmd Filetype cpp setlocal foldmethod=marker
+set foldcolumn=2        " Shows fold info on left
+set foldlevel=4         " Should match shiftwidth
+
 "Ctags
 set tags="./.tags,../.tags,~/.tags"
 

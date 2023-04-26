@@ -1,0 +1,13 @@
+%find
+
+# Basic find
+find <root> -name <file>
+
+# Find recently modified
+find <root> -name <file> -mtime <days>
+
+# Grep found files
+find <root> -type f -exec grep "<grep_string>" '{}' \; -print
+
+# Find and execute a command
+find <root> -type f -exec <command> '{}' \; -print

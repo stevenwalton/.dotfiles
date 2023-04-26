@@ -1,6 +1,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
-if [ `hostname` = "Orion" ] || [ `hostname` = "Serenity" ] || [ `hostname` = "Bebop" ] || [ `hostname` = "Rama" ] || [ `hostname` = "Swordfish" ]
+if [[ $(uname) == "Darwin" ]] || [[ `hostname` == "Rama" ]]
 then
     ZSH_THEME="jdavis-modified"
 else
@@ -33,6 +33,7 @@ zplug 'kaplanelad/shellfirm'
 zplug 'justjanne/powerline-go'
 zplug 'xylous/gitstatus'
 zplug 'arialdomartini/oh-my-git'
+zplug 'vifm/vifm.vim'
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -44,7 +45,9 @@ fi
 
 # Then, source plugins and add commands to $PATH
 zplug load 
-eval "$(navi widget zsh)" &> /dev/null
+if [[ $(uname) == "Darwin" ]]; then
+    eval "$(navi widget zsh)" &> /dev/null
+fi
 
 
 if (hash shellfirm &> /dev/null)
@@ -63,7 +66,7 @@ fi
 
 # User configuration
 
-#export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/.bin:/usr/local/bin:$PATH
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -109,11 +112,19 @@ then
     if (hash batcat &> /dev/null)
     then
         # Ubuntu
-        alias cat='batcat -p'
-    else
-        alias cat='bat -p'
+        alias bat='batcat'
     fi
-    export MANPAGER="sh -c 'col -bx | bat -l man -p"
+    alias cat='bat'
+    # Helpful bat commands
+    # Git diff with bat
+    batdiff() {
+        git diff --name-only --relative --diff-filter=d | xargs bat --diff
+    }
+    # Help with bat
+    alias bathelp='bat --plain --language=help'
+    help() {
+        "$@" --help 2>&1 | bathelp
+    }
 fi
 
 # Make sure this is above ls aliases 
@@ -147,6 +158,9 @@ alias log='git log --graph --oneline --decorate'
 if [[ `command -v lsb_release` ]]
 then
     alias open='xdg-open' 
+fi
+if [[ $(uname) == "Darwin" ]]; then
+    alias ctags="`brew --prefix`/bin/ctags"
 fi
 #################################
 # Exports 
@@ -187,11 +201,7 @@ __conda_setup="$('${CONDA_ROOT}/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "${CONDA_ROOT}/etc/profile.d/conda.sh" ]; then
-        . "${CONDA_ROOT}/etc/profile.d/conda.sh"
-    else
-        export PATH="${CONDA_ROOT}/bin:$PATH"
-    fi
+    export PATH="${CONDA_ROOT}/bin:$PATH"
 fi
 unset __conda_setup
 
