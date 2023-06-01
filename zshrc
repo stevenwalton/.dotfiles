@@ -172,7 +172,7 @@ export PATH=$HOME/.bin:$PATH
 # Machine Specific Configurations
 #################################
 if [[ $(uname) == "Darwin" ]]; then
-    CONDA_ROOT="/opt/anaconda3"
+    CONDA_ROOT="/opt/homebrew/anaconda3"
 
     if (hash kitty &> /dev/null)
     then
@@ -182,12 +182,7 @@ if [[ $(uname) == "Darwin" ]]; then
     source ${HOME}/.dotfiles/zsh-ask/zsh-ask.zsh
     alias ask='ask -mi' # Add markdown and interactive
 elif [[ $(uname) == "Linux" ]]; then
-    if [[ `hostname` = shi* ]]
-    then
-        CONDA_ROOT="/workspace/swalton2/anaconda3"
-    else
-        CONDA_ROOT="${HOME}/.anaconda3"
-    fi
+    CONDA_ROOT="${HOME}/.anaconda3"
 else
     echo "I don't know the conda path for a machine of type `uname`"
 fi
@@ -313,3 +308,4 @@ ZSH_HIGHLIGHT_STYLES[default]='fg=#ecf0c1'
 #
 ZSH_HIGHLIGHT_STYLES[cursor]='standout'
 
+export PATH="/opt/anaconda3/bin:$PATH"
