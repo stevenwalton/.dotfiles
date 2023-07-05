@@ -103,10 +103,14 @@ set -o vi
 # Aliases
 #################################
 # Fancy Bash Tools #
+
+# htop
 if (hash htop &> /dev/null)
 then
     alias top='htop'
 fi
+
+# batcat
 if (hash bat &> /dev/null) || (hash batcat &> /dev/null)
 then
     if (hash batcat &> /dev/null)
@@ -126,18 +130,25 @@ then
         "$@" --help 2>&1 | bathelp
     }
 fi
+# Ruby stuff for jekyll
+#source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
+#source /opt/homebrew/opt/chruby/share/chruby/auto.sh
 
 # Make sure this is above ls aliases 
 if (hash exa &> /dev/null)
 then
     alias ls='exa'
+    alias la='exa -a'
+    alias ll='exa -lh' # h makes headers
+else
+    alias ls='ls -v --color=auto -h' # numerical sort, color, human readable
+    alias la='ls -a'
+    alias ll='ls -lh'
 fi
+
 ####################
 # Normal Aliases
 
-alias ls='ls -v --color=auto -h' # numerical sort, color, human readable
-alias la='ls -a'
-alias ll='ls -lh'
 alias vi='vim'
 alias ssh='ssh -YC'
 # Tree replacement if don't have tree
@@ -172,6 +183,7 @@ export PATH=$HOME/.bin:$PATH
 # Machine Specific Configurations
 #################################
 if [[ $(uname) == "Darwin" ]]; then
+    # Conda
     CONDA_ROOT="/opt/homebrew/anaconda3"
 
     if (hash kitty &> /dev/null)

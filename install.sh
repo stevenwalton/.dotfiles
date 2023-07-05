@@ -107,10 +107,11 @@ if [[ $(uname) == "Darwin" ]]; then
             glow \
             zathura \
             zathura --with-synctex \
-            zathura-pdf-poppler
+            zathura-pdf-poppler \
+            ranger
         brew install --cask \
             mactex \
-            kitty
+            kitty 
     fi
 fi
 mkdir -p $(brew --prefix zathura)/lib/zathura
