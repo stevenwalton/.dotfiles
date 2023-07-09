@@ -4,7 +4,8 @@
 
 # Tell user what we're doing
 echo "This script creates soft links to the home directory for dot files that are used"
-echo "It will also install oh-my-zsh and antigen"
+#echo "It will also install oh-my-zsh and antigen"
+git submodule update --init --recursive
 
 # Check that home is located correctly
 echo "Will install files to $HOME"
@@ -76,13 +77,14 @@ fi
 echo "Installing oh-my-zsh to home folder (hidden)"
 git clone https://github.com/robbyrussell/oh-my-zsh ~/.oh-my-zsh
 ln -s ~/.dotfiles/jdavis-modified.zsh-theme ~/.oh-my-zsh/themes/
-echo "Installing antigen to home folder (hidden)"
-git clone https://github.com/zsh-users/antigen ~/.antigen
+#echo "Installing antigen to home folder (hidden)"
+#git clone https://github.com/zsh-users/antigen ~/.antigen
 # Spaceduck
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 git clone https://github.com/bigpick/spaceduck-zsh-syntax-highlighting.git ~/.spaceduck-zsh-syntax-highlighting
 
-if [[ $(uname) == "Darwin" ]]; then
+if [[ $(uname) == "Darwin" ]]; 
+then
     read -p "Install homebrew? [y/n]: " -n 1 -r
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
@@ -108,14 +110,75 @@ if [[ $(uname) == "Darwin" ]]; then
             zathura \
             zathura --with-synctex \
             zathura-pdf-poppler \
-            ranger
+            ranger \
+            fd \
+            fzf
+        brew tap homebrew/cask-fonts
         brew install --cask \
             mactex \
-            kitty 
+            kitty \
+            font-fira-code
     fi
+else
+    read -p "Automatically install packages? Assumes `apt` (y/n):"
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        apt install \
+            htop \
+            tmux \
+            fzf \
+            fd-find \
+            exa \
+            tre \
+            git-lfs \
+            zathura \
+            ranger \
+            kitty 
+    
 fi
-mkdir -p $(brew --prefix zathura)/lib/zathura
-ln -s $(brew --prefix zathura-pdf-poppler)/libpdf-poppler.dylib $(brew --prefix zathura)/lib/zathura/libpdf-poppler.dylib
+
+read -p "Locally install FiraCode font? (y/n):"
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+		fonts_dir="${HOME}/.local/share/fonts"
+		if [ ! -d "${fonts_dir}" ]; then
+				echo "mkdir -p $fonts_dir"
+				mkdir -p "${fonts_dir}"
+		else
+				echo "Found fonts dir $fonts_dir"
+		fi
+    # We'll automatically try to grab the version
+    # Assuming github keeps format of release 
+    version=`curl https://github.com/tonsky/FiraCode -Ls | grep "css-truncate-target text-bold mr-2" | cut -d ">" -f2 | cut -d "<" -f1`
+		zip=Fira_Code_v${version}.zip
+		curl --fail --location --show-error https://github.com/tonsky/FiraCode/releases/download/${version}/${zip} --output ${zip}
+		unzip -o -q -d ${fonts_dir} ${zip}
+		rm ${zip}
+
+		echo "fc-cache -f"
+		fc-cache -f
+fi
+
+if (hash zsh &> /dev/null)
+then
+    zsh &> /dev/null
+    if (hash zplug &> /dev/null)
+    then
+        zplug update
+    else
+        echo "Zplug not found"
+    fi
+else
+    echo "ZSH couldn't load. Try manually"
+fi
+
+# Create soft links
+if (hash zathura &> /dev/null)
+then
+    mkdir -p $(brew --prefix zathura)/lib/zathura
+    ln -s $(brew --prefix zathura-pdf-poppler)/libpdf-poppler.dylib $(brew --prefix zathura)/lib/zathura/libpdf-poppler.dylib
+fi
+
 ln -s ~/.dotfiles/vifm ~/.config/vifm
 # Make a root bin folder
 mkdir ~/.bin
@@ -131,10 +194,18 @@ if [[ $(uname) == "Darwin" ]]; then
     fi
 fi
 
+### Configure Git ###
+# diff so fancy for git
+if (hash diff-so-fancy &> /dev/null)
+then
+    git config --global core.pager "diff-so-fancy | less --tabs=4 -RFX"
+    git config --global interactive.diffFilter "diff-so-fancy --patch"
+fi
 # Add the git templates
 git config --global init.templatedir $HOME/.git_template
 # Gives command `git ctags` to run ctags hook
 git config --global alias.ctags '!.git/hooks/ctags'
 
+#############
 echo "Installation complete"
 echo "It is suggested that you install powerline fonts."

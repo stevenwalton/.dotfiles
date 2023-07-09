@@ -1,75 +1,26 @@
-# Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
-if [[ $(uname) == "Darwin" ]] || [[ `hostname` == "Rama" ]]
-then
-    ZSH_THEME="jdavis-modified"
-else
-    ZSH_THEME="lambda"
-fi
-# Source Antigen
-source ${HOME}/.antigen/antigen.zsh
 #####################
 ## General Exports ##
 #####################
 export EDITOR="vim"
-# Plug dir (in process of replacing antigen)
-if [[ $(uname) == "Darwin" ]]; then
-    export ZPLUG_HOME=/opt/homebrew/opt/zplug
-else
-    export ZPLUG_HOME=${HOME}/.zplug
-fi
-###########
-## zplug ##
-###########
-# See list of all plugins:
-# https://github.com/unixorn/awesome-zsh-plugins
-source ${ZPLUG_HOME}/init.zsh
-zplug 'zplug/zplug', hook-build:'zplug --self-manage'
-zplug 'zsh-users/zsh-history-substring-search'
-zplug 'ael-code/zsh-colored-man-pages'
-zplug 'zdharma-continuum/fast-syntax-highlighting'
-zplug 'z-shell/zsh-diff-so-fancy'
-zplug 'kaplanelad/shellfirm'
-zplug 'justjanne/powerline-go'
-zplug 'xylous/gitstatus'
-zplug 'arialdomartini/oh-my-git'
-zplug 'vifm/vifm.vim'
+autoload -Uz compinit # For compdef
+compinit
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename "$HOME/.zshrc"
 
-# Install plugins if there are plugins that have not been installed
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
-
-# Then, source plugins and add commands to $PATH
-zplug load 
-if [[ $(uname) == "Darwin" ]]; then
-    eval "$(navi widget zsh)" &> /dev/null
-fi
-
-
-if (hash shellfirm &> /dev/null)
-then
-    source ${HOME}/.dotfiles/shellfirm-plugin.sh
-fi
+# Sheldon uses TOML files.
+# Soft linked: ~/.dotfiles/sheldon_plugins.toml ~/.config/sheldon/plugins.toml
+eval "$(sheldon source)"
+# Bind keys for history substring search
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down\
 
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-#plugins=(history-substring-search colored-man-pages zsh-syntax-highlighting diff-so-fancy navi shellfirm powerline-go gitstatus oh-my-git ranger)
-
+#####################
 # User configuration
-
-export PATH=$HOME/.bin:/usr/local/bin:$PATH
-# export MANPATH="/usr/local/man:$MANPATH"
-
-source $ZSH/oh-my-zsh.sh
+#####################
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -84,11 +35,6 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 [[ -n "$key[Up]" ]] && bindkey -- "$key[Up]" up-line-or-beginning-search
 [[ -n "$key[Down]" ]] && bindkey -- "$key[Down]" down-line-or-beginning-search
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-zstyle :compinstall filename "$HOME/.zshrc"
-autoload -Uz compinit
-compinit
 
 # Fixes tmux window renaming
 DISABLE_AUTO_TITLE="true"
@@ -148,6 +94,7 @@ fi
 
 ####################
 # Normal Aliases
+####################
 
 alias vi='vim'
 alias ssh='ssh -YC'
@@ -198,6 +145,7 @@ elif [[ $(uname) == "Linux" ]]; then
 else
     echo "I don't know the conda path for a machine of type `uname`"
 fi
+export PATH=$CONDA_ROOT/bin:$PATH
 
 #################################
 # Custom Functions
@@ -320,4 +268,3 @@ ZSH_HIGHLIGHT_STYLES[default]='fg=#ecf0c1'
 #
 ZSH_HIGHLIGHT_STYLES[cursor]='standout'
 
-export PATH="/opt/anaconda3/bin:$PATH"

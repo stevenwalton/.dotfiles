@@ -1,0 +1,123 @@
+# `sheldon` configuration file
+# ----------------------------
+#
+# You can modify this file directly or you can use one of the following
+# `sheldon` commands which are provided to assist in editing the config file:
+#
+# - `sheldon add` to add a new plugin to the config file
+# - `sheldon edit` to open up the config file in the default editor
+# - `sheldon remove` to remove a plugin from the config file
+#
+# See the documentation for more https://github.com/rossmacarthur/sheldon#readme
+
+shell = "zsh"
+
+[templates]
+defer = """{{ hooks | get: "pre" | nl }}{% for file in files %}zsh-defer source "{{ file }}"\n{% endfor %}{{ hooks | get: "post" | nl }}"""
+defer-more = """{{ hooks | get: "pre" | nl }}{% for file in files %}zsh-defer -t 0.5 source "{{ file }}"\n{% endfor %}{{ hooks | get: "post" | nl }}"""
+
+
+[plugins]
+
+### Examples: ###
+# [plugins.example]
+# github = "owner/repo"
+# Equivalent to: sheldon add example --github owner/repo
+
+# gist example
+# [plugins.example]
+# gist = "579d02802b1cc17baed07753d09f5009"
+# Equivalent to: sheldon add example --gist 579d02802b1cc17baed07753d09f5009
+# See more at: https://sheldon.cli.rs/Configuration.html
+#################
+[plugins.zsh-defer]
+github = "romkatv/zsh-defer"
+
+#[plugins.oh-my-zsh-history]
+#github = "ohmyzsh/ohmyzsh"
+#dir = "lib"
+#use ["history.zsh"]
+## Don't defer
+
+[plugins.oh-my-zsh-lib]
+github = "ohmyzsh/ohmyzsh"
+dir = "lib"
+# Let's just load everything for now
+#use ["{cli,completion,git,key-bindings}.zsh"]
+#       |      |       |       |_ 
+#       |      |       |_ git integration/vars
+#       |      |_ Adds text completion
+#       |       
+#       |_ OMZ commands
+#apply = ["defer"]
+
+[plugins.oh-my-zsh-plugins]
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins"
+use = ["{fd,gitfast,mosh,python,vi-mode}/*.plugin.zsh"]
+#         | |        |      |      |_ vim movements
+#         | |        |      |________ Python aliases py{find,clean,grep}
+#         | |        |_______________ Mosh tab completions
+#         | |________________________ Fast git completion
+#         |__________________________ fd (fd-find) completion
+apply = ["defer"]
+# Maybes
+# systemadmin - Some system admin aliases and tools
+# systemd - ditto but for systemd
+
+[plugins.zsh-history-substring-search]
+github = "zsh-users/zsh-history-substring-search"
+
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+use = ["{{ name }}.zsh"]
+apply = ["defer"]
+
+[plugins.zsh-colored-man-pages]
+github = "ael-code/zsh-colored-man-pages"
+apply = ["defer"]
+
+[plugins.fast-syntax-highlighting]
+github = "zdharma-continuum/fast-syntax-highlighting"
+
+[plugins.diff-so-fancy]
+github = "z-shell/zsh-diff-so-fancy"
+apply = ["defer"]
+
+#[plugins.powerline-go]
+#github = "justjanne/powerline-go"
+##apply = ["defer"]
+
+[plugins.gitstatus]
+github = "xylous/gitstatus"
+#apply = ["defer"]
+
+[plugins.oh-my-git]
+github = "arialdomartini/oh-my-git"
+apply = ["defer"]
+
+#github = "vifm/vifm.vim"
+
+#[plugins.lambda-zen]
+#github = "seamile/lambda-zen"
+#apply = ["defer"]
+
+# Faster directory navigation
+#[plugins.z_lua]
+#github = "skywind3000/z.lua"
+
+# Enhanced alternative of cd
+[plugins.enhancd]
+github = "b4b4r07/enhancd"
+
+# Better coloring. Requires the 256 option in tmux
+[plugins.base16]
+github = "chriskempson/base16-shell"
+
+# Theme
+[plugins.spaceship]
+github = "spaceship-prompt/spaceship-prompt"
+
+# # Safely store secrets in repos
+# [plugins.blackbox]
+# github = "StackExchange/blackbox"
