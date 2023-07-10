@@ -1,6 +1,6 @@
-#####################
+######################
 ## General Exports ##
-#####################
+######################
 export EDITOR="vim"
 autoload -Uz compinit # For compdef
 compinit
@@ -21,6 +21,9 @@ bindkey '^[[B' history-substring-search-down\
 #####################
 # User configuration
 #####################
+# Starship theme
+export STARSHIP_CONFIG="${HOME}/.dotfiles/starship.toml"
+eval "$(starship init zsh)"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -131,7 +134,7 @@ export PATH=$HOME/.bin:$PATH
 #################################
 if [[ $(uname) == "Darwin" ]]; then
     # Conda
-    CONDA_ROOT="/opt/homebrew/anaconda3"
+    export CONDA_ROOT="/opt/homebrew/anaconda3"
 
     if (hash kitty &> /dev/null)
     then
@@ -141,24 +144,36 @@ if [[ $(uname) == "Darwin" ]]; then
     source ${HOME}/.dotfiles/zsh-ask/zsh-ask.zsh
     alias ask='ask -mi' # Add markdown and interactive
 elif [[ $(uname) == "Linux" ]]; then
-    CONDA_ROOT="${HOME}/.anaconda3"
+    export CONDA_ROOT="${HOME}/.anaconda3"
 else
     echo "I don't know the conda path for a machine of type `uname`"
 fi
-export PATH=$CONDA_ROOT/bin:$PATH
+export CONDA_BIN=$CONDA_ROOT/bin
+export PATH=$CONDA_BIN:$PATH
+source $CONDA_BIN/activate
 
 #################################
 # Custom Functions
 #################################
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('${CONDA_ROOT}/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    export PATH="${CONDA_ROOT}/bin:$PATH"
-fi
-unset __conda_setup
+#__conda_setup="$('${CONDA_ROOT}/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+#if [ $? -eq 0 ]; then
+#    eval "$__conda_setup"
+#else
+#    export PATH="${CONDA_ROOT}/bin:$PATH"
+#fi
+#unset __conda_setup
+#export PATH="${CONDA_ROOT}/bin:$PATH"
+#conda () {
+#	\local cmd="${1-__missing__}"
+#	case "$cmd" in
+#		(activate | deactivate) __conda_activate "$@" ;;
+#		(install | update | upgrade | remove | uninstall) __conda_exe "$@" || \return
+#			__conda_reactivate ;;
+#		(*) __conda_exe "$@" ;;
+#	esac
+#}
 
 # KILL SSH AGENTS
 #function sshpid()

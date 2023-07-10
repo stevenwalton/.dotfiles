@@ -114,10 +114,11 @@ github = "b4b4r07/enhancd"
 [plugins.base16]
 github = "chriskempson/base16-shell"
 
-# Theme
-[plugins.spaceship]
-github = "spaceship-prompt/spaceship-prompt"
-
+## Theme
+#[plugins.starship]
+##github = "spaceship-prompt/spaceship-prompt"
+#github = "starship/starship"
+#
 # # Safely store secrets in repos
 # [plugins.blackbox]
 # github = "StackExchange/blackbox"
