@@ -117,7 +117,11 @@ then
         brew install --cask \
             mactex \
             kitty \
-            font-fira-code
+            font-fira-code \
+            font-fira-code-nerd-font \
+            font-fira-mono-for-powerline \
+            font-fira-mono-for-nerd-font \
+            font-powerline-symbols
     fi
 else
     read -p "Automatically install packages? Assumes `apt` (y/n):"
@@ -133,8 +137,8 @@ else
             git-lfs \
             zathura \
             ranger \
-            kitty 
-    
+            kitty \
+            fonts-powerline
 fi
 
 read -p "Locally install FiraCode font? (y/n):"
