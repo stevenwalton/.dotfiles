@@ -13,12 +13,13 @@ call vundle#begin()
     """"" Editing
     Plugin 'frazrepo/vim-rainbow'            " Improved Parentheses
     Plugin 'sheerun/vim-polyglot'            " Comprehensive syntax highlighting
+    Plugin 'xolox/vim-misc'                  " Needed for easy-tags
     Plugin 'xolox/vim-easytags'              " Automatically creates tags
     """"" Interface
     Plugin 'pineapplegiant/spaceduck'        " Spaceduck theme
     Plugin 'ryanoasis/vim-devicons'          " Font icons helpful for nerdtree/airline
     Plugin 'scrooloose/nerdtree'             " Project drawer (File explorer)
-    Plugin '/tiagofumo/vim-nerdtree-syntax-highlight' " Increased syntax highlighting for nerdtree
+    Plugin 'tiagofumo/vim-nerdtree-syntax-highlight' " Increased syntax highlighting for nerdtree
     Plugin 'vim-airline/vim-airline'         " That bottum line you have
     Plugin 'vim-airline/vim-airline-themes'
     Plugin 'taglist.vim'                     " Helps with determining code structure (:TlistToggle)
