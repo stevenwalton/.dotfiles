@@ -4,38 +4,40 @@
 " Keep at top. Helps ensure that format options work correctly
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-    Plugin 'VundleVim/Vundle.vim'
-    Plugin 'godlygeek/tabular' "Tab /delimiter
-    Plugin 'vim-airline/vim-airline' " That bottum line you have
-    Plugin 'vim-airline/vim-airline-themes'
-    "Plugin 'scrooloose/syntastic' " Syntax highlighting
-    "Plugin 'taglist.vim'
-    Plugin 'majutsushi/tagbar'  " Bound to \tb (right)
-    Plugin 'airblade/vim-gitgutter' " Shows diff from git in left sidebar (fantastic)
-    "Plugin 'mbbill/undotree' " Creates an undo tree, bound to \ut (left)
-    Plugin 'linediff.vim'
-    "Plugin 'segeljakt/vim-silicon' " Screenshot highlighted text :Silicon fname
-    Plugin 'iamcco/markdown-preview.nvim' 
-    "Plugin 'dense-analysis/ale'
-    Plugin 'rhysd/git-messenger.vim' " Shows commit message associated with line of code
-    "Plugin 'pineapplegiant/spaceduck' " Spaceduck theme
-    Plugin 'frazrepo/vim-rainbow'   " Improved Parentheses
-    Plugin 'sheerun/vim-polyglot'
-    Plugin 'vimwiki/vimwiki'
-    Plugin 'lervag/vimtex'
-call vundle#end()
-call mkdp#util#install()
-
-filetype plugin indent on
 " :PluginInstall Install plugins
 " :PluginClean cleans removal of unused plugins
 " :PluginList
 " :PluginSearch foo -searches for foo
-"" Mapping and Plugin section
-" CtrlP
-"map <Leader>p :CtrlP<CR>
-"map <Leader>bp :CtrlPBuffer<CR>
+call vundle#begin()
+    Plugin 'VundleVim/Vundle.vim'
+    """"" Editing
+    Plugin 'frazrepo/vim-rainbow'            " Improved Parentheses
+    Plugin 'sheerun/vim-polyglot'            " Comprehensive syntax highlighting
+    Plugin 'xolox/vim-misc'                  " Needed for easy-tags
+    Plugin 'xolox/vim-easytags'              " Automatically creates tags
+    """"" Interface
+    Plugin 'pineapplegiant/spaceduck'        " Spaceduck theme
+    Plugin 'ryanoasis/vim-devicons'          " Font icons helpful for nerdtree/airline
+    Plugin 'scrooloose/nerdtree'             " Project drawer (File explorer)
+    Plugin 'tiagofumo/vim-nerdtree-syntax-highlight' " Increased syntax highlighting for nerdtree
+    Plugin 'vim-airline/vim-airline'         " That bottum line you have
+    Plugin 'vim-airline/vim-airline-themes'
+    Plugin 'taglist.vim'                     " Helps with determining code structure (:TlistToggle)
+    Plugin 'majutsushi/tagbar'               " Bound to \tb (right)
+    Plugin 'linediff.vim'
+    Plugin 'nathanaelkane/vim-indent-guides' " Shows the indents
+    """"" Integrations
+    Plugin 'airblade/vim-gitgutter'          " Shows diff from git in left sidebar (fantastic)
+    Plugin 'rhysd/git-messenger.vim'         " Shows commit message associated with line of code
+    Plugin 'iamcco/markdown-preview.nvim'
+    Plugin 'xuyuanp/nerdtree-git-plugin'     " Integration for git with nerdtree
+    """"" Commands
+    Plugin 'godlygeek/tabular'               " Tab /delimiter
+    " Plugin 'segeljakt/vim-silicon'          " Screenshot highlighted text :Silicon fname
+call vundle#end()
+call mkdp#util#install()
+
+filetype plugin indent on
 
 " Rainbow Parenthesis 
 let g:rainbow_active = 1
@@ -52,7 +54,7 @@ autocmd VimEnter * RainbowLoad
 "autocmd VimEnter * RainbowLoad
 
 "
-"SpaceDuck
+" SpaceDuck
 if exists('+termguicolors')
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -65,6 +67,7 @@ let g:easytags_async = 1
 let g:easytags_dynamic_files = 2
 let g:easytags_resolve_links = 1
 let g:easytags_suppress_ctags_warning = 1
+
 " tagbar settings
 " Open close tagbar with \b
 nmap <silent> <leader>tb :TagbarToggle <CR>
@@ -81,30 +84,6 @@ map <Leader>nt :NERDTreeToggle<CR>
 " auto open UndoTree
 let g:undotree_SplitWidth = 25
 map <Leader>ut :UndotreeToggle<CR>
-
-" Syntastic Options
-"command Synt normal! :SyntasticToggleMode<CR>
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-"
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 0
-"let g:syntastic_check_on_wq = 0
-"let g:syntastic_cpp_check_header = 1
-"let g:syntastic_loc_list_height = 3
-"
-"" Syntax for c++
-"let g:cpp_class_scope_highlight = 1
-"let g:cpp_member_variable_highlight = 1
-"let g:cpp_class_decl_highlight = 1
-"let g:cpp_experimental_template_highlight = 1
-"let g:cpp_concepts_highlight = 1
-"let g:syntastic_cpp_check_header = 1 " Checks headers
-"let g:syntastic_cpp_compiler = "g++"
-"let g:syntastic_cpp_checkers = ['gcc']
-"let g:syntastic_cpp_compiler_options = "-std=c++11 -stdlib=c++11"
 
 " Airline configuration
 let g:airline#extensions#tabline#enabled = 1
@@ -136,32 +115,3 @@ let g:silicon = {
     \ 'round-corner':          v:false,
     \ 'window-controls':       v:false,
     \ }
-
-" Vimwiki
-filetype plugin on
-let g:vimwiki_list = [{'path': '~/.vimwiki/',
-                      \ 'syntax': 'markdown',
-                      \ 'ext': '.md',
-                      \ 'auto_toc': 1}]
-let g:vimwiki_global_ext = 0
-" For todo lists
-let g:vimwiki_listsyms = '✗○◐●✓'
-
-" Vimtex
-let g:tex_flavor='latex'
-let g:vimtex_quickfix_mode=0
-" Viewer options: One may configure the viewer either by specifying a built-in
-" viewer method:
-let g:vimtex_view_method = 'zathura'
-
-
-" VimTeX uses latexmk as the default compiler backend. If you use it, which is
-" strongly recommended, you probably don't need to configure anything. If you
-" want another compiler backend, you can change it as follows. The list of
-" supported backends and further explanation is provided in the documentation,
-" see ":help vimtex-compiler".
-let g:vimtex_compiler_method = 'latexrun'
-
-" Most VimTeX mappings rely on localleader and this can be changed with the
-" following line. The default is usually fine and is the symbol "\".
-let maplocalleader = ","
