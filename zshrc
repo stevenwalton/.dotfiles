@@ -1,3 +1,4 @@
+export PATH="${HOME}/.local/bin:$PATH"
 ######################
 ## General Exports ##
 ######################
@@ -123,11 +124,6 @@ fi
 if [[ $(uname) == "Darwin" ]]; then
     alias ctags="`brew --prefix`/bin/ctags"
 fi
-#################################
-# Exports 
-#################################
-# Add custom bin to path and make it take priority
-export PATH=$HOME/.bin:$PATH
 
 #################################
 # Machine Specific Configurations
