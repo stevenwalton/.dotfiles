@@ -15,6 +15,7 @@ call vundle#begin()
     Plugin 'sheerun/vim-polyglot'            " Comprehensive syntax highlighting
     Plugin 'xolox/vim-misc'                  " Needed for easy-tags
     Plugin 'xolox/vim-easytags'              " Automatically creates tags
+    Plugin 'MattesGroeger/vim-bookmarks'     " Annotated marks
     """"" Interface
     Plugin 'pineapplegiant/spaceduck'        " Spaceduck theme
     Plugin 'ryanoasis/vim-devicons'          " Font icons helpful for nerdtree/airline
