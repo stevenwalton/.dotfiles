@@ -29,6 +29,7 @@ $docker_context\
 [](fg:#06969A bg:#33658A)\
 $time\
 [ ](fg:#33658A)\
+\n$character
 """
 add_newline = false
 
@@ -51,13 +52,19 @@ style = "bg:#9A348E fg:#FFFFFF"
 disabled = false# Disabled by default
 
 [os.symbols]
+Arch = "󰣇 "
+Linux = " "
 Macos = " "
+Manjaro = "󱘊 "
+Pop = " "
+Raspbian = " "
+Ubuntu = " "
 
 [hostname]
 ssh_only = false
 style = "bg:#9A348E fg:#FFFFFF"
-ssh_symbol = 'on 󰢭'
-format = '[@ $hostname ]($style)[$ssh_symbol](bold red)'
+ssh_symbol = 'on 󰢭 '
+format = '[@ $hostname ]($style)[$ssh_symbol](bg:#9A348E fg:bold black)'
 disabled = false
 
 [directory]
@@ -82,7 +89,7 @@ truncation_symbol = "…/"
 [conda]
 symbol = "󱔎"
 style = "bg:#86BBD8 fg:#30365F"
-ignore_base = true
+ignore_base = false
 format = '[ \($symbol $environment\)]($style)'
 
 [python]
