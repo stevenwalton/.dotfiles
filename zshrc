@@ -100,6 +100,7 @@ fi
 # Normal Aliases
 ####################
 
+alias rm='rm -I' # prompt when >3 files being deleted
 alias vi='vim'
 alias ssh='ssh -YC'
 # Tree replacement if don't have tree
