@@ -85,7 +85,12 @@ fi
 #source /opt/homebrew/opt/chruby/share/chruby/auto.sh
 
 # Make sure this is above ls aliases 
-if (hash exa &> /dev/null)
+if (hash lsd &> /dev/null)
+then
+    alias ls='lsd'
+    alias la='lsd -A' # A drops . and ..
+    alias ll='lsd -l' # h is automatic
+elif (hash exa &> /dev/null)
 then
     alias ls='exa'
     alias la='exa -a'

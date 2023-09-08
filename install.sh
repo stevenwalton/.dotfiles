@@ -97,7 +97,7 @@ then
             htop \
             tmux \
             mactex-no-gui \
-            exa \
+            lsd \
             tre \
             stats \
             git-lfs \
@@ -132,7 +132,7 @@ else
             tmux \
             fzf \
             fd-find \
-            exa \
+            lsd \
             tre \
             git-lfs \
             zathura \
