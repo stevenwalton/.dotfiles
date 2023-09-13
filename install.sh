@@ -212,6 +212,7 @@ case `uname` in
 						pkg-config \
 						openssl \
 						libssl-dev \
+            universal-ctags \
 						cmake \
 		   				htop \
 		   				tmux \

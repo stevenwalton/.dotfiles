@@ -285,3 +285,6 @@ ZSH_HIGHLIGHT_STYLES[default]='fg=#ecf0c1'
 #
 ZSH_HIGHLIGHT_STYLES[cursor]='standout'
 
+# Just because
+eval "$(ssh-agent -s)" &>/dev/null
+ssh-add ~/.ssh/`ls -I "*.pub" -I "*hosts*" ~/.ssh/` &>/dev/null
