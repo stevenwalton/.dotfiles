@@ -214,17 +214,19 @@ case `uname` in
 						libssl-dev \
             universal-ctags \
 						cmake \
-		   				htop \
-		   				tmux \
-		   				fzf \
-		   				fd-find \
-		   				lsd \
-		   				tre \
-		   				git-lfs \
-		   				zathura \
-		   				ranger \
-		   				kitty \
-		   				fonts-powerline
+            unzip \
+            htop \
+            tmux \
+            fzf \
+            fd-find \
+            lsd \
+            tre \
+            git-lfs \
+            zathura \
+            ranger \
+            kitty \
+            fonts-powerline \
+            fonts-firacode
 				;;
 		   	* )  ;;
 		   esac
