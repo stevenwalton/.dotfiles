@@ -142,6 +142,12 @@ case $REPLY in
 esac
 echo -e ""$'\n'
 
+# Make config folder
+if ! [ -e ~/.config/]
+then 
+    mkdir -p ~/.config/
+fi
+
 case `uname` in
 	Darwin) read -ep "Install homebrew? [y/n]:\n " -n 1 -r
 			case $REPLY in
@@ -215,6 +221,7 @@ case `uname` in
             universal-ctags \
 						cmake \
             unzip \
+            zsh \
             htop \
             tmux \
             fzf \
@@ -308,11 +315,11 @@ fi
 
 # Create soft links
 
-ln -s ~/.dotfiles/vifm ~/.config/vifm
 # Make a root bin folder
 mkdir ~/.bin
 if ( hash vifm &> /dev/null )
 then
+    ln -s ~/.dotfiles/vifm ~/.config/vifm
 		ln -s ~/.dotfiles/vifm/vifmimg ~/.bin/vifmimg
 		ln -s ~/.dotfiles/vifm/vifmrun ~/.bin/vifmrun
 fi
@@ -326,6 +333,7 @@ then
     git config --global interactive.diffFilter "diff-so-fancy --patch"
 fi
 # Add the git templates
+mkdir $HOME/.git_template
 git config --global init.templatedir $HOME/.git_template
 # Gives command `git ctags` to run ctags hook
 git config --global alias.ctags '!.git/hooks/ctags'
