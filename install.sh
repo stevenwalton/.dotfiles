@@ -9,7 +9,7 @@ git submodule update --init --recursive
 	
 
 # Check that home is located correctly
-echo "Will install files to $HOME"
+echo -e "\e\[1;31mWill install files to $HOME\e\[0m"
 read -ep "Is this correct? [y/n]:\n " -n 1 -r
 case $REPLY in
     [yY] ) echo Continuing; 
@@ -22,22 +22,21 @@ esac
 # Check that .dotfiles is in home
 if [[ ! -d "$HOME/.dotfiles" ]]
 then
-    echo "Please place .dotfiles in $HOME"
+    echo -e "\e\[1;31mPlease place .dotfiles in $HOME\e\[0m"
     exit 1
 fi
 
 # Do the linking
 # Zshrc
-echo "Linking zhsrc to ~/.zshrc"
+echo -e "Linking \e\[1;31mzhsrc\e\[0m to ~/.zshrc"
 if ! [ -e "$HOME/.zshrc" ]
 then
 	ln -s ~/.dotfiles/zshrc ~/.zshrc 2> /dev/null 
-	echo "Linking tmux.conf to ~/.tmux.conf"
 else
-	read -ep "~/.zshrc already exists, would you like to overwrite it? [y/n]:\n " -n 1 -r
+	read -ep "\e\[1;31mWARNING\e\[0m~/.zshrc already exists, would you like to overwrite it? [y/n]:\n " -n 1 -r
 	case $REPLY in
 		[yY] ) ln -s ~/.dotfiles/zshrc ~/.zshrc 2> /dev/null;
-			   echo "Linking tmux.conf to ~/.tmux.conf";
+			   echo "Linking \e\[1;31mzshrc\e\[0m to ~/.zshrc";
 			   ;;
 		[nN] ) echo "Leaving it alone...";
 				break ;;
@@ -48,13 +47,12 @@ echo -e ""$'\n'
 
 # Tmux
 ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf  2> /dev/null 
-echo "Linking tmux.conf to ~/.tmux.conf"
+echo "Linking \e\[1;31mtmux.conf\e\[0m to ~/.tmux.conf"
 if ! [ -e "$HOME/.tmux.conf" ]
 then
 	ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf 2> /dev/null 
-	echo "Linking tmux.conf to ~/.tmux.conf"
 else
-	read -ep "~/.tmux.conf already exists, would you like to overwrite it? [y/n]:\n " -n 1 -r
+	read -ep "\e\[1;31mWARNING:\e\[0m~/.tmux.conf already exists, would you like to overwrite it? [y/n]:\n " -n 1 -r
 	case $REPLY in
 		[yY] ) ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf 2> /dev/null;
 			   echo "Linking tmux.conf to ~/.tmux.conf";
@@ -99,16 +97,16 @@ esac
 #echo -e ""$'\n'
 
 # Kitty
-read -n 1 -r -p "Add Kitty config?\n [y/n]:\n "
+read -n 1 -r -p "Add \e\[1;31mKitty\e\[0m config?\n [y/n]:\n "
 case $REPLY in
-	[yY] ) ln -s ~/.dotfiles/kitty.conf ~/.config/kitty/kitty.conf 2> /dev/null || echo "kitty.conf already exists";
+	[yY] ) ln -s ~/.dotfiles/kitty/ ~/.config/kitty/ 2> /dev/null || echo -e "\e\[1;31mWARNING:\e\[0m ~/.config/kitty already exists";
 			;;
 	* ) ;;
 esac
 echo -e ""$'\n'
 
 # Replace the vim files
-read -ep "Replace $HOME/.vim and $HOME/.vimrc With those from .dotfile?\n [y/n]:\n " -n 1 -r
+read -ep "Replace \e\[1;31m$HOME/.vim and $HOME/.vimrc\e\[0m With those from .dotfile?\n [y/n]:\n " -n 1 -r
 case $REPLY in
 	[yY] ) rm -r ~/.vim;
 			rm -r ~/.vimrc;
@@ -127,14 +125,8 @@ case $REPLY in
 esac
 echo -e ""$'\n'
 
-# Setup zsh
-#echo "Installing oh-my-zsh to home folder (hidden)"
-#git clone https://github.com/robbyrussell/oh-my-zsh ~/.oh-my-zsh
-#ln -s ~/.dotfiles/jdavis-modified.zsh-theme ~/.oh-my-zsh/themes/
-#echo "Installing antigen to home folder (hidden)"
-#git clone https://github.com/zsh-users/antigen ~/.antigen
 # Spaceduck
-read -ep "Install spaceduck themes? [y/n]"$'\n' -n 1 -r
+read -ep "Install \e\[1;31mSpaceduck\e\[0m themes? [y/n]"$'\n' -n 1 -r
 case $REPLY in
 	[yY] ) git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting;
 				git clone https://github.com/bigpick/spaceduck-zsh-syntax-highlighting.git ~/.spaceduck-zsh-syntax-highlighting;;
@@ -149,7 +141,7 @@ then
 fi
 
 case `uname` in
-	Darwin) read -ep "Install homebrew? [y/n]:\n " -n 1 -r
+	Darwin) read -ep "Install \e\[1;31mhomebrew\e\[0m? [y/n]:\n " -n 1 -r
 			case $REPLY in
 				[yY] ) /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 					;;
@@ -199,7 +191,7 @@ case `uname` in
 				mkdir -p $(brew --prefix zathura)/lib/zathura
 				ln -s $(brew --prefix zathura-pdf-poppler)/libpdf-poppler.dylib $(brew --prefix zathura)/lib/zathura/libpdf-poppler.dylib
 			fi
-			read -ep "\nInstall Nerd fonts? [y/n]:\n " -n 1 -r
+			read -ep "\nInstall \e\[1;31mNerd fonts\e\[0m? [y/n]:\n " -n 1 -r
 
 			case $REPLY in
 				[yY] ) brew tap homebrew/cask-fonts
@@ -209,7 +201,7 @@ case `uname` in
 			esac
 			;; # Darwin
 
-	Linux) read -ep "\nAutomatically install packages? Assumes `sudo apt` [y/n]:"$'\n'
+	Linux) read -ep "\n\e\[1;31mAutomatically install packages\e\[0m? Assumes `sudo apt` [y/n]:"$'\n'
 		   case $REPLY in
 		   	[yY] ) sudo apt update
 					yes | sudo apt upgrade
@@ -238,7 +230,7 @@ case `uname` in
 		   	* )  ;;
 		   esac
 
-		   read -ep -n 1 -r "\nInstall cargo? Needed if going to install Sheldon or Starship\n (runs `curl https://sh.rustup.rs -sSf | sh`) [y/n]:\n "
+		   read -ep -n 1 -r "\nInstall \e\[1;31mCargo\e\0m? Needed if going to install Sheldon or Starship\n (runs `curl https://sh.rustup.rs -sSf | sh`) [y/n]:\n "
 		   case $REPLY in
 		   	[yY] ) echo "Piping into bash";
 		   			sleep 2;
@@ -247,20 +239,21 @@ case `uname` in
 		   	* ) ;;
 		   esac
 
-		   read -ep "\nInstall Sheldon? (needs cargo) [y/n]:\n " -n 1 -r
+		   read -ep "\nInstall \e\[1;31mSheldon\e\[0m? (needs cargo) [y/n]:\n " -n 1 -r
 
 		   case $REPLY in
 		   	[yY] ) cargo install sheldon --locked
-                if ! [ -e ~/.config/sheldon ]
-                then 
-                    mkdir -p ~/.config/sheldon
-                fi
-                ln -s ~/.dotfiles/sheldon_plugins.toml ~/.config/sheldon/plugins.toml
+                #if ! [ -e ~/.config/sheldon ]
+                #then 
+                #    mkdir -p ~/.config/sheldon
+                #fi
+                #ln -s ~/.dotfiles/sheldon_plugins.toml ~/.config/sheldon/plugins.toml
+                ln -s ~/.dotfiles/sheldon/ ~/.config/
 					;;
 		   	* ) ;;
 		   esac
 
-		   read -ep "\nInstall (zsh) Starship? (default cargo) [y/(c)onda/(h)ttp via curl/n]: " -n 1 -r
+		   read -ep "\nInstall (zsh) \e\[1;31mStarship\e\[0m? (default cargo) [y/(c)onda/(h)ttp via curl/n]: " -n 1 -r
 		   case $REPLY in
 		   	[yY] ) cargo install starship --locked
 					;;
@@ -277,7 +270,7 @@ case `uname` in
 		;;
 esac
 
-read -ep "Locally install FiraCode font? [y/n]:"$'\n'
+read -ep "Locally install \e\[1;31mFiraCode font\e\[0m? [y/n]:"$'\n'
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
 		fonts_dir="${HOME}/.local/share/fonts"
@@ -323,6 +316,21 @@ then
 		ln -s ~/.dotfiles/vifm/vifmimg ~/.bin/vifmimg
 		ln -s ~/.dotfiles/vifm/vifmrun ~/.bin/vifmrun
 fi
+
+
+read -n 1 -rep "Link Dotfile \e\[1;31mSheldon\e\[0m to ~/.config? [y/n]:"$'\n'
+case $REPLY in
+    [yY] ) ln -s ~/.dotfiles/sheldon/ ~/.config/
+        ;;
+    * ) ;;
+esac
+
+read -n 1 -rep $"Link Dotfile \e\[1;31mRanger\e\[0m to ~/.config? [y/n]:"$'\n'
+case $REPLY in
+    [yY] ) ln -s ~/.dotfiles/ranger/ ~/.config/
+        ;;
+    * ) ;;
+esac
 
 
 ### Configure Git ###
