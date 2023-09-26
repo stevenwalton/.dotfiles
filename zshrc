@@ -97,10 +97,15 @@ then
         git diff --name-only --relative --diff-filter=d | xargs bat --diff
     }
     # Help with bat
-    alias bathelp='bat --plain --language=help'
     help() {
-        "$@" --help 2>&1 | bathelp
+        "$@" --help 2>&1 | bat --plain --language=help
     }
+    # Aliases for help
+    # don't do -h because many like du and ls don't support
+    #alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
+    alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
+    # make the manpager
+    export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 fi
 # Ruby stuff for jekyll
 #source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
@@ -136,13 +141,30 @@ then
     alias tree='find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"'
 fi
 # Grep to have color, give line number, don't tell me it can't access restricted files (sudo), and don't process binary files (garbage output ):
-alias grep='grep --color=always --line-number --no-messages --binary-files=without-match'
+alias grep='grep --color=always --no-messages --binary-files=without-match'
 
 # Tmux doesn't like to recognize 256 colouring, so let's force it
 # -u fixes backspace error thing
 alias tmux='tmux -2 -u'
 alias df='df -h'
 alias log='git log --graph --oneline --decorate'
+
+# File management
+if ( hash fzf &> /dev/null && hash fd &> /dev/null )
+then
+    # In vim use <C-T> to open fzf and search through fd results
+    export FZF_DEFAULT_COMMAND='fd --type file'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    # Add color to fzf
+    export FZF_DEFAULT_COMMAND="fd --type file --color=always"
+    export FZF_DEFAULT_OPTS="--ansi"
+fi
+
+if ( has fzf &> /dev/null && (hash bat &> /dev/null) || (hash batcat &> /dev/null) )
+then
+    # Add batcat for a previewer for fzf
+    alias fzf="fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
+fi
 
 # Linux only commands. This is kinda hacky
 if [[ `command -v lsb_release` ]]
