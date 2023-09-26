@@ -153,26 +153,26 @@ case `uname` in
 			read -ep "Install brew packages? [y/n]:\n " -n 1 -r
 			case $REPLY in
 					[yY] ) brew install \
-							htop \
-							tmux \
+							htop \ # better top
+							tmux \ # wish I didn't need
 							mactex-no-gui \
-							lsd \
-							tre \
-							stats \
+              lsd \ # fancy ls (exa is deprecitated)
+							tre \ # tree
+							stats \ # stats in top bar
 							git-lfs \
-							zplug \
-							navi \
-							vifm \
+							navi \ # cheat sheet tool
+							vifm \ # vim file manager
 							curl \
-							jq \
-							glow \
-							zathura \
+							jq \ # json parser 
+							glow \ # render md in cli
+							zathura \ # better pdf 
 							zathura --with-synctex \
 							zathura-pdf-poppler \
-							ranger \
-							fd \
-							fzf \
-							sheldon
+							ranger \ # File browser
+							fd \ # better find
+							fzf \ # fuzzy finder
+							sheldon \ # zsh
+              muesli/homebrew-tap/duf # better du
 						brew tap homebrew/cask-fonts
 						brew install --cask \
 							mactex \
