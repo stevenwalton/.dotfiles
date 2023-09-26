@@ -29,6 +29,8 @@ zstyle ':completion:*:warnings' format '%F{red} ==> no matches found <==%f'
 zstyle ':completion:*' group-name ''
 # We want colors! All commands call the --color=auto 
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+# Enable tab completion when flag has an equal sign
+setopt magic_equal_subst
 
 
 # Sheldon uses TOML files.
