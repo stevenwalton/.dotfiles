@@ -1,4 +1,4 @@
-export PATH="${HOME}/.local/bin:$PATH"
+export PATH="${HOME}/.local/bin:${HOME}/.cargo/bin:$PATH"
 ######################
 ## General Exports ##
 ######################
@@ -29,6 +29,8 @@ zstyle ':completion:*:warnings' format '%F{red} ==> no matches found <==%f'
 zstyle ':completion:*' group-name ''
 # We want colors! All commands call the --color=auto 
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+# Enable tab completion when flag has an equal sign
+setopt magic_equal_subst
 
 
 # Sheldon uses TOML files.
@@ -51,8 +53,8 @@ eval "$(starship init zsh)"
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
+HISTSIZE=10000
+SAVEHIST=10000
 setopt appendhistory autocd
 #bindkey -v
 # Enable history search with up/down keys
@@ -77,47 +79,56 @@ set -o vi
 # Fancy Bash Tools #
 
 # htop
-if (hash htop &> /dev/null)
+if (command -v htop &> /dev/null)
 then
     alias top='htop'
 fi
 
 # batcat
-if (hash bat &> /dev/null) || (hash batcat &> /dev/null)
+if (command -v bat &> /dev/null) || (command -v batcat &> /dev/null)
 then
-    if (hash batcat &> /dev/null)
+    _BAT=bat
+    if (command -v batcat &> /dev/null)
     then
         # Ubuntu
         alias bat='batcat'
+        _BAT=batcat
     fi
-    alias cat='bat'
+    alias cat='${_BAT}'
     # Helpful bat commands
     # Git diff with bat
     batdiff() {
-        git diff --name-only --relative --diff-filter=d | xargs bat --diff
+        git diff --name-only --relative --diff-filter=d | xargs ${_BAT} --diff
     }
     # Help with bat
-    help() {
-        "$@" --help 2>&1 | bat --plain --language=help
-    }
+    ## Help gets overwritten by tao!
+    #help() {
+    #    "$@" --help 2>&1 | bat --plain --language=less
+    #}
     # Aliases for help
     # don't do -h because many like du and ls don't support
     #alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
-    alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
+    if ( ${_BAT} --list-languages | grep "help" &>/dev/null )
+    then
+        _LANG=help
+    else
+        _LANG=less
+    fi
+    alias -g -- --help='--help 2>&1 | ${_BAT} --language=${_LANG} --style=plain'
     # make the manpager
-    export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+    export MANPAGER="sh -c 'col -bx | ${_BAT} -l man -p'"
 fi
 # Ruby stuff for jekyll
 #source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
 #source /opt/homebrew/opt/chruby/share/chruby/auto.sh
 
 # Make sure this is above ls aliases 
-if (hash lsd &> /dev/null)
+if (command -v lsd &> /dev/null)
 then
     alias ls='lsd'
     alias la='lsd -A' # A drops . and ..
     alias ll='lsd -l' # h is automatic
-elif (hash exa &> /dev/null)
+elif (command -v exa &> /dev/null)
 then
     alias ls='exa'
     alias la='exa -a'
@@ -136,7 +147,7 @@ alias rm='rm -I' # prompt when >3 files being deleted
 alias vi='vim'
 alias ssh='ssh -YC'
 # Tree replacement if don't have tree
-if ! (hash tree &> /dev/null)
+if ! (command -v tree &> /dev/null)
 then
     alias tree='find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"'
 fi
@@ -150,21 +161,36 @@ alias df='df -h'
 alias log='git log --graph --oneline --decorate'
 
 # File management
-if ( hash fzf &> /dev/null && hash fd &> /dev/null )
+_FD=fd
+if ( command -v fdfind &> /dev/null )
 then
+    # Some systems name this differently...
+    alias fd="fdfind"
+fi
+if ( command -v fzf &> /dev/null && command -v fd &> /dev/null )
+then
+    # Fucking default command...
+    if ( hash fd &> /dev/null )
+    then
+        _FD=fd
+    elif ( hash fdfind &> /dev/null )
+    then
+        _FD=fdfind
+    fi
     # In vim use <C-T> to open fzf and search through fd results
-    export FZF_DEFAULT_COMMAND='fd --type file'
-    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    #export FZF_DEFAULT_COMMAND='fd --type file'
+    #export FZF_CTRL_T_COMMAND="${_FD} --type file"
     # Add color to fzf
-    export FZF_DEFAULT_COMMAND="fd --type file --color=always"
-    export FZF_DEFAULT_OPTS="--ansi"
+    #export FZF_DEFAULT_COMMAND="${_FD} --type file --color=always --preview '${_BAT} --color=always --style=numbers {}'"
+    alias fzf='${_FD} | fzf '
+    export FZF_DEFAULT_OPTS="--ansi --preview '${_BAT} --color=always --style=numbers {}'"
 fi
 
-if ( has fzf &> /dev/null && (hash bat &> /dev/null) || (hash batcat &> /dev/null) )
-then
-    # Add batcat for a previewer for fzf
-    alias fzf="fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
-fi
+#if ( ( command -v fzf &> /dev/null ) && (command -v bat &> /dev/null) )
+#then
+#    # Add batcat for a previewer for fzf
+#    alias fzf="fzf --preview '${_BAT} --color=always --style=numbers --line-range=:500 {}'"
+#fi
 
 # Linux only commands. This is kinda hacky
 if [[ `command -v lsb_release` ]]
@@ -182,7 +208,7 @@ if [[ $(uname) == "Darwin" ]]; then
     # Conda
     export CONDA_ROOT="/opt/homebrew/anaconda3"
 
-    if (hash kitty &> /dev/null)
+    if (command -v kitty &> /dev/null)
     then
         alias ssh='kitty +kitten ssh'
     fi
@@ -332,3 +358,12 @@ ZSH_HIGHLIGHT_STYLES[cursor]='standout'
 # Just because
 eval "$(ssh-agent -s)" &>/dev/null
 ssh-add ~/.ssh/`ls -I "*.pub" -I "*hosts*" ~/.ssh/` &>/dev/null
+
+
+# For Nvidia
+if [[ $(whoami) == "local-swalton" ]];
+then
+    conda activate py39
+    source ~/Programming/tlt-pytorch/scripts/envsetup.sh
+    alias tao="tao_pt --gpus all --env PYTHONPATH=/tao-pt --"
+fi
