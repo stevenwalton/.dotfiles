@@ -361,6 +361,9 @@ ssh-add ~/.ssh/`ls -I "*.pub" -I "*hosts*" ~/.ssh/` &>/dev/null
 
 
 # For Nvidia
-conda activate py39
-source ~/Programming/tlt-pytorch/scripts/envsetup.sh
-alias tao="tao_pt --gpus all --env PYTHONPATH=/tao-pt --"
+if [[ $(whoami) == "local-swalton" ]];
+then
+    conda activate py39
+    source ~/Programming/tlt-pytorch/scripts/envsetup.sh
+    alias tao="tao_pt --gpus all --env PYTHONPATH=/tao-pt --"
+fi
