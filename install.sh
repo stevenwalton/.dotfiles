@@ -1,6 +1,8 @@
 #!/bin/bash
 # Simple install script to get zsh up and running as well as soft link all the
 #  associated dotfiles to my home directory
+#  Note Dont use symbols in comments because it messes them up
+#  Things like apostrophes and parenthesis IDK why
 
 # Tell user what we're doing
 echo "This script creates soft links to the home directory for dot files that are used"
@@ -33,7 +35,7 @@ if ! [ -e "$HOME/.zshrc" ]
 then
 	ln -s ~/.dotfiles/zshrc ~/.zshrc 2> /dev/null 
 else
-	read -ep "\e\[1;31mWARNING\e\[0m~/.zshrc already exists, would you like to overwrite it? [y/n]:\n " -n 1 -r
+	read -ep "[1;31mWARNING[0m~/.zshrc already exists, would you like to overwrite it? [y/n]:\n " -n 1 -r
 	case $REPLY in
 		[yY] ) ln -s ~/.dotfiles/zshrc ~/.zshrc 2> /dev/null;
 			   echo "Linking \e\[1;31mzshrc\e\[0m to ~/.zshrc";
@@ -52,7 +54,7 @@ if ! [ -e "$HOME/.tmux.conf" ]
 then
 	ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf 2> /dev/null 
 else
-	read -ep "\e\[1;31mWARNING:\e\[0m~/.tmux.conf already exists, would you like to overwrite it? [y/n]:\n " -n 1 -r
+	read -ep "[1;31mWARNING:[0m~/.tmux.conf already exists, would you like to overwrite it? [y/n]:\n " -n 1 -r
 	case $REPLY in
 		[yY] ) ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf 2> /dev/null;
 			   echo "Linking tmux.conf to ~/.tmux.conf";
@@ -97,7 +99,7 @@ esac
 #echo -e ""$'\n'
 
 # Kitty
-read -n 1 -r -p "Add \e\[1;31mKitty\e\[0m config?\n [y/n]:\n "
+read -n 1 -r -p "Add [1;31mKitty[0m config?\n [y/n]:\n "
 case $REPLY in
 	[yY] ) ln -s ~/.dotfiles/kitty/ ~/.config/kitty/ 2> /dev/null || echo -e "\e\[1;31mWARNING:\e\[0m ~/.config/kitty already exists";
 			;;
@@ -106,7 +108,7 @@ esac
 echo -e ""$'\n'
 
 # Replace the vim files
-read -ep "Replace \e\[1;31m$HOME/.vim and $HOME/.vimrc\e\[0m With those from .dotfile?\n [y/n]:\n " -n 1 -r
+read -ep "Replace [1;31m$HOME/.vim and $HOME/.vimrc[0m With those from .dotfile?\n [y/n]:\n " -n 1 -r
 case $REPLY in
 	[yY] ) rm -r ~/.vim;
 			rm -r ~/.vimrc;
@@ -126,7 +128,7 @@ esac
 echo -e ""$'\n'
 
 # Spaceduck
-read -ep "Install \e\[1;31mSpaceduck\e\[0m themes? [y/n]"$'\n' -n 1 -r
+read -ep "Install [1;31mSpaceduck[0m themes? [y/n]"$'\n' -n 1 -r
 case $REPLY in
 	[yY] ) git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting;
 				git clone https://github.com/bigpick/spaceduck-zsh-syntax-highlighting.git ~/.spaceduck-zsh-syntax-highlighting;;
@@ -135,28 +137,28 @@ esac
 echo -e ""$'\n'
 
 # Make config folder
-if ! [ -e ~/.config/]
+if ! [ -e "$HOME/.config/" ]
 then 
     mkdir -p ~/.config/
 fi
 
 case `uname` in
-	Darwin) read -ep "Install \e\[1;31mhomebrew\e\[0m? [y/n]:\n " -n 1 -r
+	Darwin) read -ep "Install [1;31mhomebrew[0m? [y/n]:\n " -n 1 -r
 			case $REPLY in
 				[yY] ) /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 					;;
 				* ) 
 					;;
-			esac
+			esac # homebrew
 			
-			echo -e ""$'\n'
+			echo -e "\n"
 			read -ep "Install brew packages? [y/n]:\n " -n 1 -r
 			case $REPLY in
 					[yY] ) brew install \
 							htop \ # better top
-							tmux \ # wish I didn't need
+							tmux \ # wish I didnt need
 							mactex-no-gui \
-              lsd \ # fancy ls (exa is deprecitated)
+              lsd \ # fancy ls exa is deprecitated
 							tre \ # tree
 							stats \ # stats in top bar
 							git-lfs \
@@ -184,24 +186,24 @@ case `uname` in
 							font-powerline-symbols
 						;;
 					* ) ;;
-			esac
+			esac # brew installs 
 
 			if (hash zathura &> /dev/null)
 			then
 				mkdir -p $(brew --prefix zathura)/lib/zathura
 				ln -s $(brew --prefix zathura-pdf-poppler)/libpdf-poppler.dylib $(brew --prefix zathura)/lib/zathura/libpdf-poppler.dylib
-			fi
-			read -ep "\nInstall \e\[1;31mNerd fonts\e\[0m? [y/n]:\n " -n 1 -r
+			fi # zahura
+			read -ep "\nInstall [1;31mNerd fonts[0m? [y/n]:\n " -n 1 -r
 
 			case $REPLY in
 				[yY] ) brew tap homebrew/cask-fonts
 						brew install font-hack-nerd-font
 						;;
 				* ) ;;
-			esac
+			esac # nerd fonds
 			;; # Darwin
 
-	Linux) read -ep "\n\e\[1;31mAutomatically install packages\e\[0m? Assumes `sudo apt` [y/n]:"$'\n'
+	Linux) read -ep "\n[1;31mAutomatically install packages[0m? Assumes `sudo apt` [y/n]:"$'\n'
 		   case $REPLY in
 		   	[yY] ) sudo apt update
 					yes | sudo apt upgrade
@@ -218,59 +220,74 @@ case `uname` in
             tmux \
             fzf \
             fd-find \
-            lsd \
-            tre \
             git-lfs \
             zathura \
             ranger \
             kitty \
             fonts-powerline \
             fonts-firacode
+          if [ $(lsb_release -d | cut -d " " -f 2 | cut -d "." -f1) -ge 22 ]
+          then
+              echo -e "Trying to install \e\[1;31mlsd\e\[0m. Won't work on 20.04"
+              sudo apt install lsd 
+              echo -e "Trying to install \e\[1;31mtre\1\[0m. Won't work on 20.04"
+              sudo apt install tre 
+          else
+              echo -e "\e\[1;31mUbuntu version <22.04 does not have \e\[1;32m lsd\e\[0m nor \e\[1;32mtre \e\[1;31mSkipping\e\[0m"
+          fi # Ubuntu 22+
 				;;
 		   	* )  ;;
-		   esac
+		   esac # Apt
 
-		   read -ep -n 1 -r "\nInstall \e\[1;31mCargo\e\0m? Needed if going to install Sheldon or Starship\n (runs `curl https://sh.rustup.rs -sSf | sh`) [y/n]:\n "
+		   read -ep -n 1 -r "\nInstall [1;31mCargo\e\0m? Needed if going to install Sheldon or Starship\n (runs `curl https://sh.rustup.rs -sSf | sh`) [y/n]:\n "
 		   case $REPLY in
 		   	[yY] ) echo "Piping into bash";
 		   			sleep 2;
 		   			curl https://sh.rustup.rs -sSf | sh
 					;;
 		   	* ) ;;
-		   esac
+		   esac # Cargo
 
-		   read -ep "\nInstall \e\[1;31mSheldon\e\[0m? (needs cargo) [y/n]:\n " -n 1 -r
+       if ( hash cargo &>/dev/null )
+       then
+		        read -ep "\nInstall [1;31mSheldon[0m? (needs cargo) [y/n]:\n " -n 1 -r
 
-		   case $REPLY in
-		   	[yY] ) cargo install sheldon --locked
-                #if ! [ -e ~/.config/sheldon ]
-                #then 
-                #    mkdir -p ~/.config/sheldon
-                #fi
-                #ln -s ~/.dotfiles/sheldon_plugins.toml ~/.config/sheldon/plugins.toml
-                ln -s ~/.dotfiles/sheldon/ ~/.config/
-					;;
-		   	* ) ;;
-		   esac
+		        case $REPLY in
+		        	[yY] ) cargo install sheldon --locked
+                     ln -s ~/.dotfiles/sheldon/ ~/.config/
+			       	;;
+		        	* ) ;;
+		        esac # Sheldon
 
-		   read -ep "\nInstall (zsh) \e\[1;31mStarship\e\[0m? (default cargo) [y/(c)onda/(h)ttp via curl/n]: " -n 1 -r
-		   case $REPLY in
-		   	[yY] ) cargo install starship --locked
-					;;
-		   	[cC] ) conda install -c conda-forge starship
-					;;
-		   	[hH] ) echo "WARNING: pipes into bash";
-		   			sleep 2;
-		   			curl -sS https://starship.rs/install.sh | sh
-					;;
-		   	* ) ;;
-		   esac
+		        read -ep "\nInstall (zsh) [1;31mStarship[0m? (default cargo) [y/(c)onda/(h)ttp via curl/n]: " -n 1 -r
+		        case $REPLY in
+		        	[yY] ) cargo install starship --locked
+			       	;;
+		        	[cC] ) conda install -c conda-forge starship
+			       	;;
+		        	[hH] ) echo "WARNING: pipes into bash";
+		        			sleep 2;
+		        			curl -sS https://starship.rs/install.sh | sh
+			       	;;
+		        	* ) ;;
+		        esac # Starship
+
+            if ! ( hash lsd &>/dev/null )
+            then
+                read -ep "\nInstall [1;31mLSD[0m? (needs cargo) (you're missing LSD) [y/n]:\n " -n 1 -r
+                case $REPLY in
+                 [yY] ) cargo install lsd --locked
+                   ;;
+                 * ) ;;
+                esac # LSD
+            fi # lsd
+       fi # Cargo possible installs
 		   ;; # Linux
 	*) echo -e "Don't know operating system `uname` so not automatically installing stuff"
 		;;
-esac
+esac # Installs
 
-read -ep "Locally install \e\[1;31mFiraCode font\e\[0m? [y/n]:"$'\n'
+read -ep "Locally install [1;31mFiraCode font[0m? [y/n]:"$'\n'
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
 		fonts_dir="${HOME}/.local/share/fonts"
@@ -318,14 +335,14 @@ then
 fi
 
 
-read -n 1 -rep "Link Dotfile \e\[1;31mSheldon\e\[0m to ~/.config? [y/n]:"$'\n'
+read -n 1 -rep "Link Dotfile [1;31mSheldon[0m to ~/.config? [y/n]:"$'\n'
 case $REPLY in
     [yY] ) ln -s ~/.dotfiles/sheldon/ ~/.config/
         ;;
     * ) ;;
 esac
 
-read -n 1 -rep $"Link Dotfile \e\[1;31mRanger\e\[0m to ~/.config? [y/n]:"$'\n'
+read -n 1 -rep $"Link Dotfile [1;31mRanger[0m to ~/.config? [y/n]:"$'\n'
 case $REPLY in
     [yY] ) ln -s ~/.dotfiles/ranger/ ~/.config/
         ;;
