@@ -11,7 +11,7 @@ git submodule update --init --recursive
 	
 
 # Check that home is located correctly
-echo -e "\e\[1;31mWill install files to $HOME\e\[0m"
+echo -e "[1;31mWill install files to $HOME[0m"
 read -ep "Is this correct? [y/n]:\n " -n 1 -r
 case $REPLY in
     [yY] ) echo Continuing; 
@@ -24,13 +24,13 @@ esac
 # Check that .dotfiles is in home
 if [[ ! -d "$HOME/.dotfiles" ]]
 then
-    echo -e "\e\[1;31mPlease place .dotfiles in $HOME\e\[0m"
+    echo -e "[1;31mPlease place .dotfiles in $HOME[0m"
     exit 1
 fi
 
 # Do the linking
 # Zshrc
-echo -e "Linking \e\[1;31mzhsrc\e\[0m to ~/.zshrc"
+echo -e "Linking [1;31mzhsrc[0m to ~/.zshrc"
 if ! [ -e "$HOME/.zshrc" ]
 then
 	ln -s ~/.dotfiles/zshrc ~/.zshrc 2> /dev/null 
@@ -38,7 +38,7 @@ else
 	read -ep "[1;31mWARNING[0m~/.zshrc already exists, would you like to overwrite it? [y/n]:\n " -n 1 -r
 	case $REPLY in
 		[yY] ) ln -s ~/.dotfiles/zshrc ~/.zshrc 2> /dev/null;
-			   echo "Linking \e\[1;31mzshrc\e\[0m to ~/.zshrc";
+			   echo "Linking [1;31mzshrc[0m to ~/.zshrc";
 			   ;;
 		[nN] ) echo "Leaving it alone...";
 				break ;;
@@ -49,7 +49,7 @@ echo -e ""$'\n'
 
 # Tmux
 ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf  2> /dev/null 
-echo "Linking \e\[1;31mtmux.conf\e\[0m to ~/.tmux.conf"
+echo "Linking [1;31mtmux.conf[0m to ~/.tmux.conf"
 if ! [ -e "$HOME/.tmux.conf" ]
 then
 	ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf 2> /dev/null 
@@ -101,7 +101,7 @@ esac
 # Kitty
 read -n 1 -r -p "Add [1;31mKitty[0m config?\n [y/n]:\n "
 case $REPLY in
-	[yY] ) ln -s ~/.dotfiles/kitty/ ~/.config/kitty/ 2> /dev/null || echo -e "\e\[1;31mWARNING:\e\[0m ~/.config/kitty already exists";
+	[yY] ) ln -s ~/.dotfiles/kitty/ ~/.config/kitty/ 2> /dev/null || echo -e "[1;31mWARNING:[0m ~/.config/kitty already exists";
 			;;
 	* ) ;;
 esac
@@ -228,12 +228,12 @@ case `uname` in
             fonts-firacode
           if [ $(lsb_release -d | cut -d " " -f 2 | cut -d "." -f1) -ge 22 ]
           then
-              echo -e "Trying to install \e\[1;31mlsd\e\[0m. Won't work on 20.04"
+              echo -e "Trying to install [1;31mlsd[0m. Won't work on 20.04"
               sudo apt install lsd 
-              echo -e "Trying to install \e\[1;31mtre\1\[0m. Won't work on 20.04"
+              echo -e "Trying to install [1;31mtre\1\[0m. Won't work on 20.04"
               sudo apt install tre 
           else
-              echo -e "\e\[1;31mUbuntu version <22.04 does not have \e\[1;32m lsd\e\[0m nor \e\[1;32mtre \e\[1;31mSkipping\e\[0m"
+              echo -e "[1;31mUbuntu version <22.04 does not have [1;32m lsd[0m nor [1;32mtre [1;31mSkipping[0m"
           fi # Ubuntu 22+
 				;;
 		   	* )  ;;
