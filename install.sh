@@ -12,7 +12,7 @@ git submodule update --init --recursive
 
 # Check that home is located correctly
 echo -e "[1;31mWill install files to $HOME[0m"
-read -ep "Is this correct? [y/n]:\n " -n 1 -r
+read -ep "Is this correct? [y/n]: " -n 1 -r
 case $REPLY in
     [yY] ) echo Continuing; 
 			;;
@@ -54,7 +54,7 @@ if ! [ -e "$HOME/.tmux.conf" ]
 then
 	ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf 2> /dev/null 
 else
-	read -ep "[1;31mWARNING:[0m~/.tmux.conf already exists, would you like to overwrite it? [y/n]:\n " -n 1 -r
+	read -ep "[1;31mWARNING: [0m~/.tmux.conf already exists, would you like to overwrite it? [y/n]: " -n 1 -r
 	case $REPLY in
 		[yY] ) ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf 2> /dev/null;
 			   echo "Linking tmux.conf to ~/.tmux.conf";
@@ -72,6 +72,7 @@ case $REPLY in
 	[yY] ) conda_name=`curl -Ls https://repo.anaconda.com/archive/ | grep 'Linux' | head -n 1 | cut -d '"' -f 2`
 			wget "https://repo.anaconda.com/archive/${conda_name}" -O $conda_name # Download it 
       echo "Remember we expect it to be at ~/.anaconda3"
+      echo "[5;31mRemember we expect it to be at ~/.anaconda3[0m"
       sleep 2
       bash $conda_name # Run it
       rm $conda_name # remove it 
@@ -99,7 +100,7 @@ esac
 #echo -e ""$'\n'
 
 # Kitty
-read -n 1 -r -p "Add [1;31mKitty[0m config?\n [y/n]:\n "
+read -n 1 -r -p "Add [1;31mKitty[0m config?\n [y/n]: "
 case $REPLY in
 	[yY] ) ln -s ~/.dotfiles/kitty/ ~/.config/kitty/ 2> /dev/null || echo -e "[1;31mWARNING:[0m ~/.config/kitty already exists";
 			;;
@@ -203,10 +204,16 @@ case `uname` in
 			esac # nerd fonds
 			;; # Darwin
 
-	Linux) read -ep "\n[1;31mAutomatically install packages[0m? Assumes `sudo apt` [y/n]:"$'\n'
+	Linux) read -ep "[1;31mAutomatically install packages[0m? Assumes `sudo apt` [y/n]:"$'\n'
 		   case $REPLY in
 		   	[yY] ) sudo apt update
+          echo -e "[1;32======================[0m"
+          echo -e "[1;32mSuccessfully updated[0m"
+          echo -e "[1;32======================[0m"
 					yes | sudo apt upgrade
+          echo -e "[1;32======================[0m"
+          echo -e "[1;32mSuccessfully upgraded[0m"
+          echo -e "[1;32======================[0m"
 					yes | sudo apt install \
 						build-essential \
 						pkg-config \
@@ -226,6 +233,9 @@ case `uname` in
             kitty \
             fonts-powerline \
             fonts-firacode
+          echo -e "[1;32=================================[0m"
+          echo -e "[1;32mSuccessfully Installed packages[0m"
+          echo -e "[1;32=================================[0m"
           if [ $(lsb_release -d | cut -d " " -f 2 | cut -d "." -f1) -ge 22 ]
           then
               echo -e "Trying to install [1;31mlsd[0m. Won't work on 20.04"
@@ -248,12 +258,14 @@ case `uname` in
 		   	* ) ;;
 		   esac # Cargo
 
-       if ( hash cargo &>/dev/null )
+       # straight hash won't accurately pick it up because we haven't exited yet
+       #if ( hash cargo &>/dev/null )
+       if ( hash ~/.cargo &>/dev/null )
        then
 		        read -ep "\nInstall [1;31mSheldon[0m? (needs cargo) [y/n]:\n " -n 1 -r
 
 		        case $REPLY in
-		        	[yY] ) cargo install sheldon --locked
+		        	[yY] ) ~/.cargo/bin/cargo install sheldon --locked
                      ln -s ~/.dotfiles/sheldon/ ~/.config/
 			       	;;
 		        	* ) ;;
@@ -261,7 +273,7 @@ case `uname` in
 
 		        read -ep "\nInstall (zsh) [1;31mStarship[0m? (default cargo) [y/(c)onda/(h)ttp via curl/n]: " -n 1 -r
 		        case $REPLY in
-		        	[yY] ) cargo install starship --locked
+		        	[yY] ) ~/.cargo/bin/cargo install starship --locked
 			       	;;
 		        	[cC] ) conda install -c conda-forge starship
 			       	;;
@@ -276,7 +288,7 @@ case `uname` in
             then
                 read -ep "\nInstall [1;31mLSD[0m? (needs cargo) (you're missing LSD) [y/n]:\n " -n 1 -r
                 case $REPLY in
-                 [yY] ) cargo install lsd --locked
+                 [yY] ) ~/.cargo/bin/cargo install lsd --locked
                    ;;
                  * ) ;;
                 esac # LSD
