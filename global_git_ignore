@@ -1,0 +1,14 @@
+~*
+*.sw?
+*.log
+*.out
+*.pth
+*.pyc
+.tox
+.cache
+.netrwhist
+*/.netrwhist
+.DS_Store
+tags
+api_keys/
+wandb

@@ -35,6 +35,7 @@ call vundle#begin()
     """"" Commands
     Plugin 'godlygeek/tabular'               " Tab /delimiter
     " Plugin 'segeljakt/vim-silicon'          " Screenshot highlighted text :Silicon fname
+    " Shougo/unite.vim                       " Plugin for development: make user interfaces
 call vundle#end()
 call mkdp#util#install()
 
@@ -53,6 +54,26 @@ autocmd VimEnter * RainbowLoad
 "let g:rainbow_guifgs = ['RoyalBlue3', 'DarkOrange3', 'DarkOrchid3', 'FireBrick']
 "let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
 "autocmd VimEnter * RainbowLoad
+
+" Bookmarks
+" Bookmark toolbar
+nmap <Leader>bm <Plug>BookmarkShowAll
+" Enable line highlighting (False)
+let g:bookmark_highlight_lines = 0
+" Save bookmarks per working directory (False)
+let g:bookmark_save_per_working_dir = 0
+" Display annotation in status line
+let g:bookmark_display_annotation = 1
+" Mapped Commands
+" mm :BookmarkToggle
+" mi :BookmarkAnnotate
+" mn :BookmarkNext
+" mp :BookmarkPrev
+" ma :BookmarkShowAll
+" mc :BookmarkClear
+" mx :BookmarkClearAll
+" mkk :BookmarkMoveUp
+" mjj :BookmarkMoveDown
 
 "
 " SpaceDuck
