@@ -204,7 +204,7 @@ case `uname` in
 			esac # nerd fonds
 			;; # Darwin
 
-	Linux) read -ep "[1;31mAutomatically install packages[0m? Assumes `sudo apt` [y/n]:"$'\n'
+	Linux) read -ep "[1;31mAutomatically install packages[0m? Assumes `sudo apt` [y/m/n]:"$'\n'
 		   case $REPLY in
 		   	[yY] ) sudo apt update
           echo -e "[1;32======================[0m"
@@ -370,10 +370,12 @@ then
     git config --global interactive.diffFilter "diff-so-fancy --patch"
 fi
 # Add the git templates
-mkdir $HOME/.git_template
-git config --global init.templatedir $HOME/.git_template
+#mkdir $HOME/.git_template
+#git config --global init.templatedir $HOME/.git_template
 # Gives command `git ctags` to run ctags hook
 git config --global alias.ctags '!.git/hooks/ctags'
+ln -s ~/.dotfiles/global_git_ignore ~/.global_gitignore
+git config --global core.excludeFiles '~/.global_gitignore'
 
 #############
 echo "\nInstallation complete"
