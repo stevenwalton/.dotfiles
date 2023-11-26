@@ -77,6 +77,11 @@ set -o vi
 # Aliases
 #################################
 # Fancy Bash Tools #
+# Nala: a better Apt
+if (command -v nala &> /dev/null)
+then
+    alias apt='nala'
+fi
 
 # htop
 if (command -v htop &> /dev/null)
@@ -257,7 +262,7 @@ source $CONDA_BIN/activate
 #    export SSH_AGENT_PID=$(sshpid)
 #    ssh-add ~/.ssh/*_rsa 1&> /dev/null
 #else
-eval $(ssh-agent -s) &> /dev/null
+#eval $(ssh-agent -s) &> /dev/null
 #ssh-add ~/.ssh/*_rsa &> /dev/null
 
 #fi
@@ -356,8 +361,8 @@ ZSH_HIGHLIGHT_STYLES[default]='fg=#ecf0c1'
 ZSH_HIGHLIGHT_STYLES[cursor]='standout'
 
 # Just because
-eval "$(ssh-agent -s)" &>/dev/null
-ssh-add ~/.ssh/`ls -I "*.pub" -I "*hosts*" ~/.ssh/` &>/dev/null
+#eval "$(ssh-agent -s)" &>/dev/null
+#ssh-add ~/.ssh/`ls -I "*.pub" -I "*hosts*" ~/.ssh/` &>/dev/null
 
 
 # For Nvidia
