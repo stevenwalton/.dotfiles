@@ -81,6 +81,8 @@ set -o vi
 if (command -v nala &> /dev/null)
 then
     alias apt='nala'
+    # Secret trick to get this to work
+    alias sudo='sudo '
 fi
 
 # htop
