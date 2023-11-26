@@ -33,11 +33,11 @@ fi
 echo -e "Linking [1;31mzhsrc[0m to ~/.zshrc"
 if ! [ -e "$HOME/.zshrc" ]
 then
-	ln -s ~/.dotfiles/zshrc ~/.zshrc 2> /dev/null 
+	ln -fs ~/.dotfiles/zshrc ~/.zshrc 2> /dev/null 
 else
 	read -ep "[1;31mWARNING[0m~/.zshrc already exists, would you like to overwrite it? [y/n]:\n " -n 1 -r
 	case $REPLY in
-		[yY] ) ln -s ~/.dotfiles/zshrc ~/.zshrc 2> /dev/null;
+		[yY] ) ln -fs ~/.dotfiles/zshrc ~/.zshrc 2> /dev/null;
 			   echo "Linking [1;31mzshrc[0m to ~/.zshrc";
 			   ;;
 		[nN] ) echo "Leaving it alone...";
@@ -48,15 +48,15 @@ fi
 echo -e ""$'\n'
 
 # Tmux
-ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf  2> /dev/null 
+ln -sf ~/.dotfiles/tmux.conf ~/.tmux.conf  2> /dev/null 
 echo "Linking [1;31mtmux.conf[0m to ~/.tmux.conf"
 if ! [ -e "$HOME/.tmux.conf" ]
 then
-	ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf 2> /dev/null 
+	ln -sf ~/.dotfiles/tmux.conf ~/.tmux.conf 2> /dev/null 
 else
 	read -ep "[1;31mWARNING: [0m~/.tmux.conf already exists, would you like to overwrite it? [y/n]: " -n 1 -r
 	case $REPLY in
-		[yY] ) ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf 2> /dev/null;
+		[yY] ) ln -sf ~/.dotfiles/tmux.conf ~/.tmux.conf 2> /dev/null;
 			   echo "Linking tmux.conf to ~/.tmux.conf";
 			   ;;
 		[nN] ) echo "Leaving it alone...";
@@ -83,7 +83,7 @@ esac
 # i3
 #read -ep "Add i3 script? [y/n]:\n " -n 1 -r
 #case $REPLY in
-#	[yY] ) ln -s ~/.dotfiles/i3.config ~/.i3.config 2> /dev/null || echo "i3.config already exists";
+#	[yY] ) ln -sf ~/.dotfiles/i3.config ~/.i3.config 2> /dev/null || echo "i3.config already exists";
 #			;;
 #	* ) ;;
 #esac
@@ -92,8 +92,8 @@ esac
 ## Polybar
 #read -n 1 -r -p "Add polybar script? [y/n]:\n "
 #case $REPLY in
-#	[yY] ) ln -s ~/.dotfiles/scripts/polybar/launch.sh ~/.config/polybar/launch.sh 2> /dev/null || echo "polybar launch.sh already exists";
-#			ln -s ~/.dotfiles/scripts/polybar/config ~/.config/polybar/config 2> /dev/null || echo "polybar config already exists";
+#	[yY] ) ln -sf ~/.dotfiles/scripts/polybar/launch.sh ~/.config/polybar/launch.sh 2> /dev/null || echo "polybar launch.sh already exists";
+#			ln -sf ~/.dotfiles/scripts/polybar/config ~/.config/polybar/config 2> /dev/null || echo "polybar config already exists";
 #			;;
 #	* ) ;;
 #esac
@@ -102,7 +102,7 @@ esac
 # Kitty
 read -n 1 -r -p "Add [1;31mKitty[0m config?\n [y/n]: "
 case $REPLY in
-	[yY] ) ln -s ~/.dotfiles/kitty/ ~/.config/kitty/ 2> /dev/null || echo -e "[1;31mWARNING:[0m ~/.config/kitty already exists";
+	[yY] ) ln -sf ~/.dotfiles/kitty/ ~/.config/kitty/ 2> /dev/null || echo -e "[1;31mWARNING:[0m ~/.config/kitty already exists";
 			;;
 	* ) ;;
 esac
@@ -113,8 +113,8 @@ read -ep "Replace [1;31m$HOME/.vim and $HOME/.vimrc[0m With those from .dotfil
 case $REPLY in
 	[yY] ) rm -r ~/.vim;
 			rm -r ~/.vimrc;
-			ln -s ~/.dotfiles/vim ~/.vim;
-			ln -s ~/.dotfiles/vimrc ~/.vimrc;
+			ln -sf ~/.dotfiles/vim ~/.vim;
+			ln -sf ~/.dotfiles/vimrc ~/.vimrc;
 			# Install vim plugins;
 			vim +PluginInstall +qall
 			;;
@@ -122,8 +122,8 @@ case $REPLY in
 			echo "When you have backuped please run: ";
 			echo "rm -r ~/.vim";
 			echo "rm -r ~/.vimrc";
-			echo "ln -s ~/.dotfiles/vim ~/.vim";
-			echo "ln -s ~/.dotfiles/vimrc ~/.vimrc";;
+			echo "ln -sf ~/.dotfiles/vim ~/.vim";
+			echo "ln -sf ~/.dotfiles/vimrc ~/.vimrc";;
 	* ) ;;
 esac
 echo -e ""$'\n'
@@ -192,7 +192,7 @@ case `uname` in
 			if (hash zathura &> /dev/null)
 			then
 				mkdir -p $(brew --prefix zathura)/lib/zathura
-				ln -s $(brew --prefix zathura-pdf-poppler)/libpdf-poppler.dylib $(brew --prefix zathura)/lib/zathura/libpdf-poppler.dylib
+				ln -sf $(brew --prefix zathura-pdf-poppler)/libpdf-poppler.dylib $(brew --prefix zathura)/lib/zathura/libpdf-poppler.dylib
 			fi # zahura
 			read -ep "\nInstall [1;31mNerd fonts[0m? [y/n]:\n " -n 1 -r
 
@@ -206,7 +206,14 @@ case `uname` in
 
 	Linux) read -ep "[1;31mAutomatically install packages[0m? Assumes `sudo apt` [y/m/n]:"$'\n'
 		   case $REPLY in
-		   	[yY] ) sudo apt update
+		   	[yY] ) 
+          read -ep "[1;31mUse Nala?[0m [y/n]:"$'\n'
+          case $REPLY in
+              [yY] ) sudo apt install nala
+                     alias apt='nala'
+                     ;;
+              * ) ;;
+          sudo apt update
           echo -e "[1;32======================[0m"
           echo -e "[1;32mSuccessfully updated[0m"
           echo -e "[1;32======================[0m"
@@ -238,10 +245,8 @@ case `uname` in
           echo -e "[1;32=================================[0m"
           if [ $(lsb_release -d | cut -d " " -f 2 | cut -d "." -f1) -ge 22 ]
           then
-              echo -e "Trying to install [1;31mlsd[0m. Won't work on 20.04"
-              sudo apt install lsd 
-              echo -e "Trying to install [1;31mtre\1\[0m. Won't work on 20.04"
-              sudo apt install tre 
+              echo -e "Trying to install [1;31mlsd, tree, and cargo[0m. Won't work on 20.04"
+              sudo apt install lsd tre cargo
           else
               echo -e "[1;31mUbuntu version <22.04 does not have [1;32m lsd[0m nor [1;32mtre [1;31mSkipping[0m"
           fi # Ubuntu 22+
@@ -249,52 +254,62 @@ case `uname` in
 		   	* )  ;;
 		   esac # Apt
 
-		   read -ep -n 1 -r "\nInstall [1;31mCargo\e\0m? Needed if going to install Sheldon or Starship\n (runs `curl https://sh.rustup.rs -sSf | sh`) [y/n]:\n "
-		   case $REPLY in
-		   	[yY] ) echo "Piping into bash";
-		   			sleep 2;
-		   			curl https://sh.rustup.rs -sSf | sh
-					;;
-		   	* ) ;;
-		   esac # Cargo
-
-       # straight hash won't accurately pick it up because we haven't exited yet
-       #if ( hash cargo &>/dev/null )
-       if ( hash ~/.cargo &>/dev/null )
+       if ! (command -v cargo &> /dev/null)
        then
-		        read -ep "\nInstall [1;31mSheldon[0m? (needs cargo) [y/n]:\n " -n 1 -r
+           read -ep -n 1 -r "\nInstall [1;31mCargo\e\0m? Needed if going to install Sheldon or Starship\n (runs `curl https://sh.rustup.rs -sSf | sh`) [y/n]:\n "
+           case $REPLY in
+            [yY] ) echo "Piping into bash";
+                sleep 2;
+                curl https://sh.rustup.rs -sSf | sh
+              ;;
+            * ) ;;
+           esac # Cargo
+           # straight hash won't accurately pick it up because we haven't exited yet
+           #if ( hash cargo &>/dev/null )
+           if ( hash ~/.cargo &>/dev/null )
+           then
+                read -ep "\nInstall [1;31mSheldon[0m? (needs cargo) [y/n]:\n " -n 1 -r
 
-		        case $REPLY in
-		        	[yY] ) ~/.cargo/bin/cargo install sheldon --locked
-                     ln -s ~/.dotfiles/sheldon/ ~/.config/
-			       	;;
-		        	* ) ;;
-		        esac # Sheldon
-
-		        read -ep "\nInstall (zsh) [1;31mStarship[0m? (default cargo) [y/(c)onda/(h)ttp via curl/n]: " -n 1 -r
-		        case $REPLY in
-		        	[yY] ) ~/.cargo/bin/cargo install starship --locked
-			       	;;
-		        	[cC] ) conda install -c conda-forge starship
-			       	;;
-		        	[hH] ) echo "WARNING: pipes into bash";
-		        			sleep 2;
-		        			curl -sS https://starship.rs/install.sh | sh
-			       	;;
-		        	* ) ;;
-		        esac # Starship
-
-            if ! ( hash lsd &>/dev/null )
-            then
-                read -ep "\nInstall [1;31mLSD[0m? (needs cargo) (you're missing LSD) [y/n]:\n " -n 1 -r
                 case $REPLY in
-                 [yY] ) ~/.cargo/bin/cargo install lsd --locked
-                   ;;
-                 * ) ;;
-                esac # LSD
-            fi # lsd
-       fi # Cargo possible installs
-		   ;; # Linux
+                  [yY] ) ~/.cargo/bin/cargo install sheldon --locked
+                         ln -sf ~/.dotfiles/sheldon/ ~/.config/
+                  ;;
+                  * ) ;;
+                esac # Sheldon
+
+                read -ep "\nInstall (zsh) [1;31mStarship[0m? (default cargo) [y/(c)onda/(h)ttp via curl/n]: " -n 1 -r
+                case $REPLY in
+                  [yY] ) ~/.cargo/bin/cargo install starship --locked
+                  ;;
+                  [cC] ) conda install -c conda-forge starship
+                  ;;
+                  [hH] ) echo "WARNING: pipes into bash";
+                      sleep 2;
+                      curl -sS https://starship.rs/install.sh | sh
+                  ;;
+                  * ) ;;
+                esac # Starship
+
+                if ! ( hash lsd &>/dev/null )
+                then
+                    read -ep "\nInstall [1;31mLSD[0m? (needs cargo) (you're missing LSD) [y/n]:\n " -n 1 -r
+                    case $REPLY in
+                     [yY] ) ~/.cargo/bin/cargo install lsd --locked
+                       ;;
+                     * ) ;;
+                    esac # LSD
+                fi # lsd
+           fi # Cargo possible installs
+       else
+           cargo install sheldon --locked
+           cargo install starship --locked
+           if ! (command lsd &> /dev/null)
+           then
+               cargo install lsd --locked
+           fi
+       fi
+   ;; # Linux
+
 	*) echo -e "Don't know operating system `uname` so not automatically installing stuff"
 		;;
 esac # Installs
@@ -321,42 +336,27 @@ then
 		fc-cache -f
 fi
 
-# Using Sheldon now
-#if (hash zsh &> /dev/null)
-#then
-#    zsh &> /dev/null
-#    if (hash zplug &> /dev/null)
-#    then
-#        zplug update
-#    else
-#        echo "Zplug not found"
-#    fi
-#else
-#    echo "ZSH couldn't load. Try manually"
-#fi
-
 # Create soft links
-
 # Make a root bin folder
 mkdir ~/.bin
 if ( hash vifm &> /dev/null )
 then
-    ln -s ~/.dotfiles/vifm ~/.config/vifm
-		ln -s ~/.dotfiles/vifm/vifmimg ~/.bin/vifmimg
-		ln -s ~/.dotfiles/vifm/vifmrun ~/.bin/vifmrun
+    ln -fs ~/.dotfiles/vifm ~/.config/vifm
+		ln -fs ~/.dotfiles/vifm/vifmimg ~/.bin/vifmimg
+		ln -fs ~/.dotfiles/vifm/vifmrun ~/.bin/vifmrun
 fi
 
 
 read -n 1 -rep "Link Dotfile [1;31mSheldon[0m to ~/.config? [y/n]:"$'\n'
 case $REPLY in
-    [yY] ) ln -s ~/.dotfiles/sheldon/ ~/.config/
+    [yY] ) ln -fs ~/.dotfiles/sheldon/ ~/.config/
         ;;
     * ) ;;
 esac
 
 read -n 1 -rep $"Link Dotfile [1;31mRanger[0m to ~/.config? [y/n]:"$'\n'
 case $REPLY in
-    [yY] ) ln -s ~/.dotfiles/ranger/ ~/.config/
+    [yY] ) ln -fs ~/.dotfiles/ranger/ ~/.config/
         ;;
     * ) ;;
 esac
