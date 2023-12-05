@@ -172,7 +172,12 @@ _FD=fd
 if ( command -v fdfind &> /dev/null )
 then
     # Some systems name this differently...
-    alias fd="fdfind"
+    # We definitely don't want to ignore things by default and trick ourselves!
+    alias fd="fdfind --no-ignore"
+fi
+if ( command -v fd &> /dev/null )
+then
+    alias fd="fd --no-ignore"
 fi
 if ( command -v fzf &> /dev/null && command -v fd &> /dev/null )
 then
@@ -189,15 +194,9 @@ then
     #export FZF_CTRL_T_COMMAND="${_FD} --type file"
     # Add color to fzf
     #export FZF_DEFAULT_COMMAND="${_FD} --type file --color=always --preview '${_BAT} --color=always --style=numbers {}'"
-    alias fzf='${_FD} | fzf '
+    alias fzf='${_FD} --no-ignore | fzf '
     export FZF_DEFAULT_OPTS="--ansi --preview '${_BAT} --color=always --style=numbers {}'"
 fi
-
-#if ( ( command -v fzf &> /dev/null ) && (command -v bat &> /dev/null) )
-#then
-#    # Add batcat for a previewer for fzf
-#    alias fzf="fzf --preview '${_BAT} --color=always --style=numbers --line-range=:500 {}'"
-#fi
 
 # Linux only commands. This is kinda hacky
 if [[ `command -v lsb_release` ]]
