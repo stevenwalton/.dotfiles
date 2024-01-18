@@ -91,6 +91,14 @@ then
     alias top='htop'
 fi
 
+# Place here for now because the batcat alias is broken
+if [[ $(uname) == "Darwin" ]]; then
+    ## Ruby for Jekyll
+    source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
+    source /opt/homebrew/opt/chruby/share/chruby/auto.sh
+    chruby ruby-3.1.3
+    export JEKYLL_EDITOR=vim
+fi
 # batcat
 if (command -v bat &> /dev/null) || (command -v batcat &> /dev/null)
 then
@@ -125,9 +133,6 @@ then
     # make the manpager
     export MANPAGER="sh -c 'col -bx | ${_BAT} -l man -p'"
 fi
-# Ruby stuff for jekyll
-#source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
-#source /opt/homebrew/opt/chruby/share/chruby/auto.sh
 
 # Make sure this is above ls aliases 
 if (command -v lsd &> /dev/null)
@@ -197,16 +202,6 @@ then
     alias fzf='${_FD} --no-ignore | fzf '
     export FZF_DEFAULT_OPTS="--ansi --preview '${_BAT} --color=always --style=numbers {}'"
 fi
-
-# Linux only commands. This is kinda hacky
-if [[ `command -v lsb_release` ]]
-then
-    alias open='xdg-open' 
-fi
-if [[ $(uname) == "Darwin" ]]; then
-    alias ctags="`brew --prefix`/bin/ctags"
-fi
-
 #################################
 # Machine Specific Configurations
 #################################
@@ -218,11 +213,22 @@ if [[ $(uname) == "Darwin" ]]; then
     then
         alias ssh='kitty +kitten ssh'
     fi
+    alias ctags="`brew --prefix`/bin/ctags"
     export ZSH_ASK_API_KEY=`cat ${HOME}/.dotfiles/api_keys/openai.api`
+    export ZSH_ASK_MODEL="gpt-4-1106-preview"
+    #export ZSH_ASK_TOKENS=128000
     source ${HOME}/.dotfiles/zsh-ask/zsh-ask.zsh
     alias ask='ask -mi' # Add markdown and interactive
 elif [[ $(uname) == "Linux" ]]; then
     export CONDA_ROOT="${HOME}/.anaconda3"
+    alias open='xdg-open' 
+    # Add cuda to path if it's in the normal location
+    if [[ -f /usr/local/cuda ]]; then
+        export PATH="/usr/local/cuda/bin:${PATH}"
+        if [[ -f /usr/local/cuda/include ]]; then
+            export LD_LIBRARY_PATH="/usr/local/cuda/include:${LD_LIBRARY_PATH}"
+        fi
+    fi
 else
     echo "I don't know the conda path for a machine of type `uname`"
 fi
