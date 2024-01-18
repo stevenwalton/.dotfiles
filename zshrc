@@ -223,9 +223,9 @@ elif [[ $(uname) == "Linux" ]]; then
     export CONDA_ROOT="${HOME}/.anaconda3"
     alias open='xdg-open' 
     # Add cuda to path if it's in the normal location
-    if [[ -f /usr/local/cuda ]]; then
+    if [[ -d /usr/local/cuda ]]; then
         export PATH="/usr/local/cuda/bin:${PATH}"
-        if [[ -f /usr/local/cuda/include ]]; then
+        if [[ -d /usr/local/cuda/include ]]; then
             export LD_LIBRARY_PATH="/usr/local/cuda/include:${LD_LIBRARY_PATH}"
         fi
     fi
