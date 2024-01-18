@@ -13,12 +13,17 @@
 shell = "zsh"
 
 [templates]
-defer = """{{ hooks | get: "pre" | nl }}{% for file in files %}zsh-defer source "{{ file }}"\n{% endfor %}{{ hooks | get: "post" | nl }}"""
-defer-more = """{{ hooks | get: "pre" | nl }}{% for file in files %}zsh-defer -t 0.5 source "{{ file }}"\n{% endfor %}{{ hooks | get: "post" | nl }}"""
+defer = """{{ hooks?.pre | nl }}
+    {% for file in files %}zsh-defer source "{{ file }}"
+    {% endfor %}
+{{ hooks?.post | nl }}"""
+defer-more = """{{ hooks?.pre | nl }}
+    {% for file in files %}zsh-defer -t 0.5 source "{{ file }}"
+    {% endfor %}
+{{ hooks?.post | nl }}"""
 
 
 [plugins]
-
 ### Examples: ###
 # [plugins.example]
 # github = "owner/repo"
@@ -106,9 +111,9 @@ apply = ["defer"]
 #[plugins.z_lua]
 #github = "skywind3000/z.lua"
 
-## Enhanced alternative of cd
-#[plugins.enhancd]
-#github = "b4b4r07/enhancd"
+## Enhanced alternative of cd(https://github.com/babarot/enhancd)
+[plugins.enhancd]
+github = "b4b4r07/enhancd"
 
 # Better coloring. Requires the 256 option in tmux
 [plugins.base16]
@@ -119,6 +124,7 @@ github = "chriskempson/base16-shell"
 ##github = "spaceship-prompt/spaceship-prompt"
 #github = "starship/starship"
 #
-# # Safely store secrets in repos
-# [plugins.blackbox]
-# github = "StackExchange/blackbox"
+# Safely store secrets in repos
+[plugins.blackbox]
+github = "StackExchange/blackbox"
+
