@@ -14,7 +14,8 @@ call vundle#begin()
     Plugin 'frazrepo/vim-rainbow'            " Improved Parentheses
     Plugin 'sheerun/vim-polyglot'            " Comprehensive syntax highlighting
     Plugin 'xolox/vim-misc'                  " Needed for easy-tags
-    Plugin 'xolox/vim-easytags'              " Automatically creates tags
+    "Plugin 'xolox/vim-easytags'              " Automatically creates tags
+    Plugin 'ludovicchabant/vim-gutentags'    " Ctags
     Plugin 'MattesGroeger/vim-bookmarks'     " Annotated marks
     """"" Interface
     Plugin 'pineapplegiant/spaceduck'        " Spaceduck theme
@@ -84,11 +85,38 @@ if exists('+termguicolors')
 endif
 
 " Sensible defaults
-let g:easytags_events = ['BufReadPost', 'BufWritePost']
-let g:easytags_async = 1
-let g:easytags_dynamic_files = 2
-let g:easytags_resolve_links = 1
-let g:easytags_suppress_ctags_warning = 1
+"let g:easytags_events = ['BufReadPost', 'BufWritePost']
+"let g:easytags_async = 1
+"let g:easytags_dynamic_files = 2
+"let g:easytags_resolve_links = 1
+"let g:easytags_suppress_ctags_warning = 1
+"
+" GutenTags
+set statusline+=%{gutentags#statusline()}
+" Root directory is considered if it has one of these files in it
+let g:gutentags_project_root = ['.git', 'Makefile', 'src', 'main.py']
+" Write ctags to this location instead
+let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')
+let g:gutentags_ctags_exclude = [
+    \ 'wandb/',
+    \ '.git',
+    \ '.DS_Store',
+    \ '__*__',
+    \ '*.pth',
+    \ '*.tar',
+    \ '*.gz'
+    \ ]
+let g:gutentags_ctags_exclude_wildignore = 1
+let g:gutentags_ctags_extra_args = [
+      \ '--tag-relative=yes',
+      \ '--fields=+ailmnS',
+      \ ]
+"                  ||||||_ Signature of routine
+"                  |||||__ Line number of tag def 
+"                  ||||___ Implementation info
+"                  |||____ Language of input file
+"                  ||_____ Inheritance 
+"                  |______ Access of Class Member
 
 " tagbar settings
 " Open close tagbar with \b
