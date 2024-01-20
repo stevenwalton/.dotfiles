@@ -5,6 +5,9 @@
 "autocmd BufWrite * :%s/\s\+$//g
 command CleanFile normal! :%s/\s\+$//g<CR>
 
+" Makes * not jump to next work
+nnoremap * *``
+
 " Open all buffers in a new tab (open bunch of files then run this)
 command Buf2Tab normal! :bufdo tab split<CR>
 
