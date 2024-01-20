@@ -26,7 +26,6 @@ call vundle#begin()
     Plugin 'vim-airline/vim-airline-themes'
     Plugin 'taglist.vim'                     " Helps with determining code structure (:TlistToggle)
     Plugin 'majutsushi/tagbar'               " Bound to \tb (right)
-    Plugin 'linediff.vim'
     Plugin 'nathanaelkane/vim-indent-guides' " Shows the indents
     """"" Debugging Help
     Plugin 'AndrewRadev/linediff.vim'        " Diff between visual selections
