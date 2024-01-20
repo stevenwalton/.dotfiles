@@ -28,6 +28,8 @@ call vundle#begin()
     Plugin 'majutsushi/tagbar'               " Bound to \tb (right)
     Plugin 'linediff.vim'
     Plugin 'nathanaelkane/vim-indent-guides' " Shows the indents
+    """"" Debugging Help
+    Plugin 'AndrewRadev/linediff.vim'        " Diff between visual selections
     """"" Integrations
     Plugin 'airblade/vim-gitgutter'          " Shows diff from git in left sidebar (fantastic)
     Plugin 'rhysd/git-messenger.vim'         " Shows commit message associated with line of code
