@@ -29,3 +29,19 @@ if [[ -d /usr/local/cuda ]]; then
         alias steam='steam -bigpicture --intro-skip --launcher-skip-skipStartScreen'
     fi
 fi
+#
+# Aliases specifically for linux machines 
+# Nala: a better Apt
+if (_exists nala)
+then
+    alias apt='nala'
+    # Secret trick to get this to work
+    alias sudo='sudo '
+fi
+
+if [[ -d ${HOME}/.anaconda3 ]];
+then
+    export CONDA_ROOT="${HOME}/.anaconda3"
+fi
+alias open='xdg-open' 
+
