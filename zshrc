@@ -79,10 +79,10 @@ set -o vi
 #################################
 if [[ $(uname) == "Linux" ]];
 then
-    source ${ZSH_DIR}/linux_aliases.zsh
+    source ${ZSH_DIR}/linux.zsh
 elif [[ $(uname) == "Darwin" ]];
 then
-    source ${ZSH_DIR}/osx_aliases.zsh
+    source ${ZSH_DIR}/osx.zsh
 else
     echo "Don't know machine $(uname). No machine specific aliases"
 fi
