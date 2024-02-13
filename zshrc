@@ -92,7 +92,8 @@ source ${ZSH_DIR}/basic_aliases.zsh
 #################################
 # Machine Specific Configurations
 #################################
-if [[ -z "${CONDA_ROOT}" ]];
+# -n is non-zero string, -z is true if no string
+if [[ -n "${CONDA_ROOT}" ]];
 then
     export CONDA_BIN=$CONDA_ROOT/bin
     export PATH=$CONDA_BIN:$PATH
