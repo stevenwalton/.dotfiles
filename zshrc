@@ -1,33 +1,39 @@
 # This will get called by files we source so place this here
+# Just easier to check if commands exist
 function _exists() {
     command -v "$1" &> /dev/null
 }
-
 # General Exports 
 export ZSH_DIR=${HOME}/.dotfiles/zsh
 export EDITOR="vim"
 export PATH="${HOME}/.local/bin:${HOME}/.cargo/bin:$PATH"
-
+# Shell like vim
+# Keep this up here or the edit-command-line bindkey might mess up
+set -o vi
 ## Lines for autocompletion
 source ${ZSH_DIR}/completions.zsh
-
+#
 # Enable <C-x><C-e> editing style that bash has
 # Credit: https://nuclearsquid.com/writings/edit-long-commands/
+# Key this near top. It won't work if sheldon is above this
 autoload -U edit-command-line
 # Emacs style (<C-x><C-e>)
 zle -N edit-command-line
+# If not working with vim mode check that `set -o vi` is set above this line
 bindkey '^xe' edit-command-line
 bindkey '^x^e' edit-command-line
 # Vi style (Uses visual to do)
 #zle -N edit-command-line
-#bindkey -M vicmd v edit-command-line
+bindkey -M vicmd v edit-command-line
 
 # Sheldon uses TOML files.
 # Soft linked: ~/.dotfiles/sheldon_plugins.toml ~/.config/sheldon/plugins.toml
+# NOTE: Location sensitive. Check here if things aren't loading
 if (_exists sheldon)
 then
     eval "$(sheldon source)"
 fi
+
 # Bind keys for history substring search
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down\
@@ -65,8 +71,6 @@ DISABLE_AUTO_TITLE="true"
 # Unset the autonaming for tmux
 DISABLE_AUTO_TITLE="true"
 
-# Shell like vim
-set -o vi
 
 #################################
 # Aliases
