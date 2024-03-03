@@ -1,0 +1,5 @@
+---
+- name: Do Something
+  hosts: some_host_group
+  roles: 
+    - role: some_role

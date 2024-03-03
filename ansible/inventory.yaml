@@ -1,0 +1,6 @@
+---
+machines:
+  hosts:
+    # Place hosts here
+  vars:
+    # place vars here

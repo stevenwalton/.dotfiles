@@ -1,0 +1,30 @@
+---
+- name: Autoinstall Nvidia Drivers Via Ubuntu
+  ansible.builtin.shell: |
+    sudo ubuntu-drivers autoinstall
+
+# TODO: Update to look for cuda version
+- name: Get Cuda 12.3 Deps (If I fail, verify me)
+  ansible.builtin.shell: |
+    mkdir -p ~/Downloads
+    cd ~/Downloads
+    wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-ubuntu2204.pin
+    sudo mv cuda-ubuntu2204.pin /etc/apt/preferences.d/cuda-repository-pin-600
+    wget https://developer.download.nvidia.com/compute/cuda/12.3.2/local_installers/cuda-repo-ubuntu2204-12-3-local_12.3.2-545.23.08-1_amd64.deb
+    sudo dpkg -i cuda-repo-ubuntu2204-12-3-local_12.3.2-545.23.08-1_amd64.deb
+    sudo cp /var/cuda-repo-ubuntu2204-12-3-local/cuda-*-keyring.gpg /usr/share/keyrings/
+    sudo apt-get update
+    rm cuda-repo-ubuntu2204-12-3-local_12.3.2-545.23.08-1_amd64.deb
+
+# Note we're using 545 which matches above
+- name: Install Cuda Packages (If I fail, verify Get Cuda Deps)
+  become: true
+  ansible.builtin.apt:
+    pkg:
+      - cuda
+      - cuda-toolkit
+      - nvtop
+      - nvidia-utils-545
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600

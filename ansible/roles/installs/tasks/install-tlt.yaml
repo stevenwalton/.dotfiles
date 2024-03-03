@@ -1,0 +1,84 @@
+---
+- name: Get Nvidia keyrings
+  ansible.builtin.shell: 
+    cd ~/Downloads
+    curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+    curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+
+- name: Stage Docker Install
+  ansible.builtin.shell:
+    cd ~/Downloads
+    sudo install -m 0755 -d /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    sudo chmod a+r /etc/apt/keyrings/docker.gpg
+    echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+- name: Update and Upgrade apt
+  become: true
+  ansible.builtin.apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 0
+
+
+- name: TLT and Tao basic installs
+  become: true
+  ansible.builtin.apt:
+    pkg:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+      - nvidia-container-toolkit
+    state: present
+    update_cache: yes
+    cache_valid_time: 0
+
+- name: Adding user to docker group
+  become: true
+  ansible.builtin.user_module:
+    append: true
+    group: docker
+
+- name: Reboot machine 
+  ansible.builtin.reboot:
+    reboot_timeout: 900
+    msg: "Rebotting machine. 15 minute timeout"
+
+# TODO: Should probably just copy config file?
+#- name: Configure NGC (TODO)
+
+# TODO: need to store creds
+- name: Docker nvcr.io login
+  ansible.builtin.expect:
+    command: docker login nvcr.io
+    responses:
+      (?i)Username: $oauthtoken
+      (?i)Password: "{{ API_KEY }}"
+  no_log: true
+
+- name: Get Latest tao version ID
+  ansible.builtin.shell: |
+    curl -Ls https://api.ngc.nvidia.com/v2/resources/nvidia/tao/tao-getting-started/versions | sed -e "s/,/\n/g" | grep "versionId" | head -n 1 | cut -d ":" -f 2 | sed 's/"//g'
+  register: tao_version
+
+- name: Download TAO
+  ansible.builtin.shell: "wget --content-disposition https://api.ngc.nvidia.com/v2/resources/nvidia/tao/tao-getting-started/versions/{{ tao_version }}/zip -O getting_started_v{{ tao_version }}.zip"
+
+- name: Unzip TAO
+  ansible.builtin.shell: "unzip -u  getting_started_v{{ tao_version }}.zip -d ./getting_started_v{{ tao_version }}"
+
+- name: Remove TAO zip
+  ansible.builtin.shell: "rm -rf getting_started_v{{ tao_version }}.zip"
+
+- name: Install TAO
+  ansible.builtin.shell: "yes | bash getting_started_v{{ tao_version }}/setup/quickstart_launcher.sh --install"
+
+- name: Upgrade TAO
+  ansible.builtin.shell: "yes | bash getting_started_v{{ tao_version }}/setup/quickstart_launcher.sh --upgrade"
