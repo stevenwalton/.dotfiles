@@ -1,0 +1,16 @@
+---
+- name: Set Git Username
+  ansible.builtin.shell: |
+    git config --global user.name "{{ git_full_name }}"
+
+- name: Set Git Email
+  ansible.builtin.shell: |
+    git config --global user.email "{{ git_email }}"
+
+- name: Git Pager (diff-so-fancy)
+  ansible.builtin.shell: |
+    git config --global core.pager "diff-so-fancy | less --tabs=4 -RFX"
+
+- name: Git Diff Filter
+  ansible.builtin.shell: |
+    git config --global interactive.diffFilter "diff-so-fancy --patch"

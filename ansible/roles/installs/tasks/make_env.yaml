@@ -1,0 +1,38 @@
+---
+- name: Make Directories
+  ansible.builtin.shell: |
+    cd ~/
+    mkdir -p {{ programming_dir }} Datasets/extracted Datasets/zips Downloads .bin .config
+  when: steven_env
+
+- name: Clone dotfiles
+  ansible.builtin.git:
+    repo: "{{ dotfiles_repo }}"
+    clone: true
+    dest: "{{ dotfiles_dest }}"
+    recursive: false
+  when: dotfiles_repo and dotfiles_dest
+
+- name: Make Steven's Dotfiles softlinks
+  ansible.builtin.shell: |
+    ln -sf {{ dotfiles_dest }}/zshrc ~/.zshrc
+    ln -sf {{ dotfiles_dest }}/vimrc ~/.vimrc
+    ln -sf {{ dotfiles_dest }}/vim ~/.vim
+    ln -sf {{ dotfiles_dest }}/sheldon ~/.config/
+    ln -sf {{ dotfiles_dest }}/tmux.conf ~/.tmux.conf
+    ln -sf {{ dotfiles_dest }}/starship.toml ~/.config/starship.toml
+    ln -sf {{ dotfiles_dest }}/ranger ~/.config/ranger
+  when: steven_env and dotfiles_repo
+
+    #- name: Initialize Zsh
+    #  ansible.builtin.shell: |
+    #    /usr/bin/zsh
+- name: Updating vim
+  ansible.builtin.shell: vim -c "PluginInstall" -c "PluginUpdate" -c "qa"
+
+- name: Set Zsh
+  ansible.builtin.user_module:
+    append: true
+    name: "{{ user }}"
+    shell: /usr/bin/zsh
+  when: set_zshell

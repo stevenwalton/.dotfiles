@@ -1,0 +1,48 @@
+---
+- name: Get Latest Conda Name
+  ansible.builtin.shell: |
+    curl -Ls https://repo.anaconda.com/archive/ | grep 'Linux' | head -n 1 | cut -d '"' -f 2
+  register: conda_name
+
+## For debugging
+#- name: (DEBUG) Check conda name
+#  ansible.builtin.debug:
+#    msg: "{{ conda_name.stdout }}"
+#
+- name: Download Latest Anaconda to ~/Downloads
+  ansible.builtin.get_url:
+    url: "https://repo.anaconda.com/archive/{{ conda_name.stdout }}"
+    dest: "~/Downloads/{{ conda_name.stdout }}"
+    mode: 0755
+#
+#- name: (DEBUG) ls downloads to check
+#  ansible.builtin.shell: |
+#    ls -lh ~/Downloads
+#  register: downloads_ls
+
+#- name: (DEBUG) What's in Downloads
+#  ansible.builtin.debug:
+#    msg: "{{ downloads_ls.stdout }}"
+
+- name: Install Anaconda
+  ansible.builtin.shell: 
+    cmd: "~/Downloads/{{ conda_name.stdout }} -b -p {{ conda_install_path }}"
+
+- name: Remove Conda Installer
+  ansible.builtin.shell: rm Downloads/"{{ conda_name.stdout }}"
+
+#
+# We'll use this to update our path and need it for any calls to conda
+- name: Set conda_path
+  ansible.builtin.set_fact:
+    conda_path_env: "{{ conda_install_path }}/bin:{{ conda_install_path }}/condabin:{{ ansible_env.PATH }}"
+
+- name: Init Anaconda (ZSH)
+  ansible.builtin.shell: |
+    eval "$( {{ conda_install_path }}/bin/conda shell.zsh hook)"
+    conda init
+
+- name: Init Anaconda (bash)
+  ansible.builtin.shell: |
+    eval "$( {{ conda_install_path }}/bin/conda shell.bash hook)"
+    conda init

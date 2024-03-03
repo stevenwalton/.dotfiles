@@ -1,0 +1,55 @@
+---
+- name: Basic Installs
+  # Assumes Ubuntu 22.04
+  become: true
+  ansible.builtin.apt:
+    pkg:
+      - build-essential
+      - pkg-config
+      - openssl
+      - libssl-dev
+      - universal-ctags
+      - cmake
+      - unzip
+      - vim
+      - ca-certificates
+      - curl
+      - gnupg
+      - zsh   # Better bash
+      - htop  # Colorful top
+      - tmux  # Multiplexer (see screen)
+      - bat   # Better cat
+      - fzf   # Fuzzy finder
+      - fd-find # Better find (but note it uses gitignore by default)
+      - git-lfs # large files for git
+      - rclone # rsync but can do cloud like google drive
+      - ranger # file system searcher
+      - fonts-powerline # Gives font symbols
+      - fonts-firacode  # Better font
+      - cargo # Rust cargo installer
+      - nala # Better version of apt (faster and colorful)
+    state: present
+    update_cache: yes
+    autoremove: yes
+    cache_valid_time: 3600
+
+- name: Copy rclone config
+  ansible.builtin.copy:
+    src: "/home/{{ host_uname }}/.config/rclone"
+    dest: "/localhome/{{ user }}/.config/"
+  when: copy_rclone_config
+
+- name: LSD Install (fancy ls)
+  ansible.builtin.shell: 
+    cmd: cargo install lsd --locked
+  when: install_lsd
+
+- name: Sheldon Install (zsh plugin manager)
+  ansible.builtin.shell: 
+    cmd: cargo install sheldon --locked
+  when: install_sheldon
+
+- name: Starship Install (zsh interface)
+  ansible.builtin.shell: 
+    cmd: cargo install starship --locked
+  when: install_starship
