@@ -3,9 +3,16 @@
 function _exists() {
     command -v "$1" &> /dev/null
 }
+DOTFILE_DIR="${HOME}/.dotfiles"
+# Load any scripts
+#for script in "${DOTFILE_DIR}/scripts/*.sh"; do
+#    source "${script}"
+#done
 # General Exports 
 export ZSH_DIR=${HOME}/.dotfiles/zsh
 export EDITOR="vim"
+# Make the path clean
+eval $(cat /etc/environment)
 export PATH="${HOME}/.local/bin:${HOME}/.cargo/bin:$PATH"
 # Shell like vim
 # Keep this up here or the edit-command-line bindkey might mess up
@@ -33,6 +40,21 @@ if (_exists sheldon)
 then
     eval "$(sheldon source)"
 fi
+# OSX PATH looks like this before Sheldon
+# /opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
+#
+# scripts/config_fixers
+if [[ -a "${DOTFILE_DIR}/scripts/config_fixers.sh" ]]; then
+    source "${DOTFILE_DIR}/scripts/config_fixers.sh"
+    if [[ -d "${HOME}/.local/share/sheldon" ]]; then
+        SHELDON_DIR="${HOME}/.local/share/sheldon"
+    fi
+    if [[ ! -d "$SHELDON_DIR"/bin ]]; then
+        fix_sheldon $SHELDON_DIR
+        # Need to redo
+    fi
+fi
+export PATH="${HOME}/.local/bin:${HOME}/.cargo/bin:$PATH"
 
 # Bind keys for history substring search
 bindkey '^[[A' history-substring-search-up
@@ -47,7 +69,7 @@ bindkey '^[[B' history-substring-search-down\
 # Starship theme
 if (_exists starship)
 then
-    export STARSHIP_CONFIG="${HOME}/.dotfiles/starship.toml"
+    export STARSHIP_CONFIG="${HOME}/.config/starship.toml"
     eval "$(starship init zsh)"
 fi
 

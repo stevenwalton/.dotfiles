@@ -1,6 +1,9 @@
 # About
 These are just a list of useful commands and notes that I don't want to forget
 
+# Terminals, Programs, and more
+[Awesome Terminals](https://github.com/cdleon/awesome-terminals)
+
 # Working With Remote Machines
 - Always check the display: `echo $DISPLAY`
     - Usually this is 0, but sometimes on 1

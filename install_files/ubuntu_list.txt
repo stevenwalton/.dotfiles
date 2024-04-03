@@ -1,0 +1,11 @@
+build-essentials
+pkg-config
+openssl
+libssl-dev
+universal-ctags
+unzip
+fd-find
+fonts-powerline
+fonts-firacode
+cargo
+nala
