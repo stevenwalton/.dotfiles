@@ -13,17 +13,6 @@ $git_status\
 $conda\
 $python\
 $c\
-$elixir\
-$elm\
-$golang\
-$gradle\
-$haskell\
-$java\
-$julia\
-$nodejs\
-$nim\
-$rust\
-$scala\
 [](fg:#86BBD8 bg:#06969A)\
 $docker_context\
 [](fg:#06969A bg:#33658A)\
@@ -31,6 +20,18 @@ $time\
 [ ](fg:#33658A)\
 \n$character
 """
+# Add if you use
+#$nodejs\
+#$elixir\
+#$elm\
+#$golang\
+#$gradle\
+#$haskell\
+#$java\
+#$julia\
+#$nim\
+#$scala\
+#$rust\
 add_newline = false
 
 # Disable the blank line at the start of the prompt

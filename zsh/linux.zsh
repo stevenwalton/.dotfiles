@@ -26,7 +26,8 @@ if [[ -d /usr/local/cuda ]]; then
         # running via DirectX 12 which is translated by VKD3D (Vulkan Direct
         # 3D). 
         export VKD3D_CONFIG=dxr,dxr11
-        alias steam='steam -bigpicture --intro-skip --launcher-skip-skipStartScreen'
+        #alias steam='steam -bigpicture --intro-skip --launcher-skip-skipStartScreen'
+        alias steam='steam --intro-skip --launcher-skip-skipStartScreen'
     fi
 fi
 #
@@ -39,9 +40,9 @@ then
     alias sudo='sudo '
 fi
 
-if [[ -d ${HOME}/.anaconda3 ]];
-then
-    export CONDA_ROOT="${HOME}/.anaconda3"
-fi
+#if [[ -d ${HOME}/.anaconda3 ]];
+#then
+#    export CONDA_ROOT="${HOME}/.anaconda3"
+#fi
 alias open='xdg-open' 
 

@@ -1,0 +1,11 @@
+zsh
+tmux
+htop
+btop
+ranger
+git-lfs
+fzf
+cmake
+lsd
+fail2ban
+cloudflared
