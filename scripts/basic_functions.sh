@@ -67,14 +67,24 @@ _which_os() {
     fi
     echo "${OS}"
 }
+
+# Get the directory that the script is being run in
+getScriptDir () {
+    SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null &&
+        pwd )
+}
 ################################################################################
 ################ Random Tools and Other Stuff ##################################
 ################################################################################
 # Tar into an xz with max compression and multithreading
 # xz is better than gzip or bzip
 # Use this if you will stream large files or archive
+# Usage: heavyCompress FolderIWannaZip
+# Output: FolderIWannaZip.tar.xz
+# https://www.rootusers.com/gzip-vs-bzip2-vs-xz-performance-comparison/
 heavy_compress() {
-    tar cf - $1 | xz -9 --threads 6 --verbose > $2
+    THREADS=1
+    tar cf - "$1" | xz -9 --threads $THREADS --verbose > "$2"
 }
 
 kill_steam() {
