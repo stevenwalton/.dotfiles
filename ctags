@@ -1,7 +1,0 @@
--python-kinds=-i
---recurse=yes
---exclude=.git
---exclude=.\*
---exclude=wandb
---exclude=test\*
---exclude=\*__\*__\*
