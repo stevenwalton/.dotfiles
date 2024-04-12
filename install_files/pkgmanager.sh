@@ -12,10 +12,13 @@
 DOT_DIR=${DOT_DIR:-"${HOME%/}.dotfiles"}
 VERBOSE=1
 INSTALLER_DIR=${INSTALLER_DIR:-"${DOT_DIR%/}/install_files/"}
+HOMEBREW_DIR=${HOMEBREW_DIR:-"/opt"}
 PKG_MANAGER=
 FULL_UPGRADE=
 
 install_brew() {
+    # https://docs.brew.sh/Installation
+    git clone https://github.com/Homebrew/brew "${HOMEBREW_DIR}"homebrew
 }
 
 main() {

@@ -12,8 +12,10 @@ DOTFILE_DIR="${HOME}/.dotfiles"
 export ZSH_DIR=${HOME}/.dotfiles/zsh
 export EDITOR="vim"
 # Make the path clean
-eval $(cat /etc/environment)
-export PATH="${HOME}/.local/bin:${HOME}/.cargo/bin:$PATH"
+if [[ $(uname) == "Linux" ]]; then
+    eval $(cat /etc/environment)
+    export PATH="${HOME}/.local/bin:${HOME}/.cargo/bin:$PATH"
+fi
 # Shell like vim
 # Keep this up here or the edit-command-line bindkey might mess up
 set -o vi
@@ -75,6 +77,8 @@ fi
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
+# Don't add to history if prepended with space
+setopt HIST_IGNORE_SPACE
 HISTFILE=~/.histfile
 HISTSIZE=10000
 SAVEHIST=10000

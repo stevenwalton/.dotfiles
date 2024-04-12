@@ -17,9 +17,9 @@
 fix_sheldon() {
     # Clean the path back to normal (Debian/Ubuntu should have this)
     # This will clear all user defined PATH variables!
-    #if [[ -e /etc/environment ]]; then
-    #    eval $(cat /etc/environment)
-    #fi
+    if [[ -e /etc/environment ]]; then
+        eval $(cat /etc/environment)
+    fi
     # I think OSX PATH looks like this before Sheldon?
     # /opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
     # Dirs will probably look like this
