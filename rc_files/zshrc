@@ -9,7 +9,7 @@ DOTFILE_DIR="${HOME}/.dotfiles"
 #    source "${script}"
 #done
 # General Exports 
-export ZSH_DIR=${HOME}/.dotfiles/zsh
+export ZSH_DIR=${HOME}/.dotfiles/rc_files/zsh
 export EDITOR="vim"
 # Make the path clean
 if [[ $(uname) == "Linux" ]]; then
@@ -41,22 +41,9 @@ bindkey -M vicmd v edit-command-line
 if (_exists sheldon)
 then
     eval "$(sheldon source)"
+    export PATH="${HOME}/.local/share/sheldon/bin:$PATH"
 fi
-# OSX PATH looks like this before Sheldon
-# /opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
-#
-# scripts/config_fixers
-if [[ -a "${DOTFILE_DIR}/scripts/config_fixers.sh" ]]; then
-    source "${DOTFILE_DIR}/scripts/config_fixers.sh"
-    if [[ -d "${HOME}/.local/share/sheldon" ]]; then
-        SHELDON_DIR="${HOME}/.local/share/sheldon"
-    fi
-    if [[ ! -d "$SHELDON_DIR"/bin ]]; then
-        fix_sheldon $SHELDON_DIR
-        # Need to redo
-    fi
-fi
-export PATH="${HOME}/.local/bin:${HOME}/.cargo/bin:$PATH"
+#export PATH="${HOME}/.local/bin:${HOME}/.cargo/bin:$PATH"
 
 # Bind keys for history substring search
 bindkey '^[[A' history-substring-search-up
@@ -93,7 +80,6 @@ zle -N down-line-or-beginning-search
 
 # Fixes tmux window renaming
 DISABLE_AUTO_TITLE="true"
-
 # Unset the autonaming for tmux
 DISABLE_AUTO_TITLE="true"
 

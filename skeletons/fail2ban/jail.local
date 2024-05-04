@@ -1,0 +1,15 @@
+[DEFAULT]
+bantime = 15m
+maxretry = 3
+
+# Increase bantime when ip has been previously banned
+bantime.increment = true
+
+# Bantime will look over all jals
+bantime.overalljails = true
+
+[sshd]
+enabled = true
+filter = sshd[mode=aggressive]
+banaction = iptables
+ignoreip  = 127.0.0.1/8
