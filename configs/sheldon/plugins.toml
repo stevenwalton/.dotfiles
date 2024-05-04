@@ -22,6 +22,11 @@ defer-more = """{{ hooks?.pre | nl }}
     {% endfor %}
 {{ hooks?.post | nl }}"""
 
+bin = """{% for file in files %} [ -h "{{ file }}" ] && ln -s "{{ file }}" ~/.local/share/sheldon/bin/$(basename "{{ file }}")
+{% endfor %}
+"""
+
+
 
 [plugins]
 ### Examples: ###
@@ -87,7 +92,7 @@ github = "zdharma-continuum/fast-syntax-highlighting"
 
 [plugins.diff-so-fancy]
 github = "z-shell/zsh-diff-so-fancy"
-apply = ["defer"]
+apply = ["bin", "defer"]
 
 #[plugins.powerline-go]
 #github = "justjanne/powerline-go"
@@ -127,4 +132,5 @@ github = "chriskempson/base16-shell"
 # Safely store secrets in repos
 [plugins.blackbox]
 github = "StackExchange/blackbox"
+apply = ["bin"]
 
