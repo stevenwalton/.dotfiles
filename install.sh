@@ -24,6 +24,11 @@ OPTIONS:
 EOF
 }
 
+set_git_config() {
+    # Set git to merge when pulling
+    git config --global pull.rebase false
+}
+
 
 install() {
     if [[ -a "${_DINSTALL}/${1}" ]]; then

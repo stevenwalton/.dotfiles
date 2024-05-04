@@ -28,7 +28,7 @@ fix_sheldon() {
     mkdir -p -- "$1"/bin
     for d in $(find "$1" -type d -name "bin"); do
         for f in $(find "$d" -type f -executable); do
-            ln -s -- "$f" "$1"/bin
+            ln -fs -- "$f" "$1"/bin
         done
     done
 }
