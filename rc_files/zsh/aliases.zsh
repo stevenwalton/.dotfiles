@@ -78,6 +78,7 @@ then
     #
     function batman() {
         export MANPAGER="sh -c 'col -bx | $1 -l man -p'"
+        export MANROFFOPT="-c"
     }
 
     if (_exists batcat)

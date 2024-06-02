@@ -11,7 +11,7 @@ INSTALLER_DIR="${INSTALLER_DIR:-${HOME%/}/.dotfiles/install_files}"
 
 MIRROR="https://github.com/vim/vim"
 DOWNLOAD_DIR="/tmp"
-BUILD_DIR="${HOME%/}/.builds"
+BUILD_DIR="${HOME%/}/.local/builds"
 PREFIX="${HOME%/}/.local"
 DL_METHOD="git"
 VERBOSE="${VERBOSE:-1}"
@@ -102,7 +102,7 @@ get_args() {
                 shift
                 MIRROR=$1
                 ;;
-            -f | --download-dir)
+            -d | --download-dir)
                 shift
                 DOWNLOAD_DIR=$1
                 ;;
