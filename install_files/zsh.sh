@@ -7,10 +7,15 @@
 ################################################################################
 VERSION=0.1
 
-MIRROR="https://www.zsh.org/pub/"
+MIRROR="https://www.zsh.org/pub"
 DOWNLOAD_DIR="/tmp"
-BUILD_DIR="${HOME%/}/.builds"
+BUILD_DIR="${HOME%/}/.local/builds"
 PREFIX="${HOME%/}/.local"
+ETC_DIR="${HOME%/}/.local/etc"
+VERBOSE=0
+OPTIONS=
+
+set -x
 
 usage() {
     cat << EOF
@@ -42,7 +47,8 @@ Help optins show the variables and associated default locations (expanded)
 
 EOF
 }
-install_zsh() {
+
+get_args() {
     while [[ $# -gt 0 ]]; do
         case $1 in 
             -h | --help)
@@ -65,23 +71,98 @@ install_zsh() {
                 shift
                 BIN_DIR=$1
                 ;;
+             -v | --verbose)
+                VERBOSE=1
+                ;;
             *)
                 ;;
         esac
         shift
     done
-    file=$(curl -sL $MIRROR \
-           | cut -d ">" -f 2 \
-           | cut -d "<" -f 1 \
-           | grep "^zsh-[[:digit:]].[[:digit:]].tar.xz$" \
-    )
-    curl -sL "${MIRROR}/${file}" -o "${DOWNLOAD_DIR}/${file}"
-    ZSH_DIR=$(echo "${file}" | cut -d "." -f 1-2)
-    tar xf "${DOWNLOAD_DIR}/${file}" -C "${BUILD_DIR}/"
-    cd "${BUILD_DIR}/${ZSH_DIR}"
-    ./configure --prefix=${PREFIX}
-    make
-    make install
+}
+
+get_version() {
+    # Get latest version
+    SOURCE_FILE=$(curl -sL $MIRROR | grep -Eo "zsh-([0-9]+\.)+tar\.xz" | uniq | sort -rV)
+}
+
+download() {
+    #if [[ $VERBOSE -gt 0 ]]; then
+    #    echo -e "\033[1;33mDownloading ${MIRROR}/${SOURCE_FILE} to ${DOWNLOAD_DIR}/\033[0m"
+    #fi
+    #curl -sL "${MIRROR}/${SOURCE_FILE}" -o "${DOWNLOAD_DIR}/${SOURCE_FILE}"
+    #ZSH_INSTALL_DIR=$(echo "${SOURCE_FILE}" | cut -d "." -f 1-2)
+    ZSH_INSTALL_DIR=$(echo "${SOURCE_FILE}" | sed -e "s/\.tar\.xz//g")
+    if [[ $VERBOSE -gt 0 ]]; then
+        echo -e "\033[1;33mGot ZSH_INSTALL_DIR=${ZSH_INSTALL_DIR}\033[0m"
+    fi
+}
+
+extract_tar() {
+    tar xf "${DOWNLOAD_DIR}/${SOURCE_FILE}" -C "${BUILD_DIR}/"
+
+    if [[ $VERBOSE -gt 0 ]]; then
+        echo "\033[1;33mExtracted ${DOWNLOAD_DIR}/${SOURCE_FILE} to ${BUILD_DIR}\033[0m"
+    fi
+}
+
+configure_zsh() {
+    cd "${BUILD_DIR}/${ZSH_INSTALL_DIR}"
+    if [[ $VERBOSE -gt 0 ]]; then
+        echo -e "\033[1;33mIn $( pwd )\033[0m"
+        echo -e "\033[1;33mShould be in ${BUILD_DIR}/${ZSH_INSTALL_DIR}\033[0m"
+    fi
+    if [[ $VERBOSE -gt 0 ]]; then
+        echo -e "\033[1;33mRunning ./configure ..\033[0m."
+        echo -e "\033[1;33mPrefix is ${PREFIX}\033[0m"
+    fi
+    # Help with this can be found in configure.ac
+    #OPTIONS+=" --enable-multibyte"  # supports multibyte characters
+    #OPTIONS+=" --enable-unicode9" # unicode9 character widths
+    #OPTIONS+=" --enable-maildir-support" # Enables maildir with MAIL & MAILPATH
+    #OPTIONS+=" --enable-function-subdirs" # Installs functions in subdirectories
+    #OPTIONS+=" --enable-pcre" # Enable search for pcre2 Pearl Compatible Regular Expressions library
+    #OPTIONS+=" --enable-gdbm" # Enables support for GDBM GNU dbm: database functions
+    #OPTIONS+=" --enable-cap" # Enables search for POSIX capabilities
+    #OPTIONS+=" --enable-zsh-mem-warnings" # print warnings when errors in memory allocation
+    #OPTIONS+=" --enable-zsh-secure-free" # turn on error checking for free
+    #OPTIONS+=" --enable-stack-allocation" # Dynamically allocate memory on stack when possible
+    #OPTIONS+=" --docdir=$HOME/.local/share/doc/zsh"
+    #OPTIONS+=" --htmldir=$HOME/.local/share/doc/zsh/html"
+    #OPTIONS+=" --enable-etcdir=$ETC_DIR/zsh" # location for global zsh scripts
+    #OPTIONS+=" --enable-scriptdir=$HOME/.local/zsh/scripts" # Path to install scripts to
+    #OPTIONS+=" --enable-zshenv=$ETC_DIR/zshenv"
+    #OPTIONS+=" --enable-zlogin=$ETC_DIR/zlogin" 
+    #OPTIONS+=" --enable-zlogout=$ETC_DIR/zlogout" 
+    #OPTIONS+=" --enable-zprofile=$ETC_DIR/zprofile"
+    #OPTIONS+=" --enable-zshrc=$ETC_DIR/zshrc"
+    OPTIONS+=" --with-term-lib='ncursesw termcap ncurses'"
+    #OPTIONS+=" --with-tcsetpgrp"
+    #OPTIONS+=" --enable-fndir=$HOME/.local/share/zsh/functions"
+    ./configure \
+        --prefix=${PREFIX} \
+        "${OPTIONS[@]}"
+    # Maybe want these?
+    # --enable-readnullcmd=PAGER # Pager used when READNULLCMD is not set? BAT?
+}
+
+install_zsh() {
+    get_args $@
+    get_version
+    download
+    extract_tar
+    configure_zsh
+
+    if [[ $VERBOSE -gt 0 ]]; then
+        echo -e "\033[1;33mRunning make\033[0m"
+    fi
+    cd "${BUILD_DIR}/${ZSH_INSTALL_DIR}"
+    make -j12
+    if [[ $VERBOSE -gt 0 ]]; then
+        echo -e "\033[1;33mRunning make install (in $( pwd ) )\033[0m"
+    fi
+    #make install
+    #make -C Doc zsh.pdf
 }
 
 install_zsh "$@" || exit 1
