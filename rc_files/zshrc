@@ -40,7 +40,7 @@ bindkey -M vicmd v edit-command-line
 # NOTE: Location sensitive. Check here if things aren't loading
 if (_exists sheldon)
 then
-    eval "$(sheldon source)"
+    eval "$(sheldon source)" 2&>/dev/null
     #source <(sheldon source)
     export PATH="${HOME}/.local/share/sheldon/bin:$PATH"
 fi
@@ -139,3 +139,4 @@ if [ -f '/Users/steven/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/User
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/steven/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/steven/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+[ -f /opt/mambaforge/etc/profile.d/conda.sh ] && source /opt/mambaforge/etc/profile.d/conda.sh
