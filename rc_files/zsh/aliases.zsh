@@ -111,3 +111,7 @@ then
         fzfalias fdfind
     fi
 fi
+
+# really clear the screen
+# Uses VT100 escape code \033 == \x18 == 27 == ESC (so this is <ESC>c
+alias cls='printf "\033c"'

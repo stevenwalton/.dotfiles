@@ -93,3 +93,4 @@ kill_steam() {
     pkill steam 
     pkill steamwebhelper
 }
+

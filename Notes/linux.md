@@ -51,3 +51,34 @@ EndSection
 If you don't have that nvidia conf then run `# nvidia-xconfig`.
 Pay attention to output. May be just easier to edit `/etc/X11/xorg.conf` but
 better to be organized!
+
+# Drive Management
+## Partitioning Dives
+`fdisk` is the most common but I like `cfdisk` because it is a bit easier to
+use.
+```bash
+# Useful builtins
+## We use format /dev/sdXY which would be similar to /dev/sda1 where X is the
+## device letter and Y is the partition number
+findmnt # shows 
+findmnt --real # Shows only the real mounts, so a little less cluttered
+lsblk -f # Also shows mount points and file system info
+
+wipefs # wipes the filesystem and labels
+wipefs -af /dev/sdXY # force write all. Useful if previously a ZFS pool
+
+mkfs.ext4 /dev/sdXY # Makes the file system
+mkswap /dev/sdXY # Makes swap space
+```
+- [RedHat on File System Types](https://access.redhat.com/articles/3129891):
+useful if you are doing specialized stuff
+- [RedHat on
+Swap](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/storage_administration_guide/ch-swapspace)
+| System Ram | Recommended Swap | Recommend Swap (if hibernate) |
+|:-----------|-----------------:|------------------------------:|
+| <= 2GB  |  2x RAM | 3x RAM |
+| 2GB - 8GB | = RAM | 2x RAM |
+| 8GB - 64GB | >4 GB | 1.5x RAM |
+| >= 64GB | > 4GB | Not Recommended |
+
+
