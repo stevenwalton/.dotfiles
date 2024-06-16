@@ -68,6 +68,12 @@ $? # Exit status
 $$ # Process ID
 $SECONDS # time since script started
 $LINENO # Script line number
+"${HOME%/}" # use %/ to avoide excessive /'s
+# Quotes
+"$VAR" # Double quotes expand special characters
+VAR="$(ls ${HOME%/})" # stores output of comamnd as VAR
+'$VAR' # Single quotes preserve special characters 
+VAR='$(ls ${HOME%/})' # variable is the literal string
 ```
 
 # Conditional flags

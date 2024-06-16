@@ -4,6 +4,10 @@ These are just a list of useful commands and notes that I don't want to forget
 # Terminals, Programs, and more
 [Awesome Terminals](https://github.com/cdleon/awesome-terminals)
 
+# curl
+- [Everything curl](https://everything.curl.dev/index.html)
+- [helpful gist](https://gist.github.com/subfuzion/08c5d85437d5d4f00e58)
+
 # Working With Remote Machines
 - Always check the display: `echo $DISPLAY`
     - Usually this is 0, but sometimes on 1
