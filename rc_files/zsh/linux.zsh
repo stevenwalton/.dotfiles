@@ -1,8 +1,10 @@
-if [[ $(hostname) == "rama" ]];
+if [[ -d "${HOME%/}/.anaconda3" ]];
 then
-    export DISPLAY=:1
+    export CONDA_ROOT="${HOME}/.anaconda3"
+elif [[ -d "/opt/mambaforge" ]]
+then
+    export CONDA_ROOT="/opt/mambaforge"
 fi
-export CONDA_ROOT="${HOME}/.anaconda3"
 alias open='xdg-open' 
 # Add cuda to path if it's in the normal location
 if [[ -d /usr/local/cuda ]]; then
@@ -42,5 +44,5 @@ fi
 
 # find conda dir
 export CONDA_ROOT="$(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)')"
+# Make open work like osx
 alias open='xdg-open' 
-
