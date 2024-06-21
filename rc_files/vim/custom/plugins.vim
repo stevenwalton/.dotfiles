@@ -94,7 +94,6 @@ endif
 "let g:easytags_suppress_ctags_warning = 1
 "
 " GutenTags
-set statusline+=%{gutentags#statusline()}
 " Root directory is considered if it has one of these files in it
 let g:gutentags_project_root = ['.git', 'Makefile', 'src', 'main.py']
 " Write ctags to this location instead
@@ -105,8 +104,10 @@ let g:gutentags_ctags_exclude = [
     \ '.DS_Store',
     \ '__*__',
     \ '*.pth',
+    \ '*.pt',
     \ '*.tar',
-    \ '*.gz'
+    \ '*.gz',
+    \ '*.xz',
     \ ]
 let g:gutentags_ctags_exclude_wildignore = 1
 let g:gutentags_ctags_extra_args = [
@@ -119,6 +120,8 @@ let g:gutentags_ctags_extra_args = [
 "                  |||____ Language of input file
 "                  ||_____ Inheritance 
 "                  |______ Access of Class Member
+" Generate tags on write
+let g:gutentags_generate_on_write = 1
 
 " tagbar settings
 " Open close tagbar with \b
