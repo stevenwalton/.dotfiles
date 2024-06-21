@@ -30,6 +30,10 @@ But I also don't want to go full Gentoo, as that's too much work.
     - [ ] cloudflared
     - [ ] wezterm
     - [ ] foot
+    - [ ] [gh](https://github.com/cli/cli#installation)
+        - [gh-dash](https://github.com/dlvhdr/gh-dash)
+    - [ ] [Lynx](https://lynx.invisible-island.net/current/index.html) cli
+        browser
 - [ ] Script installers
     - [ ] cuda
     - [ ] TensorRT
