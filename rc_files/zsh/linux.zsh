@@ -42,5 +42,7 @@ then
     alias sudo='sudo '
 fi
 
+# find conda dir
+export CONDA_ROOT="$(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)')"
 # Make open work like osx
 alias open='xdg-open' 

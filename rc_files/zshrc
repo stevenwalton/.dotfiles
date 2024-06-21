@@ -106,17 +106,6 @@ fi
 source "${ZSH_DIR%/}/aliases.zsh"
 source "${ZSH_DIR%/}/basic_aliases.zsh"
 
-#################################
-# Machine Specific Configurations
-#################################
-# -n is non-zero string, -z is true if no string
-#if [[ -n "${CONDA_ROOT%/}" ]];
-#then
-#    export CONDA_BIN="${CONDA_ROOT%/}/bin"
-#    export PATH="${CONDA_BIN%/}:$PATH"
-#    source "${CONDA_BIN%/}/activate"
-#fi
-
 function killssh()
 {
     kill -9 $SSH_AGENT_PID
