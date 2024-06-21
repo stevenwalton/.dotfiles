@@ -40,9 +40,7 @@ then
     alias sudo='sudo '
 fi
 
-#if [[ -d ${HOME}/.anaconda3 ]];
-#then
-#    export CONDA_ROOT="${HOME}/.anaconda3"
-#fi
+# find conda dir
+export CONDA_ROOT="$(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)')"
 alias open='xdg-open' 
 
