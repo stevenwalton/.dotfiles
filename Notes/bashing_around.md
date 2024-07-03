@@ -10,7 +10,7 @@ echo Hello {world,you,me,everyone}
 # Hello world you me everyone
 ```
 Don't forget to use the `man` pages. Remember there are examples at the bottom.
-And if on nix you have `info` and if specifically using bash `help`.
+And if on nix you have `info` for `builtins` and if specifically using bash `help`.
 
 # Pitfalls
 [bash pitfalls](https://mywiki.wooledge.org/BashPitfalls)
@@ -60,6 +60,13 @@ EOF
 
 # Useful commands
 ```bash
+# Tips and tricks
+$(< file) # faster than $(cat file)
+
+##
+# Touch a file in all directories. Utility shown in example
+find . -type d -exec touch "{}/__init__.py" \;
+
 # Rename extensions
 find . -type f -name "*.abc" -exec sh -c 'mv "$0" "${0/%abc/def}"' {} \;
 ```
@@ -73,8 +80,6 @@ first, which is the output of `find`.
 `$0` is much easier than what [SO says](https://askubuntu.com/questions/35922/how-do-i-change-extension-of-multiple-files-recursively-from-the-command-line).
 It helps to read the docs!
 
-# Tips and tricks
-- `$(< file)` is faster than `$(cat file)`
 
 # Variables
 ```bash
@@ -115,7 +120,7 @@ echo "${file%/*}"
 
 # Conditional flags
 List can be found
-[here](https://www.gnu.org/software/bash/manual/html_node/Bash-Conditional-Expressions.html)
+[ohere](https://www.gnu.org/software/bash/manual/html_node/Bash-Conditional-Expressions.html)
 ([archive](https://archive.is/20140307173542/http://www.gnu.org/software/bash/manual/html_node/Bash-Conditional-Expressions.html))
 
 One's you'll use the most are

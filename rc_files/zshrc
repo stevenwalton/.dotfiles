@@ -106,6 +106,12 @@ fi
 source "${ZSH_DIR%/}/aliases.zsh"
 source "${ZSH_DIR%/}/basic_aliases.zsh"
 
+# Auto do ssh-eval if isn't already set
+if [[ -n $SSH_AUTH_SOCK ]];
+then
+    eval "$(ssh-agent -s)"
+fi
+
 function killssh()
 {
     kill -9 $SSH_AGENT_PID
@@ -129,3 +135,17 @@ if [ -f '/Users/steven/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/User
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/steven/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/steven/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
 [ -f /opt/mambaforge/etc/profile.d/conda.sh ] && source /opt/mambaforge/etc/profile.d/conda.sh
+
+# >>> mamba initialize >>>
+# !! Contents within this block are managed by 'mamba init' !!
+export MAMBA_EXE='/Users/steven/.local/bin/micromamba';
+export MAMBA_ROOT_PREFIX='/Users/steven/.mamba';
+__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__mamba_setup"
+else
+    alias micromamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+fi
+unset __mamba_setup
+# <<< mamba initialize <<<
+alias conda='micromamba'
