@@ -20,10 +20,17 @@ set path+=**            " Recursive path lookup
 
 set t_Co=256            " Want 256 colors
 "set cursorline          " Highlight current line
-set nocompatible        " Cool stuff in Vim. Makes vi non-compatible 
+set nocompatible        " READ THE DOCS
 set lazyredraw          " Faster rendering
 set showcmd             " Show command as typing
 set wildmenu            " Wildmenu buffer, auto completion
+
+" Add syntax based autocompletion to omnicompletion: <C-x><C-o>
+filetype plugin on
+set omnifunc=syntaxcomplete#Complete
+" If python file loaded load the python3 completion
+" Must be built with +python3
+autocmd FileType python setlocal omnifunc=python3complete#Complete
 
 " Indenting
 set autoindent          " Auto indent

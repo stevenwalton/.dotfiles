@@ -42,7 +42,25 @@ then
     alias sudo='sudo '
 fi
 
-# find conda dir
-export CONDA_ROOT="$(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)')"
+# find conda dir. Use first
+export CONDA_ROOT="$(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)') -print -quit"
+CONDA_TYPE="$(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)') -print -quit"
+if [[ "${CONDA_TYPE##*/}" == .mamba ]];
+then
+    export MAMBA_EXE="${HOME%/}/.local/bin/micromamba";
+    export MAMBA_ROOT_PREFIX="${HOME%/}/.mamba";
+    __mamba_setup="$("${MAMBA_EXE}" shell hook --shell zsh --root-prefix "${MAMBA_ROOT_PREFIX}" 2> /dev/null)"
+    if [[ $? -eq 0 ]];
+    then
+        eval "$__mamba_setup"
+    else
+        alias micromamba="${MAMBA_EXE}"
+    fi
+    alias conda='micromamba'
+elif [[ "${CONDA_TYPE##*/}" == .conda || "${CONDA_TYPE##*/}" == .anaconda3 ]];
+then
+    export CONDA_ROOT="$CONDA_TYPE"
+fi
+unset CONDA_TYPE
 # Make open work like osx
 alias open='xdg-open' 

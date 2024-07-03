@@ -13,7 +13,7 @@ call vundle#begin()
     """"" Editing
     Plugin 'frazrepo/vim-rainbow'            " Improved Parentheses
     Plugin 'sheerun/vim-polyglot'            " Comprehensive syntax highlighting
-    Plugin 'xolox/vim-misc'                  " Needed for easy-tags
+    "Plugin 'xolox/vim-misc'                  " Needed for easy-tags
     "Plugin 'xolox/vim-easytags'              " Automatically creates tags
     Plugin 'ludovicchabant/vim-gutentags'    " Ctags
     Plugin 'MattesGroeger/vim-bookmarks'     " Annotated marks
