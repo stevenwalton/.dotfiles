@@ -1,25 +1,49 @@
 ################################################################################
 # This file holds aliases for zsh
+# This should be called before basic_aliases, which should ideally contain
+# aliases for core-utils. Since we might replace them with fancy-cli tools here,
+# we'll want those to come second
 ################################################################################
+
 ################################################################################
-# Fancy CLI Commands
+#                                   tmux 
 ################################################################################
-# 
-# top 
-# htop https://github.com/htop-dev/htop
-#
+# Tmux doesn't like to recognize 256 colouring, so let's force it
+# -u fixes backspace error thing
+if (_exists tmux)
+then
+    alias tmux='tmux -2 -u'
+fi
+# Let's try to set a local tmux session socket. We'll look to see if we are
+# using my typical directory structure where ~/.local has a tmp location. 
+# If this directory exists then we'll try to make our socket over there.
+# This allows us to deal with poorly configured compute nodes and have tmux 
+# sessions shared across different head nodes in a compute environment so we 
+# can be agnostic to the login node!
+# Tmux's configuration sucks so we do this here and IME exporting this
+# environment variable is ineffective as is using the -L flag
+if [[ -d "${HOME%/}"/.local/tmp ]];
+then
+    alias tmux="TMUX_TMPDIR=${HOME%/}/.local/tmp tmux"
+fi
+
+################################################################################
+#                                   top 
+#                   https://github.com/htop-dev/htop
+################################################################################
 if (_exists htop)
 then
     alias top='htop'
 fi
 
-#
-# ls
-# Make sure this is above ls aliases 
-# exa is deprecated. Prefer LSD
-# lsd: https://github.com/lsd-rs/lsd
-# exa:https://github.com/ogham/exa
-#
+################################################################################
+#                                   ls
+#                      exa is deprecated. Prefer LSD
+#                   lsd: https://github.com/lsd-rs/lsd
+#                   exa: https://github.com/ogham/exa
+#             !! ==> Make sure this is above ls aliases <== !!
+#       If basic_aliases is loaded after aliases then this should be handled
+################################################################################
 if (_exists lsd)
 then
     alias ls='lsd'
@@ -35,10 +59,13 @@ else
     alias la='ls -a'
     alias ll='ls -lh'
 fi
-# fzf
-# https://github.com/junegunn/fzf
-# We'll write functions for fdfind here. These will be called later
-# Needs to be above bat
+
+################################################################################
+#                                   fzf
+#                   https://github.com/junegunn/fzf
+#       We'll write functions for fdfind here. These will be called later
+#                   !! ==> Needs to be above bat <== !!
+################################################################################
 function fzfalias() {
     if (_exists fzf)
     then
@@ -52,11 +79,30 @@ function export_fzf_defaults() {
     fi
 }
 
-#
-# cat
-# batcat https://github.com/sharkdp/bat
-# Unfortunately we have to handle a batcat or bat command
-#
+################################################################################
+#                                   fd
+#                      https://github.com/sharkdp/fd
+#               System might either call it fd or fdfind -____-
+################################################################################
+if (_exists fd) || (_exists fdfind)
+then
+    if (_exists fd)
+    then
+        # Ignore the automatic .gitignore
+        # See: https://github.com/sharkdp/fd/issues/612
+        alias fd="fd --no-ignore"
+        fzfalias fd
+    else #fdfind
+        alias fd="fdfind --no-ignore"
+        fzfalias fdfind
+    fi
+fi
+
+################################################################################
+#                                   BatCat
+#                   batcat https://github.com/sharkdp/bat
+#           Unfortunately we have to handle a batcat or bat command
+################################################################################
 if (_exists bat) || (_exists batcat)
 then
     # Function to replace help
@@ -96,23 +142,24 @@ then
 fi
 
 
-# fdfind
-# https://github.com/sharkdp/fd
-# Similar issue with fd and fdfind
-if (_exists fd) || (_exists fdfind)
-then
-    if (_exists fd)
-    then
-        # Ignore the automatic .gitignore
-        # https://github.com/sharkdp/fd/issues/612
-        alias fd="fd --no-ignore"
-        fzfalias fd
-    else
-        alias fd="fdfind --no-ignore"
-        fzfalias fdfind
-    fi
-fi
-
 # really clear the screen
 # Uses VT100 escape code \033 == \x18 == 27 == ESC (so this is <ESC>c
 alias cls='printf "\033c"'
+
+################################################################################
+#                                   Python 
+################################################################################
+# I might be using different conda environments so let's check and prefer mamba
+# to micromamba
+if (_exists mamba)
+then
+    alias conda='mamba'
+elif (_exists micromamba)
+then
+    alias conda='micromamba'
+fi
+
+if (_exists conda )
+then
+    conda activate base
+fi
