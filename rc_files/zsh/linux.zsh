@@ -46,28 +46,54 @@ then
     alias sudo='sudo '
 fi
 
-# I don't think I need this anymore?
-## find conda dir. Use first
-export CONDA_ROOT="$(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)') -print -quit"
-CONDA_TYPE="$(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)') -print -quit"
-if [[ "${CONDA_TYPE##*/}" == .mamba ]];
+
+# Conda might be in a number of places and be configured in different ways. So
+# let's try this complicated bs to figure out what we have and where it is.
+# We'll prefer builds on our local directory as opposed to /opt
+# We should clean this up better but I'll do it later (i.e. when I need it)
+#if [[ $(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)' -print -quit) ]];
+#then
+#    echo "We got into where we shouldn't"
+#    echo "$(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)' -print -quit)"
+#    export CONDA_ROOT="$(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)') -print -quit"
+#    CONDA_TYPE="$(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)') -print -quit"
+#    if [[ "${CONDA_TYPE##*/}" == .mamba ]];
+#    then
+#        export MAMBA_EXE="${HOME%/}/.local/bin/micromamba";
+#        export MAMBA_ROOT_PREFIX="${HOME%/}/.mamba";
+#        __mamba_setup="$("${MAMBA_EXE}" shell hook --shell zsh --root-prefix "${MAMBA_ROOT_PREFIX}" 2> /dev/null)"
+#        if [[ $? -eq 0 ]];
+#        then
+#            eval "$__mamba_setup"
+#        else
+#            alias micromamba="${MAMBA_EXE}"
+#        fi
+#        alias conda='micromamba'
+#    elif [[ "${CONDA_TYPE##*/}" == .conda || "${CONDA_TYPE##*/}" == .anaconda3 ]];
+#    then
+#        export CONDA_ROOT="$CONDA_TYPE"
+#    fi
+#    unset CONDA_TYPE
+if [[ $(find /opt -type d -name "mambaforge") ]];
 then
-    export MAMBA_EXE="${HOME%/}/.local/bin/micromamba";
-    export MAMBA_ROOT_PREFIX="${HOME%/}/.mamba";
-    __mamba_setup="$("${MAMBA_EXE}" shell hook --shell zsh --root-prefix "${MAMBA_ROOT_PREFIX}" 2> /dev/null)"
-    if [[ $? -eq 0 ]];
-    then
-        eval "$__mamba_setup"
+    __conda_setup="$('/opt/mambaforge/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
     else
-        alias micromamba="${MAMBA_EXE}"
+        if [ -f "/opt/mambaforge/etc/profile.d/conda.sh" ]; then
+            . "/opt/mambaforge/etc/profile.d/conda.sh"
+        else
+            export PATH="/opt/mambaforge/bin:$PATH"
+        fi
     fi
-    alias conda='micromamba'
-elif [[ "${CONDA_TYPE##*/}" == .conda || "${CONDA_TYPE##*/}" == .anaconda3 ]];
-then
-    export CONDA_ROOT="$CONDA_TYPE"
+    unset __conda_setup
+
+    if [ -f "/opt/mambaforge/etc/profile.d/mamba.sh" ]; then
+        . "/opt/mambaforge/etc/profile.d/mamba.sh"
+    fi
+    # <<< conda initialize <<<
 fi
-unset CONDA_TYPE
-# Make open work like osx
+
 alias open='xdg-open' 
 
 # For Nvidia Colossus machines
