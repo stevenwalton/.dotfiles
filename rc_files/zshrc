@@ -117,7 +117,7 @@ source "${ZSH_DIR%/}/basic_aliases.zsh"
 if [[ ! -v SSH_AUTH_SOCK && ! -v SSH_AGENT_PID ]];
 then
     eval "$(ssh-agent -s)" &> /dev/null
-elif [[ uname == "Linux" ]];
+elif [[ $(uname) == "Linux" ]];
 then
     # If we're on linux there are two ways we can try to find these variables
     # using some a priori knowledge
@@ -154,6 +154,10 @@ then
 # elif [[ uname == "Darwin" ]]
 # OSX seems to handle this a bit cleaner but I'm still a little confused about
 # it. At least for now this appears to be working
+
+# For debugging
+#else
+#    echo "WARNING: You skipped the whole ssh-agent check"
 fi
 # Security Note:
 # Maybe this leads to security issues but I believe that it would require a user
