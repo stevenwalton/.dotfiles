@@ -1,9 +1,9 @@
-if [[ -d "${HOME%/}/.anaconda3" ]];
-then
-    export CONDA_ROOT="${HOME}/.anaconda3"
-elif [[ -d "/opt/mambaforge" ]]
+if [[ -d "/opt/mambaforge" ]]
 then
     export CONDA_ROOT="/opt/mambaforge"
+elif [[ -d "${HOME%/}/.anaconda3" ]];
+then
+    export CONDA_ROOT="${HOME}/.anaconda3"
 fi
 alias open='xdg-open' 
 # Add cuda to path if it's in the normal location
@@ -13,6 +13,10 @@ if [[ -d /usr/local/cuda ]]; then
         export LD_LIBRARY_PATH="/usr/local/cuda/include:${LD_LIBRARY_PATH}"
     fi
 fi
+
+# If we have an Nvidia card and Steam let's make sure we have the correct
+# environment variables to ensure that we're correctly loading and can support
+# 4k@60fps and raytracing
 if (lspci | grep -i nvidia &> /dev/null) && (_exists steam);
 then
     # Enable ray tracing
@@ -42,7 +46,8 @@ then
     alias sudo='sudo '
 fi
 
-# find conda dir. Use first
+# I don't think I need this anymore?
+## find conda dir. Use first
 export CONDA_ROOT="$(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)') -print -quit"
 CONDA_TYPE="$(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)') -print -quit"
 if [[ "${CONDA_TYPE##*/}" == .mamba ]];
@@ -64,3 +69,11 @@ fi
 unset CONDA_TYPE
 # Make open work like osx
 alias open='xdg-open' 
+
+# For Nvidia Colossus machines
+#if [[ $(whoami) == "local-swalton" ]];
+#then
+#    conda activate py39
+#    source "${HOME%/}/Programming/tlt-pytorch/scripts/envsetup.sh"
+#    alias tao="tao_pt --gpus all --env PYTHONPATH=/tao-pt --"
+#fi

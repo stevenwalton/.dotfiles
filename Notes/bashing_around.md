@@ -57,16 +57,29 @@ long and complicated script
 goes here
 EOF
 ```
+# Find
+`find` is one of the most powerful and underrated programs in bash.
+It is one you should master!
+There are newer tools like [fd](https://github.com/sharkdp/fd) that help and 
+make some things easier but you should make sure you understand `find` first.
+Let's see a pretty useful example that you might use in real life:
+Suppose you are starting a new project in python and you know the general
+structure of your module. So we can set that up pretty efficiently with brace
+expansion and find:
+```bash
+# Make some arbitrary directory structure
+mkdir -p src/{a,b,c,d} src/e/e{a,b} src/d/da/dd{a,b}
+# Add __init__.py to all directorires
+find src -type d -exec touch "{}/__init__.py" \;
+```
+Through `find` we were able to add our python init files to all directories!
+Now remember that you can use regex and do far more complicated commands, so
+this can do quite a lot for you.
 
 # Useful commands
 ```bash
 # Tips and tricks
 $(< file) # faster than $(cat file)
-
-##
-# Touch a file in all directories. Utility shown in example
-find . -type d -exec touch "{}/__init__.py" \;
-
 # Rename extensions
 find . -type f -name "*.abc" -exec sh -c 'mv "$0" "${0/%abc/def}"' {} \;
 ```
