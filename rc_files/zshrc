@@ -83,6 +83,13 @@ zle -N down-line-or-beginning-search
 DISABLE_AUTO_TITLE="true"
 # Unset the autonaming for tmux
 DISABLE_AUTO_TITLE="true"
+# Use a local tmux if we have the local temp directory
+# This can help if we're on a cluster and have different login nodes
+# Especially when improperly setup. 
+if [[ -d "${HOME%/}/.local/tmp" ]];
+then
+    export TMUX_TMPDIR="${HOME%/}/.local/tmp"
+fi
 
 
 #################################
