@@ -181,6 +181,3 @@ trap killssh 0
 
 # Spaceduck highlighting
 source "${ZSH_DIR%/}/spaceduck.zsh"
-
-
-. "$HOME/.cargo/env"
