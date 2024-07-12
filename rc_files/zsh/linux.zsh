@@ -31,7 +31,7 @@ then
     #alias steam='steam -bigpicture --intro-skip --launcher-skip-skipStartScreen'
     alias steam='steam --intro-skip --launcher-skip-skipStartScreen'
 fi
-#
+
 # Aliases specifically for linux machines 
 # Nala: a better Apt
 if (_exists nala)
@@ -40,7 +40,6 @@ then
     # Secret trick to get this to work
     alias sudo='sudo '
 fi
-
 
 # Conda might be in a number of places and be configured in different ways. So
 # let's try this complicated bs to figure out what we have and where it is.
@@ -66,7 +65,7 @@ then
     # <<< conda initialize <<<
 elif [[ $(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)' -print -quit) ]];
 then
-    export CONDA_ROOT="$(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)') -print -quit"
+    export CONDA_ROOT="$(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)' -print -quit)"
     CONDA_TYPE="$(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)' -print -quit)"
     if [[ "${CONDA_TYPE##*/}" == .mamba ]];
     then
