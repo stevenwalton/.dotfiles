@@ -2,7 +2,7 @@
 """"""""""""""""""""""" VIM Plugin Options"""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Keep at top. Helps ensure that format options work correctly
-filetype off
+filetype off " Required
 set rtp+=~/.vim/bundle/Vundle.vim
 " :PluginInstall Install plugins
 " :PluginClean cleans removal of unused plugins
@@ -115,6 +115,21 @@ let g:NERDTreeFileLines = 1
 
 " Toggle NERDTree with \nt
 map <Leader>nt :NERDTreeToggle<CR>
+" NERDTree git use powerline
+let g:NERDTreeGitStatusUseNerdFonts = 1 
+" Really for documentation
+let g:NERDTreeGitStatusIndicatorMapCustom = {
+                \ 'Modified'  :'✹',
+                \ 'Staged'    :'✚',
+                \ 'Untracked' :'✭',
+                \ 'Renamed'   :'➜',
+                \ 'Unmerged'  :'═',
+                \ 'Deleted'   :'✖',
+                \ 'Dirty'     :'✗',
+                \ 'Ignored'   :'☒',
+                \ 'Clean'     :'✔︎',
+                \ 'Unknown'   :'?',
+                \ }
  
 " tagbar settings
 " -------------------- 
