@@ -66,8 +66,6 @@ then
     # <<< conda initialize <<<
 elif [[ $(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)' -print -quit) ]];
 then
-    echo "We got into where we shouldn't"
-    echo "$(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)' -print -quit)"
     export CONDA_ROOT="$(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)') -print -quit"
     CONDA_TYPE="$(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)' -print -quit)"
     if [[ "${CONDA_TYPE##*/}" == .mamba ]];
