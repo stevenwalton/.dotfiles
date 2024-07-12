@@ -46,7 +46,25 @@ fi
 # let's try this complicated bs to figure out what we have and where it is.
 # We'll prefer builds on our local directory as opposed to /opt
 # We should clean this up better but I'll do it later (i.e. when I need it)
-if [[ $(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)' -print -quit) ]];
+if [[ $(find /opt -type d -name "mambaforge") ]];
+then
+    __conda_setup="$('/opt/mambaforge/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
+    else
+        if [ -f "/opt/mambaforge/etc/profile.d/conda.sh" ]; then
+            . "/opt/mambaforge/etc/profile.d/conda.sh"
+        else
+            export PATH="/opt/mambaforge/bin:$PATH"
+        fi
+    fi
+    unset __conda_setup
+
+    if [ -f "/opt/mambaforge/etc/profile.d/mamba.sh" ]; then
+        . "/opt/mambaforge/etc/profile.d/mamba.sh"
+    fi
+    # <<< conda initialize <<<
+elif [[ $(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)' -print -quit) ]];
 then
     echo "We got into where we shouldn't"
     echo "$(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)' -print -quit)"
@@ -69,35 +87,7 @@ then
         export CONDA_ROOT="$CONDA_TYPE"
     fi
     unset CONDA_TYPE
-if [[ $(find /opt -type d -name "mambaforge") ]];
-then
-    __conda_setup="$('/opt/mambaforge/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-    if [ $? -eq 0 ]; then
-        eval "$__conda_setup"
-    else
-        if [ -f "/opt/mambaforge/etc/profile.d/conda.sh" ]; then
-            . "/opt/mambaforge/etc/profile.d/conda.sh"
-        else
-            export PATH="/opt/mambaforge/bin:$PATH"
-        fi
-    fi
-    unset __conda_setup
-
-    if [ -f "/opt/mambaforge/etc/profile.d/mamba.sh" ]; then
-        . "/opt/mambaforge/etc/profile.d/mamba.sh"
-    fi
-    # <<< conda initialize <<<
-elif [[
-
 fi
-#if [[ -d "/opt/mambaforge" ]]
-#then
-#    export CONDA_ROOT="/opt/mambaforge"
-#elif [[ -d "${HOME%/}/.anaconda3" ]];
-#then
-#    export CONDA_ROOT="${HOME}/.anaconda3"
-#fi
-
 
 # For Nvidia Colossus machines
 #if [[ $(whoami) == "local-swalton" ]];
