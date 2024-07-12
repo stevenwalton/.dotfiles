@@ -12,7 +12,7 @@ call vundle#begin()
     Plugin 'VundleVim/Vundle.vim'
     """"" Editing
     Plugin 'frazrepo/vim-rainbow'            " Improved Parentheses
-    "Plugin 'sheerun/vim-polyglot'            " Comprehensive syntax highlighting
+    Plugin 'sheerun/vim-polyglot'            " Comprehensive syntax highlighting
     Plugin 'MattesGroeger/vim-bookmarks'     " Annotated marks
     """"" Interface
     Plugin 'pineapplegiant/spaceduck'        " Spaceduck theme
