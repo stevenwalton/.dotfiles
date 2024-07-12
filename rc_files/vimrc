@@ -1,6 +1,8 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""" VIM Option """""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nocompatible        " READ THE DOCS. Plugins often depend on this 
+
 source ~/.vim/custom/plugins.vim " Plugins and plugin options
 source ~/.vim/custom/remaps.vim " Personal Remaps
 
@@ -20,7 +22,6 @@ set path+=**            " Recursive path lookup
 
 set t_Co=256            " Want 256 colors
 "set cursorline          " Highlight current line
-set nocompatible        " READ THE DOCS
 set lazyredraw          " Faster rendering
 set showcmd             " Show command as typing
 set wildmenu            " Wildmenu buffer, auto completion
