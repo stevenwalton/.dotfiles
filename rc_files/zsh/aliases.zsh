@@ -14,18 +14,6 @@ if (_exists tmux)
 then
     alias tmux='tmux -2 -u'
 fi
-# Let's try to set a local tmux session socket. We'll look to see if we are
-# using my typical directory structure where ~/.local has a tmp location. 
-# If this directory exists then we'll try to make our socket over there.
-# This allows us to deal with poorly configured compute nodes and have tmux 
-# sessions shared across different head nodes in a compute environment so we 
-# can be agnostic to the login node!
-# Tmux's configuration sucks so we do this here and IME exporting this
-# environment variable is ineffective as is using the -L flag
-if [[ -d "${HOME%/}"/.local/tmp ]];
-then
-    alias tmux="TMUX_TMPDIR=${HOME%/}/.local/tmp tmux"
-fi
 
 ################################################################################
 #                                   top 
