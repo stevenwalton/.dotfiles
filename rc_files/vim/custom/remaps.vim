@@ -55,9 +55,17 @@ noremap <Leader>v- :g/Version/norm! $h <C-X><CR>:call feedkeys("``")<CR>:w<CR>
 " Make sure to use localleader and 
 " <buffer>
 """"""""""""""""""""""""""""""""""""""""
-" ===== C / C++ shortcuts =====
+" ===== Python =====
+function! PythonSettings()
+    " Sets K to look in pydocs. 
+    " Not great, but helps. Can highlight for better results
+    setlocal keywordprg=:Pydoc
+endfunction
+autocmd FileType py call PythonSettings()
+
+" ===== C / C++ =====
 " C shortcuts \m executes make, \mc executes make clean
-function! MakeShortcuts()
+function! MakeSettings()
     noremap <localleader>m :make<cr>
     noremap <localleader>mc :make clean<cr>
     noremap <localleader>md :make distclean<CR>
@@ -65,21 +73,21 @@ function! MakeShortcuts()
     cnoremap <buffer>make :make<cr>
 endfunction
 
-function! CShortcuts()
+function! CSettings()
     " C \gcc builds C file with no extensions, using gcc
     noremap <localleader>gcc :!gcc % -o %:r<CR>
 endfunction
-function! CPPShortcuts()
+function! CPPSettings()
     " C++ \cpp builds C++ file with no extension, using g++
     map <localleader>cpp :!g++ % -o %:r<CR>
     map <localleader>gcc :!g++ % -o %:r<cr>
 endfunction
-autocmd FileType cpp call MakeShortcuts()
-autocmd FileType cpp call CPPShortcuts()
-autocmd FileType c call CShortcuts()
+autocmd FileType cpp call MakeSettings()
+autocmd FileType cpp call CPPSettings()
+autocmd FileType c call CSettings()
 
-" ===== LaTeX shortcuts =====
-function! TexShortcuts()
+" ===== LaTeX =====
+function! TexSettings()
     " tex compile on current file
     nnoremap <buffer> <localleader>tex :!pdflatex %<CR>
     " Tex make files can be finicky so we make, touch (to change) and run
@@ -88,12 +96,12 @@ function! TexShortcuts()
     nnoremap <localleader>m :make<cr>
     nnoremap <localleader>mc :make clean<cr> touch %<cr> make
 endfunction
-autocmd FileType plaintex call TexShortcuts()
+autocmd FileType plaintex call TexSettings()
 
-" ===== Markdown shortcuts =====
-function! MarkdownShortcuts()
+" ===== Markdown =====
+function! MarkdownSettings()
     " Operate on header of section. i.e. 'cih' = delete header and go to insert
     " mode. 'dih' = delete header. Header defined by underline with == or --
     onoremap ih :<c-u>execute "normal !?^\(==\|--\)\\+$\r:nohlsearch\rkvg_"<cr>
 endfunction
-autocmd FileType md call MarkdownShortcuts
+autocmd FileType md call MarkdownSettings()
