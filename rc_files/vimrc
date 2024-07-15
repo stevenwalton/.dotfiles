@@ -3,11 +3,23 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible        " READ THE DOCS. Plugins often depend on this 
 
-source ~/.vim/custom/plugins.vim " Plugins and plugin options
-source ~/.vim/custom/remaps.vim " Personal Remaps
-
+" Load any vim files located in '~/.vim/custom/'
+" This includes our Plugins, Remaps, and whatever
+let customdir='~/.vim/custom/'
+function LoadCustom()
+    let customfiles=split(globpath(expand(g:customdir),'*.vim'), '\n')
+    for cf in customfiles
+        if filereadable(expand(cf))
+            execute 'source ' . cf
+        else
+            echom "Wasn't able to read " .. cf
+        endif
+    endfor
+endfunction
 " Keep loads above this so they don't mess with these settings
-" These settings will override those from above
+call LoadCustom()
+
+" These settings will override those from above!
 syntax on               " Turns on Syntax highlighting 
 try
     "colorscheme vividchalk   " Colour Scheme (in ~/.vim/colors)

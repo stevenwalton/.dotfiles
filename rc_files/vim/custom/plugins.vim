@@ -111,25 +111,27 @@ if !exists('s:std_in') && argc() == 0
     autocmd VimEnter * NERDTree 
 endif
 " Show number of lines in file
-let g:NERDTreeFileLines = 1
+" WARNING! Might make NERDTree take forever!
+"let g:NERDTreeFileLines = 1
+
 
 " Toggle NERDTree with \nt
-map <Leader>nt :NERDTreeToggle<CR>
+noremap <Leader>nt :NERDTreeToggle<CR>
 " NERDTree git use powerline
 let g:NERDTreeGitStatusUseNerdFonts = 1 
 " Really for documentation
-let g:NERDTreeGitStatusIndicatorMapCustom = {
-                \ 'Modified'  :'✹',
-                \ 'Staged'    :'✚',
-                \ 'Untracked' :'✭',
-                \ 'Renamed'   :'➜',
-                \ 'Unmerged'  :'═',
-                \ 'Deleted'   :'✖',
-                \ 'Dirty'     :'✗',
-                \ 'Ignored'   :'☒',
-                \ 'Clean'     :'✔︎',
-                \ 'Unknown'   :'?',
-                \ }
+"let g:NERDTreeGitStatusIndicatorMapCustom = {
+"                \ 'Modified'  :'✹',
+"                \ 'Staged'    :'✚',
+"                \ 'Untracked' :'✭',
+"                \ 'Renamed'   :'➜',
+"                \ 'Unmerged'  :'═',
+"                \ 'Deleted'   :'✖',
+"                \ 'Dirty'     :'✗',
+"                \ 'Ignored'   :'☒',
+"                \ 'Clean'     :'✔︎',
+"                \ 'Unknown'   :'?',
+"                \ }
  
 " tagbar settings
 " -------------------- 
