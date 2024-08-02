@@ -96,7 +96,7 @@ function! TexSettings()
     nnoremap <localleader>m :make<cr>
     nnoremap <localleader>mc :make clean<cr> touch %<cr> make
 endfunction
-autocmd FileType plaintex call TexSettings()
+autocmd FileType tex call TexSettings()
 
 " ===== Markdown =====
 function! MarkdownSettings()
