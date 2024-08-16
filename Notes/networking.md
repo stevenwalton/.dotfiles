@@ -19,6 +19,9 @@ ssh.
 There's no feedback so process is difficult to brute force.
 
 # Fail2Ban
+Please note that [`OpenSSH 9.8`](https://www.openssh.com/txt/release-9.8) has a new parameter `PerSourcePenaltyExemptList`
+which will accomplish similar things.
+See `sshd_config(5)` (`man 5 sshd_config`)
 [Fail2Ban](https://wiki.archlinux.org/title/fail2ban) creates a firewall jail.
 If you do too many things that aren't allowed, you will go to jail and get
 banned.
@@ -28,3 +31,7 @@ combined with knocking.
 # Get CA cert handshake
 openssl s_client -connect www.test.com:443 -prexit
 
+# Want your IP info?
+Curl various addresses at [ipinfo.io](https://ipinfo.io/)
+
+# Setting Up SSL Certs

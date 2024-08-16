@@ -1,26 +1,48 @@
 #!/usr/bin/env bash
-DOT_DIR="${DOT_DIR:-${HOME}/.dotfiles}"
+################################################################################
+# This file is mostly here for convenience purposes
+# The meat of the installation scripts will be found in install_files
+# There is a linux, osx, and common installer, we will try to detect this 
+# automatically. Common calls for installs that are common on both systems, such
+# as building from source.
+#
+# Author: Steven Walton
+# Contact: dotfiles@walton.mozmail.com
+# License: MIT
+################################################################################
+DOT_DIR_NAME="${DOT_DIR_NAME:-.dotfiles}"
+DOT_DIR="${DOT_DIR:-${HOME%/}/${DOT_DIR_NAME%/}}"
 VERBOSE=1
+USE_DEFAULTS=
 
 usage() {
     cat << EOF
-dotfile install script
+Dotfile Install Script
+
+Install script will try to install a new system setup.
+Intended for usage on Linux and OSX. We will try to detech
+which system you have and do the appropriate install. 
+We expect that you have cloned the install directory and 
+haven't deleted or moved any install files.
 
 USAGE
     install [OPTIONS]
 
 OPTIONS:
     -h, --help
-        print help information
+        print this message
 
     -y, --yes
         Accept all options
 
     -v, --verbose
-        Enable verbose output
+        Increase verbosity
 
-    -d, --target
-        Sets target directory, default home
+    -d, --dotfiles
+        Sets dotfiles directory. Default: ${DOT_DIR}
+
+    -n, --name
+        Sets the name of the dotfiles directory. Default: ${DOT_DIR_NAME}
 EOF
 }
 
@@ -44,9 +66,13 @@ get_args() {
         case $1 in 
             -h | --help)
                 ;;
-            -d | --target)
+            -d | --dotfiles)
                 shift
-                DOT_DIR=$1
+                DOT_DIR="$1"
+                ;;
+            -n | --name)
+                shift
+                DOT_DIR_NAME="$1"
                 ;;
             -v | --verbose)
                 # Export so all scripts get value
@@ -64,6 +90,17 @@ get_args() {
 
 main() {
     get_args "$@"
+    INSTALL_FILE_LOC=$(realpath ${0})
+    DF_PATH=${INSTALL_FILE_LOC%/*}
+    # Check that we know where files are
+    if [[ "${DF_PATH##/*}" != ".dotfiles" ]];
+    then
+        echo -e "\e[1;31m"
+        echo -e "ERROR: We expect the install file to be located in our dotfiles path"
+        echo -e "\e[0m"
+        exit 1
+    fi
+    
     if [[ -d "${DOT_DIR}/install_files" ]]; then
         export INSTALLER_DIR="${DOT_DIR}/install_files"
         source ${INSTALLER_DIR}/installer.sh
@@ -80,6 +117,8 @@ main() {
             #    || error "vim failed to install"
             install "${INSTALLER_DIR}/vim.sh" -b ${BUILD_DIR} -t
         fi
+        # Make sure to install vundle into the right directory
+        # git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
         # Install zsh
         #if [[ -a
     else

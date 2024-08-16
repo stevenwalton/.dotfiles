@@ -1,0 +1,58 @@
+# Handly template for systemd timers
+# You must pick one of each block! Delete what you don't want
+# Optional arguments are commented out. 
+# Suggested arguments are are included in block
+#
+# Systemd is __BETTER__ than cron.
+# - You may have us precision (instead of minute)
+# - Can handle if system was powered off 
+# - Can wake system to run service
+# - Can configure dependencies such as booting and can create random delays
+# - Cleaner, more easily interpreted, automatically generates logs
+#
+# Time in format <integer,float> {us,ms,sec,min,hr,day,week,month,year}
+# You may mix and match, like `5m 2hr 3d`
+# OnCalendar Format: DayOfWeek Year-Month-Day Hour:Minute:Second
+#
+# Resources: (READ!)
+# Be sure to read `man systemd.time` and `man systemd.timer`
+# https://wiki.archlinux.org/title/Systemd/Timers
+# https://www.blunix.com/blog/ultimate-tutorial-about-systemd-timers.html
+[Unit]
+Description=Job I want to schedule. I'm better than cron
+
+[Timer] # Applies to all timers
+# OnBootSec=<time> after booting
+Unit=my_job.service OR command to run # by default will run `sed -e 's/timer/service/g' <(echo "my_job.timer")`
+# AccuracySec=default 1m # how accurate you want the timer to be. 1us for exact
+# RandomizedDelaySec=<time> # Evenly distributed between 0 and <time>
+#                             Useful to prevent clustered machines from stepping
+#                             on one another
+# FixedRandomDelay=<bool> # reuse RandomDelaySec. Saves across reboots
+# Persistent=<bool> # Record time since last triggered
+#                     If job missed due to system being off, run (still uses delay)
+# WakeSystem=<bool> # Wake the system to perform the job
+################################################################################
+# Pick one
+#################################################
+#               Periodic Timer
+# based on when it was last run
+#################################################
+OnUnitActiveSec=<time> since last activation
+# OR
+OnUnitInactiveSec=<time> since last deactivation (finish)
+#################################################
+#                 On Calendar 
+# Unlike cron, if the system is powered off 
+# during the normal running time, we will still 
+# execute this once back up.
+#################################################
+# Timer that runs via a calendar.  Unlike cron, 
+# Based on wallclock
+OnCalendar={daily,weekly,monthly} or some other systemd.time 
+# OnCalendar=Tue..Sat *-*-* 00:*:* # At midnight after each work day
+# OnCalendar=Tue..Sat # Equivalent
+# OnCalendar=*:0/5:0 # Every 5 minutes
+# AccuracySec= Recommended to use
+# Persistant=true
+################################################################################

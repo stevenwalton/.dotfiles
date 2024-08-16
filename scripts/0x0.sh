@@ -16,3 +16,8 @@ usage() {
 Upload files to The Null Pointer (https://0x0.st
 EOF
 }
+
+# alias to pipe to https://0x0.st
+# alias pipe_to_0x0="curl -F'file=@-' https://0x0.st"
+# usage:
+# echo "Hello Moto" | pipe_to_0x0
