@@ -42,19 +42,19 @@ cmd_exist() {
 # TODO: Make better
 vbose() {
     if [[ $VERBOSE -ge 2 ]]; then
-        eval $1 ${@:2}
+        eval '"$1" "${@:2}"'
     elif [[ $VERBOSE -eq 1 ]]; then
         # Suppress stdin
-        eval $1 ${@:2} > /dev/null
+        eval '"$1" "${@:2}"' > /dev/null
     else # quiet
-        eval $1 ${@:2} 1&> /dev/null
+        eval '"$1" "${@:2}"' 1&> /dev/null
     fi
 }
 
 install() {
     FILE=$1
     file_exist "$@" || exit 1
-    vbose eval $1 "${@:2}" \
+    vbose eval '"${1}" "${@:2}"' \
         && success "Successfully installed ${FILE}" \
         || error "Failed to install ${FILE}"
 }

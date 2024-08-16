@@ -2,6 +2,25 @@ This is mostly stuff I forget.
 This is not a good way to learn linux and is for someone who's already been
 using it.
 
+# Initial configuring 
+## Protecting your system from yourself and updates
+You probably want to use [timeshift](https://wiki.archlinux.org/title/Timeshift).
+This tool helps create regular snapshots which will help avoid and debug issues,
+as you can roll back.
+***Timeshift is NOT a data backup tool, it is a system backup tool***.
+It won't protect user data, but it does protect system data.
+This makes it lightweight, but you can include contents in `/home` if you wish
+to do so.
+Specifically, [timeshift-autosnap](https://gitlab.com/gobonja/timeshift-autosnap)
+is a [Pacman Hook](https://wiki.archlinux.org/title/Pacman#Hooks) that will make a snapshot
+prior to any updates.
+You can also create snapshots with a systemd timer (don't use `cron`. `cron` is
+a thing of the past).
+There are also `apt` based hooks.
+With a hook in place, you can *more* safely run automatic weekly updates.
+
+I placed some `systemd` timers and service files in [`/systemd_files`](/systemd_files)
+
 # Reporting System Info
 Most people request things like `uname -a` but that doesn't give us much.
 Instead we might want to use `inxi`.
@@ -27,6 +46,9 @@ information to 0x0.st, which can be temporarily read by other users.
 # Ubuntu drivers: 
 # https://ubuntu.com/server/docs/nvidia-drivers-installation
 # Archive: https://archive.is/20231119101129/https://ubuntu.com/server/docs/nvidia-drivers-installation
+Install [timeshift](https://wiki.archlinux.org/title/Timeshift) (and [pacman
+hook](https://gitlab.com/gobonja/timeshift-autosnap)) to take incremental
+backups. Do this before updating and reap the benefits.
 
 # See current drivers
 cat /proc/driver/nvidia/version
@@ -144,5 +166,25 @@ Here's a short table for reference provided by [Tobias Holm](https://unix.stacke
 # 6       runlevel6.target, reboot.target     Shut down and reboot the system
 ```
 
+# KDE
+A useful tool might be to use [KDE
+Connect](https://kdeconnect.kde.org/download.html).
+This can allow you to control your computer by your phone and vise versa.
+Need a mouse and keyboard? What about a presentation pointer? Can even run
+commands!
+
+[Note](https://userbase.kde.org/KDEConnect#I_have_two_devices_running_KDE_Connect_on_the_same_network.2C_but_they_can.27t_see_each_other) that it runs on a range of ports `1714-1764` but `firewallcmd` has got your
+back
+```bash
+sudo firewall-cmd --permanent --zone=public --add-service=kdeconnect
+sudo firewall-cmd --reload
+```
+You can even build on [OSX](https://community.kde.org/KDEConnect/Build_MacOS)
+but should *build* not install.
+
 # Arch and Endeavour
-`mkinitcpio` -> `dracut`
+Instead of `mkinitcpio` see [`dracut`](https://wiki.archlinux.org/title/Dracut)
+
+
+
+
