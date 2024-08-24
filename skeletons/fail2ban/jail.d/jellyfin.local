@@ -1,0 +1,15 @@
+[jellyfin]
+enabled = true
+filter = jellyfin
+banaction = firewallcmd-rich-rules[actiontype=]
+banaction_allports = firewallcmd-rich-rules[actiontype=]
+backend = systemd
+port = 80,443
+protocol = tcp
+maxretry = 3
+findtime = 7d
+bantime = 3mo
+increment = true
+ignoreip = 127.0.0.1/8
+rejecttype = icmp-port-unreachable
+logpath = /var/log/jellyfin/jellyfin*.log

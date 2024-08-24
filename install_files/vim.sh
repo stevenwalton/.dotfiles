@@ -4,8 +4,11 @@
 # Contact: dotfiles@walton.mozmail.com
 # LICENSE: MIT
 # Install script for building vim from source
+#
+# Find more about vim options here:
+# https://vimdoc.sourceforge.net/htmldoc/various.html
 ####################
-VERSION=0.1
+VERSION=0.2
 LOG="/tmp/dotfiles_install_vim.log"
 INSTALLER_DIR="${INSTALLER_DIR:-${HOME%/}/.dotfiles/install_files}"
 
@@ -14,6 +17,7 @@ DOWNLOAD_DIR="/tmp"
 BUILD_DIR="${HOME%/}/.local/builds"
 PREFIX="${HOME%/}/.local"
 DL_METHOD="git"
+PYTHON_CMD="${PYTHON_CMD:-$(which python)}"
 VERBOSE="${VERBOSE:-1}"
 
 usage() {
@@ -47,6 +51,9 @@ Unlike instaling via apt or brew we'll make sure to install python support.
 
     --git
         download with git (default: DL_METHOD=${DL_METHOD})
+
+    --python
+        Which python you want to compile with (default is `which python`)
 
     --curl
         (unsupported) download using curl. Maybe you don't have git? (default: DL_METHOD=${DL_METHOD})
@@ -116,6 +123,10 @@ get_args() {
             --git)
                 DL_METHOD="git"
                 ;;
+            --python)
+                shift
+                PYTHON_CMD="$1"
+                ;;
             --curl)
                 echo "Curl currently unsupported"
                 exit 1
@@ -164,9 +175,9 @@ install_vim() {
     config_command+=" --enable-multibyte"
     config_command+=" --enable-cscope"
     config_command+=" --enable-terminal"
-    config_command+=" --with-python3interp=yes"
+    config_command+=" --enable-python3interp=yes"
     # TODO
-    config_command+=" --with-python3-command=/usr/bin/python3.11"
+    config_command+=" --with-python3-command=${PYTHON_CMD}"
     if [[ $(which python | grep anaconda) ]]; then
         warn "Python has anaconda, you're probably going to have a bad time"
     fi

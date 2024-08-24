@@ -185,6 +185,20 @@ but should *build* not install.
 # Arch and Endeavour
 Instead of `mkinitcpio` see [`dracut`](https://wiki.archlinux.org/title/Dracut)
 
+# Gotta Go Fast
+Make your system faster!
+First, we'll want to run
+```bash
+$ systemd-analyze blame
+```
+which will tell us the startup time for each service.
+Often disks are a bit slow to startup.
+Because of this, note that you will probably only need to load your disk that
+the OS is on when booting and the rest can be handled later
 
-
-
+We can also get some information graphically with
+```bash
+systemd-analyze plot > ~/bootup.svg
+```
+You might need to scroll to the right pretty far.
+You can hover over the services and it might give you some more info.

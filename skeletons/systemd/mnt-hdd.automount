@@ -1,0 +1,19 @@
+# This accompanies mnt-hdd.mount
+# It MUST exist!
+# Automount helps to allow for on-demand access and spinning down drives, which
+# saves energy  
+#
+# https://man.archlinux.org/man/systemd.automount.5
+
+[Unit]
+Description=Automount system to complement systemd mount file
+Documentation=man:systemd.automount(5)
+
+[Automount]
+# Name must match!!!
+Where=/mnt/hdd
+# If not accessed for 5 minutes drive will spin down
+TimeoutIdleSec=5min
+
+[Install]
+WantedBy=multi-user.target
