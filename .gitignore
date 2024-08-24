@@ -8,4 +8,5 @@ vim/undodir/*
 */.netrwhist
 tags
 api_keys/
+*.api
 .DS_Store

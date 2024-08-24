@@ -9,3 +9,4 @@ cmake
 lsd
 fail2ban
 cloudflared
+uv
