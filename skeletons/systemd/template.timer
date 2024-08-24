@@ -20,6 +20,7 @@
 # https://www.blunix.com/blog/ultimate-tutorial-about-systemd-timers.html
 [Unit]
 Description=Job I want to schedule. I'm better than cron
+Documentation=man:manfile(number) man:adifferentfile(anothernum) ...
 
 [Timer] # Applies to all timers
 # OnBootSec=<time> after booting
