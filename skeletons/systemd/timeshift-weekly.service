@@ -1,11 +1,10 @@
-# See https://aur.archlinux.org/packages/timeshift-systemd-timer
 [Unit]
-Description=Timeshift weekly snapshot
+Description=Timeshift Weekly Snapshots
 Documentation=man:timeshift(1)
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/timeshift --check --comments "Weekly snapshot" --tags W --scripted
+ExecStart=/etc/timeshift/ --check --scripted --tags W --comments "Weekly snapshot $(date +'%c')"
 
 CapabilityBoundingSet=CAP_DAC_OVERRIDE CAP_FOWNER CAP_CHOWN CAP_FSETID CAP_SETFCAP CAP_SYS_ADMIN CAP_SYS_MODULE CAP_IPC_LOCK CAP_SYS_NICE
 LockPersonality=true
