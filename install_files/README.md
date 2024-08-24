@@ -39,3 +39,4 @@ But I also don't want to go full Gentoo, as that's too much work.
     - [ ] TensorRT
     - [ ] CUDNN
     - [ ] mamba / anaconda
+

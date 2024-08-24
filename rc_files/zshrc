@@ -14,8 +14,8 @@ export EDITOR="vim"
 # Make the path clean
 if [[ $(uname) == "Linux" ]]; then
     eval $(cat /etc/environment)
-    export PATH="${HOME}/.local/bin:${HOME}/.cargo/bin:$PATH"
 fi
+export PATH="${HOME}/.local/bin:${HOME}/.cargo/bin:$PATH"
 # Shell like vim
 # Keep this up here or the edit-command-line bindkey might mess up
 set -o vi
@@ -184,3 +184,5 @@ trap killssh 0
 
 # Spaceduck highlighting
 source "${ZSH_DIR%/}/spaceduck.zsh"
+
+. "$HOME/.cargo/env"

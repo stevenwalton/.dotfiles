@@ -1,12 +1,10 @@
-# See https://aur.archlinux.org/packages/timeshift-systemd-timer
 [Unit]
-Description=Timeshift weekly snapshot
+Description=Weekly Timeshift check for snapshots
 Documentation=man:timeshift(1)
-
 
 [Timer]
 OnCalendar=weekly
-Persistant=true
+Persistent=true
 
 [Install]
 WantedBy=timers.target

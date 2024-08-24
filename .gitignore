@@ -1,11 +1,14 @@
 *.swp
 ~*
 *.swo
-*/vim/bundle*
-!vim/bundle/Vundle.vim
-vim/undodir/*
 .netrwhist
 */.netrwhist
 tags
 api_keys/
 .DS_Store
+# Ignore vim special directories
+*/vim/bundle*
+!vim/bundle/Vundle.vim
+vim/undodir/*
+rc_files/vim/autoload/
+rc_files/vim/plugged/

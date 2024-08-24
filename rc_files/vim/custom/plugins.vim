@@ -2,48 +2,55 @@
 """"""""""""""""""""""" VIM Plugin Options"""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Keep at top. Helps ensure that format options work correctly
-filetype off " Required
-set rtp+=~/.vim/bundle/Vundle.vim
-" :PluginInstall Install plugins
-" :PluginClean cleans removal of unused plugins
-" :PluginList
-" :PluginSearch foo -searches for foo
-call vundle#begin()
-    Plugin 'VundleVim/Vundle.vim'
+" " :PlugInstall Install plugins
+" " :PlugClean cleans removal of unused plugins
+" " :PlugList
+" " :PlugSearch foo -searches for foo
+" Switch to Plug: https://github.com/junegunn/vim-plug
+" Adds a bit more power than Vundle, which is deprecated
+call plug#begin()
     """"" Editing
-    Plugin 'frazrepo/vim-rainbow'            " Improved Parentheses
-    Plugin 'sheerun/vim-polyglot'            " Comprehensive syntax highlighting
-    Plugin 'MattesGroeger/vim-bookmarks'     " Annotated marks
+    Plug 'frazrepo/vim-rainbow'            " Improved Parentheses
+    Plug 'sheerun/vim-polyglot'            " Comprehensive syntax highlighting
+    Plug 'MattesGroeger/vim-bookmarks'     " Annotated marks
     """"" Interface
-    Plugin 'pineapplegiant/spaceduck'        " Spaceduck theme
-    Plugin 'ryanoasis/vim-devicons'          " Font icons helpful for nerdtree/airline
-    Plugin 'scrooloose/nerdtree'             " Project drawer (File explorer)
-    Plugin 'vim-airline/vim-airline'         " That bottum line you have
-    "Plugin 'vim-airline/vim-airline-themes'
-    "Plugin 'taglist.vim'                     " Helps with determining code structure (:TlistToggle)
-    Plugin 'majutsushi/tagbar'               " Shows a list of tags
-    Plugin 'nathanaelkane/vim-indent-guides' " Shows the indents
+    Plug 'pineapplegiant/spaceduck'        " Spaceduck theme
+    Plug 'ryanoasis/vim-devicons'          " Font icons helpful for nerdtree/airline
+    "Plug 'scrooloose/nerdtree'             " Project drawer (File explorer)
+    Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
+    Plug 'vim-airline/vim-airline'         " That bottum line you have
+    "Plug 'vim-airline/vim-airline-themes'
+    "Plug 'taglist.vim'                     " Helps with determining code structure (:TlistToggle)
+    " Shows a list of tags in a drawer
+    Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' } 
+    Plug 'nathanaelkane/vim-indent-guides' " Shows the indents
     """"" Debugging 
-    Plugin 'ludovicchabant/vim-gutentags'    " Ctags
-    Plugin 'dense-analysis/ale'              " ALE for linting
-    Plugin 'AndrewRadev/linediff.vim'        " Diff between visual selections
+    Plug 'ludovicchabant/vim-gutentags'    " Ctags
+    Plug 'dense-analysis/ale'              " ALE for linting
+    " Diff between visual selections
+    Plug 'AndrewRadev/linediff.vim', { 'on': 'Linediff' } 
     """"" Integrations
-    Plugin 'airblade/vim-gitgutter'          " Shows diff from git in left sidebar (fantastic)
     " Really need to make this work with popups in native vim instead of neo
-    Plugin 'rhysd/git-messenger.vim'         " Shows commit message associated with line of code
-    Plugin 'iamcco/markdown-preview.nvim'
-    Plugin 'tiagofumo/vim-nerdtree-syntax-highlight' " Increased syntax highlighting for nerdtree
-    Plugin 'xuyuanp/nerdtree-git-plugin'     " Integration for git with nerdtree
-    Plugin 'PhilRunninger/nerdtree-buffer-ops' " Highlights files opened in a buffer
+    Plug 'airblade/vim-gitgutter'          " Shows diff from git in left sidebar (fantastic)
+    " Shows commit message associated with line of code
+    Plug 'rhysd/git-messenger.vim'         
+    " Opens a browser to show a preview of markdown doc
+    Plug 'iamcco/markdown-preview.nvim', { 'on': 'MarkdownPreviewToggle' }
+    " Increased syntax highlighting for nerdtree
+    Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' }
+    " Integration for git with nerdtree
+    Plug 'xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
+    " Highlights files opened in a buffer
+    Plug 'PhilRunninger/nerdtree-buffer-ops', { 'on': 'NERDTreeToggle' }
     """"" Commands
-    Plugin 'godlygeek/tabular'               " Tab /delimiter
-    " Plugin 'segeljakt/vim-silicon'          " Screenshot highlighted text :Silicon fname
-    " Shougo/unite.vim                       " Plugin for development: make user interfaces
-    " Testing
-call vundle#end()
-call mkdp#util#install()
-
-filetype plugin indent on
+    " Tab /delimiter (format spacing by delimiter)
+    Plug 'godlygeek/tabular'               
+    "  Screenshot highlighted text :Silicon fname
+    " Plug 'segeljakt/vim-silicon'          
+    " Plug for development: make user interfaces
+    " Shougo/unite.vim                       
+call plug#end()
+  
 "-------------------------------------------------------------------------------
 "---------------------------------- Editing ------------------------------------
 "-------------------------------------------------------------------------------
