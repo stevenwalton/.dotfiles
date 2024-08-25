@@ -2,6 +2,9 @@ This is mostly stuff I forget.
 This is not a good way to learn linux and is for someone who's already been
 using it.
 
+# Some Random Stuff For Noobs
+Wonder what all those files in `/` are? `man hier`
+
 # Initial configuring 
 ## Protecting your system from yourself and updates
 You probably want to use [timeshift](https://wiki.archlinux.org/title/Timeshift).

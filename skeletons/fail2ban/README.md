@@ -29,3 +29,9 @@ fail2ban-client -i
 - Files located in [jail.d/](./jail.d/) may be linked to `/etc/fail2ban/jail.d/`.
 - Files located in [filter.d/](./filter.d/) may be linked to `/etc/fail2ban/filter.d/`
 - [systemd_override.conf](./systemd_override.conf) should link to `/etc/systemd/system//ail2ban.service.d/override.conf`
+
+When editing you will need to reload the systemd daemon
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart fail2ban.service
+```
