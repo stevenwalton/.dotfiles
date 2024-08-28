@@ -195,8 +195,10 @@ let g:gutentags_generate_on_write = 1
 " ALE
 " -------------------- 
 " Add ruff to ale
+"" Linter
 let g:ale_linters = { 'python': ['ruff'] }
-let g:ale_fixers = { 'python' : ['black', 'ruff'], }
+"" Formatter
+let g:ale_fixers = { 'python' : ['ruff-format'], }
 " Allow ale-hover when mouse over
 let g:ale_set_balloons=1
 " Change the error and warning symbols to powerline
