@@ -1,3 +1,0 @@
-[sumbodule "vim-vividchalk"]
-   path = colors/vim-vividchalk
-   url = https://github.com/tpope/vim-vividchalk
