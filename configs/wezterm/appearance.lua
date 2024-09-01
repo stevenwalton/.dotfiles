@@ -32,8 +32,9 @@ local near_empty_thresh = 0.4
 -- Right status bar
 local deliminator = SOLID_LEFT_ARROW 
 -- -- Time formats
-local cal_date = wezterm.nerdfonts.cod_calendar .. wezterm.strftime ' %a %b %-d '
-local time_date = wezterm.nerdfonts.md_clock_outline .. wezterm.strftime ' %H:%M '
+local cal_date_icon = wezterm.nerdfonts.cod_calendar  
+local time_date_icon = wezterm.nerdfonts.md_clock_outline
+
 -- -- Hostname format >_ $HOSTNAME
 local hostname_format = 
     wezterm.nerdfonts.md_console_line ..  ' ' .. 
@@ -49,8 +50,19 @@ local bg = ''
 local fg = ''
 local module = {}
 wezterm.action.EmitEvent 'update-status'
+local current_time
+local current_date
 
-local function set_battery_status()
+function module.set_time()
+    local current_datetime = wezterm.time.now()
+    --current_time = current_datetime:format("%H:%M:%S")
+    current_time = current_datetime:format("%H:%M")
+    current_date = current_datetime:format("%a %b %-d")
+    return current_time, current_date
+end
+
+
+function set_battery_status()
     local percent, _, _, _, till_full, till_dead, state = wezterm.battery_info()
     --local binfo_str = string.format('%0.f%%', percent * 100)
     local bat = ''
@@ -102,11 +114,12 @@ end
 -- ----------------------------------------------------------- 
 -- User May want to modify this
 -- ----------------------------------------------------------- 
-local function right_tab_segments(window)
+function module.right_tab_segments(window)
+    current_time, current_date = module.set_time()
     return {
         -- window:active_workspace(),
-        cal_date,
-        time_date,
+        cal_date_icon .. ' ' .. current_date,
+        time_date_icon .. ' ' .. current_time,
         hostname_format,
         set_battery_status(),
     }
@@ -128,7 +141,7 @@ end
 
 function module.make_status_bar_right(wezterm, config)
     wezterm.on('update-status', function(window, _)
-        local segments = right_tab_segments(window)
+        local segments = module.right_tab_segments(window)
         -- Temporarily cache colors
         -- local color_scheme = window:effective_config().resolved_palette
         color_scheme = window:effective_config().resolved_palette
