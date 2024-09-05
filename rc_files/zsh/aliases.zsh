@@ -54,6 +54,12 @@ fi
 #       We'll write functions for fdfind here. These will be called later
 #                   !! ==> Needs to be above bat <== !!
 ################################################################################
+# With zsh press <C-t> to enter fzf mode 
+if (_exists fzf)
+then
+    eval "$(fzf --zsh)"
+fi
+
 function fzfalias() {
     if (_exists fzf)
     then
@@ -61,22 +67,21 @@ function fzfalias() {
     fi
 }
 function export_fzf_defaults() {
+    # Be sure to use --view-size instead of --size and set --scale 1 so that we
+    # only downscale images and at worst make them fit the preview window size
     if (_exists fzf && (_exists bat || _exists batcat) && _exists chafa )
     then
         export FZF_DEFAULT_OPTS='--ansi --preview
-        "if file --mime-type {} | grep -qF image/gif;
+        "if file --mime-type {} | grep -qF image;
         then
-            chafa --passthrough auto --size 40 --watch --animate on {};
-        elif file --mime-type {} | grep -qF image/;
-        then
-            chafa --passthrough auto --size 40 --watch --animate off {};
+            chafa --colors full --passthrough auto --view-size ${FZF_PREVIEW_COLUMNS}x{$FZF_PREVIEW_LINES} --scale 1 {};
         elif file --mime-type {} | grep -aF -e text -e json;
         then
             bat --color=always --theme=Dracula --style=numbers,grid --line-range :500 {};
         fi"'
     elif (_exists fzf && (_exists bat || _exists batcat) )
     then
-        export FZF_DEFAULT_OPTS='--ansi --preview "bat --color=always --theme=Dracula --style=numbers,grid --line-range :500 {};"'
+        export FZF_DEFAULT_OPTS='--ansi --preview "$1 --color=always --theme=Dracula --style=numbers,grid --line-range :500 {};"'
     fi
 }
 
@@ -131,6 +136,7 @@ then
     if (_exists batcat)
     then
         alias cat='batcat'
+        alias bat='batcat'
         alias -g -- --help='--help 2>&1 | bathelp batcat'
         batman batcat
         export_fzf_defaults batcat
