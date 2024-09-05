@@ -61,9 +61,22 @@ function fzfalias() {
     fi
 }
 function export_fzf_defaults() {
-    if (_exists fzf)
+    if (_exists fzf && (_exists bat || _exists batcat) && _exists chafa )
     then
-        export FZF_DEFAULT_OPTS="--ansi --preview '$1 --color=always --style=numbers {}'"
+        export FZF_DEFAULT_OPTS='--ansi --preview
+        "if file --mime-type {} | grep -qF image/gif;
+        then
+            chafa --passthrough auto --size 40 --watch --animate on {};
+        elif file --mime-type {} | grep -qF image/;
+        then
+            chafa --passthrough auto --size 40 --watch --animate off {};
+        elif file --mime-type {} | grep -aF -e text -e json;
+        then
+            bat --color=always --theme=Dracula --style=numbers,grid --line-range :500 {};
+        fi"'
+    elif (_exists fzf && (_exists bat || _exists batcat) )
+    then
+        export FZF_DEFAULT_OPTS='--ansi --preview "bat --color=always --theme=Dracula --style=numbers,grid --line-range :500 {};"'
     fi
 }
 
