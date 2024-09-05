@@ -35,7 +35,8 @@ call plug#begin()
     " Shows commit message associated with line of code
     Plug 'rhysd/git-messenger.vim'         
     " Opens a browser to show a preview of markdown doc
-    Plug 'iamcco/markdown-preview.nvim', { 'on': 'MarkdownPreviewToggle' }
+    " Note: this doesn't like running manually :/
+    Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
     " Increased syntax highlighting for nerdtree
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' }
     " Integration for git with nerdtree
