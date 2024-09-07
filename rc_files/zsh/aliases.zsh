@@ -13,6 +13,7 @@
 if (_exists tmux)
 then
     alias tmux='tmux -2 -u'
+    alias ta='tmux attach'
 fi
 
 ################################################################################
