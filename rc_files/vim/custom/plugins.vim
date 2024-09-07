@@ -24,6 +24,10 @@ call plug#begin()
     " Shows a list of tags in a drawer
     Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' } 
     Plug 'nathanaelkane/vim-indent-guides' " Shows the indents
+    " FZF with :Files (or other options) opens up in a balloon
+    " I guess we need both
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
     """"" Debugging 
     Plug 'ludovicchabant/vim-gutentags'    " Ctags
     Plug 'dense-analysis/ale'              " ALE for linting
@@ -48,8 +52,6 @@ call plug#begin()
     Plug 'godlygeek/tabular'               
     "  Screenshot highlighted text :Silicon fname
     " Plug 'segeljakt/vim-silicon'          
-    " Plug for development: make user interfaces
-    " Shougo/unite.vim                       
 call plug#end()
   
 "-------------------------------------------------------------------------------
@@ -114,10 +116,13 @@ set encoding=UTF-8
 autocmd StdinReadPre * let s:std_in=1
 " It seems will already open if we open a directory so don't need ||
 "if !exists('s:std_in') && (argc() == 0 || (argc() == 1 && isdirectory(argv()[0])))
-if !exists('s:std_in') && argc() == 0 
-    " Open NERDTree and switch to it
-    autocmd VimEnter * NERDTree 
-endif
+" If you want to automatically open when entering a blank file uncomment these
+" lines
+" if !exists('s:std_in') && argc() == 0 
+"     " Open NERDTree and switch to it
+"     autocmd VimEnter * NERDTree 
+" endif
+
 " Show number of lines in file
 " WARNING! Might make NERDTree take forever!
 "let g:NERDTreeFileLines = 1
