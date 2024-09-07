@@ -1,7 +1,0 @@
-if has('unix')
-    source ~/.config/vifm/vifmrc.linux
-elseif has('macunix')
-    source ~/.config/vifm/vifmrc.mac
-endif
-
-
