@@ -75,7 +75,7 @@ function export_fzf_defaults() {
         export FZF_DEFAULT_OPTS='--ansi --preview
         "if file --mime-type {} | grep -qF image;
         then
-            chafa --colors full --passthrough auto --view-size ${FZF_PREVIEW_COLUMNS}x{$FZF_PREVIEW_LINES} --scale 1 {};
+            chafa --colors full --passthrough auto -f sixels --view-size ${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES} --scale 1 {};
         elif file --mime-type {} | grep -aF -e text -e json;
         then
             bat --color=always --theme=Dracula --style=numbers,grid --line-range :500 {};
