@@ -12,6 +12,7 @@ local up = 'k'
 -- Panes 
 local horizontal_split = '|'
 local vertical_split = '-'
+local full_screen_key = 'z'
 -- ----------------------------------------------------------- 
 
 -- local wezterm = require 'wezterm'
@@ -60,10 +61,19 @@ function module.make_pane_keybindings(wezterm, config)
             action = action,
         }
     end
+    -- Toggle pane to full screen
+    local function full_screen(key)
+        return {
+            key = key,
+            mods = 'LEADER',
+            action = wezterm.action.TogglePaneZoomState,
+        }
+    end
     -- Define movements
     config.keys = {
         split_pane(horizontal_split, 'horizontal'),
         split_pane(vertical_split, 'vertical'),
+        full_screen(full_screen_key),
         --
         move_pane(down, 'Down'),
         move_pane(up, 'Up'),
