@@ -5,6 +5,8 @@ local wezterm = require 'wezterm'
 local EDITOR = 'vim'
 -- Wezterm config hotkeying
 local config_key = ','
+local wezterm_config_path = wezterm.home_dir .. '/.config/wezterm/'
+local wezterm_config_file = '.'
 -- Open dotfiles (dir)
 local dotfiles_key = '.'
 local dotfiles_dir = wezterm.home_dir .. '/.dotfiles/'
@@ -34,7 +36,7 @@ end
 
 -- Hotkey to open wezterm config
 function module.load_config_in_new_tab(config)
-    return module.vim_super_open_new_tab(config, config_key, wezterm.home_dir, wezterm.config_file)
+    return module.vim_super_open_new_tab(config, config_key, wezterm_config_path, wezterm_config_file)
 end
 
 -- Hotkey to open research notes
