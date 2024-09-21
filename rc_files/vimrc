@@ -1,6 +1,8 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""" VIM Option """""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" https://learnvimscriptthehardway.stevelosh.com
+"
 set nocompatible        " READ THE DOCS. Plugins often depend on this 
 
 " Load any vim files located in '~/.vim/custom/'
@@ -114,3 +116,4 @@ try
     set undodir=~/.vim/undodir
 catch
 endtry
+

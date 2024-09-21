@@ -1,3 +1,63 @@
+# SSH
+Here's the [man page](https://man.openbsd.org/ssh_config) for `ssh_config`,
+which is for `~/.ssh/config` (same as `man ssh_config`).
+
+### Speeding Up Connections
+
+```bash
+Host *
+    ControlMaster   auto
+    ControlPath     /tmp/ssh-%r@%h:%p
+    ControlPersist  yes
+```
+
+- `ControlMaster` will allow multiple sessions to be shared over the same
+network connection. This can help speed things up
+- `ControlPath` defines the location of that socket file. In our case it'll be
+`/tmp/ssh-<remote-username>@<remote hostname>:<remote port>`. Note that this
+will be on your local machine and may look like `ssh-steven@192.168.1.123:22`.
+- `ControlPersist` puts the master command in the background. This can be
+helpful if you're getting connections that close with `tmux` or similar
+software. You can also specify an amount of time or use commands like
+`ServerAliveInterval` and `ServerAliveCountMax`.
+
+Sockets might be guessable so if you want to avoid that you can use something
+like `%C` in the file, which is a hash of `%l%h%p%r%j` (local hostname, remote
+hostname, remote port, remote username, contents of ProxyJump). You could be
+better by using `%f` (fingerprint of server's host key), or `%K` (base64 encoded
+host key) but these don't appear to work in OSX's implementation. :(
+
+You can also be more descriptive by doing something like `ssh-%u@%l->%r@%n` to
+specify the user on your local machine is pointing to user on remote machine.
+You can even use spaces!
+
+On some machines you may want to place this in a home folder or somewhere else
+besides `/tmp` because `/tmp` is not a secure location 
+(see [systemd Notes](/Notes/systemd.md))
+
+### Jumping 
+`ProxyJump` is a really useful method where you can `ssh` through machines.
+So essentially you connect to a machine through another machine.
+This is really useful when you're needing to get through a firewall or there are
+certain network restrictions.
+There is also `ProxyCommand` that will run a command (using `exec`) on the
+remote machine that is last in line.
+
+```bash
+Host foo
+    HostName        100.10.10.123
+    User            swalton
+    IdentityFile    ~/.ssh/foo_key
+    ProxyJump       steven@192.168.1.123
+```
+This would first ssh into `192.168.1.123` with username `steven` and key
+`foo_key`, then to `100.10.10.123` with username `swalton`.
+
+- [Visual Guide To SSH Tunneling & Port
+Forwarding](https://ittavern.com/visual-guide-to-ssh-tunneling-and-port-forwarding/)
+    - [HN comments](https://news.ycombinator.com/item?id=41596818) has some
+        useful tricks
+
 # Setting up iptables
 You usually come with iptables installed, we'll assume it is.
 

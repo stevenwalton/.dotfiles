@@ -169,12 +169,15 @@ let g:indent_guides_color_change_percent=3
 
 " GutenTags
 " -------------------- 
+" Docs: https://bolt80.com/gutentags/
 " Root directory is considered if it has one of these files in it
 let g:gutentags_project_root = ['.git', 'Makefile', 'src', 'main.py']
-" Write ctags to this location instead
+" Write ctags to this location instead (centralized and not in project)
 let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')
+" Don't generate tags for files like these or in these directories 
 let g:gutentags_ctags_exclude = [
     \ 'wandb/',
+    \ 'config/',
     \ '.git',
     \ '.DS_Store',
     \ '__*__',
@@ -197,6 +200,9 @@ let g:gutentags_ctags_extra_args = [
 "                  |______ Access of Class Member
 " Generate tags on write
 let g:gutentags_generate_on_write = 1
+" Helpful for debugging: add the gutentag statusline
+"   set statusline+=%{gutentags#statusline()}
+"   let g:gutentags_trace = 1
 
 " ALE
 " -------------------- 

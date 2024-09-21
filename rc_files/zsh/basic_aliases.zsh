@@ -7,7 +7,7 @@
 
 alias rm='rm -I' # prompt when >3 files being deleted
 alias vi='vim'
-alias ssh='ssh -YC'
+# alias ssh='ssh -YC'
 
 # Tree replacement if don't have tree
 if ! (_exists tree)
@@ -24,8 +24,3 @@ alias grep='grep --color=always --no-messages --binary-files=without-match'
 
 alias df='df -h'
 alias log='git log --graph --oneline --decorate'
-
-if (_exists kitty)
-then
-    alias ssh='kitty +kitten ssh'
-fi
