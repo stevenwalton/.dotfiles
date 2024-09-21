@@ -95,6 +95,12 @@ DISABLE_AUTO_TITLE="true"
 #   #fi
 
 
+# For ssh-agent. Let's try to establish first and if not we'll do different
+# things for different machines and pickup via those
+if [[ ! -v SSH_AUTH_SOCK && ! -v SSH_AGENT_PID ]];
+then
+    eval "$(ssh-agent -s)" &> /dev/null
+fi
 #################################
 # Aliases
 # load machine specific aliases first as these might depend on /bin commands
@@ -116,73 +122,10 @@ fi
 source "${ZSH_DIR%/}/aliases.zsh"
 source "${ZSH_DIR%/}/basic_aliases.zsh"
 
-# ssh-eval will create SSH_AUTH_SOCK and SSH_AGENT_PID
-# ssh-add needs these two variables to work properly
-# So you're probably running this `eval "$(ssh-agent -s)"` command and have a 
-# billion ssh-agents running (did you know?)
-# Let's handle this a bit better and see if we can create only one and allow us
-# to still properly have ssh-add
-
-# If we have neither variables created then you can safely start the ssh-agent 
-if [[ ! -v SSH_AUTH_SOCK && ! -v SSH_AGENT_PID ]];
-then
-    eval "$(ssh-agent -s)" &> /dev/null
-elif [[ $(uname) == "Linux" ]];
-then
-    # If we're on linux there are two ways we can try to find these variables
-    # using some a priori knowledge
-    # First, the socket should be located at /tmp/ssh-XXXXXX<random>/agent.<PID>
-    # Second, we could try to look at each sessions variables.
-   
-    # Unless we've modified the ssh service, socket files should be created with
-    # the format /tmp/ssh-XXXXXX<random alnum>/agent.<PID>
-    if [[ $(find /tmp/ssh-XXXXXX* -type s -user $(whoami) -name "agent.*") ]];
-    then
-        # Get the first socket 
-        export SSH_AUTH_SOCK=$(find /tmp/ssh-XXXXXX* -type s -user $(whoami) -name "agent.*" -print -quit)
-    else
-        for TERMPID in $(ps -e -u $(whoami) | grep -E 'bash|zsh' | awk '{print $1}');
-        do
-            TMP_AUTH_SOCK=$(/bin/cat /proc/"$TERMPID"/environ | \
-                tr '\0' '\n' | \
-                grep "SSH_AUTH_SOCK" | \
-                awk -F"=" '{print $2}') &> /dev/null
-            if [[ $TMP_AUTH_SOCK ]];
-            then
-                export SSH_AUTH_SOCK="${TMP_AUTH_SOCK}"
-            fi
-        done
-    fi
-
-    if [[ "$SSH_AUTH_SOCK" ]];
-    then
-        # The auth sock is always named "agent.<PID>"
-        export SSH_AGENT_PID=$(echo "${SSH_AUTH_SOCK##*.}")
-    else # We never found and existing auth socket
-        eval "$(ssh-agent -s)" &> /dev/null
-    fi
-# elif [[ uname == "Darwin" ]]
-# OSX seems to handle this a bit cleaner but I'm still a little confused about
-# it. At least for now this appears to be working
-
-# For debugging
-#else
-#    echo "WARNING: You skipped the whole ssh-agent check"
-fi
-# Security Note:
-# Maybe this leads to security issues but I believe that it would require a user
-# to already have permissions where they could already fuck with the socket
-# anyways.
-
-# Let's still trap the ssh-agent
-function killssh()
-{
-    kill -9 $SSH_AGENT_PID
-}
-trap killssh 0
-
-
 # Spaceduck highlighting
 source "${ZSH_DIR%/}/spaceduck.zsh"
 
-. "$HOME/.cargo/env"
+if [[ -d "${HOME%/}/.cargo/env" ]];
+then
+    . "${HOME%/}/.cargo/env"
+fi
