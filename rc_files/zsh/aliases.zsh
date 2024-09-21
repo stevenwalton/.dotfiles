@@ -68,14 +68,14 @@ function fzfalias() {
     fi
 }
 function export_fzf_defaults() {
-    # Be sure to use --view-size instead of --size and set --scale 1 so that we
+    # Be sure to use --view-size instead of --size and set --exact-size on so that we
     # only downscale images and at worst make them fit the preview window size
     if (_exists fzf && (_exists bat || _exists batcat) && _exists chafa )
     then
         export FZF_DEFAULT_OPTS='--ansi --preview
         "if file --mime-type {} | grep -qF image;
         then
-            chafa --colors full --passthrough auto -f sixels --view-size ${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES} --scale 1 {};
+            chafa --passthrough none -f sixels --size $(( ${FZF_PREVIEW_COLUMNS}-60 ))x$(( ${FZF_PREVIEW_LINES}-60 )) {};
         elif file --mime-type {} | grep -aF -e text -e json;
         then
             bat --color=always --theme=Dracula --style=numbers,grid --line-range :500 {};
