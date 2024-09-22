@@ -45,66 +45,10 @@ then
     alias ll='exa -lh' # h makes headers
 else
     alias ls='ls -v --color=auto -h' # numerical sort, color, human readable
-    alias la='ls -a'
+    alias la='ls -A' # ignore . and ..
     alias ll='ls -lh'
 fi
-
-################################################################################
-#                                   fzf
-#                   https://github.com/junegunn/fzf
-#       We'll write functions for fdfind here. These will be called later
-#                   !! ==> Needs to be above bat <== !!
-################################################################################
-# With zsh press <C-t> to enter fzf mode 
-if (_exists fzf)
-then
-    eval "$(fzf --zsh)"
-fi
-
-function fzfalias() {
-    if (_exists fzf)
-    then
-        alias fzf="$1 --no-ignore | fzf"
-    fi
-}
-function export_fzf_defaults() {
-    # Be sure to use --view-size instead of --size and set --exact-size on so that we
-    # only downscale images and at worst make them fit the preview window size
-    if (_exists fzf && (_exists bat || _exists batcat) && _exists chafa )
-    then
-        export FZF_DEFAULT_OPTS='--ansi --preview
-        "if file --mime-type {} | grep -qF image;
-        then
-            chafa --passthrough none -f sixels --size $(( ${FZF_PREVIEW_COLUMNS}-60 ))x$(( ${FZF_PREVIEW_LINES}-60 )) {};
-        elif file --mime-type {} | grep -aF -e text -e json;
-        then
-            bat --color=always --theme=Dracula --style=numbers,grid --line-range :500 {};
-        fi"'
-    elif (_exists fzf && (_exists bat || _exists batcat) )
-    then
-        export FZF_DEFAULT_OPTS='--ansi --preview "$1 --color=always --theme=Dracula --style=numbers,grid --line-range :500 {};"'
-    fi
-}
-
-################################################################################
-#                                   fd
-#                      https://github.com/sharkdp/fd
-#               System might either call it fd or fdfind -____-
-################################################################################
-if (_exists fd) || (_exists fdfind)
-then
-    if (_exists fd)
-    then
-        # Ignore the automatic .gitignore
-        # See: https://github.com/sharkdp/fd/issues/612
-        alias fd="fd --no-ignore"
-        fzfalias fd
-    else #fdfind
-        alias fd="fdfind --no-ignore"
-        fzfalias fdfind
-    fi
-fi
-
+#
 ################################################################################
 #                                   BatCat
 #                   batcat https://github.com/sharkdp/bat
@@ -140,22 +84,121 @@ then
         alias bat='batcat'
         alias -g -- --help='--help 2>&1 | bathelp batcat'
         batman batcat
-        export_fzf_defaults batcat
     else
         alias cat='bat'
         alias -g -- --help='--help 2>&1 | bathelp bat'
         batman bat
-        export_fzf_defaults bat
     fi
 fi
 
+################################################################################
+#                                   fzf
+#                   https://github.com/junegunn/fzf
+#       We'll write functions for fdfind here. These will be called later
+#                   !! ==> Needs to be above bat <== !!
+################################################################################
+# With zsh press <C-t> to enter fzf mode 
+if (_exists fzf)
+then
+    eval "$(fzf --zsh)"
+fi
 
-# really clear the screen
-# Uses VT100 escape code \033 == \x18 == 27 == ESC (so this is <ESC>c
-alias cls='printf "\033c"'
+# Will be called by fd
+function fzfalias() {
+    if (_exists fzf)
+    then
+        alias fzf="$1 --no-ignore | fzf"
+    fi
+}
+
+# fzf default options
+# This function is to help create the correct FZF_DEFAULT_OPTIONS so that we can
+# get much higher utility out of it.
+#################################
+# This should be called after bat
+#################################
+function export_fzf_defaults() {
+    FZF_DEFAULT_OPTS='--ansi --preview '
+    # If we have chafa installed then let's display pictures
+    # For this to work properly we need chafa to be >= 1.14.4
+    # https://github.com/hpjansson/chafa/issues/217
+    if ( _exists chafa );
+    then
+        FZF_DEFAULT_OPTS+='"if file --mime-type {} | grep -qF image; then chafa '
+        FZF_DEFAULT_OPTS+='--passthrough none -f sixels --size '
+        # tmux can't display as large of images so we'll need to reduce them to
+        # 30 as this is the max (determined by testing)
+        if [[ $(env | grep tmux) ]];
+        then
+            FZF_DEFAULT_OPTS+='30 '
+        else
+            FZF_DEFAULT_OPTS+='${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES} '
+        fi
+        # Note the 'elif' for the bat lines
+        FZF_DEFAULT_OPTS+='{}; elif '
+    else
+        FZF_DEFAULT_OPTS+='"if '
+    fi
+    FZF_DEFAULT_OPTS+='file --mime-type {} | grep -aF -e directory; then '
+    if (_exists lsd);
+    then
+        FZF_DEFAULT_OPTS+='lsd --color always --icon always --almost-all '
+        FZF_DEFAULT_OPTS+='--oneline --classify --long {}; '
+    else
+        FZF_DEFAULT_OPTS+='ls --color=always -Al {}; '
+    fi
+    if (_exists strings);
+    then
+        FZF_DEFAULT_OPTS+='elif file --mime-type {} | grep -aF -e binary; then '
+        FZF_DEFAULT_OPTS+='strings {} | '
+        if ( _exists bat );
+        then
+            FZF_DEFAULT_OPTS+='bat '
+        else
+            FZF_DEFAULT_OPTS+='batcat '
+        fi
+        FZF_DEFAULT_OPTS+='--color always --language c; '
+    fi
+    # If it is a text or json file we'll read it with bat
+    # We could probably fizzbuzz this and just check that it isn't a bin
+    FZF_DEFAULT_OPTS+='elif file --mime-type {} | grep -aF -e text -e json -e '
+    FZF_DEFAULT_OPTS+='empty; then '
+    # Support batcat with older Ubuntu
+    if ( _exists bat );
+    then
+        FZF_DEFAULT_OPTS+='bat '
+    else
+        FZF_DEFAULT_OPTS+='batcat '
+    fi
+    FZF_DEFAULT_OPTS+='--color=always --theme=Dracula --style=numbers,grid '
+    FZF_DEFAULT_OPTS+='--line-range :500 {}; fi"'
+    export FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS}"
+}
+export_fzf_defaults
+
+################################################################################
+#                                   fd
+#                      https://github.com/sharkdp/fd
+#               System might either call it fd or fdfind -____-
+################################################################################
+if (_exists fd) || (_exists fdfind)
+then
+    if (_exists fd)
+    then
+        # Ignore the automatic .gitignore
+        # See: https://github.com/sharkdp/fd/issues/612
+        alias fd="fd --no-ignore"
+        fzfalias fd
+    else #fdfind
+        alias fd="fdfind --no-ignore"
+        fzfalias fdfind
+    fi
+fi
 
 ################################################################################
 #                                   Python 
+# Deprecated!
+# Switching to use ruff more so we'll lose this
 ################################################################################
 # I might be using different conda environments so let's check and prefer mamba
 # to micromamba

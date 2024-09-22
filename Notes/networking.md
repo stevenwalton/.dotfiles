@@ -2,6 +2,9 @@
 Here's the [man page](https://man.openbsd.org/ssh_config) for `ssh_config`,
 which is for `~/.ssh/config` (same as `man ssh_config`).
 
+- Client settings are `ssh_config`
+- Server settings are `sshd_config`
+
 ### Speeding Up Connections
 
 ```bash
@@ -53,10 +56,52 @@ Host foo
 This would first ssh into `192.168.1.123` with username `steven` and key
 `foo_key`, then to `100.10.10.123` with username `swalton`.
 
+You can also do this conditionally!
+
+```bash
+Match host internalOnlyWorkMachine !exec "ifconfig en0 | grep 192.168.1.987"
+    ProxyJump   user@AccessibleWorkMachine
+
+Host internalOnlyWorkMachine
+    Hostname    192.168.1.123
+```
+
+If your IP address at work was `192.168.1.987` and if you were trying to access
+`internalOnlyMachine` from work then you would just do so. But if not (say,
+you're at home) then you would first jump through `AccessibleWorkMachine`.
+SSID is probably better to use than the IP because it might be rotating or you
+could use both in conjunction. 
+
+Note that in OSX you used to be able to run
+`/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport -I`
+but this no longer works and `wdutil` requires `sudo` AND doesn't show SSID (it
+is redacted).
+You can use 
+`system_profiler SPAirPortDataType | awk '/Current Network/ {getline; $1=$1; print $0 | tr -d ':'";exit}'` 
+but this is quite slow and probably not appropriate here.
+`system_profiler SPNetworkDataType` is at least fast but won't show SSID.
+Though it will give you your DNS and DHCP servers so can probably use that.
+You could try using `networksetup -getairportnetwork en0` but you'll probably
+get `You are not associated with an AirPort network.`
+OR you could try `ioreg -l -n AirPortDriver | perl -lne 'print $1 if $_ =~ /IO80211SSID.*"(.*)"/;'`
+but on Sequoia you get `<SSID Redacted>`.
+So I guess classic ***WHAT THE FUCK APPLE?!***
+
 - [Visual Guide To SSH Tunneling & Port
 Forwarding](https://ittavern.com/visual-guide-to-ssh-tunneling-and-port-forwarding/)
     - [HN comments](https://news.ycombinator.com/item?id=41596818) has some
         useful tricks
+
+### ssh-agent
+You can easily create a lot of `ssh-agent` processes running.
+There are a number of ways to resolve this but I think the easiest is to use
+[`~/.zlogout`](https://zsh.sourceforge.io/Guide/zshguide02.html#l9), where you 
+check if `$SSH_AGENT_PID` is defined and then kill it if it is.
+Another way is to use the trap function
+
+You might be tempted to use `ssh -A` or `AgentForwarding` but this can create a
+security risk by allowing users with root access to hijack your session.
+Probably not that bad but if we don't have to introduce it, why do that?
 
 # Setting up iptables
 You usually come with iptables installed, we'll assume it is.
