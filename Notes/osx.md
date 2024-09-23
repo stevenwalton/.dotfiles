@@ -13,3 +13,11 @@ you if files are being encrypted and interrupts. This can sometimes be annoying
 
 #
 https://www.jessesquires.com/blog/2023/12/16/macbook-notch-and-menu-bar-fixes/
+
+# Upgrading Issues
+## Sequoia
+After upgrading to Sequoia OSX 15.0, I was having an issue where `ssh` would
+frequently disconnect.
+This happened faster and more reliably when using `tmux`.
+Turns out that the problem is actually LuLu.
+Uninstall it and see if the problem goes away.

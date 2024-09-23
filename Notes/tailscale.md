@@ -96,6 +96,11 @@ The first thing to do is set up [tailnet lock](https://tailscale.com/kb/1226/tai
 machines that act as verification for newly added machines.
 It works by public private key pairs, like we'd see in `ssh`.
 
+If your machine goes down and you need to sign again, check via `tailscale lock
+status` and you'll get the node's lock key and it'll tell you how to lock it.
+It might happen that all your machines go off and you need to do this on more
+than one.
+
 ## Systemd
 Like all services, we want to harden.
 On their [linux instructions](https://tailscale.com/kb/1036/install-arch) they
@@ -135,6 +140,36 @@ you wanted to.
 While I trust Tailscale (you'd need to to do what we're doing!) we don't want to
 be limited by such arbitrary constraints! 
 
+So let's try this instead, we'll setup a basic raspberry pi and install mullvad
+on it, then set that pi as an exit node.
+Now we can use any machine to exit through that pi.
+Bonus, set up a second pi to use as an exit node that's not on mullvad.
+Then you can choose where you want to exit through in case you're getting
+blocked. 
+
+# Services
+Services can be a little confusing but aren't too hard once you get it.
+You might not even need this!
+If you're fine accessing by ip addresses you don't need to worry about this.
+You can just type in the `100.*.*.*` number tailscale gives you with `:port` and
+you're good to go!
+
+*** TODO: (not working) ***
+
+Here's some examples (you'll likely need sudo)
+
+```bash
+# Check your services
+tailscale serve status
+# Expose a service (jellyfin) that works via http or https
+tailscale serve --bg --set-path /jellyfin https+insecure://localhost:8096
+# Turn off that service 
+tailscale serve localhost:8096 off
+# Turn off all services
+tailscale serve reset
+```
+
+
 
 # TODO
 - [ ] Mullvad 
@@ -150,3 +185,6 @@ be limited by such arbitrary constraints!
 - [ ] PAM
 - [ ] OAuth
 - [ ] Webhooks 
+
+# Resources
+- [Reddit showing motivation like game streaming](https://www.reddit.com/r/SteamDeck/comments/12o1lre/dont_sleep_on_tailscale_it_is_borderline_magical/)

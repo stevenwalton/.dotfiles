@@ -12,6 +12,7 @@
 ################################################################################
 DOT_DIR_NAME="${DOT_DIR_NAME:-.dotfiles}"
 DOT_DIR="${DOT_DIR:-${HOME%/}/${DOT_DIR_NAME%/}}"
+CONFIG_DIR="${CONFIG_DIR:-${HOME%}/.config}"
 VERBOSE=1
 USE_DEFAULTS=
 
@@ -61,6 +62,32 @@ install() {
         error "Couldn't find ${_DINSTALL}/${1}"
     fi
 }
+
+link_rcfiles() {
+    # TODO: Fix so ${0} replicated ${HOME%/}/${0}" but anywhere 
+    # TODO: Fix for mac which uses -depth and at the post -name position
+    find "${DOT_DIR%/}/rc_files" \
+        -maxdepth 1 \
+        ! -name "*.md" \
+        ! -name "*root" \
+        ! -name "mozilla" \
+        ! -name "zsh" \
+        -exec bash -c 'ln -s "${0}" "${HOME%/}/.${0##*/"' {} \;
+}
+
+link_configs() {
+    # TODO: Same fixes as above
+    find "${DOT_DIR%/}/configs/" \
+        -maxdepth 1 \
+        ! -name "*.md" \
+        -exec bash -c 'ln -s "${0}" "${CONFIG_DIR%/}/${0##*/}"' {} \;
+}
+
+install_cargo() {
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o /tmp/rust_installer.sh
+    sh /tmp/rust_installer.sh -y
+}
+
 get_args() {
     while [[ $# -gt 0 ]]; do
         case $1 in 
