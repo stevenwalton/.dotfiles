@@ -72,7 +72,7 @@ you're at home) then you would first jump through `AccessibleWorkMachine`.
 SSID is probably better to use than the IP because it might be rotating or you
 could use both in conjunction. 
 
-Note that in OSX you used to be able to run
+~~Note that in OSX you used to be able to run
 `/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport -I`
 but this no longer works and `wdutil` requires `sudo` AND doesn't show SSID (it
 is redacted).
@@ -85,7 +85,14 @@ You could try using `networksetup -getairportnetwork en0` but you'll probably
 get `You are not associated with an AirPort network.`
 OR you could try `ioreg -l -n AirPortDriver | perl -lne 'print $1 if $_ =~ /IO80211SSID.*"(.*)"/;'`
 but on Sequoia you get `<SSID Redacted>`.
-So I guess classic ***WHAT THE FUCK APPLE?!***
+So I guess classic ***WHAT THE FUCK APPLE?!***~~
+
+On Mac (Sequoia), use any of the following
+```bash
+ipconfig getsummary en0 | grep -e '[^B]SSID' | cut -d ":" -f2 | tr -d ' '
+ipconfig getsummary en0 | grep -e '[^B]SSID' | cut -d ":" -f5
+ipconfig getsummary en0 | grep -e '[^B]SSID' | sed -E 's/^.*: (.*)/\1/g'
+```
 
 - [Visual Guide To SSH Tunneling & Port
 Forwarding](https://ittavern.com/visual-guide-to-ssh-tunneling-and-port-forwarding/)
