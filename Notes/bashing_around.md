@@ -226,7 +226,7 @@ echo "${file%/*}"
 
 # Conditional flags
 List can be found
-[ohere](https://www.gnu.org/software/bash/manual/html_node/Bash-Conditional-Expressions.html)
+[here](https://www.gnu.org/software/bash/manual/html_node/Bash-Conditional-Expressions.html)
 ([archive](https://archive.is/20140307173542/http://www.gnu.org/software/bash/manual/html_node/Bash-Conditional-Expressions.html))
 
 One's you'll use the most are
@@ -237,7 +237,6 @@ One's you'll use the most are
 -f regular_file
 -h symbolic_link
 -L symbolic_link
--v VARIBALE
 -z string_length_zero
 -n string_length_nonzero
 # Attributes
