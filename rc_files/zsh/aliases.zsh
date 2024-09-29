@@ -118,7 +118,7 @@ function fzfalias() {
 # This should be called after bat
 #################################
 function export_fzf_defaults() {
-    FZF_DEFAULT_OPTS='--ansi --preview '
+    FZF_DEFAULT_OPTS='--tmux 75% --ansi --preview '
     # If we have chafa installed then let's display pictures
     # For this to work properly we need chafa to be >= 1.14.4
     # https://github.com/hpjansson/chafa/issues/217
