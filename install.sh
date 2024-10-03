@@ -116,6 +116,9 @@ get_args() {
 }
 
 main() {
+    echo "Not complete yet"
+    exit 1
+
     get_args "$@"
     INSTALL_FILE_LOC=$(realpath ${0})
     DF_PATH=${INSTALL_FILE_LOC%/*}

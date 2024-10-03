@@ -54,6 +54,12 @@ wezterm, config = myattribute.make_attributes(wezterm, config)
 All files can be placed in `${HOME%/}/.config/wezterm` which should be part of `$XDG_CONFIG_HOME`.
 Name of files should be autological.
 
+# Debugging Wez
+It can be hard to debug `wezterm` especially since you can't import via the
+`lua` interpreter.
+What you can do instead is press `ctrl + shift + L` and there you will get a
+`lua` interpreter with `wezterm` already imported
+
 # Organization
 ```bash
 | $XDG_CONFIG_HOME/wezterm
