@@ -19,13 +19,25 @@ $(make_toc)
 
 EOF
 }
+
+bash_comment() { echo "Notes about bash/zsh commands and scripting." }
+ffmpeg_comment() { echo "Can anyone remember ffmpeg?" }
+linux_comment() { echo "Notes about the linux operating system. Things like systemd, cuda drivers, and all that fun stuff" }
+networking_comment() { echo "Some stuff on network commands. Like how to debug, fail2ban, etc" }
+osx_comment() { echo "Notes for mac" }
+python_comment() { echo "Mostly empty but maybe some things I forget about ipython configs, envs, or some command/trick I want to remember" }
+data_recovery_comment() { echo "I'll update this on those rare occasions I have to do data recovery because I'm an idiot that `rm -rf`'d the wrong dir and my aliases didn't work or aren't used" }
+nvidia_comment() { echo "Notes about dealing with nvidia drivers on linux.  Some stuff may also be in the linux notes, so check both." }
+
+
+
 # ----------------------------------------------------------
 # Inspired by jonavon: https://stackoverflow.com/a/61565622
 # Gets the git directory tree and makes a markdown table
 # of contents
 # ----------------------------------------------------------
 make_toc() {
-    git ls-tree \
+    TREE="$(git ls-tree \
         --full-name \
         --name-only \
         -t \
@@ -34,7 +46,11 @@ make_toc() {
         | sed -e "s/\([^-][^\/]*\/\)/   |\1/g" \
         -e "s/|\([^ ].*\/\(.*\)\)/- \[\2\]\(\1\)/" \
         | sed -e "s/^\([^ ].*\)/\[\1\]\(\1\)/" \
-        | sed -e "s/\(.*\)/- \1/"
+        | sed -e "s/\(.*\)/- \1/" \
+    )"
+    for i in "bash ffmpeg linux networking osx python data_recovery nvidia";
+    do
+        TREE="$(echo "${TREE}" | sed -E "s/(.*
         
 }
 
