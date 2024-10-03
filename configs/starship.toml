@@ -52,6 +52,8 @@ disabled = false
 style = "bg:#9A348E fg:#FFFFFF"
 disabled = false# Disabled by default
 
+# Symbols can be found at 
+# https://www.nerdfonts.com/cheat-sheet
 [os.symbols]
 Arch = "󰣇 "
 Linux = " "

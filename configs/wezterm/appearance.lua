@@ -1,5 +1,6 @@
 -- Required for user defined vars
 local wezterm = require 'wezterm'
+local helpers = require 'helpers'
 -- ----------------------------------------------------------- 
 -- User defined variables
 -- There are more variables here than usual so pay close attention
@@ -36,9 +37,7 @@ local cal_date_icon = wezterm.nerdfonts.cod_calendar
 local time_date_icon = wezterm.nerdfonts.md_clock_outline
 
 -- -- Hostname format >_ $HOSTNAME
-local hostname_format = 
-    wezterm.nerdfonts.md_console_line ..  ' ' .. 
-    wezterm.hostname()
+local hostname_format = helpers.get_os_icon() .. ' ' ..  wezterm.hostname() 
     
 -- Misc
 local automatic_reload = true

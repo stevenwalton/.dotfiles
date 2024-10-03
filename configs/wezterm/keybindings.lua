@@ -1,8 +1,10 @@
+local helpers = require 'helpers'
 -- ----------------------------------------------------------- 
 -- User defined variables
 -- Define keys and directions
 -- Please define the movement keys in lower case.
 --      Upper case will be used for moving panes
+-- Note that the SUPER key is the same as CMD on OSX
 -- ----------------------------------------------------------- 
 -- Vim keybindings
 local left = 'h'
@@ -24,7 +26,7 @@ function module.make_pane_keybindings(wezterm, config)
     -- I don't particularly like this but we'll see what happens
     config.leader = { 
         key = 's',
-        mods = 'CMD',
+        mods = 'SUPER',
         timeout_milliseconds = 1000,
     }
     -- Pane movement helper function

@@ -322,6 +322,13 @@ first, which is the output of `find`.
 `$0` is much easier than what [SO says](https://askubuntu.com/questions/35922/how-do-i-change-extension-of-multiple-files-recursively-from-the-command-line).
 It helps to read the docs!
 
+### Misc Useful commands
+
+```bash
+# Find files with non-ASCII characters
+LC_ALL=C find . -name '*[! -~]*'
+```
+
 # Colors
 This useful little loop will help you see and remember your ansi color codes
 ```bash
