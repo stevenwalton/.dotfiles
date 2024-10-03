@@ -27,6 +27,7 @@ I placed some `systemd` timers and service files in [`/systemd_files`](/systemd_
 Note that if you're using Arch or Endeavour and ***systemd-boot*** that you
 should not have timeshift reinstall grub files.
 See the debugging section below.
+You can use `timeshift --skip-grub --restore` to skip grub when restoring
 
 # Reporting System Info
 Most people request things like `uname -a` but that doesn't give us much.
