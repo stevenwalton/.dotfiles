@@ -9,8 +9,6 @@ Please do not edit the README directly!
 
 The project is organized as follows
 
-$(header_info)
-
 <sub><sup>Note: In vim press \`gf\` (goto-file) to go to selected file and <C-o> or <C-^> to go back (:e#)</sub></sup>
 ------------------------------------------------------------
 $(make_toc)
@@ -20,14 +18,39 @@ $(make_toc)
 EOF
 }
 
-bash_comment() { echo "Notes about bash/zsh commands and scripting." }
-ffmpeg_comment() { echo "Can anyone remember ffmpeg?" }
-linux_comment() { echo "Notes about the linux operating system. Things like systemd, cuda drivers, and all that fun stuff" }
-networking_comment() { echo "Some stuff on network commands. Like how to debug, fail2ban, etc" }
-osx_comment() { echo "Notes for mac" }
-python_comment() { echo "Mostly empty but maybe some things I forget about ipython configs, envs, or some command/trick I want to remember" }
-data_recovery_comment() { echo "I'll update this on those rare occasions I have to do data recovery because I'm an idiot that `rm -rf`'d the wrong dir and my aliases didn't work or aren't used" }
-nvidia_comment() { echo "Notes about dealing with nvidia drivers on linux.  Some stuff may also be in the linux notes, so check both." }
+bashing_around_comment() {
+	echo "Notes about bash/zsh commands and scripting."
+}
+
+ffmpeg_comment() {
+	echo "Can anyone remember ffmpeg?"
+}
+
+linux_comment() {
+	echo "Notes about the linux operating system. Things like systemd, cuda drivers, and all that fun stuff"
+}
+
+networking_comment() {
+	echo "Some stuff on network commands. Like how to debug, fail2ban, etc"
+}
+
+osx_comment() {
+	echo "Notes for mac"
+}
+
+python_comment() {
+	echo "Mostly empty but maybe some things I forget about ipython configs, envs, or some command/trick I want to remember"
+}
+
+data_recovery_comment() {
+	echo "I'll update this on those rare occasions I have to do data recovery because I'm an idiot that \`rm -rf\`'d the wrong dir and my aliases didn't work or aren't used"
+}
+
+nvidia_comment() {
+	echo "Notes about dealing with nvidia drivers on linux.  Some stuff may also be in the linux notes, so check both."
+}
+declare -a comments_array=( "bashing_around" "ffmpeg" "linux" "networking" "osx" "python" "data_recovery" "nvidia" )
+
 
 
 
@@ -42,15 +65,19 @@ make_toc() {
         --name-only \
         -t \
         -r HEAD \
+        | grep "Notes/" \
         | sed -e '/^\..*/d' \
         | sed -e "s/\([^-][^\/]*\/\)/   |\1/g" \
         -e "s/|\([^ ].*\/\(.*\)\)/- \[\2\]\(\1\)/" \
         | sed -e "s/^\([^ ].*\)/\[\1\]\(\1\)/" \
         | sed -e "s/\(.*\)/- \1/" \
     )"
-    for i in "bash ffmpeg linux networking osx python data_recovery nvidia";
+    echo "${TREE}"
+    for i in "${comments_array[@]}";
     do
-        TREE="$(echo "${TREE}" | sed -E "s/(.*
+        echo -e "${i}_comment"
+        #TREE="$(echo "${TREE}" | sed -E "s/(.*${i}.*:)\1 $(${i}_comment)/g")"
+    done
         
 }
 
@@ -58,4 +85,5 @@ main() {
     make_header > README.md
 }
 
-main
+#main
+make_toc
