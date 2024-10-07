@@ -26,6 +26,26 @@ function module.get_os()
     end
 end
 
+function module.get_distro_icon()
+    _, distro, _ = wezterm.run_child_process('lsb_release', '-i')
+    distro_dict = { Endeavour="",
+                    Arch="󰣇",
+                    Ubuntu="",
+                    Raspbian="",
+                    Manjaro="󱘊",
+                    Pop=" ",
+    }
+    for k,v in pairs(distro_dict)
+    do
+        if distro:gsub("\n","") == k
+        then
+            return v
+        end
+    end
+    -- Catchall
+    return ''
+end
+
 function module.get_os_icon()
     -- Symbols can be found at https://www.nerdfonts.com/cheat-sheet
     if module.is_osx()
@@ -33,11 +53,30 @@ function module.get_os_icon()
         return ''
     elseif module.is_linux()
     then
-        return ''
+        return module.get_distro_icon()
     else
         -- >_
         return nerdfonts.md_console_line
     end
+end
+
+function module.is_ssh_session()
+    args = { "/usr/bin/env", "bash", "-c", "ps -o comm= $PPID" }
+    _, rval, _ = wezterm.run_child_process( args )
+    if rval:find('sshd') ~= nil
+    then
+        return true
+    end
+    return false
+end
+
+function module.make_ssh_icon()
+    return ' '
+    -- if module.is_ssh_session()
+    -- then
+    --     return ' 󰢩 '
+    -- end
+    -- return ' '
 end
 
 

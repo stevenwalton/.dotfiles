@@ -37,7 +37,9 @@ local cal_date_icon = wezterm.nerdfonts.cod_calendar
 local time_date_icon = wezterm.nerdfonts.md_clock_outline
 
 -- -- Hostname format >_ $HOSTNAME
-local hostname_format = helpers.get_os_icon() .. ' ' ..  wezterm.hostname() 
+local hostname_format = helpers.get_os_icon() .. 
+    helpers.make_ssh_icon() ..
+    wezterm.hostname() 
     
 -- Misc
 local automatic_reload = true

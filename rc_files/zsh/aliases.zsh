@@ -100,7 +100,11 @@ fi
 # With zsh press <C-t> to enter fzf mode 
 if (_exists fzf)
 then
-    eval "$(fzf --zsh)"
+    # Options like --zsh and --tmux is only available from 0.48+
+    if [[ $(\fzf --version | cut -d " " -f1) -ge 0.48 ]];
+    then
+        eval "$(fzf --zsh)"
+    fi
 fi
 
 # Will be called by fd
@@ -118,7 +122,12 @@ function fzfalias() {
 # This should be called after bat
 #################################
 function export_fzf_defaults() {
-    FZF_DEFAULT_OPTS='--tmux 75% --ansi --preview '
+    FZF_DEFAULT_OPTS=''
+    if [[ $(\fzf --version | cut -d " " -f1) -ge 0.48 ]];
+    then
+        FZF_DEFAULT_OPTS+='--tmux 75% '
+    fi
+    FZF_DEFAULT_OPTS+='--ansi --preview '
     # If we have chafa installed then let's display pictures
     # For this to work properly we need chafa to be >= 1.14.4
     # https://github.com/hpjansson/chafa/issues/217
