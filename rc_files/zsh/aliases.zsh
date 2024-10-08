@@ -40,7 +40,7 @@ check_versions() {
     then
         # fzf --version might appear like 0.55.0 (brew) or without the
         # subversison so split on . and only get major & minor
-        if [[ $(fzf --version | cut -d "." -f-2) -ge 0.48 ]];
+        if [[ $(fzf --version | cut -d " " -f-1 | cut -d "." -f-2) -ge 0.48 ]];
         then
             HAVE_FZF=1
         else
@@ -271,7 +271,7 @@ snek_wrangling() {
     then
         if [[ -d ".venv" ]];
         then
-            source "${HOME%/}/.venv/bin/activate"
+            source ".venv/bin/activate"
             if [[ "$PWD" != "${HOME%/}" ]];
             then
                 echo "\tYou are not at home BUT we found virtual environment and loaded it."
