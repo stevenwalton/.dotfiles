@@ -169,6 +169,30 @@ tailscale serve localhost:8096 off
 tailscale serve reset
 ```
 
+# Mullvad on Exit (WIP)
+While tailscale has an official [Mullvad exit
+node](https://tailscale.com/kb/1258/mullvad-exit-nodes) method, it requires you
+to pay for Mullvad through them.
+Cool, but we want more flexibility.
+If we're doing this for privacy and want to minimize our footprint, then let's
+try to do it ourselves!
+Plus, if we can figure it out we'll be able to do it with
+[Headscale](https://headscale.net/)!
+But mostly, for fun, because that's how we learn things!
+
+So what do we need to know?
+Tailscale and Mullvad are using
+[wireguard](https://wiki.archlinux.org/title/WireGuard), so we need to
+understand that.
+My link to headscale is also helpful, because it openly discusses how tailscale
+works!
+So we need to understand DNS (possibly [Split-Horizon
+DNS?](https://en.wikipedia.org/wiki/Split-horizon_DNS))
+
+```bash
+# Check mullvad connection
+curl https://am.i.mullvad.net/connected
+```
 
 
 # TODO
