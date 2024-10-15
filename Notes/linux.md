@@ -5,6 +5,107 @@ using it.
 # Some Random Stuff For Noobs
 Wonder what all those files in `/` are? `man hier`
 
+## PATH and sudo
+So you added a binary to `$PATH` and tried to do `sudo <cmd>` but it doesn't
+work.
+Have no fear!
+Just run `sudo -E <cmd>`.
+Problem solved! \o/
+
+But... why?
+`sudo` resets the environment, this is a security feature.
+You can see this by doing the following 
+
+```bash
+$ sudo ls
+$ vimdiff <(env) <(sudo env)
+# I suggest using `| sort` for both. My dotfiles aliases `env` btw
+```
+
+we do `sudo ls` first because we are going to cache `sudo` password because if
+you don't you might get a blank screen and stuck because things aren't happening
+in the order and way you think! (have fun investigating ;)
+
+Let's see what it looks like
+
+```bash
+$ sudo env | sort
+BROWSER=firefox
+EDITOR=nano
+HOME=/root
+LANG=en_US.UTF-8
+LC_*=en_US.UTF-8 # let's keep this short
+LOGNAME=root
+LS_COLORS=lots of stuff...
+MAIL=/var/mail/root
+PATH=/usr/local/sbin:/usr/local/bin:/usr/bin
+SHELL=/usr/bin/bash
+SUDO_COMMAND=/usr/bin/env
+SUDO_GID=1000
+SUDO_HOME=/home/steven
+SUDO_UID=1000
+SUDO_USER=steven
+TERM=xterm-256color
+USER=root
+```
+
+Even `$EDITOR` gets changed! 
+(╯°□°)╯︵ ┻━┻
+Key things to notice is that `$EDITOR` and `$PATH` might not be what you expect
+as well as we have `$HOME` and `$SUDO_HOME`.
+
+For `$EDITOR` let's edit `/etc/environment`.
+We really only have `$BROWSER` and `$EDITOR` in here.
+
+But now let's run `sudo visudo`.
+We have some choices to make here.
+We'll look at a subset of lines, which may not be exactly the same on your
+system
+
+```bash
+# /etc/sudoers
+--------------
+## Preserve editor environment variables for visudo
+## To preserve these for all commands, remove "!visudo" qualifier
+Defaults!/usr/bin/visudo env_keep += "SUDO_EDITOR"
+
+## Use a hard-coded PATH instead of user's to find commands.
+## This also helps prevent poorly written scripts from running
+## arbitrary commands under sudo
+Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/bin"
+
+...
+## Read drop-in files from /etc/sudoers.d
+@includedir /etc/sudoers.d
+```
+
+So this can tell us some of what is going on.
+If we want to add paths we can use `secure_path` and if we want to keep the
+editor, we can edit that other line to be 
+`Defaults env_keep += "SUDO_EDITOR EDITOR"` 
+or something similar. 
+The last one says we can add things to `/etc/sudoers.d/` and those will be
+sourced.
+Let's use that instead of editing `/etc/sudoers`!
+
+```bash
+# /etc/sudoers.d/50-editors
+----------------------------
+Defaults env_keep += "EDITOR SYSTEMD_EDITOR"
+```
+
+The leading number tells our system what order to load things in, so my system
+has `10-installer` and since we named ours `50-` it'll load second. 
+Now check with `sudo -ll`
+
+Let's add the following too, just for fun
+
+```bash
+# /etc/sudoers.d/99-insults
+---------------------------
+Defaults insults
+```
+
 # Initial configuring 
 ## Protecting your system from yourself and updates
 You probably want to use [timeshift](https://wiki.archlinux.org/title/Timeshift).

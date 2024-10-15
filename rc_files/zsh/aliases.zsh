@@ -172,7 +172,7 @@ alias_bat() {
 #################################
 export_fzf_defaults() {
     FZF_DEFAULT_OPTS=''
-    if [[ $HAVE_FZF -eq 1 && $HAVE_TMUX -ge 1 ]];
+    if [[ $HAVE_FZF -eq 1 && $HAVE_TMUX -ge 1 && $TERM_PROGRAM == "tmux" ]];
     then
         FZF_DEFAULT_OPTS+='--tmux 75% '
     fi
@@ -186,7 +186,7 @@ export_fzf_defaults() {
         FZF_DEFAULT_OPTS+='--passthrough none -f sixels --size '
         # tmux can't display as large of images so we'll need to reduce them to
         # 30 as this is the max (determined by testing)
-        if [[ $(env | grep tmux) ]];
+        if [[ $(env | grep tmux) && $TERM_PROGRAM == "tmux" ]];
         then
             FZF_DEFAULT_OPTS+='30 '
         else

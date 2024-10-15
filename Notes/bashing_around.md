@@ -403,3 +403,61 @@ An interactive shell
 [Command Line Tools Can Be 235x Faster Than Your Hadoop Cluster](https://adamdrake.com/command-line-tools-can-be-235x-faster-than-your-hadoop-cluster.html) ([archive](https://archive.is/IFQ3Y#selection-224.0-224.3))
 
 - [Google Style Guide](https://google.github.io/styleguide/shellguide.html)
+
+# Some xargs fun
+`xargs` is a crazy program where you can parallelize things and also deal with
+many lines of output.
+Let's deal with the second one and maybe a silly case.
+Let's say that we want to find all the PIDs associated with `steam`.
+Easy, we run `pgrep steam`.
+That should give us a bunch of output, but what does each mean?
+Instead, let's run 
+```
+$ pgrep steam | xargs -L1 sh -c 'ps -p "${0}" -o command='
+/home/steven/.local/share/Steam/ubuntu12_32/steam -srt-logger-opened
+/home/steven/.local/share/Steam/ubuntu12_32/steam-runtime/amd64/usr/bin/steam-runtime-supervisor --exit-with-p
+steam-runtime-launcher-service --alongside-steam
+./steamwebhelper -lang=en_US -cachedir=/home/steven/.local/share/Steam/config/htmlcache -steampid=481666 -buil
+/home/steven/.local/share/Steam/ubuntu12_64/steamwebhelper --monitor-self-annotation=ptype=crashpad-handler --
+... more output ...
+```
+
+How neat is that?
+
+But we gotta go fast, so let's look at a different task.
+I grade a lot and Canvas hands me a zip file of students homeworks, which also
+often contain zips.
+So now we might want to unzip that file and then unzip all those zips inside of
+there.
+For the heck of it, let's clean up the nested zips too since we still have the
+parent.
+```
+$ # Unzip first like normal
+$ unzip submissions.zip -d submissions
+$ # Now let's unzip but in parallel. We'll make quiet and this does have a
+noticable speedup!
+$ find submissions -depth 1 -type f -name "*.zip" -print0 \
+    | xargs -0 -L1 -P 2 \
+      sh -c 'unzip -q "${0}" -d "${0%%_*}" && rm "${0}"'
+```
+Breaking this down we use our find command to search the directory
+"submissions", only going depth 1, looking for files, with a name that ends in
+zip (these aren't necessary but give us some precaution), and we end with a
+`-print0` causes it to print the pathname to stdout and end with a null char
+(you can also use `-X`, see man page).
+So then we have `xargs`, telling it that we look for the null char ending
+(`-0`), we'll only process one line at a time (`-L1`), and we'll use 2 threads
+(`-P 2`), and that we then want to run that `sh` command (`-c` means read
+command from string). We unzip -- quietly (`-q`) to reduce writing to stdout,
+which is slow -- and we use this formant because the zips are usually in the
+form
+`studentfullname_{LATE}_number_number_courseID_moregibberish_foobarbazzbangbuzz.zip`
+and we just want the student name.
+You can use more threads but already this is going to be way faster.
+To give some comparisons, when I do this on a small set (~30 zips) I get 2.8s
+for 1 thread, 1.7 for 2, 1.4 for 4, and no better with 8.
+If you're doing this a lot or have much bigger zips, you're going to benefit
+greatly from this knowledge.
+Use with the other bash knowledge above and you're gonna have huge productivity
+boosts.
+Especially if you're combining with powerful tools like `sed`.
