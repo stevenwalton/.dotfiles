@@ -309,6 +309,24 @@ snek_wrangling() {
     fi
 }
 
+alias_ytdlp() {
+    if (_exists yt-dlp)
+    then
+        astring="alias ytdl='"
+        if [[ ! $(yt-dlp --list-impersonate-targets | grep "not available") ]];
+        then
+            astring+="--impersonate chrome:windows-10"
+        fi
+        astring+=" --continue --progress -N 4 --throttled-rate 250K --limit-rate 10M --buffer-size 2048 --retry-sleep linear=1::2 --retry-sleep fragment:exp=1:20"
+        if (_exists aria2c)
+        then
+            astring+=" --downloader=aria2c"
+        fi
+        astring+="'"
+        eval "astring"
+    fi
+}
+
 load_function() {
     if [[ "$1" -ge 1 ]];
     then

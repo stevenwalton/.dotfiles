@@ -34,6 +34,20 @@ function module.vim_super_open_new_tab(config, key, cwd, args)
     return config
 end
 
+function module.run_osa_script(config, key, cwd, script)
+    table.insert(config.keys,
+        {
+            key = key,
+            mods = 'SUPER',
+            action = wezterm.action.SpawnCommandInNewTab {
+                cwd = cwd,
+                args = args,
+            },
+        }
+    )
+    return config
+end
+
 -- Hotkey to open wezterm config
 function module.load_config_in_new_tab(config)
     return module.vim_super_open_new_tab(config, config_key, wezterm_config_path, wezterm_config_file)
@@ -49,10 +63,20 @@ function module.load_dotfiles(config)
     return module.vim_super_open_new_tab(config, dotfiles_key, dotfiles_dir , dotfiles_file)
 end
 
+function module.caffinate(config, key)
+    config = module.run_osa_script(config, '\\', '/Users/steven/.dotfiles/scripts/OSX/', 
+        {'osascript', "'-e 'tell application \"Caffeine\"' -e 'if active then -e 'turn off' -e 'else' -e 'turn on' -e 'end if' -e  'end tell'" }
+    )
+    --'./caffeine.scpt')
+    return config
+end
+
+
 function module.load_commands(config)
     config = module.load_config_in_new_tab(config)
     config = module.load_notes(config)
     config = module.load_dotfiles(config)
+    config = module.caffinate(config, '\\')
     return config
 end
 
