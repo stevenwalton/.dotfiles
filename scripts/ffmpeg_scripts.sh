@@ -68,7 +68,7 @@ toav1() {
             # 23 is considered visually lossless for AV1
             pv "${1}" | \
                 ffmpeg -y -v warning \
-                -vsync 0 \
+                -fps_mode 0 \
                 -hwaccel cuda \
                 -hwaccel_output_format cuda \
                 -i pipe:0 \
@@ -100,3 +100,51 @@ toav1() {
 toav1_2pass() {
     ffmpeg -y -vsync 0 -hwaccel cuda -hwaccel_output_format cuda -i "${1}" -c:v av1_nvenc 
 }
+
+usage() {
+    cat << DOC
+    Test
+DOC
+}
+
+main() {
+    case $1 in
+        --av1 | toav1)
+            shift
+            input_movie="$1"
+            if [[ $# -gt 0 ]];
+            then
+                output_movie="$2"
+            else
+                output_movie="$1"
+            fi
+            toav1 "${input_movie}" "${output_movie}"
+            ;;
+        -c | check)
+            shift 
+            movie_check "$1"
+            ;;
+        -e | encoding | get_encoding)
+            shift
+            get_encoding "$1"
+            ;;
+        *)
+            usage
+            #exit 1
+            ;;
+    esac
+    #exit 0
+}
+ is_sourced() {
+   if [ -n "$ZSH_VERSION" ]; then
+       case $ZSH_EVAL_CONTEXT in *:file:*) return 0;; esac
+   else  # Add additional POSIX-compatible shell names here, if needed.
+       case ${0##*/} in dash|-dash|bash|-bash|ksh|-ksh|sh|-sh) return 0;; esac
+   fi
+   return 1  # NOT sourced.
+ }
+
+if [[ ! is_sourced ]];
+then
+    main "$@" || exit 1
+fi

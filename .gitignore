@@ -13,3 +13,5 @@ api_keys/
 vim/undodir/*
 rc_files/vim/autoload/
 rc_files/vim/plugged/
+configs/yazi/plugins/
+configs/yazi/flavors/

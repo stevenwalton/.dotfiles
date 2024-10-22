@@ -1,0 +1,28 @@
+# yazi.toml
+
+[manager]
+ratio        = [1, 7, 4]
+linemode     = "size_and_mtime"
+show_symlink = true
+
+[preview]
+max_width     = 20000
+max_height    = 50000
+image_quality = 80
+image_delay   = 0
+
+[tasks]
+# Prevent too much memory being allocated for images
+# image_alloc = "
+# make image size unlimited
+image_bound = "0"
+
+[[plugin.prepend_fetchers]]
+id   = "git"
+name = "*"
+run  = "git"
+
+[[plugin.prepend_fetchers]]
+id   = "git"
+name = "*/"
+run  = "git"

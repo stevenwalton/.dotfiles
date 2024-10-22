@@ -334,6 +334,10 @@ load_function() {
     fi
 }
 
+ytdlp() {
+    alias ytdl='yt-dlp --impersonate chrome:windows --continue --progress -N 4 --throttled-rate 250K --limit-rate 10M --buffer-size 2048 --retry-sleep linear=1::2 --retry-sleep fragment:exp=1:20'
+}
+
 main() {
     check_versions
     load_function "$HAVE_TMUX" "tmux_alias"
@@ -343,6 +347,7 @@ main() {
     load_function "$HAVE_FZF" "alias_fzf"
     load_function "$HAVE_FD" "alias_fd"
     snek_wrangling
+    ytdlp
 }
 
 main
