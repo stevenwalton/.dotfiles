@@ -312,10 +312,10 @@ snek_wrangling() {
 alias_ytdlp() {
     if (_exists yt-dlp)
     then
-        astring="alias ytdl='"
+        astring="alias ytdl='yt-dlp"
         if [[ ! $(yt-dlp --list-impersonate-targets | grep "not available") ]];
         then
-            astring+="--impersonate chrome:windows-10"
+            astring+=" --impersonate chrome:windows-10"
         fi
         astring+=" --continue --progress -N 4 --throttled-rate 250K --limit-rate 10M --buffer-size 2048 --retry-sleep linear=1::2 --retry-sleep fragment:exp=1:20"
         if (_exists aria2c)

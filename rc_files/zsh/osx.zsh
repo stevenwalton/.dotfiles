@@ -1,3 +1,8 @@
+# Did we install coreutils?
+if [[ -d ${HOME%/}/.local/bin/coreutils ]];
+then
+    export PATH="${HOME%}/.local/bin/coreutils/:${PATH}"
+fi
 ## Ruby for Jekyll
 if [[ -d /opt/homebrew/opt/chruby/ ]];
 then
@@ -22,21 +27,21 @@ then
     alias ask='ask -mi' # Add markdown and interactive
 fi
 
-if [[ -x "${HOME%/}"/.local/bin/micromamba ]];
-then
-    # >>> mamba initialize >>>
-    # !! Contents within this block are managed by 'mamba init' !!
-    export MAMBA_EXE='/Users/steven/.local/bin/micromamba';
-    export MAMBA_ROOT_PREFIX='/Users/steven/.mamba';
-    __mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
-    if [ $? -eq 0 ]; then
-        eval "$__mamba_setup"
-    else
-        alias micromamba="$MAMBA_EXE"  # Fallback on help from mamba activate
-    fi
-    unset __mamba_setup
-    # <<< mamba initialize <<<
-elif [[ -d /opt/homebrew/anaconda3 ]];
-then
-    export CONDA_ROOT="/opt/homebrew/anaconda3"
-fi
+#if [[ -x "${HOME%/}"/.local/bin/micromamba ]];
+#then
+#    # >>> mamba initialize >>>
+#    # !! Contents within this block are managed by 'mamba init' !!
+#    export MAMBA_EXE='/Users/steven/.local/bin/micromamba';
+#    export MAMBA_ROOT_PREFIX='/Users/steven/.mamba';
+#    __mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+#    if [ $? -eq 0 ]; then
+#        eval "$__mamba_setup"
+#    else
+#        alias micromamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+#    fi
+#    unset __mamba_setup
+#    # <<< mamba initialize <<<
+#elif [[ -d /opt/homebrew/anaconda3 ]];
+#then
+#    export CONDA_ROOT="/opt/homebrew/anaconda3"
+#fi

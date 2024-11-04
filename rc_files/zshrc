@@ -14,8 +14,38 @@ export EDITOR="vim"
 # Make the path clean
 if [[ $(uname) == "Linux" ]]; then
     eval $(cat /etc/environment)
+elif [[ $(uname) == "Darwin" ]];
+then
+    echo "Path before modification is:"
+    echo "$PATH" | tr ':' '\n'
+    echo
+    PTH=
+    while read -r pth;
+    do
+        echo "${pth}"
+        if [[ -z "${PTH}" ]];
+        then
+            PTH="${pth}"
+        elif [[ "${PTH}" != *":${pth}"* ]];
+        then
+            PTH="${pth}:${PTH}"
+        fi
+    done < <(/bin/cat /etc/paths{.d/*,})
 fi
-export PATH="${HOME}/.local/bin:${HOME}/.cargo/bin:$PATH"
+#export PATH="${PTH}"
+#/Users/steven/.local/bin/coreutils/echo "PATH IS $(/Users/steven/.local/bin/coreutils/echo "${PATH}" | /Users/steven/.local/bin/coreutils/tr ':' '\n')"
+# Local local bin
+if [[ -d "${HOME%/}/.local/bin" ]];
+then
+    export PATH="${HOME%/}/.local/bin/:${PATH}"
+fi
+# Load cargo
+if [[ -d "${HOME%/}/.cargo/env" ]];
+then
+    #export PATH="${HOME%/}/.cargo/bin:${PATH}"
+    . "${HOME%/}/.cargo/env"
+fi
+#export PATH="${HOME}/.local/bin:${HOME}/.cargo/bin:$PATH"
 # Shell like vim
 # Keep this up here or the edit-command-line bindkey might mess up
 set -o vi
@@ -125,7 +155,3 @@ source "${ZSH_DIR%/}/basic_aliases.zsh"
 # Spaceduck highlighting
 source "${ZSH_DIR%/}/spaceduck.zsh"
 
-if [[ -d "${HOME%/}/.cargo/env" ]];
-then
-    . "${HOME%/}/.cargo/env"
-fi

@@ -72,7 +72,7 @@ link_rcfiles() {
         ! -name "*root" \
         ! -name "mozilla" \
         ! -name "zsh" \
-        -exec bash -c 'ln -s "${0}" "${HOME%/}/.${0##*/"' {} \;
+        -exec bash -c 'ln -Fis "${0}" "${HOME%/}/.${0##*/"' {} \;
 }
 
 link_configs() {
@@ -80,7 +80,7 @@ link_configs() {
     find "${DOT_DIR%/}/configs/" \
         -maxdepth 1 \
         ! -name "*.md" \
-        -exec bash -c 'ln -s "${0}" "${CONFIG_DIR%/}/${0##*/}"' {} \;
+        -exec bash -c 'ln -Fis "${0}" "${CONFIG_DIR%/}/${0##*/}"' {} \;
 }
 
 install_cargo() {
