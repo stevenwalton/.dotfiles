@@ -127,6 +127,63 @@ So `depth` is our history and `window` is our context window.
 I ran `git repack -adf --depth=50 --window=500 --threads 4` and this reduced it
 to 180M but took 10 minutes on my M2 Air.
 
+Let's do a bit better.
+This is an old repo, I've made lots of mistakes and there are definitely bins
+from vim, zsh, and elsewhere.
+
+```bash
+# Collect garbage
+# Prunes with default of 2 weeks ago
+$ git gc
+# // 171M 
+# Remove old files and respect the .gitignore
+$ git clean -fx
+$ git reflog expire --all
+$ git filter-branch --index-filter 'git rm --cached --ignore-unmatch filename' HEAD
+# // 175M :(
+```
+
+Let's try something a bit different and use `git-filter-repo`.
+Since we know that 
+`find rc_files -type f -not -path "rc_files/vim/plugged/*" -size +10k`
+returns only a few files, we know we can probably prune quite a lot of stuff!
+Only thing larger than 50K is `plugged` which is an ignored directory!
+At 20k we only have that and our ipython history, which should be removed!
+
+***WARNING:*** don't do the following on group or production code where you care
+about history!
+
+```bash
+$ wget https://raw.githubusercontent.com/newren/git-filter-repo/main/git-filter-repo \
+    -o ~/.local/bin/git-filter-repo
+$ chmod +x ~/.local/bin/git-filter-repo
+$ git-filter-repo --analyze
+# Ah ha! Nerd fonts git in there. Bunch of .ttf, otf and pngs
+$ git-filter-repo --strip-blobs-bigger-than 1M --force
+# 140M! .git is not 58M
+# Let's be aggressive! 
+$ git-filter-repo --strip-blobs-bigger-than 20K --force
+# 84M! .git is 2.2M
+$ git clean -xf
+$ git prune --now 
+# For some reason this destroyed upstream
+$ git remote add origin git@github.com:stevenwalton/.dotfiles.git
+$ git push --set-upstream origin master
+$ git push --force --all origin
+```
+Did I destroy a lot of my git history?
+Yeah, probably.
+But this is an evolving dotfiles and I'm not really too concerned about the
+history, so it is a good place to experiment.
+But considering that our directory is now under 100M and the upstream is under
+3M I'm taking this as a big win.
+I want to be able to clone this repo fast.
+Timing this, I downloaded the repo prior to these changes and it took about 2
+minutes and gave me a directory that was 162M in size.
+NOW it takes under 2 seconds to clone and I get a 2M folder!
+What a win!
+
+
 # Find
 `find` is one of the most powerful and underrated programs in bash.
 It is one you should master!
