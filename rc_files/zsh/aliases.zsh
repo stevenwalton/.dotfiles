@@ -312,18 +312,31 @@ snek_wrangling() {
 alias_ytdlp() {
     if (_exists yt-dlp)
     then
-        astring="alias ytdl='yt-dlp"
+        declare astring="alias ytdl='yt-dlp"
+        # Lots of blocking may be by based on user agent. Be the masses
         if [[ ! $(yt-dlp --list-impersonate-targets | grep "not available") ]];
         then
             astring+=" --impersonate chrome:windows-10"
         fi
-        astring+=" --continue --progress -N 4 --throttled-rate 250K --limit-rate 10M --buffer-size 2048 --retry-sleep linear=1::2 --retry-sleep fragment:exp=1:20"
+        # Parallel fragments
+        astring+=" --continue --progress -N 4"
+        # Don't download less than 250Kbps
+        # Don't download faster than 10Mbps (don't stress server)
+        astring+=" --throttled-rate 250K --limit-rate 10M"
+        # Increase buffer size for faster downloads
+        # See `sysctl net.ipv4.tcp_rmem`
+        astring+=" --buffer-size 4096"
+        # Sleep between retries, exponential growth for fragments (blocking)
+        astring+=" --retry-sleep linear=1::2 --retry-sleep fragment:exp=1:20"
+        # include subtitles
+        astring+=" --write-subs --no-write-auto-subs --sub-langs \"en.*\""
         if (_exists aria2c)
         then
             astring+=" --downloader=aria2c"
+            astring+=" --downloader-args aria2c:--max-connection-per-server=4"
         fi
         astring+="'"
-        eval "astring"
+        eval "$astring"
     fi
 }
 
@@ -332,10 +345,6 @@ load_function() {
     then
         eval "$2"
     fi
-}
-
-ytdlp() {
-    alias ytdl='yt-dlp --impersonate chrome:windows --continue --progress -N 4 --throttled-rate 250K --limit-rate 10M --buffer-size 2048 --retry-sleep linear=1::2 --retry-sleep fragment:exp=1:20'
 }
 
 main() {
@@ -347,7 +356,7 @@ main() {
     load_function "$HAVE_FZF" "alias_fzf"
     load_function "$HAVE_FD" "alias_fd"
     snek_wrangling
-    ytdlp
+    alias_ytdlp
 }
 
 main

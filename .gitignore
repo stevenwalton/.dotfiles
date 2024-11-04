@@ -1,6 +1,5 @@
-*.swp
+*.sw?
 ~*
-*.swo
 .netrwhist
 */.netrwhist
 tags

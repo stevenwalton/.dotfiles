@@ -14,15 +14,17 @@ image_delay   = 0
 [tasks]
 # Prevent too much memory being allocated for images
 # image_alloc = "
-# make image size unlimited
-image_bound = "0"
+# limit image [width, height] (0 = unlimited)
+image_bound = [1000,4000]
+# limit single image memory allocation 
+image_alloc = 1000000 # 1 MB
 
-[[plugin.prepend_fetchers]]
-id   = "git"
-name = "*"
-run  = "git"
-
-[[plugin.prepend_fetchers]]
-id   = "git"
-name = "*/"
-run  = "git"
+#[[plugin.prepend_fetchers]]
+#id   = "git"
+#name = "*"
+#run  = "git"
+#
+#[[plugin.prepend_fetchers]]
+#id   = "git"
+#name = "*/"
+#run  = "git"
