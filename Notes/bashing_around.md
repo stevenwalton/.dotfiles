@@ -107,6 +107,26 @@ be recorded, then you can't rely on these.
 Also note, don't rely on history if you think hackers got in because they'll
 just run `$  fc -p` when they're in and nothing will get recorded.
 
+# GIT
+Git can be a bit crazy. 
+One of the things that bothers me the most is how large the `.git` folder can get.
+As of this writing this dotfiles takes 229M of disk space.
+82M is from the `rc_files` of which 81M is from plugged, so won't be part of the
+`git clone` process but will be from `vim -c PlugInstall -c qa`
+`.git` you ask? It is 147M! That's crazy considering no single directory here
+takes even 1M of space.
+What can we do?
+[Linus recommends](https://gcc.gnu.org/legacy-ml/gcc/2007-12/msg00165.html)
+`git repack -a -d --depth=250 --window=250`
+But I think what he actually means is `git repack -adf --depth=250 --window=250
+--threads 4` (or some other number of threads).
+The `-f` (which he mentions) drops all old deltas.
+`depth` is how long our delta chains are and `window` is the object window to
+scan for a candidate.
+So `depth` is our history and `window` is our context window.
+I ran `git repack -adf --depth=50 --window=500 --threads 4` and this reduced it
+to 180M but took 10 minutes on my M2 Air.
+
 # Find
 `find` is one of the most powerful and underrated programs in bash.
 It is one you should master!
