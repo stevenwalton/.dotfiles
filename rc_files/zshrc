@@ -3,55 +3,41 @@
 function _exists() {
     command -v "$1" &> /dev/null
 }
-DOTFILE_DIR="${HOME}/.dotfiles"
+DOTFILE_DIR="${HOME%/}/.dotfiles"
+LOCAL_BIN="${HOME%/}/.local/bin"
+CARGO_PATH="${HOME%/}/.cargo"
+CONFIGS="${DOTFILE_DIR%/}/configs"
+SHELDON_PATH="${CONFIGS%/}/sheldon"
 # Load any scripts
 #for script in "${DOTFILE_DIR}/scripts/*.sh"; do
 #    source "${script}"
 #done
 # General Exports 
-export ZSH_DIR=${HOME}/.dotfiles/rc_files/zsh
+export ZSH_DIR="${DOTFILE_DIR%/}/rc_files/zsh"
 export EDITOR="vim"
 # Make the path clean
 if [[ $(uname) == "Linux" ]]; then
     eval $(cat /etc/environment)
-elif [[ $(uname) == "Darwin" ]];
-then
-    echo "Path before modification is:"
-    echo "$PATH" | tr ':' '\n'
-    echo
-    PTH=
-    while read -r pth;
-    do
-        echo "${pth}"
-        if [[ -z "${PTH}" ]];
-        then
-            PTH="${pth}"
-        elif [[ "${PTH}" != *":${pth}"* ]];
-        then
-            PTH="${pth}:${PTH}"
-        fi
-    done < <(/bin/cat /etc/paths{.d/*,})
+#elif [[ $(uname) == "Darwin" ]];
+#then
 fi
-#export PATH="${PTH}"
-#/Users/steven/.local/bin/coreutils/echo "PATH IS $(/Users/steven/.local/bin/coreutils/echo "${PATH}" | /Users/steven/.local/bin/coreutils/tr ':' '\n')"
 # Local local bin
-if [[ -d "${HOME%/}/.local/bin" ]];
-then
-    export PATH="${HOME%/}/.local/bin/:${PATH}"
-fi
+[[ -d "${LOCAL_BIN}" ]] \
+    && export PATH="${LOCAL_BIN}:${PATH}"
 # Load cargo
-if [[ -d "${HOME%/}/.cargo/env" ]];
+if [[ -d "${CARGO_PATH%/}/env" ]];
 then
     #export PATH="${HOME%/}/.cargo/bin:${PATH}"
-    . "${HOME%/}/.cargo/env"
+    . "${CARGO_PATH%/}/env"
+    [[ "$PATH" != *"${CARGO_PATH%/}/bin"* ]] \
+        && export PATH="${CARGO_PATH%/}/bin:${PATH}"
 fi
-#export PATH="${HOME}/.local/bin:${HOME}/.cargo/bin:$PATH"
 # Shell like vim
 # Keep this up here or the edit-command-line bindkey might mess up
 set -o vi
 ## Lines for autocompletion
-source ${ZSH_DIR}/completions.zsh
-#
+source "${ZSH_DIR}/completions.zsh"
+
 # Enable <C-x><C-e> editing style that bash has
 # Credit: https://nuclearsquid.com/writings/edit-long-commands/
 # Key this near top. It won't work if sheldon is above this
@@ -72,7 +58,7 @@ if (_exists sheldon)
 then
     eval "$(sheldon source)" 2&>/dev/null
     #source <(sheldon source)
-    export PATH="${HOME}/.local/share/sheldon/bin:$PATH"
+    export PATH="${SHELDON_PATH%/}/bin:$PATH"
 fi
 #export PATH="${HOME}/.local/bin:${HOME}/.cargo/bin:$PATH"
 
@@ -89,7 +75,7 @@ bindkey '^[[B' history-substring-search-down\
 # Starship theme
 if (_exists starship)
 then
-    export STARSHIP_CONFIG="${HOME}/.config/starship.toml"
+    export STARSHIP_CONFIG="${CONFIGS%/}/starship.toml"
     eval "$(starship init zsh)"
 fi
 
@@ -97,7 +83,7 @@ fi
 # export LANG=en_US.UTF-8
 # Don't add to history if prepended with space
 setopt HIST_IGNORE_SPACE
-HISTFILE=~/.histfile
+HISTFILE="${HOME%/}/.histfile"
 HISTSIZE=10000
 SAVEHIST=10000
 setopt appendhistory autocd
@@ -111,19 +97,6 @@ zle -N down-line-or-beginning-search
 
 # Fixes tmux window renaming
 DISABLE_AUTO_TITLE="true"
-# Unset the autonaming for tmux
-DISABLE_AUTO_TITLE="true"
-# This is not currently working. Looks like this defines the socket and when
-# doing this we need to constantly run `tmux -S ~/.local/tmp/my_tmux_socket` to
-# do anything. Will determine more later.
-#   # Use a local tmux if we have the local temp directory
-#   # This can help if we're on a cluster and have different login nodes
-#   # Especially when improperly setup. 
-#   #if [[ -d "${HOME%/}/.local/tmp" ]];
-#   #then
-#   #    export TMUX_TMPDIR="${HOME%/}/.local/tmp"
-#   #fi
-
 
 # For ssh-agent. Let's try to establish first and if not we'll do different
 # things for different machines and pickup via those
@@ -154,4 +127,3 @@ source "${ZSH_DIR%/}/basic_aliases.zsh"
 
 # Spaceduck highlighting
 source "${ZSH_DIR%/}/spaceduck.zsh"
-
