@@ -2,10 +2,16 @@
 alias open='xdg-open' 
 
 # Add cuda to path if it's in the normal location
-if [[ -d /usr/local/cuda ]]; then
-    export PATH="/usr/local/cuda/bin:${PATH}"
-    if [[ -d /usr/local/cuda/include ]]; then
-        export LD_LIBRARY_PATH="/usr/local/cuda/include:${LD_LIBRARY_PATH}"
+if [[ -d /usr/local/cuda || -d /opt/cuda ]]; then
+    if [[ -d /usr/local/cuda ]];
+    then
+        CUDA_PATH="/usr/local/cuda"
+    else
+        CUDA_PATH="/opt/cuda"
+    fi
+    export PATH="${CUDA_PATH%/}/bin:${PATH}"
+    if [[ -d "${CUDA_PATH%/}/include" ]]; then
+        export LD_LIBRARY_PATH="${CUDA_PATH%/}/include:${LD_LIBRARY_PATH}"
     fi
 fi
 
@@ -32,7 +38,7 @@ then
     alias steam='steam --intro-skip --launcher-skip-skipStartScreen'
 fi
 
-# Aliases specifically for linux machines 
+# Aliases specifically for (Ubuntu) linux machines 
 # Nala: a better Apt
 if (_exists nala)
 then
@@ -40,56 +46,3 @@ then
     # Secret trick to get this to work
     alias sudo='sudo '
 fi
-
-#   # Conda might be in a number of places and be configured in different ways. So
-#   # let's try this complicated bs to figure out what we have and where it is.
-#   # We'll prefer builds on our local directory as opposed to /opt
-#   # We should clean this up better but I'll do it later (i.e. when I need it)
-#   if [[ $(find /opt -type d -name "mambaforge") ]];
-#   then
-#       __conda_setup="$('/opt/mambaforge/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-#       if [ $? -eq 0 ]; then
-#           eval "$__conda_setup"
-#       else
-#           if [ -f "/opt/mambaforge/etc/profile.d/conda.sh" ]; then
-#               . "/opt/mambaforge/etc/profile.d/conda.sh"
-#           else
-#               export PATH="/opt/mambaforge/bin:$PATH"
-#           fi
-#       fi
-#       unset __conda_setup
-#   
-#       if [ -f "/opt/mambaforge/etc/profile.d/mamba.sh" ]; then
-#           . "/opt/mambaforge/etc/profile.d/mamba.sh"
-#       fi
-#       # <<< conda initialize <<<
-#   elif [[ $(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)' -print -quit) ]];
-#   then
-#       export CONDA_ROOT="$(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)' -print -quit)"
-#       CONDA_TYPE="$(find "${HOME%/}/" -maxdepth 1 -type d -regextype posix-extended -regex '^/.*/\.([a]?.*onda\d?$|mamba$)' -print -quit)"
-#       if [[ "${CONDA_TYPE##*/}" == .mamba ]];
-#       then
-#           export MAMBA_EXE="${HOME%/}/.local/bin/micromamba";
-#           export MAMBA_ROOT_PREFIX="${HOME%/}/.mamba";
-#           __mamba_setup="$("${MAMBA_EXE}" shell hook --shell zsh --root-prefix "${MAMBA_ROOT_PREFIX}" 2> /dev/null)"
-#           if [[ $? -eq 0 ]];
-#           then
-#               eval "$__mamba_setup"
-#           else
-#               alias micromamba="${MAMBA_EXE}"
-#           fi
-#           alias conda='micromamba'
-#       elif [[ "${CONDA_TYPE##*/}" == .conda || "${CONDA_TYPE##*/}" == .anaconda3 ]];
-#       then
-#           export CONDA_ROOT="$CONDA_TYPE"
-#       fi
-#       unset CONDA_TYPE
-#   fi
-
-# For Nvidia Colossus machines
-#if [[ $(whoami) == "local-swalton" ]];
-#then
-#    conda activate py39
-#    source "${HOME%/}/Programming/tlt-pytorch/scripts/envsetup.sh"
-#    alias tao="tao_pt --gpus all --env PYTHONPATH=/tao-pt --"
-#fi

@@ -183,6 +183,14 @@ minutes and gave me a directory that was 162M in size.
 NOW it takes under 2 seconds to clone and I get a 2M folder!
 What a win!
 
+***Note:***
+you may also need to run
+
+```bash
+$ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+$ vim -c "PlugInstall" -c "qa"
+```
 
 # Find
 `find` is one of the most powerful and underrated programs in bash.
