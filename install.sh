@@ -10,9 +10,10 @@
 # Contact: dotfiles@walton.mozmail.com
 # License: MIT
 ################################################################################
-DOT_DIR_NAME="${DOT_DIR_NAME:-.dotfiles}"
-DOT_DIR="${DOT_DIR:-${HOME%/}/${DOT_DIR_NAME%/}}"
+DOTFILE_DIR="${DOTFILE_DIR:-${HOME%/}/.dotfiles}"
+DOTFILE_DIR_NAME="${DOTFILE_DIR_NAME:-".dotfiles"}"
 CONFIG_DIR="${CONFIG_DIR:-${HOME%}/.config}"
+INSTALLERS_DIR="${INSTALLERS_DIR:-${DOTFILE_DIR}}"
 VERBOSE=1
 USE_DEFAULTS=
 
@@ -66,18 +67,18 @@ install() {
 link_rcfiles() {
     # TODO: Fix so ${0} replicated ${HOME%/}/${0}" but anywhere 
     # TODO: Fix for mac which uses -depth and at the post -name position
-    find "${DOT_DIR%/}/rc_files" \
+    find "${DOTFILE_DIR%/}/rc_files" \
         -maxdepth 1 \
         ! -name "*.md" \
         ! -name "*root" \
         ! -name "mozilla" \
         ! -name "zsh" \
-        -exec bash -c 'ln -Fis "${0}" "${HOME%/}/.${0##*/"' {} \;
+        -exec bash -c 'ln -Fis "${0}" "${HOME%/}/.${0##*/}"' {} \;
 }
 
 link_configs() {
     # TODO: Same fixes as above
-    find "${DOT_DIR%/}/configs/" \
+    find "${DOTFILE_DIR%/}/configs/" \
         -maxdepth 1 \
         ! -name "*.md" \
         -exec bash -c 'ln -Fis "${0}" "${CONFIG_DIR%/}/${0##*/}"' {} \;
@@ -88,6 +89,38 @@ install_cargo() {
     sh /tmp/rust_installer.sh -y
 }
 
+vim_plugins() {
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    [[ "$!" -eq 0 ]] && echo "Plug installed successfully"
+    vim -c "PlugInstall" -c "qa"
+    [[ "$!" -eq 0 ]] && echo "Plug Plugins installed successfully"
+}
+
+install_vim() {
+    if [[ -a "${INSTALLERS_DIR%/}/vim.sh" ]];
+    then
+        # Make executable if not already
+        [[ -x "${INSTALLERS_DIR%/}/vim.sh" ]] || chmod +x "${INSTALLERS_DIR%/}/vim.sh"
+        echo "Installing Vim"
+        install "${INSTALLERS_DIR%/}/vim.sh" 
+        [[ "$!" -eq 0 ]] && echo "Vim installed successfully"
+    else
+        echo "Could not find vim installer"
+    fi
+}
+
+install_zsh() {
+    if [[ -a "${INSTALLERS_DIR%/}/zsh.sh" ]];
+    then
+        [[ -x "${INSTALLERS_DIR%/}/zsh.sh" ]] || chmod +x "${INSTALLERS_DIR%/}/zsh.sh"
+        echo "Installing zsh"
+        install "${INSTALLERS_DIR%/}/zsh.sh"
+        [[ "$!" -eq 0 ]] && echo "zsh installed successfully"
+    else
+        echo "Could not find zsh installer"
+    fi
+}
+
 get_args() {
     while [[ $# -gt 0 ]]; do
         case $1 in 
@@ -95,11 +128,11 @@ get_args() {
                 ;;
             -d | --dotfiles)
                 shift
-                DOT_DIR="$1"
+                DOTFILE_DIR="$1"
                 ;;
             -n | --name)
                 shift
-                DOT_DIR_NAME="$1"
+                DOTFILE_DIR_NAME="$1"
                 ;;
             -v | --verbose)
                 # Export so all scripts get value
@@ -131,8 +164,8 @@ main() {
         exit 1
     fi
     
-    if [[ -d "${DOT_DIR}/install_files" ]]; then
-        export INSTALLER_DIR="${DOT_DIR}/install_files"
+    if [[ -d "${DOTFILE_DIR}/install_files" ]]; then
+        export INSTALLER_DIR="${DOTFILE_DIR}/install_files"
         source ${INSTALLER_DIR}/installer.sh
 
         BUILD_DIR="${BUILD_DIR:-"/tmp/dotfile_builds"}"
@@ -141,16 +174,9 @@ main() {
             mkdir ${BUILD_DIR}
         fi
         # Install vim
-        if [[ -a "${INSTALLER_DIR}/vim.sh" ]]; then
-            #source "${_DINSTALL}/vim.sh" -b ${BUILD_DIR} -t \
-            #    && success "vim built successfully" \
-            #    || error "vim failed to install"
-            install "${INSTALLER_DIR}/vim.sh" -b ${BUILD_DIR} -t
-        fi
-        # Make sure to install vundle into the right directory
-        # git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-        # Install zsh
-        #if [[ -a
+        install_vim
+        # Install Plug
+        # curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     else
         echo "Couldn't find ${BUILD_DIR}"
     fi

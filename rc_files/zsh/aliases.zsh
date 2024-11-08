@@ -349,14 +349,14 @@ load_function() {
 
 main() {
     check_versions
-    load_function "$HAVE_TMUX" "tmux_alias"
-    load_function "$HAVE_TOP" "alias_top"
-    alias_ls
-    load_function "$HAVE_BAT" "alias_bat"
-    load_function "$HAVE_FZF" "alias_fzf"
-    load_function "$HAVE_FD" "alias_fd"
-    snek_wrangling
-    alias_ytdlp
+    load_function "$HAVE_TMUX" "tmux_alias" || echo "Tmux aliasing failed"
+    load_function "$HAVE_TOP" "alias_top" || echo "top aliasing failed"
+    alias_ls || echo "ls aliasing failed"
+    load_function "$HAVE_BAT" "alias_bat" || echo "bat aliasing failed"
+    load_function "$HAVE_FZF" "alias_fzf" || echo "fzf aliasing failed"
+    load_function "$HAVE_FD" "alias_fd" || echo "fd aliasing failed"
+    snek_wrangling || echo "Snek wrangling failed! Is this the cobra effect?!"
+    alias_ytdlp || echo "yt-dlp aliasing failed"
 }
 
 main
