@@ -25,7 +25,7 @@ fi
 [[ -d "${LOCAL_BIN}" ]] \
     && export PATH="${LOCAL_BIN}:${PATH}"
 # Load cargo
-if [[ -d "${CARGO_PATH%/}/env" ]];
+if [[ -f "${CARGO_PATH%/}/env" ]];
 then
     #export PATH="${HOME%/}/.cargo/bin:${PATH}"
     . "${CARGO_PATH%/}/env"
