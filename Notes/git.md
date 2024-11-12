@@ -26,8 +26,8 @@ project you'll find
 <summary>This will render like this</summary>
 <br>
 
-![NAT-Intro](https://github.com/SHI-Labs/Neighborhood-Attention-Transformer/assets/dinat/intro_dark.png#gh-dark-mode-only)
-![NAT-Intro](https://github.com/SHI-Labs/Neighborhood-Attention-Transformer/assets/dinat/intro_light.png#gh-light-mode-only)
+![NAT-Intro](https://github.com/SHI-Labs/Neighborhood-Attention-Transformer/blob/d334f5bb0bd73cad05e5aeaf7c14cce3876a9650/assets/dinat/intro_dark.png#gh-dark-mode-only)
+![NAT-Intro](https://github.com/SHI-Labs/Neighborhood-Attention-Transformer/blob/d334f5bb0bd73cad05e5aeaf7c14cce3876a9650/assets/dinat/intro_light.png#gh-light-mode-only)
 
 </details>
 
@@ -42,8 +42,8 @@ Markdown doesn't let us do this, but luckily it supports HTML!
 <table align="center">
     <tr>
         <td>
-            <img width=400px src="https://github.com/SHI-Labs/Neighborhood-Attention-Transformer/assets/dinat/intro_dark.png#gh-dark-mode-only"  alt="NAT-Intro" />
-            <img width=400px src="https://github.com/SHI-Labs/Neighborhood-Attention-Transformer/assets/dinat/intro_light.png#gh-light-mode-only"  alt="NAT-Intro" />
+            <img width=400px src="https://github.com/SHI-Labs/Neighborhood-Attention-Transformer/blob/d334f5bb0bd73cad05e5aeaf7c14cce3876a9650/assets/dinat/intro_dark.png#gh-dark-mode-only"  alt="NAT-Intro" />
+            <img width=400px src="https://github.com/SHI-Labs/Neighborhood-Attention-Transformer/blob/d334f5bb0bd73cad05e5aeaf7c14cce3876a9650/assets/dinat/intro_light.png#gh-light-mode-only" alt="NAT-Intro" />
             <br>
             <p align="center"><sub>Comparison of NA/DiNA with different dilations</sub></p>
         </td>
@@ -58,8 +58,8 @@ Markdown doesn't let us do this, but luckily it supports HTML!
 <table align="center">
     <tr>
         <td>
-            <img width=400px src="https://github.com/SHI-Labs/Neighborhood-Attention-Transformer/assets/dinat/intro_dark.png#gh-dark-mode-only"  alt="NAT-Intro" />
-            <img width=400px src="https://github.com/SHI-Labs/Neighborhood-Attention-Transformer/assets/dinat/intro_light.png#gh-light-mode-only"  alt="NAT-Intro" />
+            <img width=400px src="https://github.com/SHI-Labs/Neighborhood-Attention-Transformer/blob/d334f5bb0bd73cad05e5aeaf7c14cce3876a9650/assets/dinat/intro_dark.png#gh-dark-mode-only"  alt="NAT-Intro" />
+            <img width=400px src="https://github.com/SHI-Labs/Neighborhood-Attention-Transformer/blob/d334f5bb0bd73cad05e5aeaf7c14cce3876a9650/assets/dinat/intro_light.png#gh-light-mode-only" alt="NAT-Intro" />
             <br>
             <p align="center"><sub>Comparison of NA/DiNA with different dilations</sub></p>
         </td>
