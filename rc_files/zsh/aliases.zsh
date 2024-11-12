@@ -119,8 +119,9 @@ alias_ls() {
     elif [[ $HAVE_LS -eq 2 ]];
     then
         alias_exa
+    else
+        alias_base_ls
     fi
-    alias_base_ls
 }
 #
 ################################################################################

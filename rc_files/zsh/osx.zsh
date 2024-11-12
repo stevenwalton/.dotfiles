@@ -27,7 +27,7 @@ function config_brew() {
 }
 
 function config_gpt() {
-    if [[ -d "$ZSH_ASK_PATH" && -d "${DOTFILE_DIR%/}/.api_keys" ]];
+    if [[ -d "$ZSH_ASK_PATH" && -d "${DOTFILE_DIR%/}/api_keys" ]];
     then
         export ZSH_ASK_API_KEY=`cat ${HOME}/.dotfiles/api_keys/openai.api`
         #export ZSH_ASK_MODEL="gpt-4-1106-preview"
@@ -35,6 +35,10 @@ function config_gpt() {
         #export ZSH_ASK_TOKENS=128000
         source "${ZSH_ASK_PATH%/}/zsh-ask.zsh"
         alias ask='ask -mi' # Add markdown and interactive
+    else
+        echo "Failed to load "
+        echo "\tZSH_ASK_PATH = ${ZSH_ASK_PATH}"
+        echo "\tAPI_KEYS_PATH = ${DOTFILE_DIR%/}/api_keys"
     fi
 }
 
@@ -42,7 +46,7 @@ main() {
     config_coreutils || echo "Failed to configure coreutils"
     config_jekyll || echo "Failed to config jekyll"
     config_brew || echo "Failed to configure brew"
-    config_gpt || echo "Failed to configure GPT"
+    #config_gpt || echo "Failed to configure GPT"
 }
 
 main || echo "Couldn't load osx configs"

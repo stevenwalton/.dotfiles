@@ -49,6 +49,8 @@ call plug#begin()
     Plug 'PhilRunninger/nerdtree-buffer-ops', { 'on': 'NERDTreeToggle' }
     """"" Commands
     " Tab /delimiter (format spacing by delimiter)
+    " Come back to this and merge in because it fixes tabstop issues
+    "Plug 'orbisvicis/tabular'               
     Plug 'godlygeek/tabular'               
     "  Screenshot highlighted text :Silicon fname
     " Plug 'segeljakt/vim-silicon'          
