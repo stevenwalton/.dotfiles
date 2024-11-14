@@ -69,7 +69,7 @@ _exists() {
 
 warn() {
     echo -e "\033[1;33m$1\033[0m"
-    echo "${1} $(date '%D  %T %Z')" >> $LOG
+    echo "${1} $(date +'%D  %T %Z')" >> $LOG
 }
 
 _find_os() {
@@ -82,11 +82,12 @@ _find_os() {
         fi
     elif [[ $(uname) = "Darwin" ]]; then
         OS="osx"
-        if [[ $PREFIX = "${HOME%/}/.local" ]]; then
-            warn "You're on OSX but using ${HOME%/}/.local?"
-            warn "Are you sure you're not on Linux?"
-            sleep 2
-        fi
+        # Don't really need because we do this on OSX now
+        #if [[ $PREFIX = "${HOME%/}/.local" ]]; then
+        #    warn "You're on OSX but using ${HOME%/}/.local?"
+        #    warn "Are you sure you're not on Linux?"
+        #    sleep 2
+        #fi
     else
         echo "Can't detect OS. Using `uname` and expected either 'Linux' or
         'Darwin' but found $(uname)"

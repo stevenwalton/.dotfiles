@@ -1,3 +1,14 @@
+# Using CLI
+Apple's CLI... sucks... 
+They seem to want to kill off power users.
+Luckily we can always get around!
+
+- [HN Thread on Useful OSX Cli Commands](https://news.ycombinator.com/item?id=42057431)
+    - [Archive of Linked
+        Website](https://archive.is/20241106121146/https://weiyen.net/articles/useful-macos-cmd-line-utilities)
+    - [Archive of
+        Thread](https://archive.is/rG4xk)
+
 # Apps to Install
 
 ## Objective See Security Tools

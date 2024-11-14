@@ -3,9 +3,11 @@
 .netrwhist
 */.netrwhist
 tags
+.DS_Store
+*.sqlite
+# LOL No. Good try
 api_keys/
 *.api
-.DS_Store
 # Ignore vim special directories
 */vim/bundle*
 !vim/bundle/Vundle.vim
@@ -14,4 +16,4 @@ rc_files/vim/autoload/
 rc_files/vim/plugged/
 configs/yazi/plugins/
 configs/yazi/flavors/
-*.sqlite
+rc_files/vim/after/

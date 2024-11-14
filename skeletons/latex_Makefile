@@ -1,0 +1,12 @@
+main:
+	pdflatex main.tex
+	bibtex main.aux
+	pdflatex main.tex
+	pdflatex main.tex
+
+clean:
+	rm *.aux *.out *.brf *.bbl *.blg
+
+log:
+	#cat *.log | $$PAGER --language=log
+	bat --language=log *.log 

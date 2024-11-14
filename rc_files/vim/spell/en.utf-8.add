@@ -1,9 +1,7 @@
 octothrope
-set
 numpy
 argv
 csv
-alaska
 Janeway
 snuck
 PyTorch
@@ -22,13 +20,10 @@ diffeomorphic
 diffeomorphism
 composable
 corners
-line
 vim
 images
-list
-network
-t
 reparameterization
-attn
 learnable
 Abductive
+Variadic
+variadic
