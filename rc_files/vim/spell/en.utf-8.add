@@ -1,4 +1,4 @@
-octothrope
+octothorpe
 numpy
 argv
 csv
@@ -27,3 +27,12 @@ learnable
 Abductive
 Variadic
 variadic
+A100
+FFHQ
+FID
+GAN
+TPU
+CUDA
+LSUN
+SOTA
+pixelization

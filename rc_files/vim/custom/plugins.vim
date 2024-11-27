@@ -72,6 +72,11 @@ let g:rainbow_active = 1
 " Change this if you want a different color scheme
 " let g:rainbow_guifgs = ['RoyalBlue3', 'DarkOrange3', 'DarkOrchid3', 'FireBrick']
 
+" Polyglot
+" -------------------- 
+" Default sensible settings
+let g:polyglot_disabled = ['sensible']
+
 " Bookmarks
 " -------------------- 
 " Bookmark toolbar
