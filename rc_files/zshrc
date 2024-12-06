@@ -17,7 +17,8 @@ export ZSH_DIR="${DOTFILE_DIR%/}/rc_files/zsh"
 export EDITOR="vim"
 # Make the path clean
 if [[ $(uname) == "Linux" ]]; then
-    eval $(cat /etc/environment)
+    [[ -a /etc/environment ]] \
+        && eval $(cat /etc/environment)
 #elif [[ $(uname) == "Darwin" ]];
 #then
 fi

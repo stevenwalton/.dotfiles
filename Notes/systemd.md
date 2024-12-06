@@ -145,6 +145,14 @@ UID is below 1000 they should be resolvable with this enabled.
 Capability needed for debuggers. Most don't need this and this capability allows
 introspecting and manipulating local processes on the system.
 
+There's actually a lot to say on private `/tmp` and most people do not recognize
+that this is a major security issue.
+There's a good post on [Red Hat
+here](https://www.redhat.com/en/blog/new-red-hat-enterprise-linux-7-security-feature-privatetmp)
+(by Daniel Walsh) ([archive](https://archive.is/BBhfu) <sub>I also archived his 
+referenced 2007 article</sub>) and another one by [Mike
+Salvatore](https://salvatoresecurity.com/the-many-perils-of-tmp/) ([archive](https://archive.is/Nnhrt))
+
 # Resources
 The official [systemd.io](https://systemd.io/) site is actually pretty good.
 The man pages are also quite readable and informative.
@@ -154,3 +162,60 @@ In the official docs there's a link to [0 Pointer](https://0pointer.net/blog/)'s
 [systemd for
 administrators](https://0pointer.de/blog/projects/systemd-for-admins-1.html)
 which has some good gems. 
+
+# Nspawn (Containers)
+Docker? Podman? LXC? No, you already got systemd installed!
+Systemd provides a tool to sandbox stuff just like we would with the
+aforementioned program.
+It's often referred to as "[chroot](https://wiki.archlinux.org/title/Chroot) on
+steroids".
+It's a bit non-trivial to set up the first time and I didn't find docs that
+great, so I'll try to supplement.
+
+First, you need something to setup a minimal OS environment.
+```bash
+# Arch: get pacstrap
+pacman -S  arch-install-scripts 
+# Debian/Ubuntu: get debootstrap (nala == better apt)
+nala install debootstrap
+```
+We'll install our container into `${HOME%/}/tmp` but choose wherever
+```bash
+# Install the base OS
+sudo pacstrap -c "${HOME%/}/tmp" base
+# Login
+sudo systemd-nspawn -D "${HOME%/}/tmp"
+# Set your password
+passwd
+# logout
+logout
+# Let's boot into an ephemeral (temporary) instance
+sudo systemd-nspawn -D "${HOME%/}/tmp" -xb
+# If you forgot to set the password, you can login with this command
+# machinectl shell root@MyContainer
+```
+There you go!
+Using the ephemeral setting no changes you make will be saved.
+Kinda neat if you want a nice sandbox.
+Note that you can keep booting into this same environment with the same user and
+everything. 
+
+To exit either `poweroff` the machine or detach by pressing `<C-]>` 3 times
+really fast. The latter sends the `KILL` signal 
+
+But if you want to setup the container, then remove the `-x` flag so you just
+boot into it.
+Then anything you do will persist.
+This way you can set up the 'machine' and then launch ephemeral instances!
+
+You can also use the standard systemd capability bounding and all that other
+jazz.
+
+To show your machines, run `machinectl list`.
+See `man machinectl` for more information.
+
+## Why?
+Why would you want this?
+Virtual machines use a lot of resources.
+Why install docker when you can just use the tools you already have? 
+

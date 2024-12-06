@@ -75,7 +75,7 @@ let g:rainbow_active = 1
 " Polyglot
 " -------------------- 
 " Default sensible settings
-let g:polyglot_disabled = ['sensible']
+" let g:polyglot_disabled = ['sensible']
 
 " Bookmarks
 " -------------------- 
