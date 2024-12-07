@@ -1,4 +1,9 @@
 [[manager.prepend_keymap]]
+on   = "!"
+run  = 'shell "${SHELL}" --block --confirm'
+desc = "Open the shell in current location"
+
+[[manager.prepend_keymap]]
 on   = "T"
 run  = "plugin --sync max-preview"
 desc = "Maximize or restore preview"

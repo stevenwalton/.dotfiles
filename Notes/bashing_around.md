@@ -5,6 +5,39 @@ Mostly things that I forget and so more of a cheat-sheet
 [bash pitfalls](https://mywiki.wooledge.org/BashPitfalls)
 ([archive](https://archive.is/20231024030742/http://mywiki.wooledge.org/BashPitfalls))
 
+## Profile, Bashrc, login, interactive, batch, oh my!
+
+  > A _pro-file_ is used sparingly
+  > - [Ray
+      Foss](https://serverfault.com/questions/261802/what-are-the-functional-differences-between-profile-bash-profile-and-bashrc#comment1343621_261807)
+
+Use `.profile` to run things once per session.
+(On OSX this can be a bit more complicated, so might be running a login per
+window)
+This file is read by login shells, the `rc` files are run by other types of
+shells.
+This can get confusing, take time to read `man bash` and read about the `-i`, 
+`-l`, and `-r` flags.
+Note, you can use these in your shebangs (`#!`) but but if you're doing the
+common `-xe` then better to run this as
+```bash
+#!/usr/bin/env bash
+# Above shebang is more portable than /bin/bash or /bin/sh (which isn't bash!)
+set -ex # -e: exit immediately if hits a non-zero return status
+        # -x: print commands and their argumentas as they are executed (debug)
+```
+To know if you're in an interactive shell you can check if the character `i` is
+in the string `echo "${-}"`, it [usually
+works](https://github.com/0cjs/sedoc/blob/master/lang/bash/init.md)
+
+`.profile`: use for environment variables which can be inherited by any program
+started from the login shell (e.g. `tmux`)
+
+`.bashrc`/`.zhsrc`: non-login interactive shells such as `alias`es, `PS1` and
+such. 
+
+`/etc/profile`: like `.profile` but for any user that logins!
+
 # ESSENTIALS
 ```bash
 # Exit command in vim ($EDITOR)
