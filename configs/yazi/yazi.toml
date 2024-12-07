@@ -6,8 +6,8 @@ linemode     = "size_and_mtime"
 show_symlink = true
 
 [preview]
-max_width     = 200
-max_height    = 500
+max_width     = 400
+max_height    = 800
 image_quality = 80
 image_delay   = 0
 
@@ -15,9 +15,9 @@ image_delay   = 0
 # Prevent too much memory being allocated for images
 # image_alloc = "
 # limit image [width, height] (0 = unlimited)
-image_bound = [1000,4000]
+image_bound = [400,800]
 # limit single image memory allocation 
-image_alloc = 1000000 # 1 MB
+image_alloc = 10000 # 1 MB
 
 #[[plugin.prepend_fetchers]]
 #id   = "git"
