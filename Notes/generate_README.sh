@@ -69,6 +69,7 @@ FOOTER_EOF
 # Seriously, actually record these somewhere...
 useful_docs() {
     cat << UDEOF
+
 Here's some useful docs:
 
 ***[0cjs's System Engineering Notes](https://github.com/0cjs/sedoc/tree/master):***
@@ -146,6 +147,10 @@ data_recovery_comment() {
 
 ffmpeg_comment() {
 	echo "Can anyone remember ffmpeg?"
+}
+
+fun_comment() {
+    echo "Random fun stuff like Star Wars in the cli"
 }
 
 git_comment() {
