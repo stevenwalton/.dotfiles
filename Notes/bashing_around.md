@@ -363,6 +363,49 @@ It helps to read the docs!
 LC_ALL=C find . -name '*[! -~]*'
 ```
 
+### sed
+`sed` is a pain, but very powerful.
+Mostly a pain because things might not work the same across `linux` or `osx`
+(unless you install `coreutils` on `osx` ;)
+
+Let's process a `json` request instead of requiring `jq`.
+We'll assume that we're trying to extract the value from a key `name`.
+Here's a sample `json` input and the `sed` command to parse
+
+```bash
+JSON_TEST="[{"foo":"bar", "fizz":1234},{"name":"Slim Shady-McLishiss The 4th",
+"Did you know":"Dr. Dree is locked in a basement?"}]
+echo "${JSON_TEST}" \
+    | sed 's/,/\n/g' \
+    | sed -e '/"name"/!d' \
+          -e 's/"name":"\([^"]*\)"/\1/g'
+```
+This is a bit hacky, but what happens here is:
+- We reformat because the json is all on one line (break at every `,`)
+- delete any line that does not contain our key in it
+- extract the value from the key, assuming it is locked inside double quotes
+We need 2 pipes because the second `sed` won't act as if there are new lines.
+
+Idea for the 'non-greedy' matching comes from [Christoph
+Sieghart](https://0x2a.at/blog/2008/07/sed--non-greedy-matching/)
+
+Let's do another one:
+We'll assume there are multiple entries (like above) bounded by `{.*}` and we'll
+place each of those curly-brace entries on a new line
+
+```bash
+echo "${JSON_TEST}" \
+    | sed -e 's/[^{]*{\([^}]*\)' \
+    | sed '/}]/d'
+```
+
+So we take everything up to the curly brace `{`, then place everything up until
+`}` in a group, and replace that with the group on a new line.
+(We don't need to use the `}` outside the group)
+When we clean up by deleting the hanging `}]` at the end.
+If you did match `}` in the first `sed` you can drop the `}` from the cleanup or
+use `sed '/}*]/d'` to work in either situation.
+
 # Colors
 This useful little loop will help you see and remember your ansi color codes
 ```bash

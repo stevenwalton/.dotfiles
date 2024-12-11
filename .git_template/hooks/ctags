@@ -1,7 +1,58 @@
-#!/bin/sh
-set -e
-PATH="/usr/local/bin:$PATH"
-trap 'rm -f "$$.tags"' EXIT
-git ls-files | \
-  ctags --tag-relative -L - -f"$$.tags" 
-mv "$$.tags" "tags"
+#!/usr/bin/env bash
+################################################################################
+# Author: Steven Walton
+# Contact: dotfiles@walton.mozmail.com
+# LICENSE: MIT
+#
+# Automatically generate ctags using a git hook
+# Mostly vim should take care of this for you so you probably don't need this.
+#
+# There's a common ctags git hook you'll find at sites like these
+# https://tbaggery.com/2011/08/08/effortless-ctags-with-git.html
+# https://geekdude.github.io/tech/ctags/
+#
+# They look like
+# ```bash
+# set -e
+# PATH="/usr/local/bin:$PATH"
+# trap 'rm -f "$$.tags"' EXIT
+# git ls-files | \
+#   ctags --tag-relative -L - -f"$$.tags" 
+# mv "$$.tags" "tags"
+# ```
+# Let's make it a bit cleaner B)
+#
+# Then call this script from whatever hooks you want
+################################################################################
+TAGS_NAME="${TAGS_NAME:-.tags}"
+
+# Always wrap things in functions!
+make_tags() {
+    if [[ ! $(command -v ctags) ]];
+    then
+        exit 1
+    fi
+    # We don't need ${PATH} as it should already be set
+    # We'll use "$$" (the shell's PID) to create a unique filename
+    # trap will force a cleanup of that file upon:
+    # EXIT (exit)
+    # SIGINT (ctrl+c)
+    # SIGHUP (hangup, like ssh)
+    trap 'rm -f "$$.tags"' EXIT SIGINT SIGHUP
+    # don't use `git ls-tree` as that's only already committed files
+    # - Recursive into directories
+    # - tags relative to project root
+    # - add extra flags for file
+    # - Don't generate for markdown files (see --list-languages)
+    ctags \
+        --recurse \
+        --tag-relative \
+        --extra=+f \
+        -f "$$.tags" \
+        --languages=-Markdown
+    mv "$$.tags" "${TAGS_NAME}"
+}
+
+# More flexible error handling, we don't need `set -e`
+# This can allow us to not make the hook fail 
+make_tags || exit 1

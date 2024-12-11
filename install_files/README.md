@@ -16,24 +16,37 @@ But I also don't want to go full Gentoo, as that's too much work.
 - [ ] General
     - [ ] Add program description and explanation md file
 - [ ] Source installers
-    - [x] [vim](https://github.com/vim/vim)
-    - [ ] [zsh](https://www.zsh.org/pub/)
-        - [x] Upstream mirror
-        - [ ] Allow using it
-    - [ ] [cmake](https://cmake.org/download/)
-    - [ ] fonts
-    - [ ] [lsd](https://github.com/lsd-rs/lsd)
-    - [ ] [bat](https://github.com/sharkdp/bat)
-    - [ ] [btop](https://github.com/aristocratos/btop)
-    - [ ] [sheldon](https://github.com/rossmacarthur/sheldon)
-        - Can we resolve the [`PATH` issue?](https://github.com/rossmacarthur/sheldon/issues/176)
-    - [ ] cloudflared
-    - [ ] wezterm
-    - [ ] foot
-    - [ ] [gh](https://github.com/cli/cli#installation)
-        - [gh-dash](https://github.com/dlvhdr/gh-dash)
-    - [ ] [Lynx](https://lynx.invisible-island.net/current/index.html) cli
-        browser
+    - [ ] Shell
+        - [x] [vim](https://github.com/vim/vim)
+        - [ ] [zsh](https://www.zsh.org/pub/)
+            - [x] Upstream mirror
+            - [ ] Allow using it
+        - [ ] [cmake](https://cmake.org/download/)
+        - [ ] fonts
+        - [ ] [lsd](https://github.com/lsd-rs/lsd)
+        - [ ] [bat](https://github.com/sharkdp/bat)
+        - [ ] [btop](https://github.com/aristocratos/btop)
+        - [ ] [sheldon](https://github.com/rossmacarthur/sheldon)
+            - Can we resolve the [`PATH` issue?](https://github.com/rossmacarthur/sheldon/issues/176)
+        - [ ] cloudflared
+        - [ ] wezterm
+        - [ ] [gh](https://github.com/cli/cli#installation)
+            - [gh-dash](https://github.com/dlvhdr/gh-dash)
+        - [ ] [Lynx](https://lynx.invisible-island.net/current/index.html) cli
+            browser
+        - [ ] [yazi](https://yazi-rs.github.io/)
+    - [ ] Media
+        - [ ] Graphics
+            - [ ] [chafa](https://github.com/hpjansson/chafa/)
+            - [ ] [ueberzugpp](https://github.com/jstkdng/ueberzugpp)
+        - [ ] Video support
+            - [ ] [ffmpeg](https://ffmpeg.org/)
+            - [ ] [mpv](https://mpv.io/) (can I just use ffplay?)
+            - [ ] [yt-dlp](https://github.com/yt-dlp/yt-dlp)
+            - [ ] [ytfzf](https://github.com/pystardust/ytfzf) (want to watch from
+                term?)
+    - [ ] Other
+        - [ ] uv
 - [ ] Script installers
     - [ ] cuda
     - [ ] TensorRT
