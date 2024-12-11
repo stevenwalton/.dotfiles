@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
 declare -a GEN_READMES=("Notes")
+declare CURRENT_PWD="$(pwd)"
 
 generate_readmes() {
     for readme in "${GEN_READMES[@]}"
     do
-        echo "Generating README for ${readme%/}"
-        bash "${readme%/}/generate_README.sh"
-        git add "${readme%/}/README.md"
+        echo "Generating README for ${CURRENT_PWD%/}/${readme%/}"
+        bash "${CURRENT_PWD%/}/${readme%/}/generate_README.sh"
+        git add "${CURRENT_PWD%/}/${readme%/}/README.md"
     done
 }
 
