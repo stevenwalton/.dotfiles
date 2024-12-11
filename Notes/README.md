@@ -17,11 +17,15 @@ The project is organized as follows
 			 Can anyone remember ffmpeg?
     </li>
     <li>
-        <a href="fun.md">fun.md</a>
+        <a href="fun.md">fun.md</a>:
+			 Random fun stuff like Star Wars in the cli
     </li>
     <li>
         <a href="git.md">git.md</a>:
 			 Some helpful git information, such as decreasing repo size
+    </li>
+    <li>
+        <a href="latex.md">latex.md</a>
     </li>
     <li>
         <a href="linux.md">linux.md</a>:
@@ -37,7 +41,7 @@ The project is organized as follows
     </li>
     <li>
         <a href="osx.md">osx.md</a>:
-			 Don't let Apple prevent you from being a power user!
+			 Don't let Apple stop you from being a power user!
     </li>
     <li>
         <a href="phones.md">phones.md</a>:
@@ -73,6 +77,7 @@ The project is organized as follows
     </li>
 </ul>
 ------------------------------------------------------------
+
 Here's some useful docs:
 
 ***[0cjs's System Engineering Notes](https://github.com/0cjs/sedoc/tree/master):***
