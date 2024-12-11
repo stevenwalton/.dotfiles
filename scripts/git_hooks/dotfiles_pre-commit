@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+declare -a GEN_READMES=("Notes")
+
+generate_readmes() {
+    for readme in "${GEN_READMES[@]}"
+    do
+        echo "Generating README for ${readme%/}"
+        bash "${readme%/}/generate_README.sh"
+        git add "${readme%/}/README.md"
+    done
+}
+
+main() {
+    generate_readmes
+}
+
+main || exit 1
