@@ -38,9 +38,10 @@
 ################################################################################
 
 # Expected root locations
-declare DOTFILE_DIR="${DOTFILE_DIR:-${HOME%/}/.dotfiles}"
-declare README_DIR="${README_DIR:-Notes}"
-declare OUTFILE="${OUTFILE:-README.md}"
+#declare DOTFILE_DIR="${DOTFILE_DIR:-${HOME%/}/.dotfiles}"
+#declare README_DIR="${README_DIR:-Notes}"
+declare README_DIR="${OUTPUT_DIR:-$(dirname "${BASH_SOURCE[0]}")}"
+declare OUTFILE="${OUTFILE:-"${README_DIR%/}/README.md"}"
 
 make_header() {
     cat << HEADEREOF 
