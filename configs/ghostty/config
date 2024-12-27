@@ -1,0 +1,6 @@
+theme = duckbones
+#theme = tokyonight
+
+font-family = Hack Nerd Font Mono
+
+shell-integration = zsh

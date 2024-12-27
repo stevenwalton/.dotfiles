@@ -1,10 +1,23 @@
 # Did we install coreutils?
+HOMEMBREW_PREFIX="$(brew --prefix)"
 CORE_UTILS="${HOME%/}/.local/bin/coreutils"
 RUBY_PATH="${HOMEMBREW_PREFIX%/}/opt/chruby"
 ZSH_ASK_PATH="${DOTFILE_DIR%/}/zsh-ask"
+RUBY_VERSION="3.3.5"
 
 function config_coreutils() {
     [[ -d "${CORE_UTILS}" ]] && export PATH="${CORE_UTILS%/}:${PATH}"
+}
+
+function ruby_error() {
+    cat << EOF
+Ruby version ${RUBY_VERSION} not installed
+Please run
+'''
+ruby-install "${RUBY_VERSION}"
+chruby "${RUBY_VERSION}"
+'''
+EOF
 }
 
 ## Ruby for Jekyll
@@ -14,7 +27,11 @@ function config_jekyll() {
         # It seems that batcat can error this
         source "${RUBY_PATH%/}/share/chruby/chruby.sh"
         source "${RUBY_PATH%/}/share/chruby/auto.sh"
-        chruby ruby-3.1.3
+        chruby ${RUBY_VERSION}
+        if [[ $? != 0 ]]
+        then
+            ruby_error
+        fi
         export JEKYLL_EDITOR=vim
     fi
 }
