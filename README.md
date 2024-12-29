@@ -43,7 +43,7 @@ Make sure to enable wayland, if in Pop goto `/etc/gdm3/custom.conf`
 
 # Wishing for
 - I hope the foot dev enables cross platform support for OSX.
-- One day [ghostty](https://mitchellh.com/ghostty) may come out!
+- ~~One day [ghostty](https://mitchellh.com/ghostty) may come out!~~[ghostty](https://ghostty.org/) lives!
 
 # TODOs
 A list of TODOs can be found in [TODO.md](TODO.md).

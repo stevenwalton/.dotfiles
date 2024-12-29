@@ -21,6 +21,9 @@ The project is organized as follows
 			 Random fun stuff like Star Wars in the cli
     </li>
     <li>
+        <a href="ghostty.md">ghostty.md</a>
+    </li>
+    <li>
         <a href="git.md">git.md</a>:
 			 Some helpful git information, such as decreasing repo size
     </li>
