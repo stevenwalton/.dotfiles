@@ -10,14 +10,14 @@
 # Contact: scripts@walton.mozmail.com
 ############################################################
 
-LOG_FILE="${LOG_FILE:-"${HOME%/}/git_autoupdate_log.sh"}"
+LOG_FILE="${LOG_FILE:-"${HOME%/}/git_autoupdate_log.log"}"
 REPO="${REPO:-$(pwd)}"
 
 # Colors that can be used by a short name
-declare GRN='\e[1;32m'
-declare RED='\e[1;31m'
-declare YLW='\e[1;33m'
-declare CYN='\e[1;36m'
+declare GRN='\033[1;32m'
+declare RED='\033[1;31m'
+declare YLW='\033[1;33m'
+declare CYN='\033[1;36m'
 
 # Writes a log by passing a string to the function and we'll add date
 # e.g.
@@ -31,7 +31,7 @@ declare CYN='\e[1;36m'
 write_log() {
     # Use me if you don't want messages to also go to stdout
     #echo -e "[$( date +'%c' )] : ${1}\e[0m" >> $LOG_FILE
-    echo -e "[$( date +'%c' )] : ${1}\e[0m" | tee -a $LOG_FILE
+    echo -e "[$( date +'%c' )] : ${1}\033[0m" | tee -a $LOG_FILE
 }
 
 
@@ -48,6 +48,13 @@ main() {
     fi
 
     cd "$REPO"
+    
+    # Check if we even need to update. If nothing done, quit
+    needUpdate=$(git status | tail -n1)
+    if [[ ${needUpdate} == *"nothing to commit"* ]];
+    then
+        exit 0
+    fi
     if [[ $(git status | grep ".gitignore") ]];
     then
         # Find the ignore file if for some reason it isn't in the right place

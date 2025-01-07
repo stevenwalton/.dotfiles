@@ -1,3 +1,4 @@
+# Use cmd/ctrl + shift + , to reload file
 theme = duckbones
 #theme = tokyonight
 
@@ -5,5 +6,15 @@ font-family = Hack Nerd Font Mono
 
 shell-integration = zsh
 
+################################################################################
+#                               Keybindings
+################################################################################
 # Restore <C-[> as being alias for ESC
 keybind = ctrl+left_bracket=text:\x1b
+
+###
+### Global Keybinds (works even outside Ghostty)
+###
+# Global keybind for quick terminal (pops down from top)
+# Would use t but uncomfortable so [ like ESC
+keybind = global:cmd+alt+[=toggle_quick_terminal
