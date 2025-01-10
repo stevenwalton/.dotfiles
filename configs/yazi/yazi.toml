@@ -29,3 +29,7 @@ macro_workers = 2
 #id   = "git"
 #name = "*/"
 #run  = "git"
+#[plugin]
+prepend_previewers = [
+    { name = "*.ipynb", run="nbpreview" },
+]
