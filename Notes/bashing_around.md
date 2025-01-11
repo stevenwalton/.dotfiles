@@ -438,6 +438,38 @@ of the code.
 Recall that `\e` and `\033` are the same.
 And don't forget that in scripts you need to use `echo -e`
 
+There's a lot more you can do with colors if we have 256 (8 bit) color support.
+Let's see a quick and fun example ^__^
+
+```bash
+declare -i N_PRE_ROW=20
+for i in {1..255}
+do
+    echo -ne "\033[38;2;${i};${i};${i}m${i}"
+    printf ' %.s' {0..$(( 3 - ${#i} ))}
+    [[ $(( $i % $N_PER_ROW )) || $i -eq 255 ]] && echo -e "\033[0m"
+done
+```
+
+You should have gotten the numbers 1-255 printed out in different shades of
+gray!
+
+Breaking this down:
+
+- `38` means we're changing the foreground color
+- `2` means we'll use RGB color codes (alternatively 5 means you can enter just a
+number. Try `\033[38;5;${i}m ${i} ` instead)
+- `${i};${i};${i}` is our RGB color code (when R=G=B, we get gray)
+- our `printf` is a fun hack. We print a sequence of numbers but replace the
+numbers with space by `' %.s'` and then the magic is that `${#i}` is a shortcut
+for the number of digits since it is how many characters there are!
+- We also exploit what's known as a [short-circuit](https://www.assertnotmagic.com/2019/04/09/bash-short-circuiting/) (beware the
+[pitfall](https://mywiki.wooledge.org/BashPitfalls#cmd1_.26.26_cmd2_.7C.7C_cmd3))
+
+Now try by doing different colors. Or if you feel crazy, do a tripple loop to
+print all colors! (I'd suggest trying first with loops using the range
+`{1..255.32}` to reduce the output)
+
 # Scripting
 Shebang! 
 ```bash

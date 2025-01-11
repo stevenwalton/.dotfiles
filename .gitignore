@@ -11,9 +11,8 @@ api_keys/
 # Ignore vim special directories
 */vim/bundle*
 !vim/bundle/Vundle.vim
-vim/undodir/*
-rc_files/vim/autoload/
-rc_files/vim/plugged/
+rc_files/vim/*
+!rc_files/vim/custom
 configs/yazi/plugins/
 configs/yazi/flavors/
 rc_files/vim/after/

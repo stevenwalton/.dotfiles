@@ -341,6 +341,17 @@ alias_ytdlp() {
     fi
 }
 
+alias_vim() {
+    if (_exists nvim)
+    then
+        alias vi='nvim'
+        alias vim='nvim'
+    elif (_exists vim)
+    then
+        alias vi='vim'
+    fi
+}
+
 load_function() {
     if [[ "$1" -ge 1 ]];
     then
@@ -358,6 +369,7 @@ main() {
     load_function "$HAVE_FD" "alias_fd" || echo "fd aliasing failed"
     snek_wrangling || echo "Snek wrangling failed! Is this the cobra effect?!"
     alias_ytdlp || echo "yt-dlp aliasing failed"
+    alias_vim || echo "vim aliasing vailed"
 }
 
 main

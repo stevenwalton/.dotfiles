@@ -1,6 +1,10 @@
 # Use cmd/ctrl + shift + , to reload file
-theme = duckbones
+# Commented out ones I like but playing around
+# theme = duckbones
 #theme = tokyonight
+#theme = Firefly Traditional
+#theme = 3024 Night
+theme = Abernathy
 
 font-family = Hack Nerd Font Mono
 
@@ -15,6 +19,8 @@ keybind = ctrl+left_bracket=text:\x1b
 ###
 ### Global Keybinds (works even outside Ghostty)
 ###
-# Global keybind for quick terminal (pops down from top)
+
+# Quick Terminal (pops down from top)
 # Would use t but uncomfortable so [ like ESC
-keybind = global:cmd+alt+[=toggle_quick_terminal
+#keybind = global:cmd+alt+[=toggle_quick_terminal
+keybind = global:alt+[=toggle_quick_terminal

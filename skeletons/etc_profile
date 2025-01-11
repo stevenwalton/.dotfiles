@@ -1,0 +1,161 @@
+# /etc/profile: system-wide .profile file for the Bourne shell (sh(1))
+# and Bourne compatible shells (bash(1), ksh(1), ash(1), ...).
+#
+# This file is sourced only for login shells (i.e. shells
+# invoked with "-" as the first character of argv[0], and
+# shells invoked with the -l flag.)
+#
+# This file has a sibling file /etc/zsh/zprofile
+#
+# Author: Steven Walton
+# LICENSE: MIT
+# Contact: skeletons@walton.mozmail.om
+#
+COLORS=('0;255;0' '170;255;0' '255;255;0' '255;128;0' '255;0;0')
+NORMAL="\033[0m"
+
+declare -i FLAG_USER=0
+declare -i USERS_FULL=0
+declare -ri TERM_WIDTH=80
+
+# This is based on default Ubuntu's /etc/profile
+if [ "${PS1-}" ]; then
+  if [ "${BASH-}" ] && [ "$BASH" != "/bin/sh" ]; then
+    # The file bash.bashrc already sets the default PS1.
+    # PS1='\h:\w\$ '
+    if [ -f /etc/bash.bashrc ]; then
+      . /etc/bash.bashrc
+    fi
+  else
+    # If root set # else $
+    if [ "`id -u`" -eq 0 ]; then
+      PS1='# '
+    else
+      PS1='$ '
+    fi
+  fi
+fi
+
+if [ -d /etc/profile.d ]; then
+  for i in /etc/profile.d/*.sh; do
+    if [ -r $i ]; then
+      . $i
+    fi
+  done
+  unset i
+fi
+
+# Find the index of the color array
+# Takes 2 parameters:
+#   $1 = Value we want to 'color'
+#   $2 = The maximum value 
+# If we are determining out of percentage (like here)
+# we will call `get_index $value 100`
+get_index() {
+    NDIV=$(( ${2} / ${#COLORS[@]} ))
+    for i in {0..${#COLORS[@]}}
+    do
+        if [[ ${1} -lt $(( $NDIV * $(( $i + 1 )) )) ]];
+        then
+            echo "${i}"
+            return
+        fi
+    done
+}
+
+# Get the actual color code based on the index
+# See get_index for more detail
+get_color() {
+    INDEX=$(get_index ${1} ${2})
+    echo "\033[38;2;${COLORS[${INDEX}]}m"
+}
+
+# Skip if we're loading a new pane/window in tmux
+if [ -z "$TMUX" ]; then 
+    # Login shell short-circuit
+    # Display current GPU usage
+    [[ $- == *i* ]] && shi-smi -q 
+fi
+
+# If we're logging in then display messages to users
+# We're mostly concerned with 
+if [ -z "$TMUX" ]; then 
+    declare -a LINES_TO_PRINT
+    loop_index=0
+    BASE_INDEX=0
+    BASE_COLOR="\033[38;2;${COLORS[1]}m"
+    while IFS= read -r line;
+    do
+        if [[ $line != *Filesystem* ]];
+        then
+            # Calculate percent of disk used
+            PERCENT=$(echo "${line}" | sed -E 's/([^ ]+[ ]+){4} ([0-9]+). .*/\2/')
+            CURRENT_INDEX=$(get_index ${PERCENT} 100)
+            LINECOLOR="$(get_color ${PERCENT} 100)"
+            # Set the base color to that of the most full disk
+            if [[ $CURRENT_INDEX -gt $BASE_INDEX ]];
+            then
+                BASE_INDEX=$CURRENT_INDEX
+                BASE_COLOR=${LINECOLOR}
+            fi
+            # If we're at the maximal color we need to yell at users
+            # This is why we can't have nice things!
+            if [[ $BASE_INDEX -eq ${#COLORS[@]} ]];
+            then
+                FLAG_USER=1
+                if [[ ${line} == *"shihome/users"* ]];
+                then
+                    USERS_FULL=1
+                fi
+            fi
+        else
+            # Keep the base color
+            LINECOLOR=""
+        fi
+        # Append array
+        LINES_TO_PRINT+=("${LINECOLOR}${line}")
+        # Update zsh loop
+        ((loop_index++))
+    done < <(df -hP /home/users /data /workspace)
+    echo -e "$BASE_COLOR"
+    echo -e "================================================================================"
+    echo -e "                                  Disk Usage"
+    echo -e "================================================================================"
+    for line in ${!LINES_TO_PRINT[@]}};
+    do
+        echo -e "${line}${BASE_COLOR}"
+    done
+    echo -e "================================================================================"
+    echo -e "$NORMAL"
+    if [[ $FLAG_USER -eq 1 ]];
+    then
+        echo -e "\033[38;2;${COLORS[${#COLORS[@]}]}m"
+        printf '=%.s' {0..${TERM_WIDTH}}
+        echo ""
+        printf ' %.s' {0..$(( $TERM_WIDTH / 2 - 10 ))}
+        echo "==> !!! WARNING !!! <=="
+        printf '=%.s' {0..${TERM_WIDTH}}
+        echo ""
+        printf ' %.s' {0..10}
+        echo "YOU ARE ALMOST OUT OF DISK_SPACE!"
+        printf ' %.s' {0..10}
+        echo -e "PLEASE RUN:\n"
+        printf ' %.s' {0..20}
+        echo -e "du -ch --max-depth=1 -P /path/to/directory/to/check 2> /dev/null\n"
+        printf ' %.s' {0..10}
+        echo -e "And clear out anything if you are using too much space!"
+        printf ' %.s' {0..10}
+        echo "ADMIN HAS BEEN NOTIFIED"
+        printf '=%.s' {0..${TERM_WIDTH}}
+        #if [[ ${USERS_FULL} ]];
+        #then
+        #    echo -e "\nRUNNING du FOR YOU BECAUSE USER DISK IS FULL"
+        #    echo "Please wait..."
+        #    echo "if you are mad at this, get mad on slack and hold people accountable"
+        #    MY_DISK_USAGE=$(du -sh -P ${HOME})
+        #    echo -n "Your current disk usage is "
+        #    echo "${MY_DISK_USAGE}" | cut -f1
+        #fi
+    fi
+    echo -e "$NORMAL"
+fi

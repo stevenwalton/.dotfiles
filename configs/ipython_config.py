@@ -25,3 +25,10 @@ c.TerminalInteractiveShell.autoformatter = 'black'
 # More vivid colors. Also 'Neutral' for darker, 'LightBG' for dark colors (hard
 # to see on dark bg)
 c.InteractiveShell.colors = 'Linux'
+# Add autoreload functionality
+# https://stackoverflow.com/questions/5364050/reloading-submodules-in-ipython
+#   See note about differences from 
+#   import importlib
+#   importlib.reload(foo)
+c.InteractiveShellApp.extensions = ['autoreload']
+c.InteractiveShellApp.exec_lines = ['%autoreload 2']
