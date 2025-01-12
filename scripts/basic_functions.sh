@@ -83,7 +83,7 @@ getScriptDir () {
 # Output: FolderIWannaZip.tar.xz
 # https://www.rootusers.com/gzip-vs-bzip2-vs-xz-performance-comparison/
 heavy_compress() {
-    THREADS=1
+    THREADS=${THREADS:-1}
     tar cf - "$1" | xz -9 --threads $THREADS --verbose > "$2"
 }
 

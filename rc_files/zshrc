@@ -125,6 +125,12 @@ else
 fi
 source "${ZSH_DIR%/}/aliases.zsh"
 source "${ZSH_DIR%/}/basic_aliases.zsh"
+# Load some of my sripts
+[[ -f ${DOTFILE_DIR%/}/scripts/basic_functions.sh ]] \
+    && source "${DOTFILE_DIR%/}/scripts/basic_functions.sh"
+(_exists ffmpeg >/dev/null) \
+    && [[ -f ${DOTFILE_DIR%/}/scripts/ffmpeg_scripts.sh ]] \
+    && source "${DOTFILE_DIR%/}/scripts/ffmpeg_scripts.sh"
 
 # Spaceduck highlighting
 source "${ZSH_DIR%/}/spaceduck.zsh"
