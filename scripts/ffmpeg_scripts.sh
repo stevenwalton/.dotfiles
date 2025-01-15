@@ -372,12 +372,11 @@ main() {
             shift
             ffprobe_encoding "$1"
             ;;
-        -h | --help)
+        -h | help)
             usage
+            exit 0
             ;;
         *)
-            usage
-            #exit 1
             ;;
     esac
     #exit 0
