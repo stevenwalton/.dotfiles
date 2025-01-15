@@ -1,14 +1,51 @@
 #!/usr/bin/env bash
+################################################################################
+# Functions to help with ffmpeg tasks.
+# These should not be expected to be "one-size-fits-all type of functions, but
+# so far they seem to work pretty well. 
+# I've tried making a lot of comments to help with when this is not the case,
+# and so that it is at least easy to echo the commands and then modify them.
+# Values can be overwritten by providing environment variables to make these
+# easier to incorporate into scripts or to reduce flags when repeating
+# processes.
+#
+# Author: Steven Walton
+# LICENSE: MIT
+# Contact: scripts@walton.mozmail.com
+#
+# Additional Resources:
+# #####################
+# - Main ffmpeg docs: 
+#       https://www.ffmpeg.org/ffmpeg-codecs.html
+# - FFmpeg By Example:
+#       https://ffmpegbyexample.com/
+#       https://news.ycombinator.com/item?id=42695547
+# - Nvidia Docs (Change 12.2 to latest CUDA version)
+#       https://docs.nvidia.com/video-technologies/video-codec-sdk/12.2/ffmpeg-with-nvidia-gpu/index.html#performance-evaluation-and-optimization
+################################################################################
 # Recommended 10-20 frames for optimal quality benefits
 # More requires more memory (we don't care....)
 # Use >= number of B frames + 1 to best utilize CPU
-declare -i RC_LOOKAHEAD="${RC_LOOKAHEAD:-64}"
+declare -i RC_LOOKAHEAD="${RC_LOOKAHEAD:-32}"
 # For AV1 23 is considered visually lossless
 # For H264 this is 19
-declare -i CRF="${CRF:-23}"
-TMPDIR="/tmp/"
-FORMAT="av1"
-declare -i USE_PV=0
+# Will default to a lossless value
+declare -i CRF=${CRF:-}
+TMPDIR="${TMPDIR:-/tmp/}"
+# AV1 is currently one of the best encodings, so this is a good default
+FORMAT="${FORMAT:-av1}"
+# For using the `pv` command, which will show a progress bar
+declare -i USE_PV=${USE_PV:-0}
+declare -i HAS_PV=
+if [[ ! $(command -v pv) ]];
+then
+    [[ $USE_PV -eq 1 ]] && echo "pv not installed. Falling back..."
+    USE_PV=0
+    HAS_PV=1
+else
+    HAS_PV=1
+fi
+# Use hardware acceleration?
 declare -i USE_CUDA=1
 declare VIDEO_CODEC='av1_nvenc'
 
@@ -29,7 +66,6 @@ declare -i USE_TAQ=1
 # For nvidia docs see (might need to change codec url. Just number)
 # https://docs.nvidia.com/video-technologies/video-codec-sdk/12.2/ffmpeg-with-nvidia-gpu/index.html
 #
-# Main ffmpeg docs: https://www.ffmpeg.org/ffmpeg-codecs.html
 
 # String format: use for EOL in eval type commands for clearer
 # reading when echo debugging
@@ -83,6 +119,7 @@ ffprobe_info() {
     echo "$FFINFO"
 }
 
+# Get video resolution
 ffprobe_resolution() {
     RESOLUTION=$(ffprobe_info "width,height" "${1}")
     echo "$RESOLUTION"
@@ -94,11 +131,13 @@ ffprobe_encoding() {
     echo "$ENCODING"
 }
 
+# Long version of encoding name
 ffprobe_encoding_long() {
     ENCODING=$(ffprobe_info "codec_long_name" "${1}")
     echo "$ENCODING"
 }
 
+# Get video runtime
 ffprobe_duration() {
     DURATION=$(ffprobe -v error \
         -select_streams v:0 \
@@ -117,6 +156,8 @@ ffprobe_duration() {
     echo "${HR}:${MIN}:${SEC}.${MS}"
 }
 
+# Some basic information about a video
+# codec name, codec type, resolution, pixel format, aspect ratio, runtime
 ffprobe_basic() {
     FINFO=$(ffprobe_info "codec_long_name,codec_type,width,height,pix_fmt,display_aspect_ratio" "${1}")
     CODEC="$(echo "${FINFO}" | cut -d "," -f1)"
@@ -132,29 +173,30 @@ ffprobe_basic() {
     echo "DURATION: \t$(ffprobe_duration "${1}")"
 }
 
+# Helper function to encode a video
 ffencode() {
     declare encode_command
-    if [[ "$USE_PV" -eq 1 ]];
+    if [[ $HAS_PV -eq 1 && "$USE_PV" -eq 1 ]];
     then
-        encode_command+="pv ${1} | ${sfmt}"
+        encode_command+="pv \"${1}\" | ${sfmt}"
     fi
     encode_command+="ffmpeg -y -v warning ${sfmt}"
     if [[ "$USE_CUDA" -eq 1 ]];
     then
         encode_command+="-hwaccel cuda ${sfmt}-hwaccel_output_format cuda ${sfmt}"
     fi
-    if [[ "$USE_PV" -eq 1 ]];
+    if [[ $HAS_PV -eq 1 && "$USE_PV" -eq 1 ]];
     then
         encode_command+="-i pipe:0 ${sfmt}"
     else
-        encode_command+="-i ${1} ${sfmt}"
+        encode_command+="-i \"${1}\" ${sfmt}"
     fi
     encode_command+="-c:a copy ${sfmt}-c:v ${VIDEO_CODEC} ${sfmt}"
     if [[ ${SAQ_STRENGTH} -gt 0 && $USE_SAQ -eq 1 ]];
     then
-        if [[ ${SAQ_STRENGTH} -gt 15 ]];
+        if [[ ${SAQ_STRENGTH} -gt 15 || ${SAQ_STRENGTH} -lt 0 ]];
         then
-            echo "Spatial AQ Strength limited to 15"
+            echo "Spatial AQ Strength limited to (1-15)"
             exit 1
         fi
         encode_command+="-spatial-aq 1 -aq-strength ${SAQ_STRENGTH} ${sfmt}"
@@ -168,12 +210,55 @@ ffencode() {
         encode_command+="-rc-lookahead ${RC_LOOKAHEAD} ${sfmt}"
     fi
     encode_command+="-crf ${CRF} ${sfmt}"
-    encode_command+="${2}"
+    encode_command+="\"${2}\""
+    echo "Running:"
     echo "$encode_command"
+    eval "${encode_command}"
+}
+
+# AV1
+# https://trac.ffmpeg.org/wiki/Encode/AV1
+encode_av1() {
+    CRF="${CRF:-23}"
+    if [[ $USE_CUDA -eq 1 ]]; 
+    then
+        VIDEO_CODEC="av1_nvenc"
+    else
+        VIDEO_CODEC="libaom-av1"
+    fi
+    ffencode ${1} ${2}
+}
+
+# https://trac.ffmpeg.org/wiki/Encode/H.264
+encode_h264() {
+    CRF="${CRF:-19}"
+    if [[ $USE_CUDA -eq 1 ]]; 
+    then
+        VIDEO_CODEC="h264_nvenc"
+    else
+        VIDEO_CODEC="libx265"
+    fi
+    ffencode ${1} ${2}
+}
+
+# HEVC
+# https://trac.ffmpeg.org/wiki/Encode/H.265
+encode_h265() {
+    CRF="${CRF:-19}"
+    if [[ $USE_CUDA -eq 1 ]]; 
+    then
+        VIDEO_CODEC="hevc_nvenc"
+    else
+        VIDEO_CODEC="libx264"
+    fi
+    ffencode ${1} ${2}
 }
 
 # Will transcode a video trying to use the options set
 # We perform multiple checking operations. 
+# ${1} is the input file
+# ${2} is the destination
+#
 # Steps are:
 # 1) Perform movie check which should check for errors
 # 2) Get size of original file
@@ -210,8 +295,11 @@ compress_video() {
                 h264)
                     encode_h264 "${1}" "${tmp_file}"
                     ;;
+                h265 | hevc)
+                    encode_h265 "${1}" "${tmp_file}"
+                    ;;
                 *)
-                    echo "Sorry, we don't support format ${FORMAT}"
+                    echo "Sorry, we don't support format ${FORMAT}. Try av1, h264, or h265 (or hevc)"
                     return 1
                     ;;
             esac
@@ -258,7 +346,8 @@ toav1_2pass() {
 
 usage() {
     cat << DOC
-    Test
+The script is still under alpha development so please read it instead.
+Do not expect to be able to run this with flags and anything just yet.
 DOC
 }
 
@@ -282,6 +371,9 @@ main() {
         -e | encoding | get_encoding | ffprobe_encoding )
             shift
             ffprobe_encoding "$1"
+            ;;
+        -h | --help)
+            usage
             ;;
         *)
             usage
