@@ -13,6 +13,9 @@ The project is organized as follows
 			 I'll update this on those rare occasions I have to do data recovery because I'm an idiot that `rm -rf`'d the wrong dir and my aliases didn't work or aren't used
     </li>
     <li>
+        <a href="iOS_daemons.md">iOS_daemons.md</a>
+    </li>
+    <li>
         <a href="ffmpeg.md">ffmpeg.md</a>:
 			 Can anyone remember ffmpeg?
     </li>

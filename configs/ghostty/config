@@ -1,4 +1,9 @@
 # Use cmd/ctrl + shift + , to reload file
+# You can find the potential commands here
+#   https://ghostty.org/docs/config/keybind/reference
+# And trigger sequences here
+#   https://ghostty.org/docs/config/keybind/sequence
+#
 # Commented out ones I like but playing around
 # theme = duckbones
 #theme = tokyonight
@@ -24,3 +29,5 @@ keybind = ctrl+left_bracket=text:\x1b
 # Would use t but uncomfortable so [ like ESC
 #keybind = global:cmd+alt+[=toggle_quick_terminal
 keybind = global:alt+[=toggle_quick_terminal
+# ctrl+cmd+t for new terminal window 
+keybind = global:ctrl+cmd+t=new_window

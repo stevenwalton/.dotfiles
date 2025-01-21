@@ -39,6 +39,16 @@ termux-senseors -l # list sensors but asks for permissions
 termix-sms-list # asks for contacts
 ```
 
+Remeber to [run this](https://wiki.termux.com/wiki/Termux-services) to keep 
+ssh alive
+```bash
+# Like systemctl enable
+sv-enable sshd
+# like systemctl start
+sv up sshd
+# There is down and disable too
+```
+
 pkgs you might want
 ```bash
 man
@@ -84,3 +94,11 @@ Let's reuse.
 
 The easy way is to just use termux.
 Don't need to install another operating system or anything. 
+
+# iPhone/iOS
+
+A reddit user compiled a list of daemons with an explination of what they do.
+List
+[here](https://www.reddit.com/r/jailbreak/comments/10v7j59/tutorial_list_of_ios_daemons_and_what_they_do/).
+The [archive.is](https://archive.is/QMOzb) snapshot sucks so I copied it into
+[extras/iOS_daemons.md](extras/iOS_daemons.md).

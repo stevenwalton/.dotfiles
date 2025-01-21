@@ -30,5 +30,5 @@ c.InteractiveShell.colors = 'Linux'
 #   See note about differences from 
 #   import importlib
 #   importlib.reload(foo)
-c.InteractiveShellApp.extensions = ['autoreload']
 c.InteractiveShellApp.exec_lines = ['%autoreload 2']
+c.InteractiveShellApp.extensions = ['autoreload']
