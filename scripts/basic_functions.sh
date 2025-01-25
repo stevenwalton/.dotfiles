@@ -14,7 +14,7 @@ LOG=/tmp/function_log.log
 # Check if a command exists
 # [[ -n $(_exists() command) ]]; then
 _exists() {
-    command -v "$1"
+    command -v "$1" &> /dev/null
 }
 
 ################################################################################
@@ -94,3 +94,19 @@ kill_steam() {
     pkill steamwebhelper
 }
 
+alias_pip() {
+    if ( _exists uv)
+    then
+        PIP_LOC="$(dirname "$(which python)")"
+        # If you want to only run from the root directory (which .venv) exists
+        # in then check with this conditional (allows arbitrary name for .venv)
+        if [[ "${PIP_LOC}" == "${PWD%/}/"*"/bin" ]]
+        then
+            echo -e "#!/usr/bin/env bash\n\npip() {\n\tuv pip \"\$@\"\n}\n\npip \"\$@\"" > "${PIP_LOC%/}/pip"
+            chmod +x "${PIP_LOC%/}/pip"
+        else
+            echo "Not in virtual environment root directory."\
+                 "Please try again in ${PIP_LOC%/*/*}/"
+        fi
+    fi
+}
