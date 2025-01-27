@@ -13,6 +13,12 @@ manager.
 So it is worth learning but boy is there a lot.
 Put the more useful stuff for every day tasks up top and we can go deeper.
 
+***An Important Note***:
+
+It is best to use `systemctl edit` instead of editing the service file directly.
+The reason for this is that it'll provide an `override.conf` that allows you to
+override or ammend service files provided by the software authors. 
+
 # Some Basics
 First let's look at some basics of using `systemd`
 ```bash
@@ -65,6 +71,53 @@ Useful misc
 loginctl unlocksession 
 ```
 
+# User Services
+Sometimes a service is just mean to launch a daemon and you want to run a
+command without using `sudo`.
+A good example might be [`ydotool`](https://github.com/ReimuNotMoe/ydotool/)
+which is like [`xdotool`](https://github.com/jordansissel/xdotool), in that it
+allows you to make mouse and keyboard inputs through the terminal.
+I use this to `ssh` into a machine connected to my TV because I'm too lazy to
+get up off the couch ^__^
+
+Refering to [the arch wiki](https://wiki.archlinux.org/title/Systemd/User) we
+see we don't have much to do.
+
+It tells us that `systemd` will look in the following locations, and in this
+order
+
+```bash
+# where units provided by installed packages belong.
+/usr/lib/systemd/user/ 
+# where units of packages that have been installed in the home directory belong.
+~/.local/share/systemd/user/ 
+# where system-wide user units are placed by the system administrator.
+/etc/systemd/user/ 
+# where the user puts their own units.
+~/.config/systemd/user/ 
+```
+Our tool installs to `/usr/lib/systemd/user/` so we don't have to do much.
+But we might want to make it a bit better...
+
+Run `systemd-analyze --user security ydotool`
+Then check out this [RedHat
+Post](https://www.redhat.com/en/blog/mastering-systemd) about hardening.
+You should consult the docs.
+It can be annoying because you will often need to run `systemctl --user
+daemon-reload` after changing the file.
+Better is to stop the service, reload, then start.
+Do this if you're getting errors about restarting too quickly.
+
+A bit annoying, you should be running `systemd --user status ydotool`, `systemd
+--user enable --now ydotool` and so on.
+You need that `--user` flag.
+
+Check out
+[`.../skeletons/systemd/ydotool.service/`](../skeletons/systemd/ydotool.service)
+for an example where I got `systemd-analyze security` to give me a rating of 1.1
+(lower = better)!
+
+
 # Mounts, Timers, Oh My
 There's some example templates over in [`../skeletons/systemd/`](../skeletons/systemd)
 that are documented and good for this.
@@ -114,7 +167,45 @@ homectl update <uname> --ssh-authorized-keys=@/path/to/home/.ssh/authorized_keys
 ```
 This does require you to use a password to unlock
 
-# Capability Bounding
+# Sandboxing and Security
+Don't trust me, I'm not a seurity expert.
+But here's some helpful things.
+[ctrl blog](https://www.ctrl.blog/entry/systemd-application-firewall.html)
+([arhive](https://archive.is/j5Flc)) has [a few](https://www.ctrl.blog/entry/systemd-service-hardening.html) 
+([archive](https://archive.is/20200115013428/https://www.ctrl.blog/entry/systemd-service-hardening.html)) 
+different [posts](https://www.ctrl.blog/entry/systemd-opensmtpd-hardening.html) 
+([archive](https://archive.is/20200211020748/https://www.ctrl.blog/entry/systemd-opensmtpd-hardening.html)) 
+that cover some simple stuff. 
+
+Systemd's big benefit is that you can sandbox a lot of things.
+That means we can limit what programs can do on our system, what they have
+access to, and what permissions they have.
+This shouldn't be the only layer of defense, but this is pretty helpful.
+There's a lot here and it can be really confusing.
+But the best practice is to sandbox things as much as possible.
+We have a lot of tools for this with systemd from sandboxing our programs all
+the way to creating containers with `systemd-nspawn`.
+
+Systemd provides `systemd-analyze security` to help you figure out what is
+properly sandboxed and what is not.
+Don't forget that user services have `--user`!
+There's a lot of services and we can't completely sandbox all of them, so just
+be aware.
+As with most tech, hopefully the developer took proper precautions.
+It'll give you a score for each unit and if you append the command with the unit
+then it'll give you more details.
+
+You can then run `systemctl edit` to edit an override file, which will work with
+the main service file.
+This is the best thing to do as our service file might get overwritten when we
+update software >.<
+
+A helpful command is `strace` which will let you know what system calls and
+signals the program uses.
+The best way to do this is to first run `systemctl status` on a service, find
+the pid and then type `strace -p <PID>`.
+
+## Capability Bounding
 The `--capability-bounding-set` option appears in a lot of `systemd` commands
 and it is one of the most useful things here.
 You can find some details from `man systemd.exec`.
@@ -152,6 +243,7 @@ here](https://www.redhat.com/en/blog/new-red-hat-enterprise-linux-7-security-fea
 (by Daniel Walsh) ([archive](https://archive.is/BBhfu) <sub>I also archived his 
 referenced 2007 article</sub>) and another one by [Mike
 Salvatore](https://salvatoresecurity.com/the-many-perils-of-tmp/) ([archive](https://archive.is/Nnhrt))
+
 
 # Resources
 The official [systemd.io](https://systemd.io/) site is actually pretty good.
