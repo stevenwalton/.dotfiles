@@ -27,3 +27,12 @@ work.
 The timeshift timers are quite useful and you should consider them.
 Set to how frequently you want to do.
 Also look into creating a hook for your package manager.
+
+# Services
+These are services that I have locked down from the standard files.
+Mostly for fun.
+Some of these are in use while others aren't.
+
+If they are an override file then you can either softlink them to their expected
+override locations or run `systemctl edit` with the specified service and enter
+in these values.
