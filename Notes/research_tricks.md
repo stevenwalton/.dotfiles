@@ -82,6 +82,17 @@ https://proceedings.mlr.press/v<Number>/<AuthorNum>/<AuthorNum>.pdf
 https://proceedings.mlr.press/v<Number>/<AuthorNum>.html
 ```
 
+***JMLR***
+
+For JMLR remove the second instance of the name, append `html` (required), and
+change `volume` to `v`
+```bash
+# Paper
+https://jmlr.org/papers/volume<N>/<NAME>/<NAME>.pdf
+# Abstract
+https://jmlr.org/papers/v<N>/<NAME>.html
+```
+
 ***ICCV***
 
 This one is ***tricky***. 

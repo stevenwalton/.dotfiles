@@ -140,6 +140,8 @@ be recorded, then you can't rely on these.
 Also note, don't rely on history if you think hackers got in because they'll
 just run `$  fc -p` when they're in and nothing will get recorded.
 
+[Here](https://www.gnu.org/software/bash/manual/html_node/Variable-Index.html)
+are some more special variables.
 
 # Find
 `find` is one of the most powerful and underrated programs in bash.

@@ -59,11 +59,19 @@ function config_gpt() {
     fi
 }
 
+source_julia() {
+    if [[ -d "${HOME%/}/.builds/juliaup/bin/" ]];
+    then
+        export PATH="${HOME%/}/.builds/juliaup/bin:${PATH}"
+    fi
+}
+
 main() {
     config_coreutils || echo "Failed to configure coreutils"
     config_jekyll || echo "Failed to config jekyll"
     config_brew || echo "Failed to configure brew"
     #config_gpt || echo "Failed to configure GPT"
+    source_julia
 }
 
 main || echo "Couldn't load osx configs"

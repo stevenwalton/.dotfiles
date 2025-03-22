@@ -103,9 +103,9 @@ syn match markdownIgnore "\$.*_.*\$" " Doesn't highlight _ while in latex
 " Pressing ,ss will toggle and untoggle spell checking
 syntax spell toplevel   " Spell check fixing for tex
 map <leader>ss :setlocal spell!<cr>
-set spell                     " Turns on Spellcheck
-hi clear SpellBad             " Highlights misspelled words
-hi SpellBad cterm=underline,bold ctermfg=white "Makes misspelled words highlited, bold, and underline white
+set spell spelllang=en_us     " Turns on Spellcheck
+"hi clear SpellBad             " Highlights misspelled words
+"hi SpellBad cterm=underline,bold ctermfg=white "Makes misspelled words highlited, bold, and underline white
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Turn persistent undo on

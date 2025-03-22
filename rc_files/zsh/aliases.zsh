@@ -284,6 +284,7 @@ snek_wrangling() {
             echo "No default python in use"
             echo "\tPlease run \`uv venv --python \$MAJOR.\$MINOR\` in ${HOME}"
         fi
+        alias spy="source .venv/bin/activate"
     elif (_exists mamba) || (_exists mamba) || (_exists micromamba)
     then
         declare -i SNEK=

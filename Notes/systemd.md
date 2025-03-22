@@ -311,3 +311,69 @@ Why would you want this?
 Virtual machines use a lot of resources.
 Why install docker when you can just use the tools you already have? 
 
+## A Raspberry Pi Example
+A lot of people use Raspberry Pis for servers and frequently these are built
+into docker containers.
+The problem is, a docker container is heavy and we are running on a tiny
+computer.
+Let's try to minimize resources while maximizing security.
+In this example, we'll install
+[Manjaro-ARM](https://wiki.manjaro.org/index.php/Manjaro-ARM) onto our Raspberry
+Pi, then [Debian](https://www.debian.org/distrib/) and we'll place
+[pi-hole](https://pi-hole.net/) in our container!
+Why?
+~~Shut the fuck up~~ Why not?
+
+We'll assume you have already got your Manjaro instance up and running
+
+```bash
+# Let's grab debootstrap to install debian
+# arch-install-scripts is for pacstrap, this isn't necessary here
+yay -S debootstrap arch-install-scripts
+# Download pihole's installer
+# Friends don't let friends pipe into bash! Even if the instructions tell you to
+curl -SsLo ~/Downloads/pihole_installer.sh https://install.pi-hole.net
+```
+
+Now let's install the OS.
+From hereon out I suggest using `tmux` or some way to have multiple
+terminal-emulators running.
+`tmux` is suggested incase of network disconnect.
+We'll include `dbus` and `systemd`, the latter needed to boot a container.
+We need `dbus` because `debootstrap` cannot resolve dependencies on virtual
+packages.
+We'll install the image to `/var/lib/machines` and call it `debian-pihole`
+
+```bash
+# (optional) Install the Debian Archive Keyring
+# You SHOULD do this, and it will verify the next step
+yay -S debian-archive-keyring
+# Let's install our debian system
+sudo debootstrap --arch=arm64 --include=dbus,systemd stable /var/lib/machines/debian-pihole 
+# Start machine
+sudo systemd-nspawn --machine pihole --hostname blackhole --directory=/var/lib/machines/debian-pihole
+# Set the root password
+passwd
+# exit machine
+logout
+```
+
+Now from our Manjaro side let's copy over that pihole install file into the root
+user's home directory (pihole needs to be run as root)
+
+```bash
+sudo mv ~/Downloads/pihole_installer.sh /var/lib/machines/debian-pihole/root
+```
+
+Then proceed with your normal installation! 
+
+
+## Additional resources
+- [An interesting performance
+    conversation](https://github.com/systemd/systemd/issues/18370)
+    - `nspawn` can be slower as they are using more security features. This is
+        probably a good thing and worth the trade-off since that's the whole
+        point of a container. But they can be turned off.
+- [Setting up multiple userlands and a 32bit container on raspberry
+    pi](https://forums.raspberrypi.com/viewtopic.php?p=1422775)
+

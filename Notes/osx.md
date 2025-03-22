@@ -52,6 +52,31 @@ It can be hard to figure out what your Mac is doing and how to edit system files
 because there's so little documentation and it is hard to search.
 So let's talk first about how to find out what your system is doing
 
+## WiFi
+This is always annoying and since Sequoia it seems there's no way to set WiFi
+network preference.
+This has me pissed...
+
+```bash
+# list your hardware devices
+# similar to ipaddr but condensed
+networksetup -listallhardwarereports
+# Show the Wifi Preference Order (assuming en0 is interface)
+networksetup -listpreferredwirelessnetworks en0
+# Remove things from this preferred list
+# You unfortuntely need to do this one at a time... because... apple...
+# This is just equivalent to removing from "Known Networks"
+sudo networksetup -removepreferredwirelessnetwork en0 "Network to remove"
+# According to this page you can reorder this way
+# https://discussions.apple.com/thread/254613298?sortBy=rank
+sudo networksetup -addpreferredwirelessnetworkatindex en0 "Your SSID here" 0
+<Optional security, e.g. WPA2> "Your wifi password"
+```
+You ***MUST*** use either password or the security for this to work.
+You ***MUST*** also remove it from the list to put it in an order...
+This seems to be the way to get ordering and you cannot reorder without
+deleting.
+
 ## Understanding System Files
 Your most important directory might be `/System`
 

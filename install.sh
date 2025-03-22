@@ -6,6 +6,10 @@
 # automatically. Common calls for installs that are common on both systems, such
 # as building from source.
 #
+# There are a few commands worth noting that you may want to incorporate into
+# your own install script. See the note in the README for rc_files about the
+# find command. This is a big reason for the organization in the first place!
+#
 # Author: Steven Walton
 # Contact: dotfiles@walton.mozmail.com
 # License: MIT
@@ -89,6 +93,7 @@ install_cargo() {
     sh /tmp/rust_installer.sh -y
 }
 
+# Install vim plug and then run the command PlugInstall to install the plugins
 vim_plugins() {
     curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     [[ "$!" -eq 0 ]] && echo "Plug installed successfully"
@@ -107,6 +112,13 @@ install_vim() {
     else
         echo "Could not find vim installer"
     fi
+    if [[ -d "${HOME%/}/.vim" \
+          && -d "${HOME%/}/.vim/autoload/" \
+          && ! -f "${HOME%/}/.vim/autoload/plug.vim"
+         ]];
+    then
+        vim_plugins
+    fi
 }
 
 install_zsh() {
@@ -119,6 +131,13 @@ install_zsh() {
     else
         echo "Could not find zsh installer"
     fi
+}
+
+install_uv() {
+    curl -fLo /tmp/uv_src.sh https://astral.sh/uv/install.sh
+    chmod +x /tmp/uv_src.sh
+    # Don't touch my rc files!
+    sh /tmp/uv_src.sh --no-modify-path
 }
 
 get_args() {
@@ -150,10 +169,9 @@ get_args() {
 
 main() {
     echo "Not complete yet"
-    exit 1
 
     get_args "$@"
-    INSTALL_FILE_LOC=$(realpath ${0})
+    INSTALL_FILE_LOC=$(realpath "${0}")
     DF_PATH=${INSTALL_FILE_LOC%/*}
     # Check that we know where files are
     if [[ "${DF_PATH##/*}" != ".dotfiles" ]];
