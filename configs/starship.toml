@@ -1,3 +1,8 @@
+# If something is buggy try running
+# `starship timings`
+# or better
+# `env STARSHIP_LOG=trace starship timings`
+#
 # https://starship.rs/presets/pastel-powerline.html
 format = """
 [](#9A348E)\

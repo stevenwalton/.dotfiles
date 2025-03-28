@@ -323,12 +323,14 @@ alias_ytdlp() {
         astring+=" --continue --progress -N 4"
         # Don't download less than 250Kbps
         # Don't download faster than 10Mbps (don't stress server)
-        astring+=" --throttled-rate 250K --limit-rate 10M"
+        astring+=" --throttled-rate 500K --limit-rate 100M"
         # Increase buffer size for faster downloads
         # See `sysctl net.ipv4.tcp_rmem`
         astring+=" --buffer-size 4096"
         # Sleep between retries, exponential growth for fragments (blocking)
         astring+=" --retry-sleep linear=1::2 --retry-sleep fragment:exp=1:20"
+        # Sleep between requests and downloads
+        astring+=" --sleep-requests 1 --sleep-interval 1 --max-sleep-interval 30"
         # include subtitles
         astring+=" --write-subs --no-write-auto-subs --sub-langs \"en.*\""
         if (_exists aria2c)
