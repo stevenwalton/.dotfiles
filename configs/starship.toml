@@ -1,3 +1,8 @@
+# Don't follow symbolic links. They will slow down ssh and your initial terminal
+# opening if you have networked drives or systemd automounted drives
+# issue: https://github.com/starship/starship/issues/5740
+follow_symlinks = false
+
 # https://starship.rs/presets/pastel-powerline.html
 format = """
 [](#9A348E)\
