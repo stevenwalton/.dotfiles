@@ -72,7 +72,7 @@ declare -i USE_TAQ=1
 declare sfmt='\\\n\t'
 
 error_msg() {
-    echo -e "\033[1;31mERROR:\033[0m ${0}" > /dev/stderr
+    echo -e "\033[1;31mERROR:\033[0m ${1}" > /dev/stderr
 }
 
 # $1 represents the file you want to check
@@ -80,22 +80,28 @@ error_msg() {
 movie_check() {
     echo "Checking file integrity for ${1}"
     ffmpeg_check() {
-        ffmpeg -v error \
+        ffmpeg \
+        -v error \
         -i pipe:0  \
         -map 0:1 \
         -f null -
-        # We do this here because pv might get errors
-        if [[ "$?" -ne 0 ]];
+        #&> /dev/null
+        # uncomment redirect for quite (add option later)
+        exit_status=$(echo "$?")
+        ## We do this here because pv might get errors
+        if [[ "${exit_status}" -ne 0 ]];
         then
+            echo "${exit_status}"
             return 1
         fi
+        echo 0
     }
     # Show a progress bar
-    pv "${1}" | ffmpeg_check 
-    if [[ "$?" -ne 0 ]];
+    exit_status="$(pv "${1}" | ffmpeg_check)"
+    if [[ "${exit_status}" -ne 0 ]];
     then
         # Echo error into stderr so we can see but return 1 for scripting 
-        error_msg "Something is wrong with video file: ${1}" 
+        error_msg "(${exit_status}) Something is wrong with video file: ${1}" 
         return 1
     fi
     echo "Movie looks good!"
@@ -180,7 +186,7 @@ ffencode() {
     then
         encode_command+="pv \"${1}\" | ${sfmt}"
     fi
-    encode_command+="ffmpeg -y -v warning ${sfmt}"
+    encode_command+="ffmpeg -y -v warning -nostdin ${sfmt}"
     if [[ "$USE_CUDA" -eq 1 ]];
     then
         encode_command+="-hwaccel cuda ${sfmt}-hwaccel_output_format cuda ${sfmt}"
