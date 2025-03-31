@@ -3,10 +3,18 @@
 # This should be called before basic_aliases, which should ideally contain
 # aliases for core-utils. Since we might replace them with fancy-cli tools here,
 # we'll want those to come second
+#
+# Some tools have different names depending on the system.
+# For example bat is `bat` on most linux versions but `batcat` on Ubuntu 20.04
+# While you shouldn't use 20.04 sometimes you gotta ¯\_(ツ)_/¯
+# To use the proper command within this script use the format
+# ${PROGRAM_TYPE[${HAVE_PROGRAM}]}
+# Replace PROGRAM with the relevant program (like bat)
 ################################################################################
 # User modifiable variables should be up here
 declare BAT_THEME="Dracula"
 # Check what things we have because fd and bat are fucking annoying -___-
+# Use ${BAT_TYPE[${HAVE_BAT}]} to access the correct bat command
 declare -i HAVE_BAT=0  # {bat=1, batcat=2}
 declare -a BAT_TYPE=("bat" "batcat")
 declare -i HAVE_FD=0   # {fd=1, fdfind=2}
@@ -353,6 +361,23 @@ alias_vim() {
     fi
 }
 
+# Check if diff-so-fancy is installed and if so set the git alias
+load_diff_so_fancy() {
+    if (_exists diff-so-fancy)
+    then
+        if [[ $HAVE_BAT -ge 1 ]];
+        then
+            git config --global core.pager "diff-so-fancy | ${BAT_TYPE[$HAVE_BAT]} --tabs=4 --plain --decorations=auto --paging=auto"
+        else
+            git config --global core.pager "diff-so-fancy | less --tabs=4 --RAW-CONTROL-CHARS --quit-if-one-screen --quiet --use-color"
+        fi
+        git config --global interactive.difffilter "diff-so-fancy --patc"
+    else
+        git config --global --unset core.pager
+        git config --global --unset interactive.difffilter
+    fi
+}
+
 load_function() {
     if [[ "$1" -ge 1 ]];
     then
@@ -371,6 +396,7 @@ main() {
     snek_wrangling || echo "Snek wrangling failed! Is this the cobra effect?!"
     alias_ytdlp || echo "yt-dlp aliasing failed"
     alias_vim || echo "vim aliasing vailed"
+    load_diff_so_fancy
 }
 
 main
