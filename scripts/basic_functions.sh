@@ -82,9 +82,12 @@ getScriptDir () {
 # Usage: heavyCompress FolderIWannaZip
 # Output: FolderIWannaZip.tar.xz
 # https://www.rootusers.com/gzip-vs-bzip2-vs-xz-performance-comparison/
+# First argument is the name of the output
+# All other arguments are files to compress
 heavy_compress() {
     THREADS=${THREADS:-1}
-    tar cf - "$1" | xz -9 --threads $THREADS --verbose > "$2"
+    #tar cf - "$1" | xz -9 --threads $THREADS --verbose > "$2"
+    tar cf - "${@:2}" | xz -9 --threads $THREADS --verbose > "$1"
 }
 
 kill_steam() {

@@ -140,6 +140,8 @@ be recorded, then you can't rely on these.
 Also note, don't rely on history if you think hackers got in because they'll
 just run `$  fc -p` when they're in and nothing will get recorded.
 
+[Here](https://www.gnu.org/software/bash/manual/html_node/Variable-Index.html)
+are some more special variables.
 
 # Find
 `find` is one of the most powerful and underrated programs in bash.
@@ -155,6 +157,12 @@ expansion and find:
 mkdir -p src/{a,b,c,d} src/e/e{a,b} src/d/da/dd{a,b}
 # Add __init__.py to all directorires
 find src -type d -exec touch "{}/__init__.py" \;
+# Better (follow pattern to ignore other files you might have)
+# You can always replace `touch` with `echo` if you want to check first
+find src -type d \
+    -not -name "*__pycache__*" \
+    -not -name "*.egg-info" \
+    -exec touch "{}/__init__.py" \;
 ```
 Through `find` we were able to add our python init files to all directories!
 Now remember that you can use regex and do far more complicated commands, so
