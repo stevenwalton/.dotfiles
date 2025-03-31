@@ -1,10 +1,27 @@
-[plugin]
-deps = [
-    { use = "yazi-rs/plugins:max-preview", rev = "4f1d0ae" }, 
-    { use = "yazi-rs/plugins:git", rev = "4f1d0ae" }, 
-    { use = "yazi-rs/plugins:diff", rev = "4f1d0ae" }, 
-    { use = "yazi-rs/plugins:full-border", rev = "4f1d0ae" }
-, { use = "AnirudhG07/nbpreview", rev = "2d24602" }]
+[[plugin.deps]]
+use = "yazi-rs/plugins:max-preview"
+rev = "4f1d0ae"
+hash = "620a3202d5cd30663495ff435b26d86"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:git"
+rev = "4f1d0ae"
+hash = "95d1e84b7de03668499f4b5fcb6c2d9b"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:diff"
+rev = "4f1d0ae"
+hash = "5e210afb689ac24db7b324e3f02ecd87"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:full-border"
+rev = "4f1d0ae"
+hash = "3a73613fc702a5f8369791b3401f52f1"
+
+[[plugin.deps]]
+use = "AnirudhG07/nbpreview"
+rev = "2d24602"
+hash = "cac5f6caa97bc0962e0317689788fe9c"
 
 [flavor]
 deps = []

@@ -90,17 +90,10 @@ apply = ["defer"]
 [plugins.fast-syntax-highlighting]
 github = "zdharma-continuum/fast-syntax-highlighting"
 
-[plugins.diff-so-fancy]
-github = "z-shell/zsh-diff-so-fancy"
-apply = ["bin", "defer"]
-
 #[plugins.powerline-go]
 #github = "justjanne/powerline-go"
 ##apply = ["defer"]
 
-[plugins.gitstatus]
-github = "xylous/gitstatus"
-#apply = ["defer"]
 
 [plugins.oh-my-git]
 github = "arialdomartini/oh-my-git"
