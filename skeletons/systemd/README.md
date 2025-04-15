@@ -36,3 +36,7 @@ Some of these are in use while others aren't.
 If they are an override file then you can either softlink them to their expected
 override locations or run `systemctl edit` with the specified service and enter
 in these values.
+
+# Resources
+- Nice little
+[gist](https://gist.github.com/ageis/f5595e59b1cddb1513d1b425a323db04)

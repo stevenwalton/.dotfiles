@@ -21,6 +21,10 @@ Where=/mnt/hdd
 #Type=auto
 Options=defaults
 # Defaults are: async,auto,dev,exec,nouser,rw,suid
+# RECOMMEND: noatime
+#   Option speeds up drive. Atime is the access time, distinct from modify time
+#   (mtime) and created time (ctime). This is usually unnecessary on modern
+#   systemd but *can* create issues.
 # See RedHat Guide:
 # https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/storage_administration_guide/sect-using_the_mount_command-mounting-options#sect-Using_the_mount_Command-Mounting-Options
 # If drive takes longer than a minute to load, fail

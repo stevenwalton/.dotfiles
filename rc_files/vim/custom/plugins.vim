@@ -177,14 +177,20 @@ let g:indent_guides_color_change_percent=3
 " GutenTags
 " -------------------- 
 " Docs: https://bolt80.com/gutentags/
+" Trace because it's been using a lot of CPU lately
+let g:gutentags_trace = 1
+set statusline+=%{gutentags#statusline()}
 " Root directory is considered if it has one of these files in it
-let g:gutentags_project_root = ['.git', 'Makefile', 'src', 'main.py']
+"let g:gutentags_project_root = ['.git', 'Makefile', 'src', 'main.py']
+" Make less noisy for now
+let g:gutentags_project_root = ['pyproject.toml']
 " Write ctags to this location instead (centralized and not in project)
 let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')
 " Don't generate tags for files like these or in these directories 
 let g:gutentags_ctags_exclude = [
     \ 'wandb/',
     \ 'config/',
+    \ '.config/',
     \ '.git',
     \ '.DS_Store',
     \ '__*__',
@@ -193,7 +199,13 @@ let g:gutentags_ctags_exclude = [
     \ '*.tar',
     \ '*.gz',
     \ '*.xz',
+    \ '.cache/',
+    \ 'cache/',
+    \ '.venv/',
+    \ 'test*',
+    \ '*.sw?',
     \ ]
+
 let g:gutentags_ctags_exclude_wildignore = 1
 let g:gutentags_ctags_extra_args = [
       \ '--tag-relative=yes',

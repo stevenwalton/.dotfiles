@@ -5,6 +5,9 @@ which is for `~/.ssh/config` (same as `man ssh_config`).
 - Client settings are `ssh_config`
 - Server settings are `sshd_config`
 
+- [Nice commend on HN explaining all
+configs](https://news.ycombinator.com/item?id=43598837)
+
 ### Speeding Up Connections
 
 ```bash

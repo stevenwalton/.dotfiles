@@ -2,12 +2,20 @@
 # It MUST exist!
 # Automount helps to allow for on-demand access and spinning down drives, which
 # saves energy  
+# Rework this file for your case and then make sure to enable the service
+#   sudo systemctl enable --now mnt-hdd.automount
+# You do not need (and should not) enable the accompanying mount service 
+#   (mnt-hdd.mount)
+# Sometimes services may be using a drive and prevent them from unmounting.
+#   In those cases debug with `lsof` (`lsof +D /mnt/hdd`)
 #
 # https://man.archlinux.org/man/systemd.automount.5
 
 [Unit]
 Description=Automount system to complement systemd mount file
 Documentation=man:systemd.automount(5)
+Conflicts=umount.target
+Before=umount.target
 
 [Automount]
 # Name must match!!!
@@ -16,4 +24,4 @@ Where=/mnt/hdd
 TimeoutIdleSec=5min
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=local-fs.target
