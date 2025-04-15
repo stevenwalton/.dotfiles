@@ -178,8 +178,8 @@ let g:indent_guides_color_change_percent=3
 " -------------------- 
 " Docs: https://bolt80.com/gutentags/
 " Trace because it's been using a lot of CPU lately
-let g:gutentags_trace = 1
-set statusline+=%{gutentags#statusline()}
+"let g:gutentags_trace = 1
+"set statusline+=%{gutentags#statusline()}
 " Root directory is considered if it has one of these files in it
 "let g:gutentags_project_root = ['.git', 'Makefile', 'src', 'main.py']
 " Make less noisy for now

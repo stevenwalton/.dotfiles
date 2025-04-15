@@ -5,7 +5,7 @@ desc = "Open the shell in current location"
 
 [[manager.prepend_keymap]]
 on   = "T"
-run  = "plugin --sync max-preview"
+run  = "plugin toggle-pane max-preview"
 desc = "Maximize or restore preview"
 
 [[manager.prepend_keymap]]

@@ -20,16 +20,42 @@ micro_workers = 2
 # Number of macro tasks
 macro_workers = 2
 
-#[[plugin.prepend_fetchers]]
-#id   = "git"
-#name = "*"
-#run  = "git"
-#
-#[[plugin.prepend_fetchers]]
-#id   = "git"
-#name = "*/"
-#run  = "git"
-#[plugin]
+# Make yazi a little faster 
+# https://github.com/yazi-rs/plugins/tree/main/mime-ext.yazi
+[[plugin.prepend_fetchers]]
+id   = "mime"
+name = "*"
+run  = "mime-ext"
+prio = "high"
+
+[[plugin.prepend_fetchers]]
+id   = "git"
+name = "*"
+run  = "git"
+
+[[plugin.prepend_fetchers]]
+id   = "git"
+name = "*/"
+run  = "git"
+
+
+# https://github.com/AnirudhG07/nbpreview.yazi
+[plugin]
 prepend_previewers = [
     { name = "*.ipynb", run="nbpreview" },
+    # Better media previewing with ffmpeg
+    # Replace magick, image, video with mediainfo
+    { mime = "{audio,video,image}/*", run = "mediainfo"},
+    { mime = "application/subrip", run = "mediainfo" },
+]
+
+# Better media previewing with ffmpeg
+# https://github.com/boydaihungst/mediainfo.yazi
+# Requires that you install media info
+#   yay -S mediainfo
+#   brew install mediainfo
+prepend_preloaders = [
+    # Replace magick, image, video with mediainfo
+    { mime = "{audio,video,image}/*", run = "mediainfo" },
+    { mime = "application/subrip", run = "mediainfo" },
 ]

@@ -1,3 +1,7 @@
+-- Required for git
+-- https://github.com/yazi-rs/plugins/tree/main/git.yazi
+require("git"):setup()
+
 require("full-border"):setup() --  {
 --     -- Allowed: ui.Border.PLAIN, ui.Border.ROUNDED
 --     type = ui.Border.ROUNDED
