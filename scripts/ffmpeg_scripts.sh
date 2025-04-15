@@ -22,18 +22,30 @@
 #       https://news.ycombinator.com/item?id=42695547
 # - Nvidia Docs (Change 12.2 to latest CUDA version)
 #       https://docs.nvidia.com/video-technologies/video-codec-sdk/12.2/ffmpeg-with-nvidia-gpu/index.html#performance-evaluation-and-optimization
+#
+# You can see the available commands for each encoder using the following
+# command (av1_nvenc is an example)
+#   ffmpeg -hide_banner -h encoder=av1_nvenc | bat --language=help
 ################################################################################
 # Recommended 10-20 frames for optimal quality benefits
 # More requires more memory (we don't care....)
 # Use >= number of B frames + 1 to best utilize CPU
-declare -i RC_LOOKAHEAD="${RC_LOOKAHEAD:-32}"
-# For AV1 23 is considered visually lossless
-# For H264 this is 19
-# Will default to a lossless value
-declare -i CRF=${CRF:-}
-TMPDIR="${TMPDIR:-/tmp/}"
+declare -i RC_LOOKAHEAD="${RC_LOOKAHEAD:+32}"
+# For AV1 23 is considered visually lossless, but we'll use 20 because this
+# feels a bit better in my experience
+# For H264 and H265 (HEVC) this is 17-18
+# https://trac.ffmpeg.org/wiki/Encode/H.264#crf
+declare -Ar CRF_DEFAULTS=(
+    [AV1]=20
+    [h264]=17
+    [h265]=17
+)
+# Will default to a _visually_ lossless value based on the encoding choice
+declare -i CRF=${CRF}
+declare TMPDIR="${TMPDIR:-/tmp/}"
 # AV1 is currently one of the best encodings, so this is a good default
-FORMAT="${FORMAT:-av1}"
+declare FORMAT="${FORMAT:-av1}"
+declare BUFSIZE="10M"
 # For using the `pv` command, which will show a progress bar
 declare -i USE_PV=${USE_PV:-0}
 declare -i HAS_PV=
@@ -41,13 +53,15 @@ if [[ ! $(command -v pv) ]];
 then
     [[ $USE_PV -eq 1 ]] && echo "pv not installed. Falling back..."
     USE_PV=0
-    HAS_PV=1
+    HAS_PV=0
 else
     HAS_PV=1
+    USE_PV=1
 fi
 # Use hardware acceleration?
 declare -i USE_CUDA=1
 declare VIDEO_CODEC='av1_nvenc'
+declare AOPTS=
 
 ### Adaptive Quantization settings
 # These seem to work in the nvidia AV1 encoding 
@@ -70,6 +84,10 @@ declare -i USE_TAQ=1
 # String format: use for EOL in eval type commands for clearer
 # reading when echo debugging
 declare sfmt='\\\n\t'
+# debug variable
+declare -i DEBUG=${DEBUG:-0}
+declare INPUT_FILE=
+declare OUTPUT_FILE=
 
 error_msg() {
     echo -e "\033[1;31mERROR:\033[0m ${1}" > /dev/stderr
@@ -198,6 +216,7 @@ ffencode() {
         encode_command+="-i \"${1}\" ${sfmt}"
     fi
     encode_command+="-c:a copy ${sfmt}-c:v ${VIDEO_CODEC} ${sfmt}"
+    encode_command+="-bufsize ${BUFSIZE} ${sfmt}"
     if [[ ${SAQ_STRENGTH} -gt 0 && $USE_SAQ -eq 1 ]];
     then
         if [[ ${SAQ_STRENGTH} -gt 15 || ${SAQ_STRENGTH} -lt 0 ]];
@@ -216,33 +235,54 @@ ffencode() {
         encode_command+="-rc-lookahead ${RC_LOOKAHEAD} ${sfmt}"
     fi
     encode_command+="-crf ${CRF} ${sfmt}"
+    if [[ $AOPTS != "" ]];
+    then
+        encode_command+="${AOPTS} ${sfmt}"
+    fi
     encode_command+="\"${2}\""
-    echo "Running:"
-    echo "$encode_command"
-    eval "${encode_command}"
+    if [[ $DEBUG -gt 0 ]];
+    then
+        echo "DEBUG LEVEL ${DEBUG}"
+        echo "Running:"
+        echo -e "$encode_command"
+        echo -e "TMPDIR: ${TMPDIR}\n"
+    fi
+    eval "$(echo -e "${encode_command}")"
+    cleanup
 }
 
 # AV1
 # https://trac.ffmpeg.org/wiki/Encode/AV1
 encode_av1() {
-    CRF="${CRF:-23}"
+    #echo "Into encode with ${@}"
+    parse_args "$@"
+    if [[ $CRF -le 0 ]];
+    then
+        CRF=${CRF_DEFAULTS[AV1]}
+    fi
+    #CRF=${CRF:-20}
     if [[ $USE_CUDA -eq 1 ]]; 
     then
         VIDEO_CODEC="av1_nvenc"
     else
         VIDEO_CODEC="libaom-av1"
     fi
-    ffencode ${1} ${2}
+    AOPTS="-preset p6 -lookahead_level 2 -highbitdepth 1 -surfaces 16"
+    ffencode "${INPUT_FILE}" "${OUTPUT_FILE}"
 }
 
 # https://trac.ffmpeg.org/wiki/Encode/H.264
 encode_h264() {
-    CRF="${CRF:-19}"
+    #CRF="${CRF:-19}"
+    if [[ $CRF -le 0 ]];
+    then
+        CRF=${CRF_DEFAULTS[h264]}
+    fi
     if [[ $USE_CUDA -eq 1 ]]; 
     then
         VIDEO_CODEC="h264_nvenc"
     else
-        VIDEO_CODEC="libx265"
+        VIDEO_CODEC="libx264"
     fi
     ffencode ${1} ${2}
 }
@@ -250,14 +290,23 @@ encode_h264() {
 # HEVC
 # https://trac.ffmpeg.org/wiki/Encode/H.265
 encode_h265() {
-    CRF="${CRF:-19}"
+    #CRF="${CRF:-19}"
+    if [[ $CRF -le 0 ]];
+    then
+        CRF=${CRF_DEFAULTS[h265]}
+    fi
     if [[ $USE_CUDA -eq 1 ]]; 
     then
         VIDEO_CODEC="hevc_nvenc"
     else
-        VIDEO_CODEC="libx264"
+        VIDEO_CODEC="libx265"
     fi
     ffencode ${1} ${2}
+}
+
+# Another name for 265
+encode_hevc() {
+    encode_h265 "$@"
 }
 
 # Will transcode a video trying to use the options set
@@ -305,7 +354,7 @@ compress_video() {
                     encode_h265 "${1}" "${tmp_file}"
                     ;;
                 *)
-                    echo "Sorry, we don't support format ${FORMAT}. Try av1, h264, or h265 (or hevc)"
+                    echo "Sorry, we don't support format ${FORMAT}. Try av1, h264, or h265 (hevc)"
                     return 1
                     ;;
             esac
@@ -350,6 +399,20 @@ toav1_2pass() {
     ffmpeg -y -vsync 0 -hwaccel cuda -hwaccel_output_format cuda -i "${1}" -c:v av1_nvenc 
 }
 
+# Compare 2 videos using PSRN
+# The second video should be the reference video
+# https://ffmpeg.org/ffmpeg-filters.html#psnr
+ff_psnr() {
+    ffmpeg -i "${1}" -i "${2}" -filter_complex "psnr" -f null /dev/null
+}
+
+# Compare 2 videos with SSIM
+# The second video should be the reference video
+# https://ffmpeg.org/ffmpeg-filters.html#ssim
+ff_ssim() {
+    ffmpeg -i "${1}" -i "${2}" -lavfi  "ssim;[0:v][1:v]psnr" -f null -
+}
+
 usage() {
     cat << DOC
 The script is still under alpha development so please read it instead.
@@ -357,46 +420,82 @@ Do not expect to be able to run this with flags and anything just yet.
 DOC
 }
 
-main() {
-    case $1 in
-        --av1 | toav1)
-            shift
-            input_movie="$1"
-            if [[ $# -gt 0 ]];
-            then
-                output_movie="$2"
-            else
-                output_movie="$1"
-            fi
-            toav1 "${input_movie}" "${output_movie}"
-            ;;
-        -c | check)
-            shift 
-            movie_check "$1"
-            ;;
-        -e | encoding | get_encoding | ffprobe_encoding )
-            shift
-            ffprobe_encoding "$1"
-            ;;
-        -h | help)
-            usage
-            exit 0
-            ;;
-        *)
-            ;;
-    esac
-    #exit 0
-}
- is_sourced() {
-   if [ -n "$ZSH_VERSION" ]; then
-       case $ZSH_EVAL_CONTEXT in *:file:*) return 0;; esac
-   else  # Add additional POSIX-compatible shell names here, if needed.
-       case ${0##*/} in dash|-dash|bash|-bash|ksh|-ksh|sh|-sh) return 0;; esac
-   fi
-   return 1  # NOT sourced.
- }
+parse_args() {
+    unset INPUT_FILE
+    unset OUTPUT_FILE
 
-if [[ ! is_sourced ]];
-then
-    main "$@" || exit 1
-fi
+    while  [[ $# -gt 0 ]];
+    do
+        case $1 in
+            #--av1 | toav1)
+            #    shift
+            #    input_movie="$1"
+            #    if [[ $# -gt 0 ]];
+            #    then
+            #        output_movie="$2"
+            #    else
+            #        output_movie="$1"
+            #    fi
+            #    toav1 "${input_movie}" "${output_movie}"
+            #    ;;
+            #-c | check)
+            #    shift 
+            #    movie_check "$1"
+            #    ;;
+            #-e | encoding | get_encoding | ffprobe_encoding )
+            #    shift
+            #    ffprobe_encoding "$1"
+            #    ;;
+            -h | help)
+                usage
+                exit 0
+                ;;
+            -i | --input)
+                shift
+                INPUT_FILE="${1}"
+                ;;
+            -o | --output)
+                shift
+                OUTPUT_FILE="${1}"
+                ;;
+            -v | --verbose)
+                let "DEBUG++"
+                ;;
+            *)
+                if [[ -z ${INPUT_FILE} || "${INPUT_FILE}" == "" ]];
+                then
+                    INPUT_FILE="${1}"
+                elif [[ -z ${OUTPUT_FILE} || "${OUTPUT_FILE}" == "" ]];
+                then
+                    OUTPUT_FILE="${1}"
+                fi
+                ;;
+        esac
+        shift
+    done
+    if [[ -z ${OUTPUT_FILE} || "${OUTPUT_FILE}" == "" ]];
+    then
+        OUTPUT_FILE="${OUTPUT_FILE:-"${INPUT_FILE}"}"
+    fi
+}
+
+cleanup() {
+    unset INPUT_FILE
+    unset OUTPUT_FILE
+    DEBUG=0
+}
+
+#is_sourced() {
+#   if [ -n "$ZSH_VERSION" ]; then
+#       case $ZSH_EVAL_CONTEXT in *:file:*) return 0;; esac
+#   else  # Add additional POSIX-compatible shell names here, if needed.
+#       case ${0##*/} in dash|-dash|bash|-bash|ksh|-ksh|sh|-sh) return 0;; esac
+#   fi
+#   return 1  # NOT sourced.
+# }
+#
+#if [[ ! is_sourced ]];
+#then
+#    main "$@" || exit 1
+#fi
+#main "$@" || exit 1
