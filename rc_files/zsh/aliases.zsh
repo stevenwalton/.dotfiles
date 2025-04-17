@@ -380,6 +380,29 @@ load_diff_so_fancy() {
     fi
 }
 
+# Extend uv command to include `pip install --upgrade --all` 
+# Idea driven by discussion here: https://github.com/astral-sh/uv/issues/1419
+# Thanks @rosmur! 
+function uv() {
+   # Check that the command `uv` exists
+   if [[ $(command -v "uv") ]];
+   then
+      # We only want to extend the command when given this specific argument
+      if [[ "${@}" == 'pip install --upgrade --all' ]];
+      then
+         uv pip list \
+            | tail -n +3 \
+            | cut -d ' ' -f1 \
+            | xargs uv pip install --upgrade
+      # Otherwise just take the arguments and pass them back to uv as normal
+      else
+         command uv "$@"
+      fi
+   else
+      echo "Command 'uv' not found in PATH"
+   fi
+}
+
 load_function() {
     if [[ "$1" -ge 1 ]];
     then
