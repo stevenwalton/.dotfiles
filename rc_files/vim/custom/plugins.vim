@@ -163,6 +163,19 @@ nmap <silent> <leader>tb :TagbarToggle <CR>
 " Enable showing only non-zero hunks
 "let g:airline#extensions#hunks#non_zero_only = 1
 
+" ]c and [c to jump to the {next,prev} hunk
+" Redefine to also show the hunk's preview
+nmap ]c :GitGutterNextHunk<CR>:GitGutterPreviewHunk<CR>
+nmap [c :GitGutterPrevHunk<CR>:GitGutterPreviewHunk<CR>
+" Remove message that says what the hunk number is when jumping
+let g:gitgutter_show_msg_on_hunk_jumping = 0
+" Show the summary of the hunk (same as \hp)
+:command Preview :GitGutterPreviewHunk
+" Stage the hunk (same as \hs)
+:command Stage :GitGutterStageHunk
+" Diff with the original file
+:command GitDiff :GitGutterDiffOrig
+
 " Indent Guides
 " -------------------- 
 " Make indent guide only one char

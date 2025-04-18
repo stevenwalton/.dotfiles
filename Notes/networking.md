@@ -41,6 +41,46 @@ On some machines you may want to place this in a home folder or somewhere else
 besides `/tmp` because `/tmp` is not a secure location 
 (see [systemd Notes](/Notes/systemd.md))
 
+### Matching
+You can conditionally match addresses.
+Say you're using [tailscale](https://tailscale.com/) and when you're on a local
+network you want to use the local address but when you're on tailscale you want
+to use the tailscale address.
+You can do something like this!
+
+```bash
+Match Host mymachine exec "tailscale status | grep '^100'"
+    Hostname    100.1.2.3
+Host    mymachine
+    Hostname    192.168.1.123
+```
+Note here that you ***need*** the `Host mymachine` part of `Match Host
+mymachine`.
+If you do not include that part then `ssh` in its infinite wisdom will match
+***all*** `Hostname` keywords to `100.1.2.3` if the `Match` is found. 
+It does not matter if you place the `Match` argument under `Host`. 
+Unfortunately this does not seem to be stated well in documentation and 
+
+This runs the command `tailscale status` and then greps for something starting
+with "100", which is expected if you have done `tailscale up`.
+If this returns something then the `Hostname` provided is used instead of the
+one under `mymachine`.
+Yo can do this multiple times and `Match` will use the first match.
+So assuming you are on a mac you could do the following to always connect using
+the local address when on your local network, regardless of tailscale status but
+otherwise use another IP.
+`ssh` will use the first match (use `ssh -v` to test and you will be able to see
+the commands being issued.
+
+```bash
+Match exec "ipconfig getsummary en0 | grep -e '[^B]SSID.*YourHomeSSID'"
+    Hostname    192.168.1.123
+Match exec "tailscale status | grep '^100'"
+    Hostname    100.1.2.3.
+Host    mymachine
+    Hostname    1.2.3.4
+```
+
 ### Jumping 
 `ProxyJump` is a really useful method where you can `ssh` through machines.
 So essentially you connect to a machine through another machine.
@@ -96,11 +136,35 @@ ipconfig getsummary en0 | grep -e '[^B]SSID' | cut -d ":" -f2 | tr -d ' '
 ipconfig getsummary en0 | grep -e '[^B]SSID' | cut -d ":" -f5
 ipconfig getsummary en0 | grep -e '[^B]SSID' | sed -E 's/^.*: (.*)/\1/g'
 ```
+This can be very useful for the ssh matching
 
 - [Visual Guide To SSH Tunneling & Port
 Forwarding](https://ittavern.com/visual-guide-to-ssh-tunneling-and-port-forwarding/)
     - [HN comments](https://news.ycombinator.com/item?id=41596818) has some
         useful tricks
+### Random Useful Things
+In `ssh` there is a 'secret' command `~` that you can use.
+You must enter this on a new command line.
+This is an [escape character](https://man.openbsd.org/ssh#ESCAPE_CHARACTERS).
+It will allow you to edit your ssh session on the fly.
+Here's useful ones (note that it may appear like nothing is happening and that
+the terminal just eats your `~` command. This is normal)
+```bash
+~? # Show help
+~. # Kill current session
+# suspend the session. Will return you to your normal terminal until you
+# type the `fg` (foreground) command. Useful if you only have one terminal
+# window
+~^Z # (~ + ctrl-Z) 
+~V / ~v # Increase or decrease verbosity. Great for debugging without re-entering
+
+# Editing your current ssh session
+~C  # Puts you in command mode. This must be run first
+# Note that it might be disabled
+ssh> -L 123:address:456 # Add port forwarding
+ssh> -R 456:localhost:123 # Reverse of above
+ssh> -KL 123:address:456 # Kill port forward (also works for R and D)
+```
 
 ### ssh-agent
 You can easily create a lot of `ssh-agent` processes running.
