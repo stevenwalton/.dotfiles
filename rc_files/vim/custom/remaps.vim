@@ -15,6 +15,28 @@ command Log normal! :!git log --graph --oneline --decorate<CR>
 command Pull normal! :!git pull<CR>
 command Status normal! :!git status<CR>
 
+" NetRW options (file browser)
+" Should explore more. Seems netrw can do a lot and we could
+" drop NerdTree. There's info about remote connections and 
+" even bookmarks...
+" Thanks: https://shapeshed.com/vim-netrw/
+" Hide banner
+let g:netrw_banner = 0
+" Tree style listing
+let g:netrw_liststyle = 3
+" Hide these files (regex)
+let g:netrw_list_hide = '.*\.sw[op]$'
+" Open like previous window
+let g:netrw_browse_split = 0
+" Preview file
+let g:netrw_preview = 1
+"let g:netrw_winsize = 15
+" Split to right (Need altv = 1 AND alto = 0)
+let g:netrw_altv = 1
+let g:netrw_alto = 0
+" Human readable sizes
+let g:netrw_sizestyle = 'H'
+
 " Open all buffers in a new tab (open bunch of files then run this)
 command Buf2Tab normal! :bufdo tab split<CR>
 " Turn into a hex editor
@@ -60,6 +82,12 @@ function! PythonSettings()
     " Sets K to look in pydocs. 
     " Not great, but helps. Can highlight for better results
     setlocal keywordprg=:Pydoc
+    " Add syntax based autocompletion to omnicompletion: <C-x><C-o>
+    filetype plugin on
+    set omnifunc=syntaxcomplete#Complete
+    " If python file loaded load the python3 completion
+    " Must be built with +python3
+    autocmd FileType python setlocal omnifunc=python3complete#Complete
 endfunction
 autocmd FileType py call PythonSettings()
 
@@ -88,14 +116,32 @@ autocmd FileType c call CSettings()
 
 " ===== LaTeX =====
 function! TexSettings()
+    " MARKDOWN
+    syn match markdownIgnore "\$.*_.*\$" " Doesn't highlight _ while in latex
     " tex compile on current file
     nnoremap <buffer> <localleader>tex :!pdflatex %<CR>
     " Tex make files can be finicky so we make, touch (to change) and run
     " make again. This will help ensure we get cites and links
-    cnoremap <buffer>make :make<CR> touch %<CR> make<CR>
-    nnoremap <localleader>m :make<cr>
-    nnoremap <localleader>mc :make clean<cr> touch %<cr> make
+    "cnoremap <buffer>make :make<CR> touch %<CR> make<CR>
+    cnoremap <buffer>make :make<CR>
+    nnoremap <localleader>m :make<CR>
+    "nnoremap <localleader>mc :make clean<cr> touch %<cr> make
+    nnoremap <localleader>mc :make clean<CR>
+    " Ignore indenting when...
+    " https://vi.stackexchange.com/questions/20560/why-does-vim-still-auto-indent-latex-after-i-set-noai-noci-nosi
+    " Note that there are no help pages for these files 😡
+    " But do look at :h ft-tex
+    let g:vimtex_indent_ignored_envs = [
+        \ 'document', 
+        \ 'verbatim', 
+        \ 'lstlisting', 
+        \ 'frame',
+        \]
 endfunction
+" Note: setfiletype only sets if ft is unset. 
+" We need to reset filetype to 'tex' for this to work correctly.
+" Not sure why au FileType plaintex call TexSettings doesn't work.
+autocmd BufNewFile,BufRead *.tex set filetype=tex
 autocmd FileType tex call TexSettings()
 
 " ===== Markdown =====
@@ -103,5 +149,7 @@ function! MarkdownSettings()
     " Operate on header of section. i.e. 'cih' = delete header and go to insert
     " mode. 'dih' = delete header. Header defined by underline with == or --
     onoremap ih :<c-u>execute "normal !?^\(==\|--\)\\+$\r:nohlsearch\rkvg_"<cr>
+    " MARKDOWN
+    syn match markdownIgnore "\$.*_.*\$" " Doesn't highlight _ while in latex
 endfunction
 autocmd FileType md call MarkdownSettings()

@@ -1,4 +1,7 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Split to right 
+let g:netrw_altv = 1
+"""""""""""""""""""""""""""""""""""""""""""""""""
 " K / docs
 " When you press "K" hovering over a keyword you 
 " will get the docs of that keyword. By default

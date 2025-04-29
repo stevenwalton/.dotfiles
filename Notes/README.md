@@ -31,6 +31,9 @@ The project is organized as follows
 			 Some helpful git information, such as decreasing repo size
     </li>
     <li>
+        <a href="gpg.md">gpg.md</a>
+    </li>
+    <li>
         <a href="latex.md">latex.md</a>
     </li>
     <li>

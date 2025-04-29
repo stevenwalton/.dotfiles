@@ -10,8 +10,10 @@
 " Adds a bit more power than Vundle, which is deprecated
 call plug#begin()
     """"" Editing
-    Plug 'frazrepo/vim-rainbow'            " Improved Parentheses
-    Plug 'sheerun/vim-polyglot'            " Comprehensive syntax highlighting
+    "Plug 'frazrepo/vim-rainbow'            " This version fucks up spell checking in LaTex
+    Plug 'luochen1990/rainbow'             " Improved Parentheses
+    " redundant with ALE?
+    "Plug 'sheerun/vim-polyglot'            " Comprehensive syntax highlighting
     Plug 'MattesGroeger/vim-bookmarks'     " Annotated marks
     """"" Interface
     Plug 'pineapplegiant/spaceduck'        " Spaceduck theme
@@ -23,9 +25,10 @@ call plug#begin()
     "Plug 'taglist.vim'                     " Helps with determining code structure (:TlistToggle)
     " Shows a list of tags in a drawer
     Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' } 
-    Plug 'nathanaelkane/vim-indent-guides' " Shows the indents
+    " Causing tabstop issues
+    "Plug 'nathanaelkane/vim-indent-guides' " Shows the indents
     " FZF with :Files (or other options) opens up in a balloon
-    " I guess we need both
+    " I guess we need both ¯\_(ツ)_/¯	
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
     """"" Debugging 
@@ -37,7 +40,7 @@ call plug#begin()
     " Really need to make this work with popups in native vim instead of neo
     Plug 'airblade/vim-gitgutter'          " Shows diff from git in left sidebar (fantastic)
     " Shows commit message associated with line of code
-    Plug 'rhysd/git-messenger.vim'         
+    "Plug 'rhysd/git-messenger.vim'         (Redundant via gitgutter?)
     " Opens a browser to show a preview of markdown doc
     " Note: this doesn't like running manually :/
     Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
@@ -47,10 +50,10 @@ call plug#begin()
     Plug 'xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
     " Highlights files opened in a buffer
     Plug 'PhilRunninger/nerdtree-buffer-ops', { 'on': 'NERDTreeToggle' }
+    " Images in vim (Needs to be configured)
+    "Plug '3rd/image.nvim'
     """"" Commands
     " Tab /delimiter (format spacing by delimiter)
-    " Come back to this and merge in because it fixes tabstop issues
-    "Plug 'orbisvicis/tabular'               
     Plug 'godlygeek/tabular'               
     "  Screenshot highlighted text :Silicon fname
     " Plug 'segeljakt/vim-silicon'          
@@ -139,7 +142,7 @@ autocmd StdinReadPre * let s:std_in=1
 noremap <Leader>nt :NERDTreeToggle<CR>
 " NERDTree git use powerline
 let g:NERDTreeGitStatusUseNerdFonts = 1 
-" Really for documentation
+" Defaults
 "let g:NERDTreeGitStatusIndicatorMapCustom = {
 "                \ 'Modified'  :'✹',
 "                \ 'Staged'    :'✚',
@@ -152,6 +155,18 @@ let g:NERDTreeGitStatusUseNerdFonts = 1
 "                \ 'Clean'     :'✔︎',
 "                \ 'Unknown'   :'?',
 "                \ }
+let g:NERDTreeGitStatusIndicatorMapCustom = {
+                \ 'Modified'  :'📝',
+                \ 'Staged'    :'✳️',
+                \ 'Untracked' :'🚷',
+                \ 'Renamed'   :'🚘',
+                \ 'Unmerged'  :'🚧',
+                \ 'Deleted'   :'🚮',
+                \ 'Dirty'     :'⚠️',
+                \ 'Ignored'   :'🙈',
+                \ 'Clean'     :'🧼',
+                \ 'Unknown'   :'❓',
+                \ }
  
 " tagbar settings
 " -------------------- 
@@ -176,12 +191,14 @@ let g:gitgutter_show_msg_on_hunk_jumping = 0
 " Diff with the original file
 :command GitDiff :GitGutterDiffOrig
 
-" Indent Guides
-" -------------------- 
-" Make indent guide only one char
-let g:indent_guides_guide_size=1
-" Make guide color pretty faint
-let g:indent_guides_color_change_percent=3
+"   " Indent Guides
+"   " -------------------- 
+"   " Start
+"   let g:indent_guides_enable_on_vim_startup = 1
+"   " Make indent guide only one char
+"   let g:indent_guides_guide_size=1
+"   " Make guide color pretty faint
+"   let g:indent_guides_color_change_percent=3
 
 "-------------------------------------------------------------------------------
 "--------------------------------- Debugging -----------------------------------
@@ -189,35 +206,53 @@ let g:indent_guides_color_change_percent=3
 
 " GutenTags
 " -------------------- 
+"Ctags
+"set tags="./.tags,../.tags,~/.tags"
 " Docs: https://bolt80.com/gutentags/
 " Trace because it's been using a lot of CPU lately
 "let g:gutentags_trace = 1
-"set statusline+=%{gutentags#statusline()}
+set statusline+=%{gutentags#statusline()}
 " Root directory is considered if it has one of these files in it
 "let g:gutentags_project_root = ['.git', 'Makefile', 'src', 'main.py']
+let g:gutentags_enabled = 0
 " Make less noisy for now
-let g:gutentags_project_root = ['pyproject.toml']
+let g:gutentags_project_root = ['pyproject.toml', 'Makefile']
 " Write ctags to this location instead (centralized and not in project)
 let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')
 " Don't generate tags for files like these or in these directories 
 let g:gutentags_ctags_exclude = [
     \ 'wandb/',
-    \ 'config/',
-    \ '.config/',
+    \ '[.]config/',
     \ '.git',
     \ '.DS_Store',
     \ '__*__',
-    \ '*.pth',
-    \ '*.pt',
+    \ '*.pt[h]',
     \ '*.tar',
-    \ '*.gz',
-    \ '*.xz',
-    \ '.cache/',
-    \ 'cache/',
-    \ '.venv/',
+    \ '*.tar.*',
+    \ '*.[gx]z',
+    \ '[.]cache/',
+    \ '[.]venv/',
     \ 'test*',
     \ '*.sw?',
+    \ '*.cache',
+    \ '[_]test[_].*',
+    \ 'test/',
     \ ]
+
+"let g:gutentags_exclude_filetypes = []
+" Ignore these places (It seems to need extra help...)
+let g:gutentags_exclude_project_root = [
+    \ '/usr/local',
+    \ '/opt/homebrew',
+    \ '/home/linuxbrew/.linuxbrew',
+    \ "/home/${USER}",
+    \ "/home/${USER}/Downloads",
+    \ "/home/${USER}/Pictures",
+    \ "/home/${USER}/Documents",
+    \ "/home/${USER}/.config",
+    \ "/home/${USER}/.venv",
+    \ "/home/${USER}/.cache",
+    \]
 
 let g:gutentags_ctags_exclude_wildignore = 1
 let g:gutentags_ctags_extra_args = [
@@ -300,24 +335,24 @@ let g:mkdp_auto_close = 0
 "--------------------------------- Commands ------------------------------------
 "-------------------------------------------------------------------------------
 
-" ConqueGDB
-let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
-let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
-let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
-
-
-let g:silicon = {
-    \ 'theme':              'Dracula',
-    \ 'font':                  'Hack',
-    \ 'background':         '#FFFFFF',
-    \ 'shadow-color':       '#555555',
-    \ 'line-pad':                   2,
-    \ 'pad-horiz':                  0,
-    \ 'pad-vert':                   0,
-    \ 'shadow-blur-radius':         0,
-    \ 'shadow-offset-x':            0,
-    \ 'shadow-offset-y':            0,
-    \ 'line-number':           v:true,
-    \ 'round-corner':          v:false,
-    \ 'window-controls':       v:false,
-    \ }
+"   " ConqueGDB
+"   let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
+"   let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
+"   let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
+"   
+"   
+"   let g:silicon = {
+"       \ 'theme':              'Dracula',
+"       \ 'font':                  'Hack',
+"       \ 'background':         '#FFFFFF',
+"       \ 'shadow-color':       '#555555',
+"       \ 'line-pad':                   2,
+"       \ 'pad-horiz':                  0,
+"       \ 'pad-vert':                   0,
+"       \ 'shadow-blur-radius':         0,
+"       \ 'shadow-offset-x':            0,
+"       \ 'shadow-offset-y':            0,
+"       \ 'line-number':           v:true,
+"       \ 'round-corner':          v:false,
+"       \ 'window-controls':       v:false,
+"       \ }

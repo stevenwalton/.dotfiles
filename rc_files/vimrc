@@ -40,13 +40,6 @@ set lazyredraw          " Faster rendering
 set showcmd             " Show command as typing
 set wildmenu            " Wildmenu buffer, auto completion
 
-" Add syntax based autocompletion to omnicompletion: <C-x><C-o>
-filetype plugin on
-set omnifunc=syntaxcomplete#Complete
-" If python file loaded load the python3 completion
-" Must be built with +python3
-autocmd FileType python setlocal omnifunc=python3complete#Complete
-
 " Indenting
 set autoindent          " Auto indent
 " No indenting on # mark 
@@ -55,7 +48,7 @@ set cinkeys-=0#
 set indentkeys-=0#
 set wrap                " Wraps text
 set expandtab           " Spaces and not tabs
-set smarttab            " Trys to figure out when to tab
+set smarttab            " Tries to figure out when to tab
 set shiftwidth=4        " Tab width 
 set softtabstop=4
 
@@ -93,15 +86,12 @@ autocmd Filetype cpp setlocal foldmethod=marker
 set foldcolumn=2        " Shows fold info on left
 set foldlevel=4         " Should match shiftwidth
 
-"Ctags
-set tags="./.tags,../.tags,~/.tags"
-
-" MARKDOWN
-syn match markdownIgnore "\$.*_.*\$" " Doesn't highlight _ while in latex
-
 " Spell checking
+" Was used because frazrepo/vim-rainbow messed up LaTeX spell checking. But this
+" actually didn't always fix the line. Switching to luochen1990/rainbow fixes
+" the issue.
+"syntax spell toplevel   " Always spell check
 " Pressing ,ss will toggle and untoggle spell checking
-syntax spell toplevel   " Spell check fixing for tex
 map <leader>ss :setlocal spell!<cr>
 set spell spelllang=en_us     " Turns on Spellcheck
 "hi clear SpellBad             " Highlights misspelled words
@@ -117,3 +107,35 @@ try
 catch
 endtry
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" THIS SHOULD BE DONE LAST AS LOCAL SETTINGS SHOULD OVERRIDE
+" GLOBAL ONES.
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Load Local Configs if Exist
+" These settings will be loaded in addition to those of this
+" file. This allows you to set or override the main config.
+" Useful for specifying project formatting or adapting to 
+" the needs of a particular project
+" Preferentially, when setting a local settings you should use 
+" .exrc
+" With this command you do not need to reload this source.
+"
+" e.g. in a latex project you may wish to ignore pdf files
+"   from netrw. This can be done by using this line in .exrc
+"   let g:netrw_hide_list=netrw_hide_list .. ',.*\.pdf$'
+"   (Note the leading comma)
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function LoadLocalConfig()
+    " List of potential names for local vim config
+    let possible_local_files = ['.exrc', '.vim.local', '.nvim.local', '.vimrc']
+    for lf in possible_local_files
+        if filereadable(lf)
+            execute 'source ' . lf
+            echom "Loaded local settings from " .. lf
+        endif
+    endfor
+endfunction
+call LoadLocalConfig()
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" END OF FILE
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
