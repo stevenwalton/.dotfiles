@@ -76,9 +76,13 @@ noremap <Leader>v- :g/Version/norm! $h <C-X><CR>:call feedkeys("``")<CR>:w<CR>
 " Filetype commands
 " Make sure to use localleader and 
 " <buffer>
+" DO all the filetype settings and at 
+" the bottom the calls
 """"""""""""""""""""""""""""""""""""""""
 " ===== Python =====
 function! PythonSettings()
+    " Make fold on indention
+    set foldmethod=indent
     " Sets K to look in pydocs. 
     " Not great, but helps. Can highlight for better results
     setlocal keywordprg=:Pydoc
@@ -89,12 +93,11 @@ function! PythonSettings()
     " Must be built with +python3
     autocmd FileType python setlocal omnifunc=python3complete#Complete
 endfunction
-autocmd FileType py call PythonSettings()
 
 " ===== C / C++ =====
 " C shortcuts \m executes make, \mc executes make clean
 function! MakeSettings()
-    noremap <localleader>m :make<cr>
+    noremap <localleader>make :make<cr>
     noremap <localleader>mc :make clean<cr>
     noremap <localleader>md :make distclean<CR>
     " run with :make
@@ -102,17 +105,20 @@ function! MakeSettings()
 endfunction
 
 function! CSettings()
+    " Fold on markers (default markers are curly braces)
+    set foldmethod=marker
     " C \gcc builds C file with no extensions, using gcc
     noremap <localleader>gcc :!gcc % -o %:r<CR>
+    autocmd Filetype c setlocal foldmethod=marker
 endfunction
+
 function! CPPSettings()
+    set foldmethod=marker
     " C++ \cpp builds C++ file with no extension, using g++
     map <localleader>cpp :!g++ % -o %:r<CR>
     map <localleader>gcc :!g++ % -o %:r<cr>
+    autocmd Filetype cpp setlocal foldmethod=marker
 endfunction
-autocmd FileType cpp call MakeSettings()
-autocmd FileType cpp call CPPSettings()
-autocmd FileType c call CSettings()
 
 " ===== LaTeX =====
 function! TexSettings()
@@ -120,13 +126,6 @@ function! TexSettings()
     syn match markdownIgnore "\$.*_.*\$" " Doesn't highlight _ while in latex
     " tex compile on current file
     nnoremap <buffer> <localleader>tex :!pdflatex %<CR>
-    " Tex make files can be finicky so we make, touch (to change) and run
-    " make again. This will help ensure we get cites and links
-    "cnoremap <buffer>make :make<CR> touch %<CR> make<CR>
-    cnoremap <buffer>make :make<CR>
-    nnoremap <localleader>m :make<CR>
-    "nnoremap <localleader>mc :make clean<cr> touch %<cr> make
-    nnoremap <localleader>mc :make clean<CR>
     " Ignore indenting when...
     " https://vi.stackexchange.com/questions/20560/why-does-vim-still-auto-indent-latex-after-i-set-noai-noci-nosi
     " Note that there are no help pages for these files 😡
@@ -142,7 +141,6 @@ endfunction
 " We need to reset filetype to 'tex' for this to work correctly.
 " Not sure why au FileType plaintex call TexSettings doesn't work.
 autocmd BufNewFile,BufRead *.tex set filetype=tex
-autocmd FileType tex call TexSettings()
 
 " ===== Markdown =====
 function! MarkdownSettings()
@@ -152,4 +150,11 @@ function! MarkdownSettings()
     " MARKDOWN
     syn match markdownIgnore "\$.*_.*\$" " Doesn't highlight _ while in latex
 endfunction
+
+" ===== Calls
+autocmd FileType py call PythonSettings()
+autocmd FileType c,cpp,tex call MakeSettings()
+autocmd FileType c call CSettings()
+autocmd FileType cpp call CPPSettings()
+autocmd FileType tex call TexSettings()
 autocmd FileType md call MarkdownSettings()

@@ -25,15 +25,17 @@ the difference is `/content_CVPR_<YEAR>` vs `/content/CVPR<YEAR>/`
 ```bash
 # Older version
 https://openaccess.thecvf.com/content_CVPR_<YEAR>/papers/<FIRST_AUTHOR>_<TITLE>_CVPR_<YEAR>_paper.pdf
-# Newer Version
-https://openaccess.thecvf.com/content/CVPR<YEAR>/papers/<FIRST_AUTHOR>_<TITLE>_CVPR_<YEAR>_paper.pdf
+                                                  ^^^^^^                                          ^^^
+https://openaccess.thecvf.com/content_CVPR_<YEAR>/html/<FIRST_AUTHOR>_<TITLE>_CVPR_<YEAR>_paper.html
+                                                  ^^^^                                          ^^^^
 ```
 Change `/paper/` to `/html` and `.pdf` to `.html`
 ```bash
-# Older 
-https://openaccess.thecvf.com/content_CVPR_<YEAR>/html/<FIRST_AUTHOR>_<TITLE>_CVPR_<YEAR>_paper.html
-# Newer
+# Newer Version
+https://openaccess.thecvf.com/content/CVPR<YEAR>/papers/<FIRST_AUTHOR>_<TITLE>_CVPR_<YEAR>_paper.pdf
+                                                 ^^^^^^                                          ^^^
 https://openaccess.thecvf.com/content/CVPR<YEAR>/html/<FIRST_AUTHOR>_<TITLE>_CVPR_<YEAR>_paper
+                                                 ^^^^
 ```
 
 ***NeruIPS/NIPS***
@@ -42,11 +44,17 @@ This one is a bit more convoluted...
 ```bash
 # pdf version
 https://papers.nips.cc/paper/<YEAR>/file/<HASH>-Paper.pdf
-https://proceedings.neurips.cc/paper_files/paper/<YEAR>/file/<HASH>-Paper.pdf
-################
+                                    ^^^^              ^^^
 # abstract/main page
 https://papers.nips.cc/paper_files/paper/<YEAR>/hash/<HASH>-Abstract.html
+                                   ^^^^^        ^^^^                 ^^^^
+################
+# pdf version
+https://proceedings.neurips.cc/paper_files/paper/<YEAR>/file/<HASH>-Paper.pdf
+                                                        ^^^^        ^^^^^ ^^^
+# abstract/main page
 https://proceedings.neurips.cc/paper_files/paper/<YEAR>/hash/<HASH>-Abstract.html
+                                                        ^^^^        ^^^^^^^^ ^^^^
 ```
 Note that here we need to add `/paper_files/` before `/paper`, and that `/file/`
 becomes `/hash/` where this is the literal string and not the paper's hash.
@@ -66,8 +74,10 @@ This is by far the easiest
 ```bash
 # Paper
 https://openreview.net/pdf?id=<HASH>
+                       ^^^
 # Review page
 https://openreview.net/forum?id=<HASH>
+                       ^^^^^
 ```
 
 ***PMLR***
@@ -78,8 +88,10 @@ There is a repeated string at the end and you just remove the redundancy.
 ```bash
 # Paper
 https://proceedings.mlr.press/v<Number>/<AuthorNum>/<AuthorNum>.pdf
+                                        xxxxxxxxxxx             ^^^
 # Abstract
 https://proceedings.mlr.press/v<Number>/<AuthorNum>.html
+                                                    ^^^^
 ```
 
 ***JMLR***
@@ -89,8 +101,10 @@ change `volume` to `v`
 ```bash
 # Paper
 https://jmlr.org/papers/volume<N>/<NAME>/<NAME>.pdf
+                        ^^^^^^    xxxxxx        ^^^
 # Abstract
 https://jmlr.org/papers/v<N>/<NAME>.html
+                        ^           ^^^^
 ```
 
 ***ICCV***
@@ -104,8 +118,10 @@ It is case sensitive so it is harder to guess your way in.
 ```bash
 # Paper
 https://openaccess.thecvf.com/content_ICCV_<YEAR>/papers/<AUTHOR>_<ShortName>_for_ICCV_<YEAR>_paper.pdf
+                                      ^^^^        ^^^^^^                                            ^^^
 # Abstract
 https://openaccess.thecvf.com/content_iccv_<YEAR>/html/<AUTHOR>_<ShortName>_for_ICCV_<YEAR>_paper.html
+                                      ^^^^       ^^^^^                                            ^^^^
 ```
 
 ## Illustrative Example of Issue
