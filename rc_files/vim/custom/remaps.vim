@@ -92,6 +92,8 @@ function! PythonSettings()
     " If python file loaded load the python3 completion
     " Must be built with +python3
     autocmd FileType python setlocal omnifunc=python3complete#Complete
+    " Extend matching for keywords
+    set iskeyword+=.
 endfunction
 
 " ===== C / C++ =====
@@ -110,6 +112,8 @@ function! CSettings()
     " C \gcc builds C file with no extensions, using gcc
     noremap <localleader>gcc :!gcc % -o %:r<CR>
     autocmd Filetype c setlocal foldmethod=marker
+    " Extend matching for keywords
+    set iskeyword+=.,-,>
 endfunction
 
 function! CPPSettings()
@@ -118,6 +122,8 @@ function! CPPSettings()
     map <localleader>cpp :!g++ % -o %:r<CR>
     map <localleader>gcc :!g++ % -o %:r<cr>
     autocmd Filetype cpp setlocal foldmethod=marker
+    " Extend matching for keywords
+    set iskeyword+=.,-,>
 endfunction
 
 " ===== LaTeX =====
@@ -136,6 +142,8 @@ function! TexSettings()
         \ 'lstlisting', 
         \ 'frame',
         \]
+    " Include these characters for completion (i.e. bibtex)
+    set iskeyword+=-
 endfunction
 " Note: setfiletype only sets if ft is unset. 
 " We need to reset filetype to 'tex' for this to work correctly.

@@ -16,113 +16,96 @@ The easy thing is to just remember how the url patterns fit so you can just use
 that and jump to the right page.
 
 ## Conference URL reformatting
-
-***CVPR***
-
-There's two possible CVPR html formats I'm aware of. These are pretty close and
-the difference is `/content_CVPR_<YEAR>` vs `/content/CVPR<YEAR>/`
-
-```bash
-# Older version
+Here is a collected list of rules I've found to get the abstract page (and thus
+bibtex) from the PDF page that Google serves you
+```
+########## CVPR #########
+### Older version (/content_CVPR_<YEAR>)
+# s/(papers|pdf)/html 
 https://openaccess.thecvf.com/content_CVPR_<YEAR>/papers/<FIRST_AUTHOR>_<TITLE>_CVPR_<YEAR>_paper.pdf
                                                   ^^^^^^                                          ^^^
 https://openaccess.thecvf.com/content_CVPR_<YEAR>/html/<FIRST_AUTHOR>_<TITLE>_CVPR_<YEAR>_paper.html
                                                   ^^^^                                          ^^^^
-```
-Change `/paper/` to `/html` and `.pdf` to `.html`
-```bash
-# Newer Version
+### Newer Version (/content/CVPR<YEAR>/)
 https://openaccess.thecvf.com/content/CVPR<YEAR>/papers/<FIRST_AUTHOR>_<TITLE>_CVPR_<YEAR>_paper.pdf
                                                  ^^^^^^                                          ^^^
 https://openaccess.thecvf.com/content/CVPR<YEAR>/html/<FIRST_AUTHOR>_<TITLE>_CVPR_<YEAR>_paper
                                                  ^^^^
-```
-
-***NeruIPS/NIPS***
-
-This one is a bit more convoluted...
-```bash
-# pdf version
+########## ICML #########
+# >>>> TRICKY <<<< URL is case sensitive!
+https://openaccess.thecvf.com/content_ICCV_<YEAR>/papers/<AUTHOR>_<ShortName>_for_ICCV_<YEAR>_paper.pdf
+                                      ^^^^        ^^^^^^                                            ^^^
+# Abstract
+https://openaccess.thecvf.com/content_iccv_<YEAR>/html/<AUTHOR>_<ShortName>_for_ICCV_<YEAR>_paper.html
+                                      ^^^^       ^^^^^                                            ^^^^
+########## JMLR #########
+# html required (PC's, please see NeurIPS Note)
+https://jmlr.org/papers/volume<N>/<NAME>/<NAME>.pdf
+                        ^^^^^^    xxxxxx        ^^^
+https://jmlr.org/papers/v<N>/<NAME>.html
+                        ^           ^^^^
+########## NeurIPS/NIPS #########
+# Note: Will download (PC's, please see note below)
 https://papers.nips.cc/paper/<YEAR>/file/<HASH>-Paper.pdf
-                                    ^^^^              ^^^
-# abstract/main page
+                            ^       ^^^^        ^^^^^ ^^^
 https://papers.nips.cc/paper_files/paper/<YEAR>/hash/<HASH>-Abstract.html
-                                   ^^^^^        ^^^^                 ^^^^
-################
-# pdf version
+                                   ^^^^^        ^^^^        ^^^^^^^^ ^^^^
+#
 https://proceedings.neurips.cc/paper_files/paper/<YEAR>/file/<HASH>-Paper.pdf
                                                         ^^^^        ^^^^^ ^^^
-# abstract/main page
 https://proceedings.neurips.cc/paper_files/paper/<YEAR>/hash/<HASH>-Abstract.html
                                                         ^^^^        ^^^^^^^^ ^^^^
+########## Open Review #########
+https://openreview.net/pdf?id=<HASH>
+                       ^^^
+https://openreview.net/forum?id=<HASH>
+                       ^^^^^
+########## PMLR #########
+https://proceedings.mlr.press/v<Number>/<AuthorNum>/<AuthorNum>.pdf
+                                        xxxxxxxxxxx             ^^^
+https://proceedings.mlr.press/v<Number>/<AuthorNum>.html
+                                                    ^^^^
 ```
+
+***NeurIPS Note:**** (Open Note to PCs[^2])
+
 Note that here we need to add `/paper_files/` before `/paper`, and that `/file/`
 becomes `/hash/` where this is the literal string and not the paper's hash.
 Finally we change the tag before the extension changes from `Paper` to `Abstract`.
-The `.html` extension is necessary.[^2]
-Then we get to *download* the file... oh joy...
+The `.html` extension is necessary.
+Then we get to *download* the file... everyone's favorite thing to do![^3]
 
 [^2]: If anyone on the NeurIPS committee is reading this, you should probably
   resolve this. Enable `Options +Multiviews` in `.htaccess` to allow files to be
   accessed without their extensions. See [Apache
   docs under Multiviews](https://httpd.apache.org/docs/current/content-negotiation.html)
 
-***OpenReview***
+[^3]: This can also be resolved by just displaying the text. You can either make
+    the file readable or just embed it in the page like every other conference.
+    5 minutes of your work will save 30s of millions of people's work! (sampled
+            with replacement)
 
-This is by far the easiest
-
-```bash
-# Paper
-https://openreview.net/pdf?id=<HASH>
-                       ^^^
-# Review page
-https://openreview.net/forum?id=<HASH>
-                       ^^^^^
+There are some that don't follow rules or don't provide bibtexs
 ```
-
-***PMLR***
-
-The transition is easy here.
-There is a repeated string at the end and you just remove the redundancy.
-
-```bash
-# Paper
-https://proceedings.mlr.press/v<Number>/<AuthorNum>/<AuthorNum>.pdf
-                                        xxxxxxxxxxx             ^^^
-# Abstract
-https://proceedings.mlr.press/v<Number>/<AuthorNum>.html
-                                                    ^^^^
+### Offenders!
+ECCV (2020) ***Does Not Provide Bibtex***
 ```
+## Open Note To All Program Chairs (PC's)
+If we want authors to use conference bibtexs instead of those from ArXiv, then
+this needs to be easier.
+The above list should never exist and is indicative of a failure.
+While most rules are simple, they are non-obvious and difficult to discover.
+OpenReview has the best design, using minimal and consistent formatting, but
+even this can be improved.
 
-***JMLR***
-
-For JMLR remove the second instance of the name, append `html` (required), and
-change `volume` to `v`
-```bash
-# Paper
-https://jmlr.org/papers/volume<N>/<NAME>/<NAME>.pdf
-                        ^^^^^^    xxxxxx        ^^^
-# Abstract
-https://jmlr.org/papers/v<N>/<NAME>.html
-                        ^           ^^^^
-```
-
-***ICCV***
-
-This one is ***tricky***. 
-It is case sensitive so it is harder to guess your way in.
-
-***ICCV*** changes to ***iccv***. Make changes similar to CVPR where you change
-`papers` and `pdf` to `html`
-
-```bash
-# Paper
-https://openaccess.thecvf.com/content_ICCV_<YEAR>/papers/<AUTHOR>_<ShortName>_for_ICCV_<YEAR>_paper.pdf
-                                      ^^^^        ^^^^^^                                            ^^^
-# Abstract
-https://openaccess.thecvf.com/content_iccv_<YEAR>/html/<AUTHOR>_<ShortName>_for_ICCV_<YEAR>_paper.html
-                                      ^^^^       ^^^^^                                            ^^^^
-```
+To resolve all links should be stored in a logical manner, consistent,
+and allows for readers to discover other works through directory transversal. 
+I propose using https://theconference.com/year/papers/some_paper_id{,.pdf}.
+This would allow anyone to simply remove the pdf from the url and reach the
+index page (see note in NeurIPS comment). Readers could then transverse one
+directory back and discover all papers of that year.
+History could be rewritten without breakage by using softlinks.
+Everybody wins.
 
 ## Illustrative Example of Issue
 
