@@ -99,11 +99,11 @@ endfunction
 " ===== C / C++ =====
 " C shortcuts \m executes make, \mc executes make clean
 function! MakeSettings()
-    noremap <localleader>make :make<cr>
+    "noremap <localleader>make :make<cr>
     noremap <localleader>mc :make clean<cr>
     noremap <localleader>md :make distclean<CR>
     " run with :make
-    cnoremap <buffer>make :make<cr>
+    "cnoremap <buffer>make :make<cr>
 endfunction
 
 function! CSettings()

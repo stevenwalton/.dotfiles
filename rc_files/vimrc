@@ -40,7 +40,7 @@ set lazyredraw          " Faster rendering
 " Should redo this rule for specific filetypes and just use smartindent
 set cindent             " Uses C indenting rules ({,},),],:,#,^F,o,O,e)
 set cinkeys-=0#         " No indenting on # mark 
-set indentkeys-=0#
+"set indentkeys-=0#
 let &showbreak="||| "    " Prepends a wrapped line with this symbol
 set expandtab           " Replaces tabs with spaces
 set shiftwidth=4        " Tab width 
@@ -49,6 +49,7 @@ set softtabstop=4       " Number of spaces to consider when <Tab> is in a cmd
 "Backspace works through indents, end of line, etc
 " Isn't this default?
 "set backspace=indent,eol,start  
+set backspace=2 " Same as above
 
 set number "ruler        "Show line number
 
@@ -127,13 +128,18 @@ endtry
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function LoadLocalConfig()
     " List of potential names for local vim config
-    let possible_local_files = ['.exrc', '.vim.local', '.nvim.local', '.vimrc']
+    let possible_local_files = ['.exrc', '.vim.local', '.nvim.local'] 
     for lf in possible_local_files
         if filereadable(lf)
             execute 'source ' . lf
             echom "Loaded local settings from " .. lf
         endif
     endfor
+    " Don't double load main vimrc but allow '.vimrc' in local dir
+    if filereadable('.vimrc') && getcwd() != getenv('HOME')
+        execute 'source .vimrc'
+        echom "Loaded local .vimrc"
+    endif
 endfunction
 call LoadLocalConfig()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

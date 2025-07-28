@@ -9,13 +9,17 @@
 " Switch to Plug: https://github.com/junegunn/vim-plug
 " Adds a bit more power than Vundle, which is deprecated
 call plug#begin()
-    """"" Editing
+    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    "                               Editing 
+    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     "Plug 'frazrepo/vim-rainbow'            " This version fucks up spell checking in LaTex
     Plug 'luochen1990/rainbow'             " Improved Parentheses
     " redundant with ALE?
     "Plug 'sheerun/vim-polyglot'            " Comprehensive syntax highlighting
     Plug 'MattesGroeger/vim-bookmarks'     " Annotated marks
-    """"" Interface
+    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    "                           Interface
+    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     Plug 'pineapplegiant/spaceduck'        " Spaceduck theme
     Plug 'ryanoasis/vim-devicons'          " Font icons helpful for nerdtree/airline
     "Plug 'scrooloose/nerdtree'             " Project drawer (File explorer)
@@ -31,12 +35,16 @@ call plug#begin()
     " I guess we need both ¯\_(ツ)_/¯	
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
-    """"" Debugging 
+    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    "                           Debugging 
+    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     Plug 'ludovicchabant/vim-gutentags'    " Ctags
     Plug 'dense-analysis/ale'              " ALE for linting
     " Diff between visual selections
     Plug 'AndrewRadev/linediff.vim', { 'on': 'Linediff' } 
-    """"" Integrations
+    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    "                           Integrations
+    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     " Really need to make this work with popups in native vim instead of neo
     Plug 'airblade/vim-gitgutter'          " Shows diff from git in left sidebar (fantastic)
     " Shows commit message associated with line of code
@@ -52,7 +60,11 @@ call plug#begin()
     Plug 'PhilRunninger/nerdtree-buffer-ops', { 'on': 'NERDTreeToggle' }
     " Images in vim (Needs to be configured)
     "Plug '3rd/image.nvim'
-    """"" Commands
+    " Edit notebooks
+    Plug 'goerz/jupytext.nvim' ", { 'on': What goes here? JSON? Or Python?}
+    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    "                               Commands
+    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     " Tab /delimiter (format spacing by delimiter)
     Plug 'godlygeek/tabular'               
     "  Screenshot highlighted text :Silicon fname

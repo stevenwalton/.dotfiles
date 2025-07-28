@@ -160,6 +160,14 @@ alias_bat() {
         export MANPAGER="sh -c 'col -bx | $1 -l man -p'"
         export MANROFFOPT="-c"
     }
+    # TODOL
+    # Add '--follow' to bat arguments
+    #bat() {
+    #    if [[ $(command -v "${BAT_TYPE[$HAVE_BAT]}") ]];
+    #    then
+    #        if [[ "${@}" 
+    #}
+    # Replace cat with bat (use \cat to get normal cat)
     alias cat="${BAT_TYPE[$HAVE_BAT]}"
     alias -g -- --help="--help 2>&1 | bathelp ${BAT_TYPE[$HAVE_BAT]}"
     batman "${BAT_TYPE[$HAVE_BAT]}"

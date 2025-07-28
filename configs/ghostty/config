@@ -1,15 +1,32 @@
 # Use cmd/ctrl + shift + , to reload file
+# I also set cmd+, to paste the open command so use that for quick access to
+# this file.
 # You can find the potential commands here
 #   https://ghostty.org/docs/config/keybind/reference
 # And trigger sequences here
 #   https://ghostty.org/docs/config/keybind/sequence
 #
+# To make pane resizing (⌘+^+{←↓→} (up is already silent...) silent in OSX edit 
+# ~/Library/KeyBindings/DefaultKeyBinding.dict
+# (create KeyBindings if necessary)
+# and add these lines
+# {
+#  "@^\UF701" = "noop";
+#  "@^\UF702" = "noop";
+#  "@^\UF703" = "noop";
+#}
+# https://github.com/ghostty-org/ghostty/discussions/5521#discussioncomment-12306028
+
 # Commented out ones I like but playing around
-# theme = duckbones
+ theme = duckbones
 #theme = tokyonight
 #theme = Firefly Traditional
 #theme = 3024 Night
-theme = Abernathy
+#theme = Abernathy
+
+mouse-hide-while-typing=true
+# Set opacity to 80%
+background-opacity=0.8
 
 font-family = Hack Nerd Font Mono
 
@@ -21,6 +38,11 @@ shell-integration = zsh
 # Restore <C-[> as being alias for ESC
 keybind = ctrl+left_bracket=text:\x1b
 
+# Shortcut to open editor with $EDITOR instead of notepad
+keybind = cmd+,=text:${EDITOR} ${HOME%/}/.config/ghostty/config \r
+#                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^    Paste text into term
+#                                                               ^^ hit enter
+
 ###
 ### Global Keybinds (works even outside Ghostty)
 ###
@@ -29,5 +51,18 @@ keybind = ctrl+left_bracket=text:\x1b
 # Would use t but uncomfortable so [ like ESC
 #keybind = global:cmd+alt+[=toggle_quick_terminal
 keybind = global:alt+[=toggle_quick_terminal
-# ctrl+cmd+t for new terminal window 
+# ctrl+cmd+t for new terminal window (even when ghostty isn't in focus)
 keybind = global:ctrl+cmd+t=new_window
+
+# toggle secure input
+keybind = cmd+shift+s=toggle_secure_input
+
+# Better scrolling for mac
+keybind = cmd+up=scroll_page_up
+keybind = cmd+down=scroll_page_down
+# Vim like
+keybind = ctrl+b=scroll_page_up
+keybind = ctrl+f=scroll_page_down
+
+# Make no focus 
+unfocused-split-opacity=0.5

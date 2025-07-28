@@ -31,8 +31,9 @@ https://openaccess.thecvf.com/content/CVPR<YEAR>/papers/<FIRST_AUTHOR>_<TITLE>_C
                                                  ^^^^^^                                          ^^^
 https://openaccess.thecvf.com/content/CVPR<YEAR>/html/<FIRST_AUTHOR>_<TITLE>_CVPR_<YEAR>_paper
                                                  ^^^^
-########## ICML #########
-# >>>> TRICKY <<<< URL is case sensitive!
+########## ICCV #########
+# >>>> TRICKY <<<< 
+# URL is case sensitive!
 https://openaccess.thecvf.com/content_ICCV_<YEAR>/papers/<AUTHOR>_<ShortName>_for_ICCV_<YEAR>_paper.pdf
                                       ^^^^        ^^^^^^                                            ^^^
 # Abstract
@@ -46,6 +47,7 @@ https://jmlr.org/papers/v<N>/<NAME>.html
                         ^           ^^^^
 ########## NeurIPS/NIPS #########
 # Note: Will download (PC's, please see note below)
+# Note: If this /paper/ url style doesn't work, try treating it like the other version
 https://papers.nips.cc/paper/<YEAR>/file/<HASH>-Paper.pdf
                             ^       ^^^^        ^^^^^ ^^^
 https://papers.nips.cc/paper_files/paper/<YEAR>/hash/<HASH>-Abstract.html

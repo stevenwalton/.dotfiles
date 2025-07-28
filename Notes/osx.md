@@ -10,6 +10,35 @@ Luckily we can always get around!
         Thread](https://archive.is/rG4xk)
 
 # Apps to Install
+When installing apps you might run into some problems, especially around XCode.
+You should install this from the AppStore, it seems to be the best way and CLI
+looks to change.
+But back to the CLI you likely need to do some things
+
+```bash
+# Accept the license (gcc won't work without)
+$ sudo xcodebuild -license
+# Might need to reset
+$ sudo xcode-select --reset
+# If you need to find a program location
+#    e.g. where is the cc compiler
+$ xcode -find cc
+#
+# Always run this
+$ xcodebuild -runFirstLaunch
+```
+
+If you run into `cmake` errors like below, you should try those
+
+```bash
+-- The C compiler identification is unknown
+-- The CXX compiler identification is unknown
+CMake Error at CMakeLists.txt:5 (project):
+  No CMAKE_C_COMPILER could be found.
+
+CMake Error at CMakeLists.txt:5 (project):
+  No CMAKE_CXX_COMPILER could be found.
+```
 
 ## Objective See Security Tools
 Here are some good security related apps from [Objective
