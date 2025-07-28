@@ -60,9 +60,6 @@ keybind = cmd+shift+s=toggle_secure_input
 # Better scrolling for mac
 keybind = cmd+up=scroll_page_up
 keybind = cmd+down=scroll_page_down
-# Vim like
-keybind = ctrl+b=scroll_page_up
-keybind = ctrl+f=scroll_page_down
 
 # Make no focus 
 unfocused-split-opacity=0.5
