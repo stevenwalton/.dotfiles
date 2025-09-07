@@ -67,4 +67,3 @@ keybind = cmd+down=scroll_page_down
 
 # Make no focus 
 unfocused-split-opacity=0.5
-keybind = shift+enter=text:\x1b\r
