@@ -240,6 +240,8 @@ let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')
 let g:gutentags_ctags_exclude = [
     \ 'wandb/',
     \ '[.]config/',
+    \ 'config/',
+    \ 'docs',
     \ '.git',
     \ '.DS_Store',
     \ '__*__',

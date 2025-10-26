@@ -45,7 +45,7 @@ declare -i CRF=${CRF}
 declare TMPDIR="${TMPDIR:-/tmp/}"
 # AV1 is currently one of the best encodings, so this is a good default
 declare FORMAT="${FORMAT:-av1}"
-declare BUFSIZE="10M"
+declare BUFSIZE="2M"
 # For using the `pv` command, which will show a progress bar
 declare -i USE_PV=${USE_PV:-0}
 declare -i HAS_PV=

@@ -480,4 +480,17 @@ $ ls -lt /var/cache/pacman/pkg | grep "nvidia"
 Remember that `pacman -Qi <package>` can be used to see when a package was
 installed (`pacman -Qi <package 1> ... <package n> | grep "Install Date"`)
 
+# Optimizations
+Some configurations you might want to implement
 
+## RAM / Swap
+There's a lot of memory modifications that you might want to do.
+Check out `sysctl -a | grep -E "^vm"`
+If you have a lot of ram them you shouldn't need to be adding things to swap
+very much
+Change the [swappiness](https://wiki.archlinux.org/title/Swap#Swappiness)
+([also](https://man.archlinux.org/man/sysctl.d.5))
+
+```bash
+# /etc/sysctl.d/99-swappiness.conf
+vm.swappiness = 10

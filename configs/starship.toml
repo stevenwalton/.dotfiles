@@ -65,13 +65,14 @@ disabled = false# Disabled by default
 # Symbols can be found at 
 # https://www.nerdfonts.com/cheat-sheet
 [os.symbols]
-Arch = "󰣇 "
+Arch = "󰣇\\(\\) "
 Linux = " "
+EndeavourOS = "\\(\\) "
 Macos = " "
-Manjaro = "󱘊 "
-Pop = " "
-Raspbian = " "
-Ubuntu = " "
+Manjaro = "\\(󱘊\\) "
+Pop = "\\(\\) "
+Raspbian = "\\(\\) "
+Ubuntu = "\\(\\) "
 
 [hostname]
 ssh_only = false
