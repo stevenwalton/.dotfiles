@@ -84,6 +84,9 @@ The project is organized as follows
         <a href="vim.md">vim.md</a>:
 			 Actually write down those cool vim commands so you can remember them next time -__-
     </li>
+    <li>
+        <a href="website.md">website.md</a>
+    </li>
 </ul>
 ------------------------------------------------------------
 

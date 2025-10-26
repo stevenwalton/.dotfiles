@@ -62,6 +62,9 @@ call plug#begin()
     "Plug '3rd/image.nvim'
     " Edit notebooks
     Plug 'goerz/jupytext.nvim' ", { 'on': What goes here? JSON? Or Python?}
+    " Python Cells for running blocks
+    Plug 'jpalardy/vim-slime', { 'for': 'python' }
+    Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     "                               Commands
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -179,6 +182,8 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
                 \ 'Clean'     :'🧼',
                 \ 'Unknown'   :'❓',
                 \ }
+" Ipython Cells
+let g:slime_target = 'neovim'
  
 " tagbar settings
 " -------------------- 
@@ -338,6 +343,7 @@ let g:git_messenger_include_diff=1
 " font directory
 let g:airline_powerline_fonts = 1
 let g:airline_theme='spaceduck'
+
 
  
 " Markdown Preview
