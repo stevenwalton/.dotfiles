@@ -15,4 +15,6 @@ rc_files/vim/*
 !rc_files/vim/custom
 configs/yazi/plugins/
 configs/yazi/flavors/
+configs/yazi/*.toml-*
 rc_files/vim/after/
+

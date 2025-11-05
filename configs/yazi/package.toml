@@ -1,0 +1,37 @@
+[[plugin.deps]]
+use = "yazi-rs/plugins:git"
+rev = "de53d90"
+hash = "63b6c222bf2103b3023389dde5e2ecfe"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:diff"
+rev = "de53d90"
+hash = "47865a70cade14a0b9b6bc6a54f16bdb"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:full-border"
+rev = "de53d90"
+hash = "3996fc74044bc44144b323686f887e1"
+
+[[plugin.deps]]
+use = "AnirudhG07/nbpreview"
+rev = "7fb073f"
+hash = "a3e32d62ea3cc703e6bf677bdb18a544"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:toggle-pane"
+rev = "de53d90"
+hash = "d6f60c24d8c0cf57a855bf46115b2502"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:mime-ext"
+rev = "de53d90"
+hash = "4c49c446328c4553a4ccab7facc10b21"
+
+[[plugin.deps]]
+use = "boydaihungst/mediainfo"
+rev = "0e2ae47"
+hash = "6656f2869ae2274a0e1860876f15186f"
+
+[flavor]
+deps = []
