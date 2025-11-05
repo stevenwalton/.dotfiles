@@ -306,6 +306,118 @@ jazz.
 To show your machines, run `machinectl list`.
 See `man machinectl` for more information.
 
+### Some Helpful Things
+You might want to be using nspawns for older systems and testing packages over
+there, so it is helpful to have the codenames. 
+Remember to install the appropriate keyrings
+
+```bash
+[ host ]$ yay -S ubuntu-keyring
+[ host ]$ yay -S debian-archive-keyring
+# Non-archive version, requires AUR
+[ host ]$ yay -S debian-keyring
+```
+- [Ubuntu Release Codenames](https://wiki.ubuntu.com/DevelopmentCodeNames)
+- [Debian Release Codenames](https://www.debian.org/releases/)
+
+For example, you may want to do the following to install Ubuntu 22.04, since for
+some reason people still use it in 2025!
+
+```bash
+[ host] # debootstrap --include=dbus,libpam-systemd,libnss-systemd jammy /var/lib/machines/ubuntu-jammy
+```
+
+### Networking Issues
+Note that networking might also have issues.
+Make sure that the nspawn is running networkd[^1]
+
+[^1]: In a test I found that on Ubuntu Jammy (22.04) resolved was not running by
+    default, but it was on Ubuntu Noble (24.04). For Noble all I needed to do
+    was edit the DNS in `/etc/systemd/resolved.conf`, as discussed further on.
+
+```bash
+[ root@nspawn ] # systemctl status systemd-networkd
+[ root@nspawn ] # systemctl status systemd-resolved
+```
+
+If you see a `NET_CAP_ADMIN` warning in `systemd-networkd` then add it to the
+capabilities:
+
+```bash
+[ host ] # systemd-nspawn --capability=CAP_NET_ADMIN -bD /var/lib/foo-machine
+```
+
+It is also possible that `firewall-cmd` is blocking things.
+If that seems to be the case then on the host machine run `ip a` to see if there
+is a network interface, such as `ve-my-nspawns-name@something`.
+This is more likely if you started with the `-n` flag.
+[See here for more
+info](https://unix.stackexchange.com/questions/199966/how-to-configure-centos-7-firewalld-to-allow-docker-containers-free-access-to-th/225845#225845)
+
+```bash
+# Simple verison
+[ host ] # firewall-cmd --zone=trusted --add-interface=ve-my-nspawns-name
+[ host ] # firewall-cmd --reload
+```
+You will need to reboot the container too
+
+#### DNS
+There also might be a DNS error (it's always DNS...).
+You'll know this if you can run `ping -c1 1.1.1.1` or `ping -c1 8.8.8.8`
+(unlikely that both CloudFlare *and* Google are down!)
+but not `ping -c1 google.com`.
+Let's check the journal on the container
+(remember the `-u` flag will let us look at the journal for a single service)
+
+```bash
+[ root@nspawn ] # journalctl -u systemd-resolved
+[ root@nspawn ] # journalctl -u systemd-networkd
+```
+
+Let's also try the following
+
+```bash
+[ root@nspawn ] # resolvectl query google.com
+[ root@nspawn ] # resolvectl domain
+# If this isn't working we can also try
+[ root@nspawn ] # getent ahosts google.com
+# If all else fails let's manually look at /etc/resolv.conf
+[ root@nspawn ] # cat /etc/resolve.conf
+```
+
+I ran into an issue where I had something like
+
+```bash
+[ root@nspawn ] # cat /etc/resolv.conf
+nameserver 127.0.0.53
+options edns0 trust-ad
+search .
+```
+
+This did not work until I added the [CloudFlare
+nameserver](https://developers.cloudflare.com/1.1.1.1/ip-addresses/).
+([Quad9 info](https://quad9.net/service/service-addresses-and-features/))
+
+```bash
+[ root@nspawn ] # cat /etc/resolv.conf
+nameserver 127.0.0.53
+# This Cloudflare version blocks malware
+nameserver 1.1.1.2
+options edns0 trust-ad
+search .
+```
+
+You can either edit `/etc/resolv.conf` directly or it is better to edit
+`/etc/systemd/resolved.conf`
+
+```bash
+# /etc/systemd/resolved.conf Example
+[Resolve]
+DNS=1.1.1.2 1.0.0.2
+FallbackDNS=9.9.9.9
+```
+
+
 ## Why?
 Why would you want this?
 Virtual machines use a lot of resources.
