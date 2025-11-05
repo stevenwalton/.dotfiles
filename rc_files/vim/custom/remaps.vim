@@ -20,22 +20,56 @@ command Status normal! :!git status<CR>
 " drop NerdTree. There's info about remote connections and 
 " even bookmarks...
 " Thanks: https://shapeshed.com/vim-netrw/
+"
+" Quick NetRW commands you might forget about/not know
+" :help netrw-quickmap
+" Key   | Action
+" " Navigation
+" -     | move up one dir
+" gb    | goto previous bookmarked dir
+" o     | open in split
+" r     | reverse sort
+" " Actions
+" p     | preview
+" d     | make directory
+" %     | open new file in current dir
+" qf    | query file
+" a     | hide/unhide
+" cd    | current directory = browsing directory
+" R     | rename
+" " Bookmarks
+" qb    | list bookmarked dirs and hist
+" mb    | bookmark directory
+" mc    | copy marked files to target directory
+" md    | diff marked files
+" mf/mF | mark/unmark file
+" mu    | unmark all files
+"
 " Hide banner
+" Toggle with I
 let g:netrw_banner = 0
 " Tree style listing
-let g:netrw_liststyle = 3
+" use `gn` to make dir under cursor tree root when using 3
+let g:netrw_liststyle = 1
+" Human readable sizes when showing files
+let g:netrw_sizestyle = 'H'
 " Hide these files (regex)
 let g:netrw_list_hide = '.*\.sw[op]$'
 " Open like previous window
+" 0 = reuse window (default)
+" 1 = new horiz split
+" 2 = new vert split
+" 3 = new tab
+" 4 = prev window
 let g:netrw_browse_split = 0
 " Preview file
 let g:netrw_preview = 1
+"" Preview file takes 70% of screen (affects :Vex too)
+"let g:netrw_winsize = 30
 "let g:netrw_winsize = 15
 " Split to right (Need altv = 1 AND alto = 0)
 let g:netrw_altv = 1
 let g:netrw_alto = 0
-" Human readable sizes
-let g:netrw_sizestyle = 'H'
 
 " Open all buffers in a new tab (open bunch of files then run this)
 command Buf2Tab normal! :bufdo tab split<CR>
