@@ -5,6 +5,10 @@ using it.
 # Some Random Stuff For Noobs
 Wonder what all those files in `/` are? `man hier`
 
+If your machine has an Nvidia graphics car then you probably want >1GB on the
+`/efi` partition.
+Drivers are getting large so... yeah...
+
 ## PATH and sudo
 So you added a binary to `$PATH` and tried to do `sudo <cmd>` but it doesn't
 work.

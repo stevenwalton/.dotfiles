@@ -10,35 +10,6 @@ Luckily we can always get around!
         Thread](https://archive.is/rG4xk)
 
 # Apps to Install
-When installing apps you might run into some problems, especially around XCode.
-You should install this from the AppStore, it seems to be the best way and CLI
-looks to change.
-But back to the CLI you likely need to do some things
-
-```bash
-# Accept the license (gcc won't work without)
-$ sudo xcodebuild -license
-# Might need to reset
-$ sudo xcode-select --reset
-# If you need to find a program location
-#    e.g. where is the cc compiler
-$ xcode -find cc
-#
-# Always run this
-$ xcodebuild -runFirstLaunch
-```
-
-If you run into `cmake` errors like below, you should try those
-
-```bash
--- The C compiler identification is unknown
--- The CXX compiler identification is unknown
-CMake Error at CMakeLists.txt:5 (project):
-  No CMAKE_C_COMPILER could be found.
-
-CMake Error at CMakeLists.txt:5 (project):
-  No CMAKE_CXX_COMPILER could be found.
-```
 
 ## Objective See Security Tools
 Here are some good security related apps from [Objective
@@ -62,7 +33,7 @@ This happened faster and more reliably when using `tmux`.
 Turns out that the problem is actually LuLu.
 Uninstall it and see if the problem goes away.
 
-# Taking Back Control
+# Taking Back Control/Using OSX like Linux
 Apple is quite annoying in that there's always an "Apple Way".
 Apple engineers, if you are reading this, stop trying to cut off power users!
 Developers are power users, YOU are power users!
@@ -81,30 +52,21 @@ It can be hard to figure out what your Mac is doing and how to edit system files
 because there's so little documentation and it is hard to search.
 So let's talk first about how to find out what your system is doing
 
-## WiFi
-This is always annoying and since Sequoia it seems there's no way to set WiFi
-network preference.
-This has me pissed...
+## Launchctl
+Launchd is a lot like systemd, but with a lot more boilerplate tags.
+This is the preferred  way to do things rather than using services like `cron`.
 
-```bash
-# list your hardware devices
-# similar to ipaddr but condensed
-networksetup -listallhardwarereports
-# Show the Wifi Preference Order (assuming en0 is interface)
-networksetup -listpreferredwirelessnetworks en0
-# Remove things from this preferred list
-# You unfortuntely need to do this one at a time... because... apple...
-# This is just equivalent to removing from "Known Networks"
-sudo networksetup -removepreferredwirelessnetwork en0 "Network to remove"
-# According to this page you can reorder this way
-# https://discussions.apple.com/thread/254613298?sortBy=rank
-sudo networksetup -addpreferredwirelessnetworkatindex en0 "Your SSID here" 0
-<Optional security, e.g. WPA2> "Your wifi password"
-```
-You ***MUST*** use either password or the security for this to work.
-You ***MUST*** also remove it from the list to put it in an order...
-This seems to be the way to get ordering and you cannot reorder without
-deleting.
+First, we need to know how to work with applications.
+The way to do this is to open `Script Editor` and then `Open Dictionary` and
+hope that the application you want to work with has a dictionary.
+For an example of this you can try the caffine app and you'll be able to see how
+I use the commands in the [caffeine.scpt](../scripts/OSX/caffeine.scpt) to be
+able to then control caffeine from the cli. 
+
+Note that not all programs will have a dictionary, so we'll need to get a bit
+more creative.
+
+- [Scheduling Timed Jobs (systemd timer)](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/ScheduledJobs.html#//apple_ref/doc/uid/10000172i-CH1-SW2)
 
 ## Understanding System Files
 Your most important directory might be `/System`
@@ -161,3 +123,4 @@ $ ls /System/
 |--  VM
 |--  xarts
 ```
+

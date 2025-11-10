@@ -56,11 +56,22 @@ function config_pkgmgr() {
     fi
 }
 
+function ydotool() {
+    if (_exists ydotool)
+    then
+        if [[ "$#" -gt 2 ]] && [[ "$2" == "enter" ]]
+        then
+            ydotool type "${@:2}" && ydotool key 28:1 28:0
+        fi
+    fi
+}
+
 main() {
     config_general || echo "General linux config failed"
     config_cuda || echo "Cuda config failed"
     config_nvidia || echo "Nvidia configurations failed"
     config_pkgmgr || echo "Package manager not conifgured properly"
+    ydotool || echo "Ydotool alias failed"
 
 }
 
