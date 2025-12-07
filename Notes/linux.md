@@ -375,6 +375,24 @@ Now you can mount the efi partition
 Notice that the images are quite large. Kinda unfortunate.
 You can reinstall the kernels with the following command
 
+If you need some more space you can delete the `initrd-fallback` versions that
+you'll see in the kernel folders.
+These versions are typically larger because they'll work even if some hardware
+changes.
+
+<details>
+<summary>Note</summary>
+
+This is helpful where some part actually dies and you need to replace it.
+But for most people this probably doesn't matter. You can still always recover
+by chrooting in. You can turn this off by making
+`/usr/lib/kernel/install.d/50-dracut-fallback.install` not executable. (`chmod -x`).
+Otherwise these will reinstall when you do the `reinstall-kernels` command. But
+if you're short on space then clearing first might give you enough to rebuild
+properly.
+
+</details>
+
 ```bash
 # reinstall-kernels
 ```
@@ -386,7 +404,7 @@ kernel-install on whatever is found from
 
 You might run into a problem where you run out of space on /efi
 If this happens you can remove a kernel with the following 
-(we'll imagine we have the kerenl 6.10.1-arch1-1)
+(we'll imagine we have the kernel 6.10.1-arch1-1)
 
 ```bash
 # kernel-install -v remove 6.10.1-arch1-1
