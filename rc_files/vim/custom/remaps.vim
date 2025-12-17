@@ -194,9 +194,12 @@ function! MarkdownSettings()
 endfunction
 
 " ===== Calls
-autocmd FileType py call PythonSettings()
-autocmd FileType c,cpp,tex call MakeSettings()
-autocmd FileType c call CSettings()
-autocmd FileType cpp call CPPSettings()
-autocmd FileType tex call TexSettings()
-autocmd FileType md call MarkdownSettings()
+" These are moved over to associated ~/.vim/ftplugin files
+" See:
+" https://learnvimscriptthehardway.stevelosh.com/chapters/42.html#plugin-layout-in-the-dark-ages
+"autocmd FileType py call PythonSettings()
+"autocmd FileType c,cpp,tex call MakeSettings()
+"autocmd FileType c call CSettings()
+"autocmd FileType cpp call CPPSettings()
+"autocmd FileType tex call TexSettings()
+"autocmd FileType md call MarkdownSettings()

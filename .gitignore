@@ -13,6 +13,7 @@ api_keys/
 !vim/bundle/Vundle.vim
 rc_files/vim/*
 !rc_files/vim/custom
+!rc_files/vim/ftplugin
 configs/yazi/plugins/
 configs/yazi/flavors/
 configs/yazi/*.toml-*

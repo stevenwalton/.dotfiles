@@ -27,3 +27,7 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 # Enable tab completion when flag has an equal sign
 setopt magic_equal_subst
 
+if (_exists ty)
+then
+    eval "$(ty generate-shell-completions zsh)"
+fi

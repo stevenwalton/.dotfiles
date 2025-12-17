@@ -54,6 +54,7 @@ Let's fix that right up!
 " And the code lines
 :%s/\_^\(\s*\)\(.*\)\s*#\(.*\)\/\(.*\)$/\1#\3\r\1#\4\r\1\2/g
 ```
+
 I was a bit surprised we didn't need non-greedy matching and there seemed to be
 some oddities due to the character encoding (trivial one being `\w+` doesn't
 work, but other things were off...).
@@ -73,3 +74,30 @@ class Foo:
         a = 1 
 ```
 Much cleaner!
+
+# Some Under Appreciated Commands!
+
+## Formatting
+### Unwrap Text
+Go you know about `gqq`, `gww`, or `gqip`? 
+You really should be using them!
+Especially if you are using a line limit (like me).
+
+Try this:
+
+Visually select several paragraphs and then hit `gqq` (or `gww` ;).
+It'll line wrap everything!
+
+You can remember these with motion concepts.
+So `gqip` is "gq in paragraph" and `gqap` is "gq after paragraph" because you'll
+start 
+
+### Justify Text (Center, Left, Right)
+Whatever your text says you can center it like `:ce80`.
+This will center it at 80 character width (as if the page length is 80 chars).
+Want to do magic?
+
+You can also use `:ri` and `:le` for right and left respectively.
+I'll often use `gqip:le` to fix those annoying tabbing issues.
+Much easier than spamming `<`.
+Remember `<` and `>` will shift lines left and right.
