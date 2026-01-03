@@ -1,5 +1,6 @@
 #!/bin/bash
 TIMEOUT=4000
+ICON=/usr/share/endeavouros/EndeavourOS-icon.png
 
 CheckOrphans() {
     pacman -Qdtq
