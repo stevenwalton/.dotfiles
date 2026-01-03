@@ -29,5 +29,5 @@ setopt magic_equal_subst
 
 if (_exists ty)
 then
-    eval "$(ty generate-shell-completions zsh)"
+    eval "$(ty generate-shell-completion zsh)"
 fi

@@ -49,8 +49,8 @@ parse_metrics() {
 }
 
 usage() {
-    cat << EOF 
-A simple script to print your google scholar metrics.
+    cat <<- EOF 
+    A simple script to print your google scholar metrics.
 
 Usage: ./get_academic_metrics.sh [OPTIONS]
 
