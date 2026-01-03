@@ -134,6 +134,8 @@ ffprobe_info() {
     FFINFO=$(ffprobe -v error \
         -select_streams v:0 \
         -show_entries stream="${1}" \
+        -analyzeduration 5000M \
+        -probesize 5000M \
         -of csv=p=0 \
         "${2}")
     if [[ "$?" -ne 0 ]];
@@ -267,7 +269,7 @@ encode_av1() {
     else
         VIDEO_CODEC="libaom-av1"
     fi
-    AOPTS="-preset p6 -lookahead_level 2 -highbitdepth 1 -surfaces 16"
+    AOPTS="-preset p6 -lookahead_level 2 -highbitdepth 1 -surfaces 64"
     ffencode "${INPUT_FILE}" "${OUTPUT_FILE}"
 }
 

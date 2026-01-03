@@ -516,3 +516,25 @@ Change the [swappiness](https://wiki.archlinux.org/title/Swap#Swappiness)
 ```bash
 # /etc/sysctl.d/99-swappiness.conf
 vm.swappiness = 10
+
+# Mail
+Mail can be pretty useful for sending error messages and notifying users as well
+as sending messages to other users on the system.
+
+`mail` should be installed but you might want to add `postfix`.
+This might not be installed.
+You'll need to do
+
+```bash
+$ sudo pacman -S postfix
+$ sudo systemctl enable --now postfix
+$ sudo touch /var/spool/mail/$(whoami)
+$ sudo chown $(whoami):mail /var/spool/mail/$(whoami)
+$ sudo chmod 600 /var/spool/mail/$(whoami)
+```
+
+Now we can send mail and to the stdout at the same time like
+
+```bash
+$ echo "Hello world" | tee >(mail -s "Test Msg" $(whoami))
+```

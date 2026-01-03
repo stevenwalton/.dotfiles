@@ -1,0 +1,9 @@
+[Trigger]
+Operation = Install
+Type = Package
+Target = *
+
+[Action]
+Description = Checks the news when upgrading and sends to mail if there is
+When = PostTransaction
+Exec = /etc/pacman.d/scripts/pacman-orphans.sh

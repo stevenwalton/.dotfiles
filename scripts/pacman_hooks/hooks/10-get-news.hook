@@ -1,0 +1,10 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = *
+
+[Action]
+Description = Checks the news when upgrading and sends to mail if there is
+When = PreTransaction
+Exec = /etc/pacman.d/scripts/news-hook.sh
