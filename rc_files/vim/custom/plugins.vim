@@ -51,7 +51,7 @@ call plug#begin()
     "Plug 'rhysd/git-messenger.vim'         (Redundant via gitgutter?)
     " Opens a browser to show a preview of markdown doc
     " Note: this doesn't like running manually :/
-    Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
+    Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
     " Increased syntax highlighting for nerdtree
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' }
     " Integration for git with nerdtree
