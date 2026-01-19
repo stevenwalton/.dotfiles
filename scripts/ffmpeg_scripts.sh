@@ -26,6 +26,25 @@
 # You can see the available commands for each encoder using the following
 # command (av1_nvenc is an example)
 #   ffmpeg -hide_banner -h encoder=av1_nvenc | bat --language=help
+#
+# To effectively use this script you probably want to run it in a loop in a
+# directory with shows or movies.
+# I don't include that feature here because when doing shows you probably are
+# wanting to rename them.
+# Here's an example of how you might want to use this in a loop
+#
+# while IFS= LC_ALL=C read -r -d '' file;
+# do
+#   new_file=$(echo "${file:2}" | sed -E "s/(.* - S01E[01][0-9] - .*) \(.*/\1.mkv/g")
+#   </dev/null encode_av1 "${file}" "new_location/${new_file}"
+# done < <(find . -maxdepth 1 -type f '*.mkv' -print0)
+#
+# We use the `</dev/null` prefix to help make sure that nothing else is going
+# into the command.
+# You might get errors without it
+#
+# Also a helpful tip:
+# ffmpeg -i "some_movie.mp4" -c copy -c:s ssa "some_movie.mkv"
 ################################################################################
 # Recommended 10-20 frames for optimal quality benefits
 # More requires more memory (we don't care....)

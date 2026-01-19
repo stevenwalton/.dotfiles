@@ -7,7 +7,10 @@ ICON=/usr/share/endeavouros/EndeavourOS-icon.png
 
 # Checks news and writes to file descriptor 3
 CheckNews() {
-    /usr/bin/yay -Pw 2>&1
+    # Downgrade privileges
+    sudo -u "$SUDO_USER" /usr/bin/yay -Pw 2>&1 /dev/null
+    # Use this for debugging 
+    #echo "This is fake news"
 }
 
 # Send mail to a specific user
@@ -40,14 +43,22 @@ Main() {
     #DesktopNotification "This is a test"
     #SendMail steven "This is a test"
 
+    echo -e "\033[1;31mRunning Pacman Pretransaction Hooks\033[0m"
+    echo -e "\033[1;33mChecking AUR News...\033[0m"
+    #CheckNews
     local news=$(CheckNews)
     # Return if there's no news
-    if [ -n "news" ];
+    if [ -z "news" ];
     then
-        return
+        echo -e "\033[1;31mThere is no AUR News\033[0m"
+        return 0
     fi
-    for user in "${MAIL_USERS}";
+    echo -e "\033[1;31mHere is the news\033[0m"
+    echo -e "\033[1;33m${news}\033[0m"
+    echo -e "\033[0m"
+    for user in "${MAIL_USERS[@]}";
     do
+    	echo "Sending mail to user ${user}"
         SendMail "${user}" "${news}"
     done
     DesktopNotification "${news}"
