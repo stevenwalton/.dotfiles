@@ -1,3 +1,5 @@
+# Note:
+# There are .gitignore files in specific directories to handle those programs
 *.sw?
 ~*
 .netrwhist
@@ -8,14 +10,3 @@ tags
 # LOL No. Good try
 api_keys/
 *.api
-# Ignore vim special directories
-*/vim/bundle*
-!vim/bundle/Vundle.vim
-rc_files/vim/*
-!rc_files/vim/custom
-!rc_files/vim/ftplugin
-configs/yazi/plugins/
-configs/yazi/flavors/
-configs/yazi/*.toml-*
-rc_files/vim/after/
-

@@ -16,14 +16,17 @@
 #  "@^\UF703" = "noop";
 #}
 # https://github.com/ghostty-org/ghostty/discussions/5521#discussioncomment-12306028
+#
+# Use nightly version
+auto-update-channel = tip
 
 # Commented out ones I like but playing around
- theme = duckbones
+# Use `ghostty +list-themes` to see them
+theme = duckbones
 #theme = tokyonight
 #theme = Firefly Traditional
 #theme = 3024 Night
 #theme = Abernathy
-#quick-terminal-position = center
 
 mouse-hide-while-typing=true
 # Set opacity to 80%
@@ -41,32 +44,80 @@ shell-integration-features=sudo,ssh-env,ssh-terminfo
 ################################################################################
 #                               Keybindings
 ################################################################################
-# Restore <C-[> as being alias for ESC
-keybind = ctrl+left_bracket=text:\x1b
-
 # Shortcut to open editor with $EDITOR instead of notepad
 keybind = cmd+,=text:${EDITOR} ${HOME%/}/.config/ghostty/config \r
-#                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^    Paste text into term
-#                                                               ^^ hit enter
+#                   ########################################
+#                                    Fixes
+#                   ########################################
+# Restore <C-[> as being alias for ESC
+# https://ghostty.org/docs/config/keybind/reference#csi
+keybind = ctrl+left_bracket=text:\x1b
 
-###
-### Global Keybinds (works even outside Ghostty)
-###
-
+#                   ########################################
+#                               Global Keybinds 
+#                         (works even outside Ghostty)
+#                   ########################################
 # Quick Terminal (pops down from top)
 # Would use t but uncomfortable so [ like ESC
 #keybind = global:cmd+alt+[=toggle_quick_terminal
 keybind = global:alt+[=toggle_quick_terminal
+#quick-terminal-position = center
+
 # ctrl+cmd+t for new terminal window (even when ghostty isn't in focus)
-keybind = global:ctrl+cmd+t=new_window
+#keybind = global:ctrl+cmd+t=new_window
+keybind = global:alt+shift+t=new_window
+#                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^    Paste text into term
+#                                                               ^^ hit enter
+#                   ########################################
+#                                 Adjust Pane
+#                   ########################################
+keybind = ctrl+cmd+left=resize_split:left,20
+keybind = ctrl+cmd+right=resize_split:right,20
+keybind = ctrl+cmd+up=resize_split:up,20
+keybind = ctrl+cmd+down=resize_split:down,20
 
-# toggle secure input
-keybind = cmd+shift+s=toggle_secure_input
+# Rename the title of the surface (tab,window,etc)
+keybind = ctrl+alt+n=prompt_surface_title
 
+#                   ########################################
+#                                  Scrolling
+#                   ########################################
 # Better scrolling for mac
 keybind = cmd+up=scroll_page_up
 keybind = cmd+down=scroll_page_down
+# Scroll half pages (right for forward, left for back)
+keybind = cmd+right=scroll_page_fractional:0.5
+keybind = cmd+left=scroll_page_fractional:-0.5
+# Same thing but vim-like bindings 
+# If we use actual vim bindings ghostty takes over... :(
+# Issue is being worked on so these should work later
+# (Does not work as of 1.3.0)
+#   https://github.com/ghostty-org/ghostty/issues/4328
+#keybind = performable:ctrl+F=scroll_page_fractional:0.5
+#keybind = performable:ctrl+B=scroll_page_fractional:-0.5
 
-# Make no focus 
+#                   ########################################
+#                                 Copy Actions
+#                   ########################################
+# Actions to copy and select from sections of cli
+# These will write to a tmp file which the path will be in the clipboard
+# Write entire scrollback to file
+#keybind = ctrl+s=write_scrollback_file:copy
+# Write contents of screen to file
+keybind = cmd+shift+s=write_screen_file:copy
+# Write selection to file
+#   This shouldn't be needed but whatever
+keybind = alt+shift+s=write_selection_file:copy
+#                   ########################################
+#                                     Misc
+#                   ########################################
+# toggle secure input
+keybind = cmd+shift+s=toggle_secure_input
+
+# Adjust opacity of unfocused pane
 unfocused-split-opacity=0.5
+# Why did I implement this?
+#   It does esc + enter?
+#   Signals end of command?
 keybind = shift+enter=text:\x1b\r
+

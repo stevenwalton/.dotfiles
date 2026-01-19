@@ -417,6 +417,83 @@ DNS=1.1.1.2 1.0.0.2
 FallbackDNS=9.9.9.9
 ```
 
+## Loading Arbitrary Images
+So `pacstrap` and `debootstrap` will help us get our Arch, Debian, and Ubuntu
+distros but suppose we want to do arbitrary OSes?
+Play around with [DistroWatch](https://distrowatch.com/)?
+
+We can also straight up download images from the internet and launch them.
+This makes the experience similar to Docker, if the image is distributed
+correctly.
+Our `-M` flag will cause them to land in `/var/lib/machines`.
+
+```bash
+# # For testing see this link:
+# #    https://cloud-images.ubuntu.com/jammy/current/
+# # We'll name machines JammyTest, so they can be launched via
+# # systemd-nspawn -M JammyTest
+
+# # .tar.xz file (or .tar{,.gz,bz2})
+# importctl pull-tar -mN \
+    https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64-root.tar.xz \
+        JammyTest
+
+# # .img file
+# # This needs to be a QCow2 (as below) or raw disk image, but can be compressed 
+# importctl pull-raw -mN \
+    https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64-disk-kvm.img
+\
+        JammyTest
+# # You can launch with systemd-nspawn like normal but you can also set the root
+# #   password like this.
+# # It'll launch a TUI prompting you to enter a root password
+# # Note: You *must* use --force
+# systemd-firstboot \
+            --image=/var/lib/machines/JammyTest.raw \ 
+            --prompt-root-password \
+            --force
+```
+
+Let's look at something a bit harder...
+We can see [CachyOS](https://cachyos.org/download/) provides an iso file for
+creating a LiveCD.
+You'll have to right click their download to get the link.
+Note here that currently this gives the url
+`https://cdn77.cachyos.org/ISO/desktop/251129/cachyos-desktop-linux-251129.iso`
+but that
+`https://cdn77.cachyos.org/ISO/desktop/251129/` gives a 404.
+This is unfortunately common and we may not have the nice directories like more
+professional distros like Debian.
+Here we won't be able to use `importctl`, but if we could we'd have to add the
+flag `--verify=no` because the lack of a public file structure prevents finding
+the checksum in the way `importctl` expects.
+
+We'll grab the iso, mount it, find the root filesystem, then convert it
+
+```bash
+$ wget https://cdn77.cachyos.org/ISO/desktop/251129/cachyos-desktop-linux-251129.iso
+$ sudo mkdir /mnt/iso
+$ sudo mount -o loop cachyos-desktop-linux-251129.iso /mnt/iso
+$ # now we need to find the squashfs which contains the actual image
+$ find /mnt/iso -name "*.sfs"
+/mnt/iso/arch/x86_64/airootfs.sfs
+$ # We'll need squashfs-tools: pacman -S squashfs-tools
+$ sudo unsquashfs -d /var/lib/machines/CachyOS /mnt/iso/arch/x86_64/airootfs.sfs
+$ sudo systemd-nspawn -M CachyOS
+$ # Note: we can also boot and by using the loginid `liveuser` we don't 
+$ #     need a password
+$ sudo systemd-nspawn -Mb CachyOS
+```
+
+This is a bit stupid since we've just extracted a LiveCD and so have all the
+problems of a LiveCD.
+We could fix that by recognizing that CachyOS is just [Arch with some different
+mirrors](https://github.com/CachyOS/docker/blob/master/Dockerfile) so we
+could just `pacstrap`, setup the mirrors, and follow the instructions from that
+docker file.
+
+Reminder: check `/etc/resolv.conf` on the spawn *and* your host computer.
+This seems to be an annoying issue and is resolved by changing `nameserver`.
 
 ## Why?
 Why would you want this?
