@@ -107,10 +107,7 @@ make_toc() {
     # Find the md files that aren't called "README"
     # and put them into an HTML list format
     # <ul> and </ul> are located above
-    #find "${DOTFILE_DIR%/}/${README_DIR%/}" \
-    # Run this from the Notes directory or we'll need to upgrade this command to
-    # parse out the full path name so that it can remain relative
-    find . \
+    find "${DOTFILE_DIR%/}/${README_DIR%/}" \
             -type f \
             ! -name "README.md" \
             -name "*.md" \
@@ -157,20 +154,8 @@ fun_comment() {
     echo "Random fun stuff like Star Wars in the cli"
 }
 
-ghostty_comment() {
-    echo "Some notes about ghostty, tbh there isn't much here"
-}
-
 git_comment() {
     echo "Some helpful git information, such as decreasing repo size"
-}
-
-gpg_comment() {
-    echo "GPG is a bit confusing"
-}
-
-latex_comment() {
-    echo "Some more esoteric latex stuff like how to find docs and some resources."
 }
 
 linux_comment() {
@@ -219,10 +204,6 @@ thunderbird_comment() {
 
 vim_comment() {
     echo "Actually write down those cool vim commands so you can remember them next time -__-"
-}
-
-website_comment() {
-    echo "Setting up website with github pages, integrating with cloudflare (https), and getting email forwarding"
 }
 
 
