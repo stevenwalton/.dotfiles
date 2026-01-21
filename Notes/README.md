@@ -24,17 +24,20 @@ The project is organized as follows
 			 Random fun stuff like Star Wars in the cli
     </li>
     <li>
-        <a href="ghostty.md">ghostty.md</a>
+        <a href="ghostty.md">ghostty.md</a>:
+			 Some notes about ghostty, tbh there isn't much here
     </li>
     <li>
         <a href="git.md">git.md</a>:
 			 Some helpful git information, such as decreasing repo size
     </li>
     <li>
-        <a href="gpg.md">gpg.md</a>
+        <a href="gpg.md">gpg.md</a>:
+			 GPG is a bit confusing
     </li>
     <li>
-        <a href="latex.md">latex.md</a>
+        <a href="latex.md">latex.md</a>:
+			 Some more esoteric latex stuff like how to find docs and some resources.
     </li>
     <li>
         <a href="linux.md">linux.md</a>:
@@ -85,7 +88,500 @@ The project is organized as follows
 			 Actually write down those cool vim commands so you can remember them next time -__-
     </li>
     <li>
-        <a href="website.md">website.md</a>
+        <a href="website.md">website.md</a>:
+			 Setting up website with github pages, integrating with cloudflare (https), and getting email forwarding
+    </li>
+    <li>
+        <a href="%Users%steven%.dotfiles%configs%neomutt%README.md">%Users%steven%.dotfiles%configs%neomutt%README.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%.dotfiles%Notes%bashing_around.md">%Users%steven%.dotfiles%Notes%bashing_around.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%.dotfiles%Notes%extras%iOS_daemons.md">%Users%steven%.dotfiles%Notes%extras%iOS_daemons.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%.dotfiles%Notes%gpg.md">%Users%steven%.dotfiles%Notes%gpg.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%.dotfiles%Notes%latex.md">%Users%steven%.dotfiles%Notes%latex.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%.dotfiles%Notes%networking.md">%Users%steven%.dotfiles%Notes%networking.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%.dotfiles%Notes%osx.md">%Users%steven%.dotfiles%Notes%osx.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%.dotfiles%Notes%phones.md">%Users%steven%.dotfiles%Notes%phones.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%.dotfiles%Notes%research_tricks.md">%Users%steven%.dotfiles%Notes%research_tricks.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%.dotfiles%Notes%systemd.md">%Users%steven%.dotfiles%Notes%systemd.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%.dotfiles%skeletons%systemd%README.md">%Users%steven%.dotfiles%skeletons%systemd%README.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%deep_research_susannah.md">%Users%steven%deep_research_susannah.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Documents%emailLeaks.md">%Users%steven%Documents%emailLeaks.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Documents%Research%ResearchNotes%Ideas.md">%Users%steven%Documents%Research%ResearchNotes%Ideas.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Documents%Research%Submissions%Distilling">%Users%steven%Documents%Research%Submissions%Distilling</a>
+    </li>
+    <li>
+        <a href="Normalizing">Normalizing</a>
+    </li>
+    <li>
+        <a href="Flows%CVPR">Flows%CVPR</a>
+    </li>
+    <li>
+        <a href="25%NoteToAC.md">25%NoteToAC.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%machines.md">%Users%steven%machines.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Fun%3D">%Users%steven%Programming%Fun%3D</a>
+    </li>
+    <li>
+        <a href="Printing">Printing</a>
+    </li>
+    <li>
+        <a href="Parts%Downloads%Multiboard%Notes.md">Parts%Downloads%Multiboard%Notes.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Fun%Flashforce-5m-research%README.md">%Users%steven%Programming%Fun%Flashforce-5m-research%README.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Personal%stevenwalton.github.io%_drafts%piholebtrfs.md">%Users%steven%Programming%Personal%stevenwalton.github.io%_drafts%piholebtrfs.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Personal%stevenwalton.github.io%_tabs%about.md">%Users%steven%Programming%Personal%stevenwalton.github.io%_tabs%about.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Personal%stevenwalton.github.io%_tabs%cv.md">%Users%steven%Programming%Personal%stevenwalton.github.io%_tabs%cv.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Personal%stevenwalton.github.io%_tabs%publications.md">%Users%steven%Programming%Personal%stevenwalton.github.io%_tabs%publications.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Personal%stevenwalton.github.iobk_16-Jan-25%_drafts%replicator.md">%Users%steven%Programming%Personal%stevenwalton.github.iobk_16-Jan-25%_drafts%replicator.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Personal%stevenwalton%README.md">%Users%steven%Programming%Personal%stevenwalton%README.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Personal%WikipediaAutodark%README.md">%Users%steven%Programming%Personal%WikipediaAutodark%README.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Research%ABOED%README.md">%Users%steven%Programming%Research%ABOED%README.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Research%ABOED%TODO.md">%Users%steven%Programming%Research%ABOED%TODO.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Research%Density%docs%TODO.md">%Users%steven%Programming%Research%Density%docs%TODO.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Research%Density%README.md">%Users%steven%Programming%Research%Density%README.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Research%GNA%README.md">%Users%steven%Programming%Research%GNA%README.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Research%NATTEN%docs%frontend.md">%Users%steven%Programming%Research%NATTEN%docs%frontend.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Research%StyleNAT%README.md">%Users%steven%Programming%Research%StyleNAT%README.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%UO%Unofficial_UO_Dissertation%latex_files%quotes.md">%Users%steven%Programming%UO%Unofficial_UO_Dissertation%latex_files%quotes.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%UO%Unofficial_UO_Dissertation%latex_files%README.md">%Users%steven%Programming%UO%Unofficial_UO_Dissertation%latex_files%README.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%UO%Unofficial_UO_Dissertation%README.md">%Users%steven%Programming%UO%Unofficial_UO_Dissertation%README.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%UO%unofficial-uoregon-grad-school-dissertation-latex-markdown-apa-format%latex_files%README.md">%Users%steven%Programming%UO%unofficial-uoregon-grad-school-dissertation-latex-markdown-apa-format%latex_files%README.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%UO%unofficial-uoregon-grad-school-dissertation-latex-markdown-apa-format%README.md">%Users%steven%Programming%UO%unofficial-uoregon-grad-school-dissertation-latex-markdown-apa-format%README.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%UO%W24_455%HW1%rubric.md">%Users%steven%Programming%UO%W24_455%HW1%rubric.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%test%test.md">%Users%steven%test%test.md</a>
+    </li>
+    <li>
+        <a href="CODE_OF_CONDUCT.md">CODE_OF_CONDUCT.md</a>
+    </li>
+    <li>
+        <a href="CONTRIBUTING.md">CONTRIBUTING.md</a>
+    </li>
+    <li>
+        <a href="report-a-bug.md">report-a-bug.md</a>
+    </li>
+    <li>
+        <a href="suggest-a-new-linter-or-fixer.md">suggest-a-new-linter-or-fixer.md</a>
+    </li>
+    <li>
+        <a href="suggest-an-improvement.md">suggest-an-improvement.md</a>
+    </li>
+    <li>
+        <a href="PULL_REQUEST_TEMPLATE.md">PULL_REQUEST_TEMPLATE.md</a>
+    </li>
+    <li>
+        <a href="supported-tools.md">supported-tools.md</a>
+    </li>
+    <li>
+        <a href="testfile.md">testfile.md</a>
+    </li>
+    <li>
+        <a href="ADVANCED.md">ADVANCED.md</a>
+    </li>
+    <li>
+        <a href="BUILD.md">BUILD.md</a>
+    </li>
+    <li>
+        <a href="CHANGELOG.md">CHANGELOG.md</a>
+    </li>
+    <li>
+        <a href="README-VIM.md">README-VIM.md</a>
+    </li>
+    <li>
+        <a href="CODE_OF_CONDUCT.md">CODE_OF_CONDUCT.md</a>
+    </li>
+    <li>
+        <a href="CONTRIBUTING.md">CONTRIBUTING.md</a>
+    </li>
+    <li>
+        <a href="HISTORY.md">HISTORY.md</a>
+    </li>
+    <li>
+        <a href="History.md">History.md</a>
+    </li>
+    <li>
+        <a href="Readme.md">Readme.md</a>
+    </li>
+    <li>
+        <a href="CHANGELOG.md">CHANGELOG.md</a>
+    </li>
+    <li>
+        <a href="History.md">History.md</a>
+    </li>
+    <li>
+        <a href="Readme.md">Readme.md</a>
+    </li>
+    <li>
+        <a href="History.md">History.md</a>
+    </li>
+    <li>
+        <a href="Readme.md">Readme.md</a>
+    </li>
+    <li>
+        <a href="History.md">History.md</a>
+    </li>
+    <li>
+        <a href="Readme.md">Readme.md</a>
+    </li>
+    <li>
+        <a href="HISTORY.md">HISTORY.md</a>
+    </li>
+    <li>
+        <a href="CHANGELOG.md">CHANGELOG.md</a>
+    </li>
+    <li>
+        <a href="CHANGELOG.md">CHANGELOG.md</a>
+    </li>
+    <li>
+        <a href="CHANGELOG.md">CHANGELOG.md</a>
+    </li>
+    <li>
+        <a href="CHANGELOG.md">CHANGELOG.md</a>
+    </li>
+    <li>
+        <a href="Readme.md">Readme.md</a>
+    </li>
+    <li>
+        <a href="CHANGELOG.md">CHANGELOG.md</a>
+    </li>
+    <li>
+        <a href="CHANGELOG.md">CHANGELOG.md</a>
+    </li>
+    <li>
+        <a href="license.md">license.md</a>
+    </li>
+    <li>
+        <a href="readme.md">readme.md</a>
+    </li>
+    <li>
+        <a href="SPECS.md">SPECS.md</a>
+    </li>
+    <li>
+        <a href="History.md">History.md</a>
+    </li>
+    <li>
+        <a href="History.md">History.md</a>
+    </li>
+    <li>
+        <a href="Readme.md">Readme.md</a>
+    </li>
+    <li>
+        <a href="Readme.md">Readme.md</a>
+    </li>
+    <li>
+        <a href="CHANGELOG.md">CHANGELOG.md</a>
+    </li>
+    <li>
+        <a href="license.md">license.md</a>
+    </li>
+    <li>
+        <a href="readme.md">readme.md</a>
+    </li>
+    <li>
+        <a href="HISTORY.md">HISTORY.md</a>
+    </li>
+    <li>
+        <a href="HISTORY.md">HISTORY.md</a>
+    </li>
+    <li>
+        <a href="license.md">license.md</a>
+    </li>
+    <li>
+        <a href="readme.md">readme.md</a>
+    </li>
+    <li>
+        <a href="HISTORY.md">HISTORY.md</a>
+    </li>
+    <li>
+        <a href="History.md">History.md</a>
+    </li>
+    <li>
+        <a href="readme.md">readme.md</a>
+    </li>
+    <li>
+        <a href="Readme.md">Readme.md</a>
+    </li>
+    <li>
+        <a href="CHANGELOG.md">CHANGELOG.md</a>
+    </li>
+    <li>
+        <a href="CHANGELOG.md">CHANGELOG.md</a>
+    </li>
+    <li>
+        <a href="Readme.md">Readme.md</a>
+    </li>
+    <li>
+        <a href="CHANGELOG.md">CHANGELOG.md</a>
+    </li>
+    <li>
+        <a href="History.md">History.md</a>
+    </li>
+    <li>
+        <a href="Readme.md">Readme.md</a>
+    </li>
+    <li>
+        <a href="CHANGELOG.md">CHANGELOG.md</a>
+    </li>
+    <li>
+        <a href="license.md">license.md</a>
+    </li>
+    <li>
+        <a href="readme.md">readme.md</a>
+    </li>
+    <li>
+        <a href="Readme.md">Readme.md</a>
+    </li>
+    <li>
+        <a href="CHANGELOG.md">CHANGELOG.md</a>
+    </li>
+    <li>
+        <a href="CHANGELOG.md">CHANGELOG.md</a>
+    </li>
+    <li>
+        <a href="license.md">license.md</a>
+    </li>
+    <li>
+        <a href="readme.md">readme.md</a>
+    </li>
+    <li>
+        <a href="Readme.md">Readme.md</a>
+    </li>
+    <li>
+        <a href="CHANGELOG.md">CHANGELOG.md</a>
+    </li>
+    <li>
+        <a href="license.md">license.md</a>
+    </li>
+    <li>
+        <a href="readme.md">readme.md</a>
+    </li>
+    <li>
+        <a href="generator.md">generator.md</a>
+    </li>
+    <li>
+        <a href="test.md">test.md</a>
+    </li>
+    <li>
+        <a href="bug.md">bug.md</a>
+    </li>
+    <li>
+        <a href="feature_request.md">feature_request.md</a>
+    </li>
+    <li>
+        <a href="question.md">question.md</a>
+    </li>
+    <li>
+        <a href="PULL_REQUEST_TEMPLATE.md">PULL_REQUEST_TEMPLATE.md</a>
+    </li>
+    <li>
+        <a href="bug.md">bug.md</a>
+    </li>
+    <li>
+        <a href="feature_request.md">feature_request.md</a>
+    </li>
+    <li>
+        <a href="question.md">question.md</a>
+    </li>
+    <li>
+        <a href="PULL_REQUEST_TEMPLATE.md">PULL_REQUEST_TEMPLATE.md</a>
+    </li>
+    <li>
+        <a href="CHANGELOG.md">CHANGELOG.md</a>
+    </li>
+    <li>
+        <a href="LICENSE.md">LICENSE.md</a>
+    </li>
+    <li>
+        <a href="ISSUE_TEMPLATE.md">ISSUE_TEMPLATE.md</a>
+    </li>
+    <li>
+        <a href="CHANGELOG.md">CHANGELOG.md</a>
+    </li>
+    <li>
+        <a href="CONTRIBUTING.md">CONTRIBUTING.md</a>
+    </li>
+    <li>
+        <a href="CONTRIBUTING.md">CONTRIBUTING.md</a>
+    </li>
+    <li>
+        <a href="ISSUE_TEMPLATE.md">ISSUE_TEMPLATE.md</a>
+    </li>
+    <li>
+        <a href="PULL_REQUEST_TEMPLATE.md">PULL_REQUEST_TEMPLATE.md</a>
+    </li>
+    <li>
+        <a href="CHANGELOG.md">CHANGELOG.md</a>
+    </li>
+    <li>
+        <a href="CODE_OF_CONDUCT.md">CODE_OF_CONDUCT.md</a>
+    </li>
+    <li>
+        <a href="CONTRIBUTING.md">CONTRIBUTING.md</a>
+    </li>
+    <li>
+        <a href="DEVELOPER.md">DEVELOPER.md</a>
+    </li>
+    <li>
+        <a href="issue_template.md">issue_template.md</a>
+    </li>
+    <li>
+        <a href="bug_report.md">bug_report.md</a>
+    </li>
+    <li>
+        <a href="CONTRIBUTING.md">CONTRIBUTING.md</a>
+    </li>
+    <li>
+        <a href="add-language.md">add-language.md</a>
+    </li>
+    <li>
+        <a href="bug-report.md">bug-report.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%.dotfiles%Notes%linux.md">%Users%steven%.dotfiles%Notes%linux.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%.dotfiles%Notes%osx.md">%Users%steven%.dotfiles%Notes%osx.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%.dotfiles%Notes%systemd.md">%Users%steven%.dotfiles%Notes%systemd.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%.dotfiles%Notes%vim.md">%Users%steven%.dotfiles%Notes%vim.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%.dotfiles%Notes%website.md">%Users%steven%.dotfiles%Notes%website.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Documents%InterviewingArtifacts%AmazonPresentation%abstract.md">%Users%steven%Documents%InterviewingArtifacts%AmazonPresentation%abstract.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Documents%Research%InterviewingArtifacts%AmazonPresentation%README.md">%Users%steven%Documents%Research%InterviewingArtifacts%AmazonPresentation%README.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%GDS%instructions.md">%Users%steven%GDS%instructions.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Fun%Flashforce-5m-research%Hardware%README.md">%Users%steven%Programming%Fun%Flashforce-5m-research%Hardware%README.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Fun%Flashforce-5m-research%README.md">%Users%steven%Programming%Fun%Flashforce-5m-research%README.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Personal%stevenwalton.github.io%_drafts%ComplexityOfSimplicity.md">%Users%steven%Programming%Personal%stevenwalton.github.io%_drafts%ComplexityOfSimplicity.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Personal%stevenwalton.github.io%_drafts%vim-advanced.md">%Users%steven%Programming%Personal%stevenwalton.github.io%_drafts%vim-advanced.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Personal%stevenwalton.github.io%_posts%2025-08-20-AttoGPT.md">%Users%steven%Programming%Personal%stevenwalton.github.io%_posts%2025-08-20-AttoGPT.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Personal%stevenwalton.github.io%_posts%2025-08-20-VAETutorial.md">%Users%steven%Programming%Personal%stevenwalton.github.io%_posts%2025-08-20-VAETutorial.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Personal%stevenwalton.github.io%_posts%2025-10-20-AttoGPT.md">%Users%steven%Programming%Personal%stevenwalton.github.io%_posts%2025-10-20-AttoGPT.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Personal%stevenwalton.github.io%_posts%2025-10-20-vim-advanced.md">%Users%steven%Programming%Personal%stevenwalton.github.io%_posts%2025-10-20-vim-advanced.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Personal%stevenwalton.github.io%_posts%notebook_header.md">%Users%steven%Programming%Personal%stevenwalton.github.io%_posts%notebook_header.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Personal%stevenwalton.github.io%_tabs%about.md">%Users%steven%Programming%Personal%stevenwalton.github.io%_tabs%about.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Personal%stevenwalton.github.io%_tabs%cv.md">%Users%steven%Programming%Personal%stevenwalton.github.io%_tabs%cv.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Personal%stevenwalton.github.io%_tabs%publications.md">%Users%steven%Programming%Personal%stevenwalton.github.io%_tabs%publications.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Personal%zensical_website%docs%about.md">%Users%steven%Programming%Personal%zensical_website%docs%about.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Personal%zensical_website%docs%index.md">%Users%steven%Programming%Personal%zensical_website%docs%index.md</a>
+    </li>
+    <li>
+        <a href="%Users%steven%Programming%Research%edit-flows-demo%README.md">%Users%steven%Programming%Research%edit-flows-demo%README.md</a>
+    </li>
+    <li>
+        <a href="TODO.md">TODO.md</a>
+    </li>
+    <li>
+        <a href="TODO.md">TODO.md</a>
     </li>
 </ul>
 ------------------------------------------------------------
