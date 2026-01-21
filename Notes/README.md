@@ -13,7 +13,7 @@ The project is organized as follows
 			 I'll update this on those rare occasions I have to do data recovery because I'm an idiot that `rm -rf`'d the wrong dir and my aliases didn't work or aren't used
     </li>
     <li>
-        <a href="iOS_daemons.md">iOS_daemons.md</a>
+        <a href="extras/iOS_daemons.md">extras/iOS_daemons.md</a>
     </li>
     <li>
         <a href="ffmpeg.md">ffmpeg.md</a>:
@@ -24,17 +24,20 @@ The project is organized as follows
 			 Random fun stuff like Star Wars in the cli
     </li>
     <li>
-        <a href="ghostty.md">ghostty.md</a>
+        <a href="ghostty.md">ghostty.md</a>:
+			 some notes about ghostty, tbh there isn't much here
     </li>
     <li>
         <a href="git.md">git.md</a>:
 			 Some helpful git information, such as decreasing repo size
     </li>
     <li>
-        <a href="gpg.md">gpg.md</a>
+        <a href="gpg.md">gpg.md</a>:
+			 GPG is a bit confusing
     </li>
     <li>
-        <a href="latex.md">latex.md</a>
+        <a href="latex.md">latex.md</a>:
+			 More esoteric latex stuff like finding docs and some resources
     </li>
     <li>
         <a href="linux.md">linux.md</a>:
@@ -85,7 +88,8 @@ The project is organized as follows
 			 Actually write down those cool vim commands so you can remember them next time -__-
     </li>
     <li>
-        <a href="website.md">website.md</a>
+        <a href="website.md">website.md</a>:
+			 Setting up website with github pages, integrating with cloudflare (https), and getting email forwarding
     </li>
 </ul>
 ------------------------------------------------------------

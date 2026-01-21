@@ -38,9 +38,9 @@
 ################################################################################
 
 # Expected root locations
-#declare DOTFILE_DIR="${DOTFILE_DIR:-${HOME%/}/.dotfiles}"
-#declare README_DIR="${README_DIR:-Notes}"
-declare README_DIR="${OUTPUT_DIR:-$(dirname "${BASH_SOURCE[0]}")}"
+declare DOTFILE_DIR="${DOTFILE_DIR:-${HOME%/}/.dotfiles}"
+declare README_DIR="${README_DIR:-${DOTFILE_DIR%/}/Notes}"
+#declare README_DIR="${OUTPUT_DIR:-$(dirname "${BASH_SOURCE[0]}")}"
 declare OUTFILE="${OUTFILE:-"${README_DIR%/}/README.md"}"
 
 make_header() {
@@ -107,13 +107,15 @@ make_toc() {
     # Find the md files that aren't called "README"
     # and put them into an HTML list format
     # <ul> and </ul> are located above
-    find "${DOTFILE_DIR%/}/${README_DIR%/}" \
+    #find . \
+    find "${README_DIR}" \
             -type f \
             ! -name "README.md" \
             -name "*.md" \
             | sort \
+            | sed -n "s@${README_DIR}/*@@p" \
             | xargs -n1 bash -c \
-                'echo "$(toc_helper "${0##*/}")"'
+                'echo "$(toc_helper "${0}")"'
 }
 
 # ==============================================================================
