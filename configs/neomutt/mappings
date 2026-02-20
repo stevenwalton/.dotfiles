@@ -1,0 +1,9 @@
+# Set mappings here
+
+# Switch accounts
+# Main UO Account
+macro index <f2> '<sync-mailbox><enter-command>source $my_accounts/uo/config<enter><change-folder>!<enter>'
+# UOCIS Account
+macro index <f3> '<sync-mailbox><enter-command>source $my_accounts/uocs/config<enter><change-folder>!<enter>'
+
+# TODO: want to make it very much like vim 

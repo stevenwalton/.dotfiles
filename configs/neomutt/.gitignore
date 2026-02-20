@@ -1,0 +1,11 @@
+# Ignore everything by default
+*.*
+# Especially accounts
+accounts/**
+
+# Whitelist these
+!.gitignore
+!README.md
+!accounts/template/
+!accounts/template/template_config
+!accounts/template/template_password

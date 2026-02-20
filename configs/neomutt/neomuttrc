@@ -1,0 +1,30 @@
+# Main Config
+# Use to wrangle together other configs
+#
+# Resources:
+# https://gideonwolfe.com/posts/workflow/neomutt/intro/
+# https://wiki.archlinux.org/title/Mutt
+# https://emil.lerch.org/neomutt-setup/
+# https://www.mail-archive.com/mutt-users@mutt.org/msg36375.html
+# https://unix.stackexchange.com/questions/20570/mutt-how-to-safely-store-password
+# https://jonathanh.co.uk/blog/mutt-setup/ (expired cert?)
+
+source "${HOME}/.config/neomutt/settings"
+source "$my_root/colors"
+# Macros and key mappings
+source "$my_root/mappings"
+
+# Load gpg encrypted passwords
+source "gpg -dq $my_root/.passwords.gpg |"
+
+
+# Accounts
+# Default (we need a default)
+source "$my_accounts/uocs/config"
+## School
+folder-hook $folder 'source $my_accounts/uo/config'
+
+### CS Department
+folder-hook 'mail.cs.uoregon.edu' "source $my_accounts/uocs/config"
+
+

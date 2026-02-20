@@ -1,0 +1,6 @@
+# View images
+image/jpeg; chafa -f kitty %s
+image/jpg; chafa -f kitty %s
+image/png; chafa -f kitty %s
+# View html (w3m)
+text/html; w3m -I %{charset} -T text/html; copiousoutput;

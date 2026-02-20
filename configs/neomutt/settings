@@ -1,0 +1,57 @@
+# Generally stolen from
+# https://gideonwolfe.com/posts/workflow/neomutt/intro/
+# General settings
+# set editor to neovim
+set editor = "nvim"
+
+set my_name = "Steven Walton"
+set realname = "Steven Walton"
+
+# Helper variables (must start with my_)
+set my_root = "${HOME}/.config/neomutt/"
+set my_cache = "${HOME}/.cache/neomutt/"
+set my_accounts = "$my_root/accounts/"
+
+# Document!
+set sidebar_visible 
+set imap_check_subscribed
+# Automatically view html
+auto_view text/html text/calendar application/ics
+alternative_order text/html text/plain text/enriched text/*
+
+set envelope_from
+set edit_headers	# Show headers when composing
+set askcc	# ask for CC:
+set fcc_attach	# save attachments with body
+set forward_format = "Fwd: %s" # Subject line format when forwarding
+set forward_decode	# decode when forwarding
+set attribution = "On %d, %n wrote:"	# Quoting header format
+set reply_to	# reply to REply to: field
+set include 	# Include message in replies
+set forward_quote	# include messages in forwards
+set text_flowed	#???
+
+# Status bar, date formatting, and others
+set status_chars = " *%A"
+set status_format = "[ Folder: %f ] [%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]%>-%?p?( %p postponed )?"
+set date_format = "%d/%m/%Y %H:%M"
+set sort = threads
+set sort_aux = reverse-last-date-received
+set uncollapse_jump
+set sort_re
+
+set send_charset = "utf-8:iso-8859-1:us-ascii"
+set charset = "utf-8"
+
+### Page Viewer Options
+# Show 10 lines of index when pager is active
+set pager_index_lines = 10 
+set pager_context = 3
+set pager_stop
+set menu_scroll
+set tilde
+unset markers
+
+set message_cachedir = "$my_cache/mutt"
+set header_cache = "$my_cache/mutt"
+set mailcap_path = "$my_root/mailcap"

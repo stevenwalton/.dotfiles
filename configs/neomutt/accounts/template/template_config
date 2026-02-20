@@ -1,0 +1,90 @@
+# This is an example file and no PII should go in here
+# I'll try to add notes and clarify what options do and what you'll need to
+# change for each email service
+#
+
+################################################################################
+#                                   Main Settings
+#                       These settings can *mostly* be left as is
+################################################################################
+
+########################################
+#          ==> CHANGE ME <==
+# vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+set realname = "John Smith"
+set from = "jsmith@example.com"
+set imap_user = "jsmith"
+# Set this to the folder under accounts/
+set my_inbox = "some_name_here"
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+################################
+
+########################################
+##           Security Settings 
+##           (most likely need)
+########################################
+# These ensure that email grabbed from your server is encrypted
+set ssl_starttls = yes
+set ssl_force_tls = yes
+
+########################################
+##      Email Folder Settings
+########################################
+# These may need some slight changes, look at your email client via their
+# interface
+set spoolfile = "+INBOX"    # Add main inbox
+set envelope_from           # 
+set use_from = "yes"        #
+set record = "+Sent"        # Store sent messages upstream
+set trash = "+Trash"        # Name of trash location
+set postponed = "+Drafts"   # Draft folder name
+
+# Set Caches 
+set header_cache = "$my_cache/$my_inbox/headers"
+set message_cachedir = "$my_cache/$my_inbox/bodies"
+set certificate_file = "$my_accounts/$my_inbox/certificates"
+
+########################################
+##          Check frequency
+########################################
+set mail_check = 6          # 
+set imap_keepalive = 300    # Keep IMAP alive and poll every N seconds
+
+
+################################################################################
+#                           Specific Client Settings
+#                   ==========>  PAY ATTENTION  <==========
+#          Select the one that you need. You DO NOT need all of these
+#                         You MUST edit these settings 
+################################################################################
+
+#                   ########################################
+#                                   Generic
+#                          For a General Email Client
+#                   ########################################
+set imap_authenticators = "login"
+
+set smtp_url = "smtps://$from:587/"
+# e.g. set folder = "imaps://mail.cs.uoregon.edu:993"
+set folder = "imaps://mail.domain:993"
+
+account-hook $folder "set imap_pass=$my_mailbox_pass"
+account-hook $folder "set smtp_pass=$my_mailbox_pass"
+# 
+
+#                   ########################################
+#                                    GMAIL 
+#                   ########################################
+
+#                   ########################################
+#                                   OUTLOOK 
+#                   ########################################
+# If $from is right you can probably keep these as is
+set smtp_url = "smtp://$from@smtp.office365.com:587/"
+set folder = "imaps://$from@outlook.office365.com"
+
+set imap_authenticators = "xoauth2"
+set imap_oauth_refresh_command = "$my_root/mutt_oauth2.py $my_accounts/$my_inbox/whatever.tokens"
+
+set smtp_authenticators = ${imap_authenticators}
+set smtp_oauth_refresh_command = ${imap_oauth_refresh_command}
