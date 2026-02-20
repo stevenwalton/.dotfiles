@@ -48,7 +48,7 @@ Main() {
     #CheckNews
     local news=$(CheckNews)
     # Return if there's no news
-    if [ -z "news" ];
+    if [ -z "${news}" ];
     then
         echo -e "\033[1;31mThere is no AUR News\033[0m"
         return 0
