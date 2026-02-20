@@ -8,5 +8,5 @@ maxretry = 3
 findtime = 7d
 bantime = 3mo
 increment = true
-ignoreip = 127.0.0.1/8 192.168.1.135
+ignoreip = 127.0.0.1/8 
 rejecttype = icmp-port-unreachable

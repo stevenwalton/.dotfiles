@@ -18,7 +18,8 @@
 # https://github.com/ghostty-org/ghostty/discussions/5521#discussioncomment-12306028
 #
 # Use nightly version
-auto-update-channel = tip
+#auto-update-channel = tip
+auto-update-channel = stable
 
 # Commented out ones I like but playing around
 # Use `ghostty +list-themes` to see them

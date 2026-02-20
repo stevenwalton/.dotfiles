@@ -156,8 +156,20 @@ fun_comment() {
     echo "Random fun stuff like Star Wars in the cli"
 }
 
+ghostty_comment() {
+    echo "some notes about ghostty, tbh there isn't much here"
+}
+
 git_comment() {
     echo "Some helpful git information, such as decreasing repo size"
+}
+
+gpg_comment() {
+    echo "GPG is a bit confusing"
+}
+
+latex_comment() {
+    echo "More esoteric latex stuff like finding docs and some resources"
 }
 
 linux_comment() {
@@ -206,6 +218,10 @@ thunderbird_comment() {
 
 vim_comment() {
     echo "Actually write down those cool vim commands so you can remember them next time -__-"
+}
+
+website_comment() {
+    echo "Setting up website with github pages, integrating with cloudflare (https), and getting email forwarding"
 }
 
 

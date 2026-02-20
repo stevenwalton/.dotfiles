@@ -2,7 +2,8 @@
 forcing. It will read logfiles and look for failed attempts and autoban.
 These configuration files are not secret and we're a bit stricter than defaults
 or templates on the archwiki.
-These files are a good place to start but modify for your system.
+
+These files are a good place to *start* but modify for your system.
 We assume you are using `systemd` and `firewalld`.
 
 `fail2ban` works by reading log files (typically `/var/log/`).
