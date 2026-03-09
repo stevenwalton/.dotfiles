@@ -495,6 +495,12 @@ docker file.
 Reminder: check `/etc/resolv.conf` on the spawn *and* your host computer.
 This seems to be an annoying issue and is resolved by changing `nameserver`.
 
+### More Info and References 
+Here's how to do [Alpine
+Linux](https://github.com/quantum5/alpine-nspawn-install/blob/master/alpine-nspawn-install)
+
+- [A whirlwind tour of systemd-nspawn containers](https://quantum5.ca/2025/03/22/whirlwind-tour-of-systemd-nspawn-containers/)
+
 ## Why?
 Why would you want this?
 Virtual machines use a lot of resources.
@@ -565,4 +571,8 @@ Then proceed with your normal installation!
         point of a container. But they can be turned off.
 - [Setting up multiple userlands and a 32bit container on raspberry
     pi](https://forums.raspberrypi.com/viewtopic.php?p=1422775)
-
+- [Docs on Portable
+Services](https://github.com/systemd/systemd/blob/main/docs/PORTABLE_SERVICES.md)
+    - [Tutorial](https://0pointer.net/blog/walkthrough-for-portable-services.html)
+- [Nspawn
+tutorial](https://blog.oddbit.com/post/2016-02-07-systemd-nspawn-for-fun-and-wel/)

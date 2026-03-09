@@ -200,13 +200,32 @@ firewall-cmd --get-services
 # show running services
 firewall-cmd --list-services
 # Add a service by name (e.g. ssh)
+# add `--permanent` to make it persistant 
 firewall-cmd --add-service ssh
-# add it permanently 
-firewall-cmd --add-service ssh --permanent
 # Do so temporarily (1 hour. Also knows 'm' for minutes)
 firewall-cmd --add-service ssh --timeout=1h
 # use `--runtime-to-permanent` to make a temp a permanent
+# Remove a service
+firewall-cmd --remove-service ssh
 ```
+
+Another nice thing we can do is change the firewall zone of a specific
+interface.
+So you could do something like have your ethernet be more secure and WiFi less.
+Or if you were building a router or something...
+(following commands aren't 'in order')
+
+```bash
+# Show the zones you have
+firewall-cmd --get-active-zones
+# Set some interface to a specific zone
+firewall-cmd --change-interface=<interface> --zone=<zone> --permanent
+# Create a new zone
+firewall-cmd --new-zone=<name_of_zone> --permanent
+# Add an interface
+firewall-cmd --zone=<name_of_zone> --add-interface=<interface> --permanent
+```
+
 Firewalld also has a bunch of [rich
 rules](https://man.archlinux.org/man/firewalld.richlanguage.5) ([more
 docs](https://firewalld.org/documentation/man-pages/firewalld.richlanguage.html))

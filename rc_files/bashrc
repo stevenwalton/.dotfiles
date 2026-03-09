@@ -5,6 +5,9 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# Set vi mode
+set -o vi
+
 #alias ls='ls --color=auto'
 alias ls='ls -h' # make things human readable
 alias ls='ls -G' # for macs because we have to be different -_____-
@@ -13,11 +16,20 @@ alias la='ls -a'
 alias ll='ls -l'
 alias vi='vim'
 alias grep='grep --color=always --line-number --binary-file=without-match'
-export PS1='\[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]$\[\e[m\] \[\e[1;37m\]'
+# Make PS1: '[user@hostname PWD]$ '
+#               | |   |      |  |_ Green
+#               | |   |      |____ Blue
+#               | |   |___________ Blue
+#               | |_______________ Orange
+#               |_________________ Green
+PS1='[\e[32m\u\e[33m@\e[34m\h \e[34m\w\e[m]\e[32m$\e[m '
+
 export PATH="${PATH}:/opt"
-export DYLD_LIBRARY_PATH=/opt/adios2/lib
+#export DYLD_LIBRARY_PATH=/opt/adios2/lib
 
 export SUDO_EDITOR=rvim
+export EDITOR=vim
+export SYSTEMD_EDITOR=vim
 
 ## Legacy
 #source /home/steven/GEANT4/geant4.10.1-install/bin/geant4.sh
