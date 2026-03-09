@@ -335,6 +335,9 @@ snek_wrangling() {
 }
 
 alias_ytdlp() {
+    # Remember to install like this
+    # uv pip install "yt-dlp[default,curl-cffi]"
+    # Add `--upgrade` for upgrading
     if (_exists yt-dlp)
     then
         declare astring="alias ytdl='yt-dlp"
