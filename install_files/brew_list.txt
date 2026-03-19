@@ -1,7 +1,0 @@
-mactex-no-gui
-lsd
-tre
-stats
-curl
-fd
-sheldon

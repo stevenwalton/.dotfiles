@@ -73,6 +73,7 @@ link_rcfiles() {
     # TODO: Fix for mac which uses -depth and at the post -name position
     find "${DOTFILE_DIR%/}/rc_files" \
         -maxdepth 1 \
+        ! -name "rc_files" \
         ! -name "*.md" \
         ! -name "*root" \
         ! -name "mozilla" \
@@ -86,6 +87,11 @@ link_configs() {
         -maxdepth 1 \
         ! -name "*.md" \
         -exec bash -c 'ln -Fis "${0}" "${CONFIG_DIR%/}/${0##*/}"' {} \;
+}
+
+configure_brew() {
+    # Installs and configures brew
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 }
 
 install_cargo() {
@@ -168,7 +174,8 @@ get_args() {
 }
 
 main() {
-    echo "Not complete yet"
+    echo "Not complete yet so don't use"
+    exit 0
 
     get_args "$@"
     INSTALL_FILE_LOC=$(realpath "${0}")

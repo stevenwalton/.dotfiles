@@ -14,33 +14,33 @@ install_tokyo_night() {
 install_plugins() {
     # Full screen image plugin
     # https://github.com/yazi-rs/plugins/tree/main/max-preview.yazi
-    #ya pack -a yazi-rs/plugins:max-preview
+    #ya pkg add yazi-rs/plugins:max-preview
     # New version is
-    ya pack -a yazi-rs/plugins:toggle-pane
+    ya pkg add yazi-rs/plugins:toggle-pane
 
     # Add git support
     # https://github.com/yazi-rs/plugins/tree/main/git.yazi
-    ya pack -a yazi-rs/plugins:git
+    ya pkg add yazi-rs/plugins:git
 
     # Diff files with <C-d>
     # https://github.com/yazi-rs/plugins/tree/main/diff.yazi
-    ya pack -a yazi-rs/plugins:diff
+    ya pkg add yazi-rs/plugins:diff
 
     # Add full border (a little cleaner)
     # https://github.com/yazi-rs/plugins/tree/main/full-border.yazi
-    ya pack -a yazi-rs/plugins:full-border
+    ya pkg add yazi-rs/plugins:full-border
 
     # Show mime type info
     # Not always needed but useful on weaker hardware
     # https://github.com/yazi-rs/plugins/tree/main/mime-ext.yazi
-    ya pack -a yazi-rs/plugins:mime-ext
+    ya pkg add yazi-rs/plugins:mime-ext
 
     # Preview ipynb notebooks
-    ya pack -a AnirudhG07/nbpreview
+    ya pkg add AnirudhG07/nbpreview
 
     # Better media info and preview
     # https://github.com/boydaihungst/mediainfo.yazi
-    ya pack -a boydaihungst/mediainfo
+    ya pkg add boydaihungst/mediainfo
     if (! _exists mediainfo)
     then
         if [[ $(uname) == "Linux" ]];
@@ -70,7 +70,7 @@ function _exists() {
 
 main() {
     # Update just in case
-    ya pack -u
+    ya pkg upgrade
     #install_tokyo_night
     install_plugins
 }
