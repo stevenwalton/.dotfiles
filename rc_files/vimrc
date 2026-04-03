@@ -38,7 +38,7 @@ set t_Co=256            " Want 256 colors
 set lazyredraw          " Faster rendering
 
 " Should redo this rule for specific filetypes and just use smartindent
-set cindent             " Uses C indenting rules ({,},),],:,#,^F,o,O,e)
+"set cindent             " Uses C indenting rules ({,},),],:,#,^F,o,O,e)
 set cinkeys-=0#         " No indenting on # mark 
 "set indentkeys-=0#
 let &showbreak="||| "    " Prepends a wrapped line with this symbol

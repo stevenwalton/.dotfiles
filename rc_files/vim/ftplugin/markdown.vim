@@ -3,3 +3,11 @@
 onoremap ih :<c-u>execute "normal !?^\(==\|--\)\\+$\r:nohlsearch\rkvg_"<cr>
 " MARKDOWN
 syn match markdownIgnore "\$.*_.*\$" " Doesn't highlight _ while in latex
+" Disable c-style indenting (that gq mess)
+setlocal nocindent
+setlocal nosmartindent
+" Preserve file's local indenting
+setlocal autoindent
+" Wrap text properly
+setlocal wrap
+setlocal linebreak

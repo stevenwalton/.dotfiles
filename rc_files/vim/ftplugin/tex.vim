@@ -13,4 +13,9 @@ let g:vimtex_indent_ignored_envs = [
 \ 'frame',
 \]
 " Include these characters for completion (i.e. bibtex)
-set iskeyword+=-
+setlocal iskeyword+=-
+" Better wrapping for text
+setlocal wrap
+" Wrap in 'breakat' instead of last char (breakat: ^I@*-+;:,./?")
+" Doesn't add <EOL>
+setlocal linebreak

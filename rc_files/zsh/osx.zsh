@@ -39,7 +39,10 @@ function config_jekyll() {
 function config_brew() {
     if (_exists brew)
     then
-        alias ctags="`brew --prefix`/bin/ctags"
+        if (_exists \ctags)
+        then
+            alias ctags="`brew --prefix`/bin/ctags"
+        fi
     fi
 }
 

@@ -369,6 +369,7 @@ alias_vim() {
     then
         alias vi='nvim'
         alias vim='nvim'
+        export EDITOR='nvim'
     elif (_exists vim)
     then
         alias vi='vim'
@@ -396,7 +397,8 @@ load_diff_so_fancy() {
 # Idea driven by discussion here: https://github.com/astral-sh/uv/issues/1419
 # Thanks @rosmur! 
 function uv() {
-    if [[ "$?" -eq 0 ]];
+
+    if [[ $(command -v "uv") ]];
     then
         # We only want to extend the command when given this specific argument
         if [[ "${@}" == 'pip install --upgrade --all' ]];

@@ -223,7 +223,8 @@ let g:gitgutter_show_msg_on_hunk_jumping = 0
 
 " GutenTags
 " -------------------- 
-"Ctags
+"  You should probably use universal-ctags
+" Ctags
 "set tags="./.tags,../.tags,~/.tags"
 " Docs: https://bolt80.com/gutentags/
 " Trace because it's been using a lot of CPU lately
@@ -231,12 +232,14 @@ let g:gitgutter_show_msg_on_hunk_jumping = 0
 set statusline+=%{gutentags#statusline()}
 " Root directory is considered if it has one of these files in it
 "let g:gutentags_project_root = ['.git', 'Makefile', 'src', 'main.py']
-let g:gutentags_enabled = 0
+let g:gutentags_enabled = 1
 " Make less noisy for now
 let g:gutentags_project_root = ['pyproject.toml', 'Makefile']
 " Write ctags to this location instead (centralized and not in project)
 let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')
 " Don't generate tags for files like these or in these directories 
+"   If things are slow add back in '[.]venv/'
+"   You may want to have that included in a per project .exrc file
 let g:gutentags_ctags_exclude = [
     \ 'wandb/',
     \ '[.]config/',
@@ -250,7 +253,6 @@ let g:gutentags_ctags_exclude = [
     \ '*.tar.*',
     \ '*.[gx]z',
     \ '[.]cache/',
-    \ '[.]venv/',
     \ 'test*',
     \ '*.sw?',
     \ '*.cache',
@@ -258,7 +260,11 @@ let g:gutentags_ctags_exclude = [
     \ 'test/',
     \ ]
 
-"let g:gutentags_exclude_filetypes = []
+" Ignore these filetypes
+let g:gutentags_exclude_filetypes = [
+    \ 'gitcommit',
+    \ 'gitrebase',
+    \ ]
 " Ignore these places (It seems to need extra help...)
 let g:gutentags_exclude_project_root = [
     \ '/usr/local',
@@ -274,8 +280,16 @@ let g:gutentags_exclude_project_root = [
     \]
 
 let g:gutentags_ctags_exclude_wildignore = 1
+" Extra ctags:
+"   Python: adds module level variable assignments 
+"   Relative: speeds things up by making locations relative (vs absolute)
+"   extras: q=qualified (extra class qualified tags for each entry)
+"       See: ctags --list-extras
 let g:gutentags_ctags_extra_args = [
+      \ '--recurse',
+      \ '--Python-kinds=+z',
       \ '--tag-relative=yes',
+      \ '--extras=+q', 
       \ '--fields=+ailmnS',
       \ ]
 "                  ||||||_ Signature of routine
