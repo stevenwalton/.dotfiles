@@ -39,7 +39,10 @@ function config_jekyll() {
 function config_brew() {
     if (_exists brew)
     then
-        alias ctags="`brew --prefix`/bin/ctags"
+        if (_exists \ctags)
+        then
+            alias ctags="`brew --prefix`/bin/ctags"
+        fi
     fi
 }
 
@@ -67,11 +70,11 @@ source_julia() {
 }
 
 main() {
-    config_coreutils || echo "Failed to configure coreutils"
-    config_jekyll || echo "Failed to config jekyll"
-    config_brew || echo "Failed to configure brew"
-    #config_gpt || echo "Failed to configure GPT"
+    #config_coreutils || echo -e "\033[1;31mFailed to configure coreutils\033[m"
+    config_jekyll || echo -e "\0331;31mFailed to config jekyll\033[m"
+    config_brew || echo -e "\033[1;31mFailed to configure brew\033[m"
+    #config_gpt || echo -e "\033[1;31mFailed to configure GPT\033[m"
     source_julia
 }
 
-main || echo "Couldn't load osx configs"
+main || echo -e "\033[1;31mCouldn't load osx configs\033[m"

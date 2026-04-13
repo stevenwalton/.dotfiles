@@ -1,0 +1,55 @@
+# A starting point for SSH Config File with some extras
+
+# This applies to everything
+# First come, first serve (ORDER MATTERS)
+Host *
+    # Hash the hostnames and addresses to ~/.ssh/known_hosts (added privacy)
+    HashKnownHosts      yes
+    # Show the visual key
+    VisualHostKey       yes
+    # Share multiple sessions over single connection
+    ControlMaster       auto
+    # Keep that connection open for this amount of time
+    #ControlPersist      5m
+    # Provide your EDITOR envvar
+    SendEnv             EDITOR
+    # Directly specify env var (for ghostty, full color support)
+    SetEnv              TERM=xterm-256color
+
+##### EXTRAS #####
+
+### Multiple GitHub Accounts ###
+
+# Default GitHub
+# The `github-*` will allow this to provide defaults
+Host github.com         github-*
+    HostName            github.com
+    User                USERNAME
+    IdentityFile        ~/.ssh/github_key
+
+# Repo with different username and key
+# Use:
+#   git clone git@github-foo:username/repo.git
+#   git remote set-url origin git@github-foo:username/repo.git
+Host github-foo
+    User                FOO_USERNAME
+    IdentityFile        ~/.ssh/github_foo_key
+
+### Proxy Jump ###
+# Access server BAR through server FOO
+# We'd do this if we could access FOO but not BAR, but FOO could access BAR
+# Such as a firewall
+
+Host BAR
+    Hostname            SOME_IP_OR_DOMAIN
+    User                bar_user
+    ProxyJump           FOO
+    #ProxyJump           foo@FOO
+    IdentityFile        ~/.ssh/bar_key
+    
+# Optional
+# If we had different keys and usernames for FOO we could add this
+Host FOO
+    Hostname            FOOS_IP_OR_DOMAIN
+    User                foo_user
+    IdentityFile        ~/.ssh/foo_key

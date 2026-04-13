@@ -27,7 +27,7 @@ try
     "colorscheme vividchalk   " Colour Scheme (in ~/.vim/colors)
     colorscheme spaceduck " Colour Scheme (in ~/.vim/colors)
 catch
-    colorscheme peachpuff   " Backup colour scheme (in /usr/share/vim...)
+    colorscheme ron " Backup colour scheme (in /usr/share/vim...)
 endtry
 " Transparency
 "hi Normal guibg=NONE ctermbg=None
@@ -38,7 +38,7 @@ set t_Co=256            " Want 256 colors
 set lazyredraw          " Faster rendering
 
 " Should redo this rule for specific filetypes and just use smartindent
-set cindent             " Uses C indenting rules ({,},),],:,#,^F,o,O,e)
+"set cindent             " Uses C indenting rules ({,},),],:,#,^F,o,O,e)
 set cinkeys-=0#         " No indenting on # mark 
 "set indentkeys-=0#
 let &showbreak="||| "    " Prepends a wrapped line with this symbol
@@ -65,8 +65,8 @@ set novisualbell        " Removes visual bells
 set t_vb=               " Sets visual bell
 
 " Searching
-"set incsearch           " Search command while typing
-"set hlsearch            " Highlights all misspelled words
+set incsearch           " Search command while typing
+set hlsearch            " Highlights all previously searched
 set showmatch           " Shows matching brackets
 nnoremap <silent> <Space> :silent noh<Bar>echo<CR>
 set ignorecase          " Ignore case. Same as /csearchterm

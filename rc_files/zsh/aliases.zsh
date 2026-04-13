@@ -284,7 +284,9 @@ alias_fd() {
 # to micromamba
 snek_wrangling() {
 
-    if (_exists uv)
+    # Second condition is to make sure the below uv function doesn't set this
+    # off
+    if (_exists uv && $(uv --help &> /dev/null) )
     then
         if [[ -d ".venv" ]];
         then
@@ -297,6 +299,8 @@ snek_wrangling() {
         then
             source "${HOME%/}/.venv/bin/activate"
         else
+            uv --help &> /dev/null
+            echo "UV help responded with $?"
             echo "No default python in use"
             echo "\tPlease run \`uv venv --python \$MAJOR.\$MINOR\` in ${HOME}"
         fi
@@ -319,10 +323,10 @@ snek_wrangling() {
             conda activate base
         fi
         echo -e "\033[1;35mNOTE:\033[0m system is using ${KINDA_SNEK[$SNEK]}"
-        echo -e "\tPlease switch to UV"
+        echo -e "\033[1;31mPlease switch to UV\033[0m"
         echo -e '    $ curl -LsSf https://astral.sh/uv/install.sh | sh'
     else
-        echo -e "\tPlease install UV"
+        echo -e "\033[1;31mPlease install UV\033[0m"
         echo -e '    $ curl -LsSf https://astral.sh/uv/install.sh | sh'
     fi
 }
@@ -365,6 +369,7 @@ alias_vim() {
     then
         alias vi='nvim'
         alias vim='nvim'
+        export EDITOR='nvim'
     elif (_exists vim)
     then
         alias vi='vim'
@@ -392,23 +397,28 @@ load_diff_so_fancy() {
 # Idea driven by discussion here: https://github.com/astral-sh/uv/issues/1419
 # Thanks @rosmur! 
 function uv() {
-   # Check that the command `uv` exists
-   if [[ $(command -v "uv") ]];
-   then
-      # We only want to extend the command when given this specific argument
-      if [[ "${@}" == 'pip install --upgrade --all' ]];
-      then
-         uv pip list \
-            | tail -n +3 \
-            | cut -d ' ' -f1 \
-            | xargs uv pip install --upgrade
-      # Otherwise just take the arguments and pass them back to uv as normal
-      else
-         command uv "$@"
-      fi
-   else
-      echo "Command 'uv' not found in PATH"
-   fi
+
+    if [[ $(command -v "uv") ]];
+    then
+        # We only want to extend the command when given this specific argument
+        if [[ "${@}" == 'pip install --upgrade --all' ]];
+        then
+            uv pip list \
+                | tail -n +3 \
+                | cut -d ' ' -f1 \
+                | xargs uv pip install --upgrade
+        # Otherwise just take the arguments and pass them back to uv as normal
+        else
+            command uv "$@"
+        fi
+    else
+        echo "Command 'uv' not found in PATH"
+        cat <<- UVHELP
+            Command 'uv' not found in PATH
+            If you don't have it installed here's the command
+            curl -LsSf https://astral.sh/uv/install.sh | sh
+UVHELP
+    fi
 }
 
 load_function() {
@@ -420,15 +430,15 @@ load_function() {
 
 main() {
     check_versions
-    load_function "$HAVE_TMUX" "tmux_alias" || echo "Tmux aliasing failed"
-    load_function "$HAVE_TOP" "alias_top" || echo "top aliasing failed"
-    alias_ls || echo "ls aliasing failed"
-    load_function "$HAVE_BAT" "alias_bat" || echo "bat aliasing failed"
-    load_function "$HAVE_FZF" "alias_fzf" || echo "fzf aliasing failed"
-    load_function "$HAVE_FD" "alias_fd" || echo "fd aliasing failed"
-    snek_wrangling || echo "Snek wrangling failed! Is this the cobra effect?!"
-    alias_ytdlp || echo "yt-dlp aliasing failed"
-    alias_vim || echo "vim aliasing vailed"
+    load_function "$HAVE_TMUX" "tmux_alias" || echo -e "\033[1;31mTmux aliasing failed\033[m"
+    load_function "$HAVE_TOP" "alias_top" || echo -e "\033[1;31mtop aliasing failed\033[m"
+    alias_ls || echo -e "\033[1;31mls aliasing failed\033[m"
+    load_function "$HAVE_BAT" "alias_bat" || echo -e "\033[1;31mbat aliasing failed\033[m"
+    load_function "$HAVE_FZF" "alias_fzf" || echo -e "\033[1;31mfzf aliasing failed\033[m"
+    load_function "$HAVE_FD" "alias_fd" || echo -e "\033[1;31mfd aliasing failed\033[0m"
+    snek_wrangling || echo -e "\033[1;31mSnek wrangling failed! Is this the cobra effect?!\033[m"
+    alias_ytdlp || echo -e "\033[1;31myt-dlp aliasing failed\033[m"
+    alias_vim || echo -e "\033[1;31mvim aliasing vailed\033[m"
     load_diff_so_fancy
 }
 

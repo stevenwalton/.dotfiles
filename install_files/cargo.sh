@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 DOT_DIR="${DOT_DIR:-${HOME}/.dotfiles}"
 VERBOSE=1
-URL="${URL:-'https://sh.rustup.rs'}"
+URL="${URL:-https://sh.rustup.rs}"
 DOWNLOAD_DIR="${DOWNLOAD_DIR:-/tmp}"
 INSTALLER_NAME="${INSTALLER_NAME:-rust_install.sh}"
 
@@ -42,12 +42,26 @@ get_args() {
     done
 }
 
+cargo_installs() {
+    cargo install $(\
+        cat <<- CARGOINSTALLS
+            coreutils
+            starship
+            cargo-update
+CARGOINSTALLS
+}
+
 # Better version of installing rust
 # Friends don't let friends pipe into bash, even if scripts are wrapped in
-# functions. We also ensure https and try to use better tls
+# functions. We also ensure https 
 install_rust() {
     get_args "$@"
-    curl --proto '=https' --tls1.2 -sSf $URL > "${DOWNLOAD_DIR}/${INSTALLER_NAME}" && sh "${DOWNLOAD_DIR}/${INSTALLER_NAME}"
+    curl --proto '=https' -Ssf $URL > "${DOWNLOAD_DIR}/${INSTALLER_NAME}" && sh "${DOWNLOAD_DIR}/${INSTALLER_NAME}"
+}
+
+main() {
+    get_args "$@"
+    install_rust
 }
 
 main "@" || exit 1

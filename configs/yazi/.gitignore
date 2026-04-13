@@ -1,4 +1,4 @@
-plugins
+plugins/*
 flavors
 # Backup files if any
 *.toml-*
