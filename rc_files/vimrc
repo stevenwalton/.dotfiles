@@ -76,7 +76,7 @@ set smartcase           " Override ignorecase if upper case used in search
 "   menuone: popup even with one match
 "   preview: show extra info in preview menu
 "   fuzzy:   enable fuzzy matching (see :h fuzzy-matching)
-set completeopt=menuone,popup,preview,fuzzy
+set completeopt=menuone,popup,preview
 
 " Splitting
 set splitright          " Puts new window to right of current (vsplit)
