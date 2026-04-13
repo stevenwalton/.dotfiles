@@ -63,6 +63,7 @@ keybind = ctrl+left_bracket=text:\x1b
 #keybind = global:cmd+alt+[=toggle_quick_terminal
 keybind = global:alt+[=toggle_quick_terminal
 #quick-terminal-position = center
+keybind = alt+c=text:osascript ${DOTFILE_DIR%/}/scripts/OSX/caffeine.scpt
 
 # ctrl+cmd+t for new terminal window (even when ghostty isn't in focus)
 #keybind = global:ctrl+cmd+t=new_window
@@ -87,8 +88,14 @@ keybind = ctrl+alt+n=prompt_surface_title
 keybind = cmd+up=scroll_page_up
 keybind = cmd+down=scroll_page_down
 # Scroll half pages (right for forward, left for back)
-keybind = cmd+right=scroll_page_fractional:0.5
-keybind = cmd+left=scroll_page_fractional:-0.5
+keybind = cmd+right=scroll_page_fractional:0.25
+keybind = cmd+left=scroll_page_fractional:-0.25
+# Testing some more vim like motions 
+keybind = cmd+j=scroll_page_lines:1
+keybind = cmd+k=scroll_page_lines:-1
+keybind = cmd+shift+h=scroll_page_fractional:-1.0
+keybind = cmd+shift+m=scroll_page_fractional:0.50
+keybind = cmd+shift+l=scroll_page_fractional:1.00
 # Same thing but vim-like bindings 
 # If we use actual vim bindings ghostty takes over... :(
 # Issue is being worked on so these should work later

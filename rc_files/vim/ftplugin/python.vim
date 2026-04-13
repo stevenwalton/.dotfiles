@@ -12,4 +12,7 @@ if !has('nvim')
     setlocal keywordprg=:Pydoc
 endif
 " Extend matching for keywords (ctags needs --extras=+q)
-setlocal iskeyword+=.
+" Note: iskeyword+=. breaks LSP completion (LSP needs '.' as a trigger char)
+if !has('nvim')
+    setlocal iskeyword+=.
+endif
