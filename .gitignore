@@ -1,12 +1,21 @@
 # Note:
 # There are .gitignore files in specific directories to handle those programs
-*.sw?
-~*
-.netrwhist
-*/.netrwhist
-tags
-.DS_Store
-*.sqlite
-# LOL No. Good try
-api_keys/
-*.api
+*.*
+
+# Ignore Everything by default:
+#   Whitelist
+!.git*
+!README.md
+!ansible
+!Notes
+!configs
+!install_files
+!rc_files
+!scripts
+!skeletons
+!unused
+!install.sh
+
+# Always Ignore
+**.DS_Store
+**.sw?

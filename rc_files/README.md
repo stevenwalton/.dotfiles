@@ -12,7 +12,7 @@ find "${DOTFILES_PATH%/}/rc_files" \
     ! -name "*root" \
     ! -name "zsh" \
     -exec bash -c \
-    'ln -sf "${0}" "${HOME%/}.${0##*/}"' \
+        'ln -sf "${0}" "${HOME%/}.${0##*/}"' \
     {} \; 
 ```
 <sub><sub>Note: on OSX add `! -name "mozilla"`. The _contents_ needs to instead 

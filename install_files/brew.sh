@@ -25,6 +25,15 @@ sheldon \
     echo $list
 }
 
+CaskList() {
+    list="\
+dockdoor \
+linearmouse \
+"
+    echo $list
+}
+
+
 BrewFontList() {
     list="\
 font-fira-code \
@@ -38,6 +47,7 @@ font-powerline-symbold \
 
 BrewInstall() {
     brew install "$BrewList"
+    btre install --cask "$CaskList"
     if [[ $FONTS ]]; then
         brew tap homebrew/cask-fonts
         brew install --cask "$BrewFontList"
