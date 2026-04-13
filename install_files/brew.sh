@@ -91,9 +91,13 @@ PACKAGELIST
 CaskList() {
     # Just this for now
     # ghostty: The best term emulator
+    # dockdoor: better alt-tab
+    # linearmouse: different mice get different rules
     brew install --cask $(\
         cat <<- CASKLIST
             ghostty
+            dockdoor
+            linearmouse
 CASKLIST
 )
 }
@@ -117,7 +121,7 @@ FIRAFONTS
 # Main install function
 BrewInstall() {
     gecho "Installing main brew packages"
-    #BrewList || recho "Failed to install general brew list"
+    BrewList || recho "Failed to install general brew list"
     gecho "Installing Powerline fonts"
     BrewFontList || recho "Failed to install fonts"
     gecho "Installing cask based packages"

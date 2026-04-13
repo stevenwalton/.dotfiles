@@ -8,6 +8,26 @@ which is for `~/.ssh/config` (same as `man ssh_config`).
 - [Nice comment on HN explaining all
 configs](https://news.ycombinator.com/item?id=43598837)
 
+Quick Commands
+```bash
+# SSH-KEYGEN
+# ----------
+# Create SSH Key
+## Defaults to ed25519, comment is usually email
+ssh-keygen -t ed25519 -C "some comment" -f ~/.ssh/my_new_key
+# Key that expires in a year and is valid since last week
+ssh-keygen -C "some comment" -V -1w:+52y
+# Show fingerprint (add `-v` to show art)
+ssh-keygen -l -f ~/.ssh/whats_my_fingerprint
+
+# SSH-ADD
+# -------
+# Show agent identities 
+ssh-add -L
+# Show agent fingerprints
+ssh-add -l
+```
+
 ### Speeding Up Connections
 
 ```bash
@@ -142,6 +162,14 @@ This can be very useful for the ssh matching
 Forwarding](https://ittavern.com/visual-guide-to-ssh-tunneling-and-port-forwarding/)
     - [HN comments](https://news.ycombinator.com/item?id=41596818) has some
         useful tricks
+
+## Advanced SSH: Certificates
+An advanced ssh feature is the creation of certificates.
+This makes multi-user access simpler and gives us better control policies.
+We need to create a certificate authority on our machine and then just sign
+keys.
+We can even add things like 
+
 ### Random Useful Things
 In `ssh` there is a 'secret' command `~` that you can use.
 You must enter this on a new command line.
@@ -202,6 +230,9 @@ firewall-cmd --list-services
 # Add a service by name (e.g. ssh)
 # add `--permanent` to make it persistant 
 firewall-cmd --add-service ssh
+# If you've made several changes and it is all good you can save
+# the active configuration (but make sure it is correct!)
+firewall-cmd --runtime-to-permanent
 # Do so temporarily (1 hour. Also knows 'm' for minutes)
 firewall-cmd --add-service ssh --timeout=1h
 # use `--runtime-to-permanent` to make a temp a permanent

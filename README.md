@@ -1,16 +1,32 @@
 Organization
 ====
+This repo is organized to keep things clean and organized.
+This makes installation much easier as you can effectively install everything
+with two `find` commands.
+It'll work like this
+
+```bash
+find "${DOTFILES_PATH%/}/<DIRECTORY>" \
+    -maxdepth 1 \
+    ! -name "*.md" \
+    ! -name "<EXCLUDE ME>" \
+    -exec bash -c \
+        'ln -sf "${0}" "${HOME%/}.${0##*/}"' \
+    {} \;
+```
+
 Use the following organization scheme
 - `ansible`: location for ansible scripts, tasks, playbooks, etc
 - `assets`: Location for assets like the imgs here
-- `configs`: configs that belong to `${HOME}/.config`
+- `configs`: configs that belong to `${HOME}/.config` (`$XDG_CONFIG_HOME`)
 - `installs`: scripts to install some programs from source
 - `Notes`: Notes and self-documentation
 - `misc`: Stuff where I have nowhere better to place it.
 - `rc_files`: rc and config files that belong in `$HOME`
 - `scripts`: Useful scripts
 
-Previously .vimrc repo
+Each directory has an independent `.gitignore` file, making it clear what is
+ignored and how.
 
 # Using these files
 Most things should be able to be installed with the install script. 
