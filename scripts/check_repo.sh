@@ -42,7 +42,7 @@ CheckRepo() {
     #
     # Push to dev/null is like `--quiet` but also suppresses visual ssh fingerprints
     git fetch -C "${PROJECT_ROOT}" "${upstream_name}" "${upstream_branch}" &>/dev/null
-    ahead=$(git rev-list --count "${CURRENT_BRANCH}"..upstream/main)
+    ahead=$(git -C "${PROJECT_ROOT}" rev-list --count "${CURRENT_BRANCH}"..upstream/main)
     if [ "$ahead" -gt 0 ];
     then
         SendMail "($project):${UPSTREAM}: ${ahead} ahead" \
