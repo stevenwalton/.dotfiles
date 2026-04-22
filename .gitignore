@@ -6,14 +6,14 @@
 #   Whitelist
 !.git*
 !README.md
-!ansible
-!Notes
-!configs
-!install_files
-!rc_files
-!scripts
-!skeletons
-!unused
+!ansible/*
+!Notes/*
+!configs/*
+!install_files/*
+!rc_files/*
+!scripts/*
+!skeletons/*
+!unused/*
 !install.sh
 
 # Always Ignore

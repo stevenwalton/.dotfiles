@@ -63,13 +63,12 @@ keybind = ctrl+left_bracket=text:\x1b
 #keybind = global:cmd+alt+[=toggle_quick_terminal
 keybind = global:alt+[=toggle_quick_terminal
 #quick-terminal-position = center
+# Toggle caffeine. Be careful, you must have a terminal open here and it will
+# just dump the command into the input. You must still press enter
 keybind = alt+c=text:osascript ${DOTFILE_DIR%/}/scripts/OSX/caffeine.scpt
 
-# ctrl+cmd+t for new terminal window (even when ghostty isn't in focus)
-#keybind = global:ctrl+cmd+t=new_window
+# opt + shift + t = new window
 keybind = global:alt+shift+t=new_window
-#                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^    Paste text into term
-#                                                               ^^ hit enter
 #                   ########################################
 #                                 Adjust Pane
 #                   ########################################
