@@ -3,6 +3,7 @@
 # Simple bash script to help determine if git repos are out of sync
 # Script will fetch the upstream path and mail the user if their branch is
 # behind the specified one
+# Bonus: see my starship config to add a notice to your statusline
 #
 # Set this to a cron job, systemd scheduler, git hook, LLM scheduler, or
 # whatever you want
@@ -41,7 +42,7 @@ CheckRepo() {
     project=$(basename "${PROJECT_ROOT}")
     #
     # Push to dev/null is like `--quiet` but also suppresses visual ssh fingerprints
-    git fetch -C "${PROJECT_ROOT}" "${upstream_name}" "${upstream_branch}" &>/dev/null
+    git -C "${PROJECT_ROOT}" fetch "${upstream_name}" "${upstream_branch}" &>/dev/null
     ahead=$(git -C "${PROJECT_ROOT}" rev-list --count "${CURRENT_BRANCH}"..upstream/main)
     if [ "$ahead" -gt 0 ];
     then
