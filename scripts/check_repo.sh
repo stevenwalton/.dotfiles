@@ -17,6 +17,9 @@ set -eu -o pipefail
 #set -x
 
 # If you would like to mail other users then turn this into a list
+# See `-c` and `-b` flags in mail
+# You may also be interested in the section "Personal and System Wide
+# Distribution Lists"
 MAIL_USER=${MAIL_USER:-$(whoami)}
 # Use space separated
 PROJECT_ROOT=
@@ -51,15 +54,12 @@ CheckRepo() {
     fi
 }
 
-# If you want to mail to multiple users then loop this
+# If you want to mail to multiple users then see the `-c` and `-b` mail flags
 SendMail() {
-    #for user in "${MAIL_USER[@]};
-    #do
     echo -e "${2}" | mail -s "${1}" "${MAIL_USER}" || exit 1
     #          |                |          |____ User
     #          |                |_______________ Header
     #          |________________________________ Message
-    #done
 }
 
 usage() {

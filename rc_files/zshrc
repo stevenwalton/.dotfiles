@@ -65,7 +65,7 @@ fi
 
 # Bind keys for history substring search
 bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down\
+bindkey '^[[B' history-substring-search-down
 
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
@@ -134,3 +134,9 @@ source "${ZSH_DIR%/}/basic_aliases.zsh"
 
 # Spaceduck highlighting
 source "${ZSH_DIR%/}/spaceduck.zsh"
+
+if [[ -a "${ZSH_DIR%/}/Adobe.zsh" ]];
+then
+    source "${ZSH_DIR%/}/Adobe.zsh"
+fi
+
