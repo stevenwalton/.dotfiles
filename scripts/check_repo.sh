@@ -3,6 +3,7 @@
 # Simple bash script to help determine if git repos are out of sync
 # Script will fetch the upstream path and mail the user if their branch is
 # behind the specified one
+# Bonus: see my starship config to add a notice to your statusline
 #
 # Set this to a cron job, systemd scheduler, git hook, LLM scheduler, or
 # whatever you want
@@ -16,6 +17,9 @@ set -eu -o pipefail
 #set -x
 
 # If you would like to mail other users then turn this into a list
+# See `-c` and `-b` flags in mail
+# You may also be interested in the section "Personal and System Wide
+# Distribution Lists"
 MAIL_USER=${MAIL_USER:-$(whoami)}
 # Use space separated
 PROJECT_ROOT=
@@ -41,7 +45,7 @@ CheckRepo() {
     project=$(basename "${PROJECT_ROOT}")
     #
     # Push to dev/null is like `--quiet` but also suppresses visual ssh fingerprints
-    git fetch -C "${PROJECT_ROOT}" "${upstream_name}" "${upstream_branch}" &>/dev/null
+    git -C "${PROJECT_ROOT}" fetch "${upstream_name}" "${upstream_branch}" &>/dev/null
     ahead=$(git -C "${PROJECT_ROOT}" rev-list --count "${CURRENT_BRANCH}"..upstream/main)
     if [ "$ahead" -gt 0 ];
     then
@@ -50,15 +54,12 @@ CheckRepo() {
     fi
 }
 
-# If you want to mail to multiple users then loop this
+# If you want to mail to multiple users then see the `-c` and `-b` mail flags
 SendMail() {
-    #for user in "${MAIL_USER[@]};
-    #do
     echo -e "${2}" | mail -s "${1}" "${MAIL_USER}" || exit 1
     #          |                |          |____ User
     #          |                |_______________ Header
     #          |________________________________ Message
-    #done
 }
 
 usage() {

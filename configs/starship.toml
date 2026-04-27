@@ -11,6 +11,7 @@ follow_symlinks = false
 # https://starship.rs/presets/pastel-powerline.html
 format = """
 [](#9A348E)\
+${custom.mail}\
 $username\
 $hostname\
 $os\
@@ -190,3 +191,11 @@ time_format = "%R" # Hour:Minute Format
 style = "bg:#33658A fg:#f2ce00"
 format = '[ ♥ $time ]($style)'
 
+# You've got mail?
+[custom.mail]
+description = "Indicate if unread mail in system spool"
+when = '[ -s "${MAIL:-/var/mail/$USER}" ]'
+command = 'printf ""'
+format = '[$symbol ]($style)'
+symbol = ''
+style = 'bold fg:yellow bg:#9A348E'

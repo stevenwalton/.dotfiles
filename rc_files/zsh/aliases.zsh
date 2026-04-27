@@ -118,7 +118,7 @@ alias_ls() {
     }
     alias_base_ls() {
         alias ls='ls -v --color=auto -h' # numerical sort, color, human readable
-        alias la='ls -A' # ignore . and ..
+        alias la='ls -a' 
         alias ll='ls -lh'
     }
     if [[ $HAVE_LS -eq 1 ]];
