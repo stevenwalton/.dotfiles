@@ -107,9 +107,9 @@ alias_top() {
 ################################################################################
 alias_ls() {
     alias_lsd() {
-        alias ls='lsd'
-        alias la='lsd -A' # A drops . and ..
-        alias ll='lsd -l' # h is automatic
+        alias ls='lsd --group-dirs=first'
+        alias la='lsd -A --group-dirs=first' # A drops . and ..
+        alias ll='lsd -l --group-dirs=first' # h is automatic
     }
     alias_exa() {
         alias ls='exa'
@@ -373,6 +373,15 @@ alias_vim() {
     elif (_exists vim)
     then
         alias vi='vim'
+    fi
+}
+
+# DEFAULTS SHOULD NOT FILTER THINGS!!!
+# THAT'S WHAT PIPES ARE FOR FFS!
+alias_rg() {
+    if (_exists rg)
+    then
+        alias rg='rg --no-ignore-dot'
     fi
 }
 
