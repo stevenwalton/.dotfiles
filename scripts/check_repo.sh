@@ -25,8 +25,10 @@ MAIL_USER=${MAIL_USER:-$(whoami)}
 PROJECT_ROOT=
 # Use format "upstream/main"
 # We expect the "/"
-UPSTREAM=${UPSTREAM:-orgin/main}
+UPSTREAM=${UPSTREAM:-origin/main}
 CURRENT_BRANCH=${CURRENT_BRANCH:-HEAD}
+# State Directory: (what's the current state)
+STATE_DIR=${STATE_DIR:-${HOME}/.cache}
 
 RED="\033[1;31m"
 CLR="\033[0m"
@@ -37,20 +39,44 @@ err_msg() {
     exit 1
 }
 
+CheckStateFile() {
+    local project
+    project=$(basename "${PROJECT_ROOT}")
+    # Make the state directory if it doesn't exist
+    if [[ ! -d "${STATE_DIR}" ]];
+    then
+        mkdir -p "${STATE_DIR%/}"
+    fi
+    echo "${STATE_DIR}/${project}-${CURRENT_BRANCH//\//-}-2-${UPSTREAM//\//-}.tag"
+}
+
 # Checks the upstream
 CheckRepo() {
-    upstream_name=$(echo ${UPSTREAM} | cut -d '/' -f1)
-    upstream_branch=$(echo ${UPSTREAM} | cut -d '/' -f2)
+    # Git allows '/' in the branch name
+    # Up-to first /
+    upstream_name="${UPSTREAM%%/*}"
+    # Everything after first /
+    upstream_branch="${UPSTREAM#*/}"
     working_branch=$(git -C "${PROJECT_ROOT}" branch --show-current)
     project=$(basename "${PROJECT_ROOT}")
     #
     # Push to dev/null is like `--quiet` but also suppresses visual ssh fingerprints
     git -C "${PROJECT_ROOT}" fetch "${upstream_name}" "${upstream_branch}" &>/dev/null
-    ahead=$(git -C "${PROJECT_ROOT}" rev-list --count "${CURRENT_BRANCH}"..upstream/main)
-    if [ "$ahead" -gt 0 ];
+    #
+    # We only want integers here
+    declare -i ahead=$(git -C "${PROJECT_ROOT}" rev-list --count "${CURRENT_BRANCH}"..${UPSTREAM})
+    state_file=$(CheckStateFile)
+    if [[ "${ahead}" == 0 && -f "${state_file}" ]];
     then
-        SendMail "($project):${UPSTREAM}: ${ahead} ahead" \
-                 "${UPSTREAM} is $ahead commits ahead of ${working_branch} (your current branch)."
+        rm "${state_file}"
+    elif [[ "$ahead" -gt 0 ]];
+    then
+        if [[ ! -f "${state_file}" ]];
+        then
+            SendMail "($project):${UPSTREAM}: ${ahead} ahead" \
+                     "${UPSTREAM} is $ahead commits ahead of ${working_branch} (your current branch)."
+        fi
+        echo "${ahead}" > "${state_file}"
     fi
 }
 
@@ -79,11 +105,13 @@ Options:
     -c, --current-branch    Current branch to check [default: ${CURRENT_BRANCH}]
     -h, --help              Print this message
     -m, --mail-to           Send mail to a specific user [default: ${MAIL_USER}]
+    -s, --cache-dir         Directory to save cache tag [default: ${STATE_DIR}]
 
 ENV VARS:
     MAIL_USER           Sets the user to mail to [currently: \$(whoami)=$(whoami)]
     UPSTREAM            The upstream name/branch [currently: ${UPSTREAM}]
     CURRENT_BRANCH      The branch to compare with [currently: ${CURRENT_BRANCH}]
+    STATE_DIR           Directory that we save the cached state [currently: ${STATE_DIR}]
 
 Example:
     ./check_repo.sh --branch "upstream/main" --mail-to "alice" "~/Work Programming/Fast moving project"
@@ -111,6 +139,18 @@ get_args() {
                shift
                UPSTREAM="${1}"
                ;;
+            -c | --current-branch)
+                shift
+                CURRENT_BRANCH="${1%/}"
+                ;;
+            -m | --mail-to)
+                shift
+                MAIL_USER="${1}"
+                ;;
+            -s | --cache-dir)
+                shift
+                STATE_DIR="${1%/}"
+                ;;
             *)
                 ;;
         esac
