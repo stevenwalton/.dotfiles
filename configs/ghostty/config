@@ -122,7 +122,9 @@ keybind = alt+shift+s=write_selection_file:copy
 keybind = cmd+shift+s=toggle_secure_input
 
 # Adjust opacity of unfocused pane
-unfocused-split-opacity=0.75
+# 1.0 = Bright
+# 0.0 = Dark
+unfocused-split-opacity=0.90
 # Why did I implement this?
 #   It does esc + enter?
 #   Signals end of command?

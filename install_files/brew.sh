@@ -41,8 +41,10 @@ BrewList() {
     # fd: fast find (note: respects .gitignore by default)
     # ffmpeg-full: all ffmpeg (yazi wants)
     # fzf: fuzzy search
+    # gh: github cli tool
+    # git-delta: better delta for gh (e.g. `gh pr diff <N> | delta`)
     # git-lfs: git large file storage
-    # glow: markdown rendering in cli
+    # glow: markdown rendering in cli (very useful with `gh`)
     # htop: different top replacement
     # imagemagick-full: image editor (yazi wants for full)
     # jq: Json parser
@@ -57,6 +59,7 @@ BrewList() {
     # tmux: Multiplexer
     # tre: regex library
     # yazi: TUI filebrowser (similar to ranger)
+    # yq: like jq but yaml files
     # zoxide: better cd (yazi wants)
     brew install $(\
         cat <<- PACKAGELIST
@@ -67,6 +70,8 @@ BrewList() {
             fd
             ffmegp-full
             fzf
+            gh
+            git-delta
             git-lfs
             glow
             htop
@@ -83,6 +88,7 @@ BrewList() {
             tmux
             tre
             yazi
+            yq
             zoxide
 PACKAGELIST
 )
