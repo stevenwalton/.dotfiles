@@ -29,6 +29,10 @@ try
 catch
     colorscheme ron " Backup colour scheme (in /usr/share/vim...)
 endtry
+
+set list
+set listchars=tab:▸\ ,trail:·,nbsp:␣
+
 " Transparency
 "hi Normal guibg=NONE ctermbg=None
 set mouse=a             " For people that can't use vim

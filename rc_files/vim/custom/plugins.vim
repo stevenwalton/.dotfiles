@@ -20,11 +20,11 @@ call plug#begin()
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     "                           Interface
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-    Plug 'pineapplegiant/spaceduck'        " Spaceduck theme
+    "Plug 'pineapplegiant/spaceduck'        " Spaceduck theme
     Plug 'ryanoasis/vim-devicons'          " Font icons helpful for nerdtree/airline
     "Plug 'scrooloose/nerdtree'             " Project drawer (File explorer)
     Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
-    Plug 'vim-airline/vim-airline'         " That bottum line you have
+    Plug 'vim-airline/vim-airline'         " That bottom line you have
     "Plug 'vim-airline/vim-airline-themes'
     "Plug 'taglist.vim'                     " Helps with determining code structure (:TlistToggle)
     " Shows a list of tags in a drawer
@@ -49,9 +49,7 @@ call plug#begin()
     Plug 'airblade/vim-gitgutter'          " Shows diff from git in left sidebar (fantastic)
     " Shows commit message associated with line of code
     "Plug 'rhysd/git-messenger.vim'         (Redundant via gitgutter?)
-    " Opens a browser to show a preview of markdown doc
-    " Note: this doesn't like running manually :/
-    Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+    Plug 'MeanderingProgrammer/render-markdown.nvim' "{ 'for': ['markdown']}
     " Increased syntax highlighting for nerdtree
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' }
     " Integration for git with nerdtree

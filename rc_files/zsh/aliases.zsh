@@ -260,8 +260,11 @@ alias_fzf() {
 
     if [[ $HAVE_FD -ge 1 ]];
     then
-        alias fzf="${FD_TYPE[$HAVE_FD]} --no-ignore | fzf"
+        #alias fzf="${FD_TYPE[$HAVE_FD]} --no-ignore | fzf"
+        export FZF_DEFAULT_COMMAND='fd --no-ignore-vcs'
     fi
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    export FZF_ALT_C_COMMAND="$fd --no-ignore-vcs"
     export_fzf_defaults
 }
 
@@ -381,7 +384,8 @@ alias_vim() {
 alias_rg() {
     if (_exists rg)
     then
-        alias rg='rg --no-ignore-dot'
+        # Don't ignore version control files
+        alias rg='rg --no-ignore-vcs'
     fi
 }
 
@@ -447,7 +451,8 @@ main() {
     load_function "$HAVE_FD" "alias_fd" || echo -e "\033[1;31mfd aliasing failed\033[0m"
     snek_wrangling || echo -e "\033[1;31mSnek wrangling failed! Is this the cobra effect?!\033[m"
     alias_ytdlp || echo -e "\033[1;31myt-dlp aliasing failed\033[m"
-    alias_vim || echo -e "\033[1;31mvim aliasing vailed\033[m"
+    alias_vim || echo -e "\033[1;31mvim aliasing failed\033[m"
+    alias_rg || echo -e "\033[1;31mripgrep aliasing failed\033[m"
     load_diff_so_fancy
 }
 
