@@ -114,6 +114,13 @@ fi
 #    the aliases.zsh may change some /bin commands (like top=htop) and we want 
 #    that first
 #################################
+# Load work aliases if available
+if [[ -a "${ZSH_DIR%/}/work.zsh" ]];
+then
+    source "${ZSH_DIR%/}/work.zsh"
+    export WORK_MACHINE=1
+fi
+# 
 if [[ $(uname) == "Linux" ]];
 then
     source "${ZSH_DIR%/}/linux.zsh"
@@ -134,9 +141,4 @@ source "${ZSH_DIR%/}/basic_aliases.zsh"
 
 # Spaceduck highlighting
 source "${ZSH_DIR%/}/spaceduck.zsh"
-
-if [[ -a "${ZSH_DIR%/}/Adobe.zsh" ]];
-then
-    source "${ZSH_DIR%/}/Adobe.zsh"
-fi
 
