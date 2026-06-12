@@ -50,12 +50,12 @@
 # More requires more memory (we don't care....)
 # Use >= number of B frames + 1 to best utilize CPU
 declare -i RC_LOOKAHEAD="${RC_LOOKAHEAD:+32}"
-# For AV1 23 is considered visually lossless, but we'll use 20 because this
-# feels a bit better in my experience
+# For AV1 23 is considered visually lossless
+# We use 22 as a good balance for most content (pristine and pre-compressed)
 # For H264 and H265 (HEVC) this is 17-18
 # https://trac.ffmpeg.org/wiki/Encode/H.264#crf
 declare -Ar CRF_DEFAULTS=(
-    [AV1]=20
+    [AV1]=25
     [h264]=17
     [h265]=17
 )
@@ -93,12 +93,52 @@ declare -i USE_SAQ=1
 declare -i SAQ_STRENGTH=8
 # Temporal AQ
 # Extra bits to low motion frames so they become better reference frames
-# Most benefit when most of frame has little or no motion but 
+# Most benefit when most of frame has little or no motion but
 # high spatial detail
 declare -i USE_TAQ=1
 # For nvidia docs see (might need to change codec url. Just number)
 # https://docs.nvidia.com/video-technologies/video-codec-sdk/12.2/ffmpeg-with-nvidia-gpu/index.html
 #
+
+### B-Frame settings
+# B-frames (bidirectional frames) reference both past and future frames
+# providing 10-20% better compression at same quality
+# Requires Ada Lovelace (RTX 40-series) or newer for B-frame reference support
+# Older GPUs should set USE_BFRAMES=0 or B_REF_MODE="disabled"
+declare -i USE_BFRAMES=${USE_BFRAMES:-1}
+# Number of B-frames to use (0-4, commonly 2-4 for quality)
+# Our RC_LOOKAHEAD of 32 is already optimal (should be >= bf + 1)
+declare -i BFRAMES=${BFRAMES:-3}
+# B-frame reference mode:
+# - "disabled": B-frames not used as references (compatible with all GPUs)
+# - "each": Every B-frame used as reference (max compression but may not be supported)
+# - "middle": Alternating B-frames as references (best balance for AV1)
+declare B_REF_MODE="${B_REF_MODE:-middle}"
+
+### GOP (Group of Pictures) settings
+# Keyframe interval in frames. Default is 9999 which can cause slow seeking.
+# Recommended: 240-300 frames (5-10 seconds) balances compression and seekability
+# At 24fps: 240 frames = 10 seconds, at 30fps: 240 frames = 8 seconds
+# Set to 0 to let encoder decide, or set based on your content's framerate
+declare -i GOP_SIZE=${GOP_SIZE:-240}
+
+### Quality and encoding optimization
+# Tune parameter for quality optimization (1-5)
+# 1 = hq (high quality), 5 = uhq (ultra high quality)
+declare -i TUNE="${TUNE:-1}"
+# AV1 tier: 0 (main) or 1 (high)
+# High tier (1) allows higher bitrates and complexity, appropriate for archival
+declare -i TIER="${TIER:-1}"
+# Multipass encoding: 0 (disabled), 1 (qres), 2 (fullres)
+# 0 = single pass, 1 = two-pass quarter resolution, 2 = two-pass full resolution
+# fullres (2) does two full-resolution passes for better bitrate allocation
+# Doubles encoding time but provides 5-10% better quality/compression
+declare -i MULTIPASS="${MULTIPASS:-2}"
+# High bit depth encoding: -1 (auto-detect), 0 (force 8-bit), 1 (force 10-bit)
+# Auto-detect will match source: 8-bit source -> 8-bit encode, 10-bit source -> 10-bit encode
+# 10-bit adds ~20-25% overhead, only use on 10-bit sources or to prevent banding
+# Set to -1 to let the encoder auto-detect from source material
+declare -i HIGHBITDEPTH="${HIGHBITDEPTH:--1}"
 
 # String format: use for EOL in eval type commands for clearer
 # reading when echo debugging
@@ -182,6 +222,22 @@ ffprobe_encoding_long() {
     echo "$ENCODING"
 }
 
+# Get video bit depth (8, 10, 12, etc.)
+ffprobe_bitdepth() {
+    BITDEPTH=$(ffprobe -v error \
+        -select_streams v:0 \
+        -show_entries stream=bits_per_raw_sample \
+        -of csv=p=0 \
+        "${1}")
+    if [[ "$?" -ne 0 || -z "$BITDEPTH" || "$BITDEPTH" == "N/A" ]];
+    then
+        # Default to 8-bit if we can't detect
+        echo "8"
+    else
+        echo "$BITDEPTH"
+    fi
+}
+
 # Get video runtime
 ffprobe_duration() {
     DURATION=$(ffprobe -v error \
@@ -218,8 +274,61 @@ ffprobe_basic() {
     echo "DURATION: \t$(ffprobe_duration "${1}")"
 }
 
+# Determine if we should use high bit depth encoding (10-bit)
+# $1: input file path
+# Returns 0 for 8-bit, 1 for 10-bit
+# Respects HIGHBITDEPTH environment variable: -1 (auto), 0 (force 8-bit), 1 (force 10-bit)
+should_use_highbitdepth() {
+    declare -i use_highbitdepth=0
+    if [[ $HIGHBITDEPTH -eq -1 ]];
+    then
+        # Auto-detect from source
+        declare -i source_bitdepth=$(ffprobe_bitdepth "${1}")
+        if [[ ${source_bitdepth} -ge 10 ]];
+        then
+            use_highbitdepth=1
+            [[ $DEBUG -gt 0 ]] && echo "Detected ${source_bitdepth}-bit source, using 10-bit encoding"
+        else
+            use_highbitdepth=0
+            [[ $DEBUG -gt 0 ]] && echo "Detected ${source_bitdepth}-bit source, using 8-bit encoding"
+        fi
+    elif [[ $HIGHBITDEPTH -eq 1 ]];
+    then
+        # Manual override to force 10-bit
+        use_highbitdepth=1
+        [[ $DEBUG -gt 0 ]] && echo "Manual override: forcing 10-bit encoding"
+    else
+        # Manual override to force 8-bit (HIGHBITDEPTH=0)
+        use_highbitdepth=0
+        [[ $DEBUG -gt 0 ]] && echo "Manual override: forcing 8-bit encoding"
+    fi
+    echo "${use_highbitdepth}"
+}
+
 # Helper function to encode a video
 ffencode() {
+    # Validate B-frame settings
+    if [[ $USE_BFRAMES -eq 1 ]];
+    then
+        if [[ ${BFRAMES} -gt 4 || ${BFRAMES} -lt 0 ]];
+        then
+            error_msg "B-frame count must be between 0-4, got ${BFRAMES}"
+            exit 1
+        fi
+        if [[ "${B_REF_MODE}" != "disabled" && "${B_REF_MODE}" != "each" && "${B_REF_MODE}" != "middle" ]];
+        then
+            error_msg "B-frame reference mode must be 'disabled', 'each', or 'middle', got '${B_REF_MODE}'"
+            exit 1
+        fi
+    fi
+
+    # Validate GOP size
+    if [[ ${GOP_SIZE} -lt 0 ]];
+    then
+        error_msg "GOP size must be >= 0, got ${GOP_SIZE}"
+        exit 1
+    fi
+
     declare encode_command
     if [[ $HAS_PV -eq 1 && "$USE_PV" -eq 1 ]];
     then
@@ -238,6 +347,24 @@ ffencode() {
     fi
     encode_command+="-c:a copy ${sfmt}-c:v ${VIDEO_CODEC} ${sfmt}"
     encode_command+="-bufsize ${BUFSIZE} ${sfmt}"
+    if [[ ${GOP_SIZE} -gt 0 ]];
+    then
+        encode_command+="-g ${GOP_SIZE} ${sfmt}"
+    fi
+    if [[ $USE_BFRAMES -eq 1 && ${BFRAMES} -gt 0 ]];
+    then
+        encode_command+="-bf ${BFRAMES} ${sfmt}"
+        encode_command+="-b_ref_mode ${B_REF_MODE} ${sfmt}"
+    fi
+    # Add high bit depth flag if needed (for NVENC encoders)
+    if [[ "$USE_CUDA" -eq 1 ]];
+    then
+        declare -i use_highbitdepth=$(should_use_highbitdepth "${INPUT_FILE}")
+        if [[ ${use_highbitdepth} -eq 1 ]];
+        then
+            encode_command+="-highbitdepth 1 ${sfmt}"
+        fi
+    fi
     if [[ ${SAQ_STRENGTH} -gt 0 && $USE_SAQ -eq 1 ]];
     then
         if [[ ${SAQ_STRENGTH} -gt 15 || ${SAQ_STRENGTH} -lt 0 ]];
@@ -282,13 +409,25 @@ encode_av1() {
         CRF=${CRF_DEFAULTS[AV1]}
     fi
     #CRF=${CRF:-20}
-    if [[ $USE_CUDA -eq 1 ]]; 
+
+    if [[ $USE_CUDA -eq 1 ]];
     then
         VIDEO_CODEC="av1_nvenc"
+        # NVENC-specific options for AV1
+        # preset p6 = second-highest quality preset (p7 is max)
+        # lookahead_level 2 = medium lookahead depth (0-3)
+        # surfaces 64 = encoding buffer count for GPU parallelization
+        # tune: 1 = hq (high quality), 5 = uhq (ultra high quality)
+        # tier: 0 = main, 1 = high (allows higher bitrates/complexity for archival)
+        # multipass: 0 = disabled, 1 = qres, 2 = fullres (two-pass encoding)
+        # highbitdepth: auto-detected in ffencode() based on source
+        AOPTS="-preset p6 -lookahead_level 2 -surfaces 64"
+        AOPTS+=" -tune ${TUNE} -tier ${TIER} -multipass ${MULTIPASS}"
     else
         VIDEO_CODEC="libaom-av1"
+        # Software encoder options would go here if needed
+        AOPTS=""
     fi
-    AOPTS="-preset p6 -lookahead_level 2 -highbitdepth 1 -surfaces 64"
     ffencode "${INPUT_FILE}" "${OUTPUT_FILE}"
 }
 

@@ -122,11 +122,10 @@ cat << EOF
 ========================================
             Here be dragons!
 ========================================
-
 EOF
 }
 wmsg=$(login_warning)
-echo -e "\e[1;31m${wmsg}\e[m"
+echo -e "\e[1;31m${wmsg}\n\e[m"
 
 #archey3
 export SUDO_EDITOR=rvim
