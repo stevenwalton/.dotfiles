@@ -22,6 +22,8 @@ fail2ban-client status sshd
 fail2ban-client banned
 # Unban IP
 fail2ban-client set <jail-name> unbanip <ip-address>
+# Unban all
+fail2ban-client unban --all
 
 # Interactive mode (effectively prepends `fail2ban-client` to commands)
 fail2ban-client -i
