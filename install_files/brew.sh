@@ -58,6 +58,8 @@ BrewList() {
     # stats: show computer stats on toolbar
     # tmux: Multiplexer
     # tre: regex library
+    # tree-sitter
+    # tree-sitter-cli
     # yazi: TUI filebrowser (similar to ranger)
     # yq: like jq but yaml files
     # zoxide: better cd (yazi wants)
@@ -87,6 +89,8 @@ BrewList() {
             stats
             tmux
             tre
+            tree-sitter
+            tree-sitter-cli
             yazi
             yq
             zoxide
