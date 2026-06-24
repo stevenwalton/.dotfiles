@@ -63,6 +63,13 @@ call plug#begin()
     " Python Cells for running blocks
     Plug 'jpalardy/vim-slime', { 'for': 'python' }
     Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
+    """""""""" OCTO
+    """""""""" OCTO-dependencies
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-telescope/telescope.nvim'
+    Plug 'nvim-tree/nvim-web-devicons'
+    "
+    Plug 'pwntester/octo.nvim'
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     "                               Commands
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

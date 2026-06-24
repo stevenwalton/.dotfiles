@@ -5,3 +5,5 @@ set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 source ~/.vimrc
 
+" Nvim plugins
+lua require('plugins.octo')
