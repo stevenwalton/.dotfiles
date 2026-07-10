@@ -50,6 +50,8 @@ call plug#begin()
     " Shows commit message associated with line of code
     "Plug 'rhysd/git-messenger.vim'         (Redundant via gitgutter?)
     Plug 'MeanderingProgrammer/render-markdown.nvim' "{ 'for': ['markdown']}
+    " View on webpage
+    Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
     " Increased syntax highlighting for nerdtree
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' }
     " Integration for git with nerdtree
@@ -304,7 +306,14 @@ let g:gutentags_ctags_extra_args = [
 "                  ||_____ Inheritance 
 "                  |______ Access of Class Member
 " Generate tags on write
-let g:gutentags_generate_on_write = 1
+" let g:gutentags_generate_on_write = 1
+" Less intensive
+let g:gutentags_generate_on_write = 0
+let g:gutentags_generate_on_missing = 1
+let g:gutentags_generate_on_new = 1
+let g:gutentags_generate_on_empty_buffer = 0
+let g:gutentags_background_update = 1
+
 " Helpful for debugging: add the gutentag statusline
 "   set statusline+=%{gutentags#statusline()}
 "   let g:gutentags_trace = 1
