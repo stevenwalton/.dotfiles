@@ -17,6 +17,8 @@ call plug#begin()
     " redundant with ALE?
     "Plug 'sheerun/vim-polyglot'            " Comprehensive syntax highlighting
     Plug 'MattesGroeger/vim-bookmarks'     " Annotated marks
+    " ASCII Drawing
+    Plug 'jbyuki/venn.nvim'
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     "                           Interface
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -29,8 +31,6 @@ call plug#begin()
     "Plug 'taglist.vim'                     " Helps with determining code structure (:TlistToggle)
     " Shows a list of tags in a drawer
     Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' } 
-    " Causing tabstop issues
-    "Plug 'nathanaelkane/vim-indent-guides' " Shows the indents
     " FZF with :Files (or other options) opens up in a balloon
     " I guess we need both ¯\_(ツ)_/¯	
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -58,8 +58,6 @@ call plug#begin()
     Plug 'PhilRunninger/nerdtree-buffer-ops', { 'on': 'NERDTreeToggle' }
     " Images in vim (Needs to be configured)
     "Plug '3rd/image.nvim'
-    " Edit notebooks
-    Plug 'goerz/jupytext.nvim' ", { 'on': What goes here? JSON? Or Python?}
     " Python Cells for running blocks
     Plug 'jpalardy/vim-slime', { 'for': 'python' }
     Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
@@ -68,8 +66,6 @@ call plug#begin()
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     " Tab /delimiter (format spacing by delimiter)
     Plug 'godlygeek/tabular'               
-    "  Screenshot highlighted text :Silicon fname
-    " Plug 'segeljakt/vim-silicon'          
 call plug#end()
   
 "-------------------------------------------------------------------------------
