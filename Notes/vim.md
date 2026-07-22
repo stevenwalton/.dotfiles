@@ -2,6 +2,14 @@
 
 Just a collection of some fun commands I learned with examples
 
+## Some Underrated Commands
+Things that are not frequently talked about but are very useful
+```vim
+" Contextual completion
+<C-x><C-?> " see :help ins-completion
+gO " Shows a file-specific navigable outline. Very useful with markdowns and help docs
+```
+
 ## Reformatting Doc-String Blocks
 I was given some python code that had doc-strings in an interesting format
 
