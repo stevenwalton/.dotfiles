@@ -20,6 +20,11 @@ CONFIG_DIR="${CONFIG_DIR:-${HOME%}/.config}"
 INSTALLERS_DIR="${INSTALLERS_DIR:-${DOTFILE_DIR}}"
 VERBOSE=1
 USE_DEFAULTS=
+# Attended by default. An attended run uses `ln -i`, which prompts before
+# replacing anything that already exists, so nothing is clobbered silently.
+# Passing --unattended swaps in `ln -f` and lets the run proceed without gates.
+UNATTENDED=
+LN_OPTS="-sin"
 
 usage() {
     cat << EOF
@@ -40,6 +45,10 @@ OPTIONS:
 
     -y, --yes
         Accept all options
+
+    -u, --unattended
+        Never prompt. Symlinking overwrites existing files instead of asking
+        first. Default is attended, where you are asked before each replace.
 
     -v, --verbose
         Increase verbosity
@@ -68,25 +77,90 @@ install() {
     fi
 }
 
+# Symlink every top-level entry of a directory into a destination directory.
+#
+#   link_tree <source_dir> <dest_dir> <prefix> [ignore_pattern ...]
+#
+# Each <ignore_pattern> is a find -name glob. They are OR'd together and negated
+# as a single group -- `! \( -name a -o -name b \)` -- so adding an exclusion is
+# just another argument rather than another stacked `!`.
+#
+#   link_tree "${DOTFILE_DIR}/rc_files" "${HOME}"       "." "*.md" "*root" "zsh"
+#   link_tree "${DOTFILE_DIR}/configs"  "${CONFIG_DIR}" ""  "*.md"
+#
+# Three details that matter:
+#
+#   -mindepth 1   The start directory is itself at depth 0, so without this find
+#                 returns it too and you get a ~/.rc_files symlink pointing at
+#                 the whole tree. This replaces the old `! -name "rc_files"`.
+#
+#   ! -name '.*'  Skips repo metadata such as configs/.gitignore, which would
+#                 otherwise be linked to ~/.config/.gitignore.
+#
+#   -exec ... +   Passes the entire batch to ONE bash as "$@" instead of forking
+#                 a bash per file (which is what `\;` does), hence the `for`
+#                 loop in the callback and the `_` standing in for $0.
+#                 A parallel variant exists --
+#                   find ... -print0 | xargs -0 -P 8 -n 16 bash -c '...' _
+#                 -- but -P interleaves the `ln -i` prompts into nonsense and
+#                 piping loses find's exit status, so it is not used here.
+#
+# ln flags come from $LN_OPTS: -sin when attended (prompt before replacing),
+# -sfn when --unattended. The -n matters on macOS: BSD ln follows an existing
+# symlink-to-directory and links inside it, where GNU ln replaces it. A real
+# directory at the destination is a different problem that no flag portably
+# solves, so the callback checks for it explicitly.
+link_tree() {
+    local src="${1%/}" dst="${2%/}" prefix="$3"
+    shift 3
+
+    local -a args=( "$src" -mindepth 1 -maxdepth 1 ! -name '.*' )
+
+    # Fold the caller's ignore patterns into one negated -o group
+    if [[ $# -gt 0 ]]; then
+        local pat first=1
+        args+=( '!' '(' )
+        for pat in "$@"; do
+            [[ $first -eq 1 ]] || args+=( -o )
+            args+=( -name "$pat" )
+            first=0
+        done
+        args+=( ')' )
+    fi
+
+    # A real directory at the destination is never replaced automatically.
+    # ln would link *into* it (~/.vim/vim) instead of over it, and -n does
+    # not change that -- -n only governs symlinks-to-directories. GNU has
+    # -T, which refuses correctly, but BSD/macOS ln does not, so the check
+    # lives here where it works on both.
+    args+=( -exec bash -c '
+        dst="$1" prefix="$2" opts="$3"
+        shift 3
+        for f; do
+            target="${dst}/${prefix}${f##*/}"
+            if [[ -d "$target" && ! -L "$target" ]]; then
+                printf "SKIP %s (real directory in the way; move it aside)\n" \
+                    "$target" >&2
+                continue
+            fi
+            ln "$opts" "$f" "$target"
+        done
+    ' _ "$dst" "$prefix" "$LN_OPTS" '{}' + )
+
+    find "${args[@]}"
+}
+
 link_rcfiles() {
-    # TODO: Fix so ${0} replicated ${HOME%/}/${0}" but anywhere 
-    # TODO: Fix for mac which uses -depth and at the post -name position
-    find "${DOTFILE_DIR%/}/rc_files" \
-        -maxdepth 1 \
-        ! -name "rc_files" \
-        ! -name "*.md" \
-        ! -name "*root" \
-        ! -name "mozilla" \
-        ! -name "zsh" \
-        -exec bash -c 'ln -Fis "${0}" "${HOME%/}/.${0##*/}"' {} \;
+    # rc_files/* -> ~/.*   (README.md, bashrc_root, and the zsh/ dir are handled
+    # elsewhere; mozilla's *contents* go to a Library path on macOS)
+    link_tree "${DOTFILE_DIR%/}/rc_files" "${HOME%/}" "." \
+        '*.md' '*root' 'mozilla' 'zsh'
 }
 
 link_configs() {
-    # TODO: Same fixes as above
-    find "${DOTFILE_DIR%/}/configs/" \
-        -maxdepth 1 \
-        ! -name "*.md" \
-        -exec bash -c 'ln -Fis "${0}" "${CONFIG_DIR%/}/${0##*/}"' {} \;
+    # configs/* -> ~/.config/*   (no dot prefix)
+    link_tree "${DOTFILE_DIR%/}/configs" "${CONFIG_DIR%/}" "" \
+        '*.md'
 }
 
 configure_brew() {
@@ -165,6 +239,11 @@ get_args() {
                 ;;
             -q | --quiet)
                 export VERBOSE=0
+                ;;
+            -u | --unattended)
+                # Export so sub-scripts can also skip their own prompts
+                export UNATTENDED=1
+                LN_OPTS="-sfn"
                 ;;
             *)
                 ;;

@@ -346,6 +346,9 @@ report.
 5. Don't silently trust gateways. If the app assumes an edge enforces things
    such as token↔tenant, then verify and document it, and enforce in-app
    anyways.
+6. For any permission-bearing config, the code must honor or explicitly guard
+   **every dimension** it exposes. Add a negative test that a lower privilege
+   cannot obtain a higher capability.
 
 # Committing
 Commit often. This helps us track our progress and lets us undo any mistakes

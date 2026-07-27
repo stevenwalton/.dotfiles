@@ -1,27 +1,27 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:toggle-pane"
-rev = "1962818"
-hash = "4c0260feb50ea2437380690ffc241da7"
+rev = "bbac5e7"
+hash = "15e5b67a241172cbb86b8fbf9e63692"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:git"
-rev = "1962818"
-hash = "26db011a778f261d730d4f5f8bf24b3f"
+rev = "bbac5e7"
+hash = "88e56a64b7ce7c4314427452343fef17"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:diff"
-rev = "1962818"
-hash = "8b1af6b5a69797ee951f2a80ce570818"
+rev = "bbac5e7"
+hash = "a2b67c52fc36d4c7d3ccb8940d9a140"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:full-border"
-rev = "1962818"
-hash = "6fa6a05a81c98dd000fbca3cca6e9682"
+rev = "bbac5e7"
+hash = "7b625412411be411153886894d9acaf"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:mime-ext"
-rev = "1962818"
-hash = "8b177921e50732b2c8e9d71aa5956270"
+rev = "bbac5e7"
+hash = "b33b8b5e45cb10ffd31d3cccb93c6fd7"
 
 [[plugin.deps]]
 use = "AnirudhG07/nbpreview"
@@ -30,8 +30,8 @@ hash = "b83919985400521dee78e1c352b5d9db"
 
 [[plugin.deps]]
 use = "boydaihungst/mediainfo"
-rev = "6fbed8d"
-hash = "57ae6b43c477e117802f176683b78e74"
+rev = "e079a00"
+hash = "8dd8bc3484547390ba50dfa58d7436b0"
 
 [flavor]
 deps = []

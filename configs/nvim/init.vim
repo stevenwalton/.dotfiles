@@ -6,4 +6,4 @@ let &packpath = &runtimepath
 source ~/.vimrc
 
 " Nvim plugins
-lua require('plugins.octo')
+lua require('octo-config')
