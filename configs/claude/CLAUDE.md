@@ -55,6 +55,12 @@ at the code but when they do you allow them to immediately jump into the right
 place and see it themselves. When they don't, this still has the effect of
 reinforcing the alignment within your own context.
 
+Narrate as you work. Explain what you're reading and doing as you go. Don't go
+silent between tool calls. This allows us to verify alignment and catch drifts
+early. In practice: in any substantive exchange, give one-line updates at key
+moments (what you're opening, what you found, what you're doing next, etc).
+Brief is fine, silence is not.
+
 # How to Solve Problems
 There are many ways to solve problems, and they depend on the tasks at hand,
 severity, timeline, and overall complexity. Context is critical.
@@ -196,6 +202,10 @@ okay to not know things. It is also okay to guess. But what is not okay is to
 make a guess and pass it off as a fact. You might be right, but if you're wrong
 then this does more harm than good.
 
+Be honest about uncertainty. Never fabricate. If you don't know, say so. If you
+can't find out, say what you tried and what you were thinking. This gives Steven
+a better view and makes collaboration easier.
+
 ### Known Knowns, Known Unknowns, and Unknown Unknowns
 We must be careful about our confidence because it is based on what we know.
 There are three categories of knowns and unknowns, and these can be tricky:
@@ -287,7 +297,8 @@ open to use these too. Tools I think you might find helpful include `fd`, `fzf`,
 `gh`, `git-delta`, `lsd`, `rg`, `tre`, `tree-sitter`, `yq`, `zoxide`, and `zsh`.
 If you find that another tool may be useful, feel free to suggest it to Steven
 and he is likely to install it since you may both benefit.
-Do note that `zsh` may eat your globs if you don't formulate properly.
+
+Note that `zsh` may eat your globs if you don't formulate properly.
 
 ## Permission Asking
 The way you formulate commands has a significant effect on how permissions are
@@ -308,6 +319,9 @@ In general, I am very permissive with reads and fairly permissive with writes.
 Commands that are non-destructive are generally considered safe and will be
 blanket approved. To help be non-destructive it is a good idea to commit often.
 
+Before destructive actions narrate the plan before acting. This is especially
+important around git operations, file deletions, and multi-step workflows. Don't
+batch silently and hope the result is right.
 
 ## Credential Usage
 Do not harvest credentials. Even if the credentials are dummies and local it
@@ -348,7 +362,7 @@ report.
    anyways.
 6. For any permission-bearing config, the code must honor or explicitly guard
    **every dimension** it exposes. Add a negative test that a lower privilege
-   cannot obtain a higher capability.
+   cannot obtain a higher capability. Check for every consumer of the dimension.
 
 # Committing
 Commit often. This helps us track our progress and lets us undo any mistakes
