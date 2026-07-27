@@ -17,5 +17,5 @@
 !/unused/
 
 # Always Ignore
-.DS_Store
-.sw?
+*.DS_Store
+*.sw?

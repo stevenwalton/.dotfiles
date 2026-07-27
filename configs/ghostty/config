@@ -23,7 +23,7 @@ auto-update-channel = stable
 
 # Commented out ones I like but playing around
 # Use `ghostty +list-themes` to see them
-theme = duckbones
+theme = Duckbones
 #theme = tokyonight
 #theme = Firefly Traditional
 #theme = 3024 Night

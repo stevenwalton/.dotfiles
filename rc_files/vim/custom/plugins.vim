@@ -8,7 +8,7 @@
 " " :PlugSearch foo -searches for foo
 " Switch to Plug: https://github.com/junegunn/vim-plug
 " Adds a bit more power than Vundle, which is deprecated
-call plug#begin()
+call plug#begin('~/.vim/plugged/')
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     "                               Editing 
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -63,13 +63,15 @@ call plug#begin()
     " Python Cells for running blocks
     Plug 'jpalardy/vim-slime', { 'for': 'python' }
     Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
-    """""""""" OCTO
-    """""""""" OCTO-dependencies
-    Plug 'nvim-lua/plenary.nvim'
-    Plug 'nvim-telescope/telescope.nvim'
-    Plug 'nvim-tree/nvim-web-devicons'
-    "
-    Plug 'pwntester/octo.nvim'
+    if has('nvim')
+        """""""""" OCTO
+        """""""""" OCTO-dependencies
+        Plug 'nvim-lua/plenary.nvim'
+        Plug 'nvim-telescope/telescope.nvim'
+        Plug 'nvim-tree/nvim-web-devicons'
+        "
+        Plug 'pwntester/octo.nvim'
+    endif
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     "                               Commands
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

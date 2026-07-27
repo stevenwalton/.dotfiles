@@ -1,7 +1,0 @@
-lsd
-fd-find
-starship
-sheldon
-cargoupdate
-procs
-bandwhich
