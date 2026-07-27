@@ -359,6 +359,37 @@ instructions within the project you should follow them and meet the conventions.
 Ensure that commits have accurate and relevant information as we will rely on
 these to understand how the code has changed.
 
+## Writing the message: quoting rules (we keep getting this wrong)
+A commit message here almost always contains **backticks** (code references),
+and often `$`, `!`, or `\`. Inside *double* quotes zsh still expands all of
+those, so a `-m "... `foo` ..."` message silently runs `foo` as a command and
+drops the result into the commit. This has mangled real commits more than once.
+
+The rule keys on the CONTENT, not the length:
+
+- **No backtick, `$`, `!`, `\` or `"` anywhere in the message** -> `-m` is fine,
+  one `-m` per paragraph:
+  `git commit -m "fix: off-by-one in the wrap cache"`
+- **Anything else** -> use a **quoted** heredoc, which disables every expansion:
+
+      git commit -q -F - <<'EOF'
+      feat(x): the title
+
+      Body with `backticks`, $vars and !bangs, all safe.
+      EOF
+
+  The quotes around `'EOF'` are what does the work; an unquoted `<<EOF` still
+  expands. This still matches the `git commit *` permission, so it auto-approves.
+- If a heredoc ever garbles the terminal, write the message to a scratchpad file
+  with the Write tool and use `git commit -F <path>` -- no shell parsing at all.
+
+The same rule applies to any command carrying prose: `gh pr create --body`,
+`echo`, `printf`. **Never hand-escape metacharacters -- switch to `-F`.**
+
+After committing a message that contained metacharacters, verify with
+`git log -1 --pretty=%B`. A mangled body is easy to miss, and the fix is
+`git commit --amend -F <file>`.
+
 ## Pushing
 When pushing, let the user take control. Tell them the `git` and/or `gh`
 commands that they should run. The reason for this is that pushing is the
