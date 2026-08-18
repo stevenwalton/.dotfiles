@@ -1,2 +1,7 @@
 shaders
 *.bak
+# Symlink to linux_config or osx_config, created per-machine by install.sh
+os_config
+*_config
+# Use the config maker
+config
