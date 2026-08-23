@@ -53,7 +53,7 @@ yecho() {
 # Resolve against this script's own directory rather than DOT_DIR, so the
 # generator works no matter where it is called from or where the repo lives.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-OUT="${SCRIPT_DIR}/os_config"
+OUT="${SCRIPT_DIR}/config"
 
 DetectOS() {
     case "$(uname)" in
