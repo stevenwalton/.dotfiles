@@ -163,6 +163,28 @@ link_configs() {
         '*.md'
 }
 
+# Ghostty has no OS conditional in its config language and config-file only
+# accepts a fixed path, so configs/ghostty/config includes `?os_config` and we
+# point that name at the file matching this machine. The symlink is relative so
+# it survives the repo living somewhere else, and it is gitignored.
+link_ghostty_os_config() {
+    local dir="${DOTFILE_DIR%/}/configs/ghostty"
+    local target
+    case "$(uname)" in
+        Darwin) target="osx_config"   ;;
+        Linux)  target="linux_config" ;;
+        *)
+            echo "Unknown OS '$(uname)', skipping ghostty os config"
+            return 0
+            ;;
+    esac
+    if [[ ! -f "${dir}/${target}" ]]; then
+        echo "Couldn't find ${dir}/${target}"
+        return 1
+    fi
+    ln -sfn "${target}" "${dir}/os_config"
+}
+
 configure_brew() {
     # Installs and configures brew
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
