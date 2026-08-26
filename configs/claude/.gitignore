@@ -1,0 +1,18 @@
+/*
+# Ignore Everything by default:
+#   Whitelist
+## Files
+!/.gitignore
+!CLAUDE.md
+!keybindings.json
+!settings.json
+!/statusline-command.sh
+## Directories
+!/agents/
+#!/agent-memory/
+!/commands/
+!/rules/
+#!/output-styles/
+!/skills/
+!/themes/
+!/workflows/

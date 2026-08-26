@@ -1,0 +1,59 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash(git bisect:*)",
+      "Bash(git commit:*)",
+      "Bash(git diff:*)",
+      "Bash(git fetch:*)",
+      "Bash(git grep:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(git status:*)",
+      "Bash(git ls-tree:*)",
+      "Bash(ls:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(gh issue view:*)",
+      "Bash(gh issue list:*)",
+      "Bash(gh gist view:*)",
+      "Bash(uv run pytest:*)",
+      "Bash(uv run ruff:*)",
+      "WebSearch(domain:arxiv.org)",
+      "WebSearch(domain:anthropic.com)"
+    ],
+    "deny": [
+      "Bash(rm:*)",
+      "Bash(rm -rf:*)",
+      "Bash(find * -delete *)",
+      "Bash(git push:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh issue create:*)",
+      "Bash(gh gist delete:*)",
+      "Bash(gh secret:*)",
+      "Bash(gh ssh-key:*)",
+      "Bash(xargs grep:*)",
+      "Bash(gh gpg-key:*)"
+    ],
+    "ask": [
+      "Bash(find * -exec:*)",
+      "Bash(find * -execdir:*)",
+      "Bash(xargs:*)",
+      "Bash(less:*)"
+    ],
+    "defaultMode": "auto"
+  },
+  "model": "opus[1m]",
+  "statusLine": {
+    "type": "command",
+    "command": "bash $HOME/.config/claude/statusline-command.sh"
+  },
+  "alwaysThinkingEnabled": true,
+  "effortLevel": "xhigh",
+  "tui": "fullscreen",
+  "theme": "dark",
+  "editorMode": "vim"
+}

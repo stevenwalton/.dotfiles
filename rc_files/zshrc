@@ -114,6 +114,11 @@ fi
 #    the aliases.zsh may change some /bin commands (like top=htop) and we want 
 #    that first
 #################################
+# Claude Code config dir. Keep this ABOVE work.zsh: that file sources tooling
+# which reads CLAUDE_CONFIG_DIR, and sourcing it first made those helpers fall
+# back to ~/.claude and split session history away from ~/.config/claude.
+[[ -d ${HOME%/}/.config/claude ]] \
+    && export CLAUDE_CONFIG_DIR="${HOME%/}/.config/claude"
 # Load work aliases if available
 if [[ -a "${ZSH_DIR%/}/work.zsh" ]];
 then
@@ -141,4 +146,3 @@ source "${ZSH_DIR%/}/basic_aliases.zsh"
 
 # Spaceduck highlighting
 source "${ZSH_DIR%/}/spaceduck.zsh"
-
