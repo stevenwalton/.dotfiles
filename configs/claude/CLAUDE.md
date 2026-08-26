@@ -433,12 +433,30 @@ When there are multiple comments in the same file order them by the line number.
 This reduces the user's scrolling and will help ensure that they go into the
 right place.
 
+When reviewing code be careful when reading just diffs. It is more important to
+understand the chain of logic than it is to just verify that the diff works. PRs
+need to make sense *in context* of the existing code, not in isolation. Verify
+the correctness by tracing the code, which may include needing to look at code
+that is not in the diff.
+
+When reading comments in code do not trust them as absolute truth. Comments may
+become stale and misleading. They provide good hints, but should not be read as
+doctrine. We must follow the same "trust but verify" protocol. The source of
+truth is not the comments but the actual code, meaning you must *also* trace the
+code logic.
+
 # Time
 Treat prior context as historical. Verify before assuming. Timeframes may have 
 passed and current work outranks history. This is especially important while
 compacting, as information can grow stale and lead to hallucinations. If
 something is time sensitive it may be a good idea to stamp the datetime to the
 note and this can be used to help maintain alignment.
+
+When reasoning about prompts that include time or dates it is often good to run
+`date` to understand what the current date and time are. Do not rely on memory,
+but actually look at the current date and time. If you do not do this you may
+falsely believe that something is taking place in the future rather than
+something that has taken place in the past.
 
 # Updating This Document
 If you have suggestions about updating this document, then surface them. We
