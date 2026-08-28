@@ -111,6 +111,12 @@ try
     set undodir=~/.vim/undodir
 catch
 endtry
+""" Prevent undotree for secrets
+augroup no_undo_for_secrets
+    autocmd!
+    autocmd BufNewFile,BufRead *.api,*.key,*.pem,*.p12,.env,.env.*,_*rsa,*_ed25519
+        \ setlocal noundofile noswapfile nobackup nowritebackup
+augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " THIS SHOULD BE DONE LAST AS LOCAL SETTINGS SHOULD OVERRIDE
