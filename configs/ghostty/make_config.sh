@@ -75,25 +75,30 @@ DetectOS() {
     gecho "Detected ${OS}: \$CMD=${CMD}, \$OPT=${OPT}"
 }
 
-########################################
-#            Shared Bindings
-########################################
-# Written once, spelled per platform. Note the escaping rules in the heredoc:
-#   ${CMD} / ${OPT}   expanded here, at generation time
-#   \${EDITOR} etc    passed through literally for the shell to expand later
-#   \x1b  \r          left alone
-WriteShared() {
-    cat > "$OUT" <<EOF
+# Contains the header to the generated file and will overwrite the new config
+WriteHeader() {
+    cat > "${OUT}" << EOF
 ################################################################################
 # GENERATED FILE -- DO NOT EDIT
 #
 # Written by configs/ghostty/make_config.sh for ${OS}.
-# Anything you change here is lost on the next run. Edit the generator instead,
-# then re-run it. Included from \`config\` via \`config-file = ?os_config\`.
+# For OS only edits please edit ${OS}_config.txt
 #
 #   \$CMD = ${CMD}   (key beside the spacebar)
 #   \$OPT = ${OPT}   (key one out)
 ################################################################################
+EOF
+}
+
+########################################
+#            Shared Bindings
+########################################
+# Written once, spelled per platform. 
+#   ${CMD} / ${OPT}   expanded here, at generation time
+#   \${EDITOR} etc    passed through literally for the shell to expand later
+#   \x1b  \r          left alone
+WriteShared() {
+    cat >> "$OUT" <<EOF
 
 # Shortcut to open editor with \$EDITOR instead of notepad
 keybind = ${CMD}+,=text:\${EDITOR} \${HOME%/}/.config/ghostty/config \r
@@ -198,32 +203,25 @@ EOF
 }
 
 ########################################
+#           Common Bindings
+#       True regardless of the OS
+########################################
+WriteCommon() {
+    cat make_common.txt >> "$OUT"
+}
+
+########################################
 #           macOS Only Bindings
 ########################################
-# osascript and the script path do not exist on Linux, so this stays gated.
 WriteMacOnly() {
-    cat >> "$OUT" <<EOF
+    cat make_osx.txt >> "$OUT"
+}
 
-#                   ########################################
-#                                   Caffeine
-#                   ########################################
-# Toggle caffeine. Be careful, you must have a terminal open here and it will
-# just dump the command into the input. You must still press enter
-keybind = ${OPT}+c=text:osascript \${DOTFILE_DIR%/}/scripts/OSX/caffeine.scpt
-
-#                   ########################################
-#                              Pane resize noise
-#                   ########################################
-# macOS beeps on ctrl+cmd+{left,down,right} because the system has no binding
-# for them. Silence it in ~/Library/KeyBindings/DefaultKeyBinding.dict
-# (create KeyBindings if necessary) and add these lines
-# {
-#  "@^\UF701" = "noop";
-#  "@^\UF702" = "noop";
-#  "@^\UF703" = "noop";
-#}
-# https://github.com/ghostty-org/ghostty/discussions/5521#discussioncomment-12306028
-EOF
+########################################
+#           Linux Only Bindings
+########################################
+WriteLinuxOnly() {
+    cat make_linux.txt >> "$OUT"
 }
 
 ########################################
@@ -252,9 +250,16 @@ main() {
     # writes through it into the target, so clear it first.
     [[ -L "$OUT" ]] && rm -f "$OUT"
 
+    # This overwrites config, all else append
+    WriteHeader || { recho "Failed to write the header"; return 1; }
+
+    WriteCommon || { recho "Failed writing Common section"; return 1; }
+
     WriteShared || { recho "Failed writing ${OUT}"; return 1; }
     if [[ "$OS" == "osx" ]]; then
         WriteMacOnly || { recho "Failed writing macOS section"; return 1; }
+    elif [[ "$PS" == "linux" ]]; then
+        WriteLinuxOnly || { recho "Failed writing Linux section"; return 1; }
     fi
 
     Validate || return 1
