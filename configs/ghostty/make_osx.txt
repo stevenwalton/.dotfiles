@@ -3,7 +3,7 @@
 #                   ########################################
 # Toggle caffeine. Be careful, you must have a terminal open here and it will
 # just dump the command into the input. You must still press enter
-keybind = ${OPT}+c=text:osascript \${DOTFILE_DIR%/}/scripts/OSX/caffeine.scpt
+keybind = alt+c=text:osascript \${DOTFILE_DIR%/}/scripts/OSX/caffeine.scpt
 
 #                   ########################################
 #                              Pane resize noise

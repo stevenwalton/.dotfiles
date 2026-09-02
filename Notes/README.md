@@ -72,6 +72,9 @@ The project is organized as follows
 			 Small tricks that make life a little easier
     </li>
     <li>
+        <a href="steam.md">steam.md</a>
+    </li>
+    <li>
         <a href="systemd.md">systemd.md</a>:
 			 Systemd can be touch to learn
     </li>
