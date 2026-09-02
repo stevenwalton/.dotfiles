@@ -1,0 +1,57 @@
+# Use cmd/ctrl + shift + , to reload file I also set cmd+, to paste the open command so use that for quick access to
+# this file.
+# You can find the potential commands here
+#   https://ghostty.org/docs/config/keybind/reference
+# And trigger sequences here
+#   https://ghostty.org/docs/config/keybind/sequence
+#
+# To make pane resizing (⌘+^+{←↓→} (up is already silent...) silent in OSX edit 
+# ~/Library/KeyBindings/DefaultKeyBinding.dict
+# (create KeyBindings if necessary)
+# and add these lines
+# {
+#  "@^\UF701" = "noop";
+#  "@^\UF702" = "noop";
+#  "@^\UF703" = "noop";
+#}
+# https://github.com/ghostty-org/ghostty/discussions/5521#discussioncomment-12306028
+#
+# Use nightly version
+#auto-update-channel = tip
+auto-update-channel = stable
+
+# Commented out ones I like but playing around
+# Use `ghostty +list-themes` to see them
+theme = Duckbones
+#theme = tokyonight
+#theme = Firefly Traditional
+#theme = 3024 Night
+#theme = Abernathy
+
+mouse-hide-while-typing=true
+# Set opacity to 80%
+background-opacity=0.8
+
+font-family = Hack Nerd Font Mono
+
+shell-integration = zsh
+# https://ghostty.org/docs/config/reference#shell-integration-features
+# sudo keeps terminfo
+# ssh-env enables ssh env variable compatibility
+# ssh-terminfo automatically sends terminfo
+shell-integration-features=sudo,ssh-env,ssh-terminfo
+
+# Adjust opacity of unfocused pane
+# 1.0 = Bright
+# 0.0 = Dark
+unfocused-split-opacity=0.90
+
+#                   ########################################
+#                                    Fixes
+#                   ########################################
+# Restore <C-[> as being alias for ESC
+# https://ghostty.org/docs/config/keybind/reference#csi
+keybind = ctrl+left_bracket=text:\x1b
+
+# Rename the title of the surface (tab,window,etc)
+keybind = ctrl+alt+n=prompt_surface_title

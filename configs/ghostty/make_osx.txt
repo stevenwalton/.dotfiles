@@ -1,0 +1,19 @@
+#                   ########################################
+#                                   Caffeine
+#                   ########################################
+# Toggle caffeine. Be careful, you must have a terminal open here and it will
+# just dump the command into the input. You must still press enter
+keybind = alt+c=text:osascript \${DOTFILE_DIR%/}/scripts/OSX/caffeine.scpt
+
+#                   ########################################
+#                              Pane resize noise
+#                   ########################################
+# macOS beeps on ctrl+cmd+{left,down,right} because the system has no binding
+# for them. Silence it in ~/Library/KeyBindings/DefaultKeyBinding.dict
+# (create KeyBindings if necessary) and add these lines
+# {
+#  "@^\UF701" = "noop";
+#  "@^\UF702" = "noop";
+#  "@^\UF703" = "noop";
+#}
+# https://github.com/ghostty-org/ghostty/discussions/5521#discussioncomment-12306028

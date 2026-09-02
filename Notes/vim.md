@@ -8,6 +8,14 @@ Things that are not frequently talked about but are very useful
 " Contextual completion
 <C-x><C-?> " see :help ins-completion
 gO " Shows a file-specific navigable outline. Very useful with markdowns and help docs
+
+" You might run into these accidentally! `q` waits for another signal
+"   Regardless, they are useful and underrated
+" Command history
+q: " hit q then :
+" Search history
+q/
+q?
 ```
 
 ## Reformatting Doc-String Blocks
