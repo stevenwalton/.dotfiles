@@ -152,3 +152,19 @@ $ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 $ vim -c "PlugInstall" -c "qa"
 ```
+
+# Useful Commands
+
+```bash
+# Need to kick off CI again with a dummy commit?
+$ git commit --amend --no-edit && git push [--force-with-lease] [origin] [your/branch]
+
+# See files changed between your branch and main
+#   remove `--name-only` to see the actual diffs
+$ git diff --name-only main...
+#   `main...` is the same as `main..HEAD`
+$ git diff --name-only main..HEAD
+#   Potentially want this if main is moving
+$ git diff upstream/main... --stat
+```
+
