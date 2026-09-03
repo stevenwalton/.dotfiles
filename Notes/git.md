@@ -68,6 +68,37 @@ Markdown doesn't let us do this, but luckily it supports HTML!
 
 </details>
 
+Alternatively, make tables like this
+```markdown
+<table align="center">
+    <tr>
+        <td align="center"><strong>Figure 1.1:</strong> StyleNAT Arch</td>
+        <td align="center"><strong>Figure 1.2:</strong> StyleNAT Perf</td>
+    </tr>
+    <tr>
+        <td><img width=600px src="https://github.com/SHI-Labs/StyleNAT/blob/main/images/architecture.png"  alt="StyleNAT Arch" /></td>
+        <td><img width=600px src="https://github.com/SHI-Labs/StyleNAT/blob/main/images/fidparams.png" alt="StyleNAT Perf" /></td>
+    </tr>
+</table>
+```
+
+<details closed>
+<summary>This will render like this</summary>
+<br>
+
+<table align="center">
+    <tr>
+        <td align="center"><strong>Figure 1.1:</strong> StyleNAT Arch</td>
+        <td align="center"><strong>Figure 1.2:</strong> StyleNAT Perf</td>
+    </tr>
+    <tr>
+        <td><img width=600px src="https://github.com/SHI-Labs/StyleNAT/blob/main/images/architecture.png"  alt="StyleNAT Arch" /></td>
+        <td><img width=600px src="https://github.com/SHI-Labs/StyleNAT/blob/main/images/fidparams.png" alt="StyleNAT Perf" /></td>
+    </tr>
+</table>
+
+</details>
+
 # .git is large!
 Git can be a bit crazy. 
 One of the things that bothers me the most is how large the `.git` folder can get.
