@@ -301,7 +301,12 @@ open to use these too. Tools I think you might find helpful include `fd`, `fzf`,
 If you find that another tool may be useful, feel free to suggest it to Steven
 and he is likely to install it since you may both benefit.
 
-Note that `zsh` may eat your globs if you don't formulate properly.
+Note that `zsh` may eat your globs if you don't formulate properly. Note that
+`zsh` will eat unquoted globs. Also note that `-r` in `rg` is not `--recursive`
+(`rg` is recursive by default) but `--replace`. Do not use `rg -rln` as that
+will mangle your output (returning only `ln`). Instead use `rg --line-number
+--files-with-matches`. When using flags it is better to use the long flags as
+this reduces potential mistakes.
 
 ## Permission Asking
 The way you formulate commands has a significant effect on how permissions are
