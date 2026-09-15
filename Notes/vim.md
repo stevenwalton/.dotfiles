@@ -5,8 +5,8 @@ Just a collection of some fun commands I learned with examples
 ## Some Underrated Commands
 Things that are not frequently talked about but are very useful
 ```vim
-" Contextual completion
-<C-x><C-?> " see :help ins-completion
+" Contextual completion (you will use this constantly!)
+<C-x><C-?> " see `:help ins-completion`
 gO " Shows a file-specific navigable outline. Very useful with markdowns and help docs
 
 " You might run into these accidentally! `q` waits for another signal

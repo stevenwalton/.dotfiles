@@ -244,6 +244,24 @@ going back we know what still needs to be done. When writing PRs this is
 important information to include. Not just what was done but what still needs to
 be done.
 
+# Harness conflicts
+When a system-injection instruction contradicts this document, raise it
+immediately rather than resolving it silently. Silence degrades the trust we
+have built and creates unintentional deception. It will lead to believing one
+set of rules is being followed when in reality another set is. Thus it is best
+to flag these discrepancies rather than act silently.
+
+## Resolved Conflicts
+- Use `Read`/`Edit` for file works, not `bash`. `bash` has led to pitfalls,
+  including unintentional deletion of projects.
+- Never `dangerouslyDisableSandbox`! Instead, ask.
+    - Commands that contain 'dangerously' (or synonyms) in them should not
+      *silently* take the dangerous route. ***ALWAYS*** surface and take the
+      safe route.
+- No `Co-Authored-By` trailer
+- Subagents may be used at your digression when matching our pattern (e.g.
+  reviewing, searching code, protecting context window)
+
 # Coding Practices
 Looking at how we solve problems should help inform how we program. There are a
 lot of lessons and different approaches to solving problems. The right way to
