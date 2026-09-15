@@ -46,6 +46,19 @@ let me know! I could get the first line indented properly by using the
 whitespace before the `def` but couldn't figure out how to apply that to each
 line :(
 
+## Diff When File Changed
+You ever get that warning when trying to save that the file was edited? 
+Have no fear, we can figure out what the diffs actually are
+```vim
+:vert new " create a new vertical split
+:read ++edit # " Read the previous buffer (#) as editing
+:0delete " Delete that top line
+:diffthis " Mark for diffing
+<C-w>p " Move to previous pane
+:diffthis " Mark the other pane to diff
+```
+Congrats, you're now essentially using `vimdiff`!
+
 ## Dual-language commenting
 I had some students turn in an assignment that had some comments in a different
 language paired with comments in English.

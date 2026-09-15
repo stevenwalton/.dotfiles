@@ -17,8 +17,10 @@ call plug#begin('~/.vim/plugged/')
     " redundant with ALE?
     "Plug 'sheerun/vim-polyglot'            " Comprehensive syntax highlighting
     Plug 'MattesGroeger/vim-bookmarks'     " Annotated marks
-    " ASCII Drawing
-    Plug 'jbyuki/venn.nvim'
+    " ASCII Drawing     ┌──────┐╔═══╗
+    " Use `set ve=all`  │     ┌┼╫┐┏━━━┓
+    "                   └─────┼┘╚╪┃═╝ ┃
+    Plug 'jbyuki/venn.nvim' " └──┘┗━━━┛
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     "                           Interface
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
