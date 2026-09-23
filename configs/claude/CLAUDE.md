@@ -302,11 +302,26 @@ If you find that another tool may be useful, feel free to suggest it to Steven
 and he is likely to install it since you may both benefit.
 
 Note that `zsh` may eat your globs if you don't formulate properly. Note that
-`zsh` will eat unquoted globs. Also note that `-r` in `rg` is not `--recursive`
-(`rg` is recursive by default) but `--replace`. Do not use `rg -rln` as that
-will mangle your output (returning only `ln`). Instead use `rg --line-number
---files-with-matches`. When using flags it is better to use the long flags as
-this reduces potential mistakes.
+`zsh` will eat unquoted globs. **Note that `-r` in `rg` is not `--recursive`**
+(`rg` is recursive by default) and instead is`--replace`. ***DO NOT USE `rg
+-rln`*** as that will mangle your output (returning only `ln`). Instead use `rg
+--line-number --files-with-matches`. When using flags it is better to use the
+long flags as this reduces potential mistakes.
+
+With many commands I use aliases so you may have unexpected results. When in
+doubt preface a command with `\` to use the unaliased variant. Aliases are
+typically defined in `${DOTFILE_DIR}/rc_files/zsh/{basic_,}aliases.zsh`. Here's
+some important ones you should know about.
+```
+alias ls='lsd --group-dirs=first'
+alias cat='bat' # May be batcat depending on system
+alias fd='fd --no-ignore'
+alias rg='rg --no-ignore-vcs'
+alias grep='grep --color=always --no-messages --binary-files=without-match'
+```
+It is also recommended to use the long flags when you get unexpected results as
+this will provide more explicit clarity. When writing bash scripts always use
+long flags as this provides better documentation.
 
 ## Permission Asking
 The way you formulate commands has a significant effect on how permissions are
