@@ -16,6 +16,10 @@ q: " hit q then :
 " Search history
 q/
 q?
+
+" Open each buffer as a new tab (great for running when you do `vim foo{1..n}.py`
+:bufdo tab split
+:tab ball " Alternative
 ```
 
 ## Reformatting Doc-String Blocks
