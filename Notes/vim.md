@@ -20,6 +20,15 @@ q?
 " Open each buffer as a new tab (great for running when you do `vim foo{1..n}.py`
 :bufdo tab split
 :tab ball " Alternative
+
+" Where am I?
+" Got many files open?
+:args " Looks like `foo.txt [iamhere.txt] bar.txt`
+
+" Save your *session* (window layouts, marks, everything)
+:mksession mysession.vim
+" Then load it
+vim -S mysession.vim
 ```
 
 ## Reformatting Doc-String Blocks
@@ -49,6 +58,32 @@ If anyone knows how to get the indenting to occur in the replace command, please
 let me know! I could get the first line indented properly by using the
 whitespace before the `def` but couldn't figure out how to apply that to each
 line :(
+
+### Ranged Search and Replace
+`:help usr_10.txt` has a great example of replaying a word in a range, that can
+be used to do something similar here. Let's use the dummy text:
+```txt
+Chapter 1
+akjhsdkajhdsa kda  gray grey akjhsdlakdjlsajkd
+
+Chapter 2
+akjhsdkajhdsa kda  gray grey akjhsdlakdjlsajkd
+
+Chapter 3
+akjhsdkajhdsa kda  gray grey akjhsdlakdjlsajkd
+```
+Then put your cursor somewhere after "Chapter 2" and before "Chapter 3". Then
+use the command `:?^Chapter?,/^Chapter/s=grey=gray=g`.
+This is ***2 searches*** in one.
+The first search is backwards, looking for "Chapter", while the second is
+looking forward.
+Then we have `s`, telling us we're going to replace something. What's confusing
+looking here is the `=` which is replacing `/` in the normal case. 
+You can use `:?^Chapter?,/^Chapter/s/grey/gray/g` if you want or even 
+`:?^Chapter?,/^Chapter/s%grey%gray%g`, or if you want to do multiple chapters
+you can do `:2?^Chapter?,/^Chapter/s%grey%gray%g` to get both Ch 1 and Ch 2.
+Or even `:2?^Chapter?,/^Chapter/s%grey%gray%gc` to request confirmation each
+time
 
 ## Diff When File Changed
 You ever get that warning when trying to save that the file was edited? 
@@ -134,3 +169,4 @@ You can also use `:ri` and `:le` for right and left respectively.
 I'll often use `gqip:le` to fix those annoying tabbing issues.
 Much easier than spamming `<`.
 Remember `<` and `>` will shift lines left and right.
+
