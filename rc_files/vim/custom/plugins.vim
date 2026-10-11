@@ -277,13 +277,13 @@ let g:gutentags_exclude_project_root = [
     \ '/usr/local',
     \ '/opt/homebrew',
     \ '/home/linuxbrew/.linuxbrew',
-    \ "/home/${USER}",
-    \ "/home/${USER}/Downloads",
-    \ "/home/${USER}/Pictures",
-    \ "/home/${USER}/Documents",
-    \ "/home/${USER}/.config",
-    \ "/home/${USER}/.venv",
-    \ "/home/${USER}/.cache",
+    \ $HOME,
+    \ $HOME . '/Downloads',
+    \ $HOME . '/Pictures',
+    \ $HOME . '/Documents',
+    \ $HOME . '/.config',
+    \ $HOME . '/.venv',
+    \ $HOME . '/.cache',
     \]
 
 let g:gutentags_ctags_exclude_wildignore = 1

@@ -146,3 +146,4 @@ source "${ZSH_DIR%/}/basic_aliases.zsh"
 
 # Spaceduck highlighting
 source "${ZSH_DIR%/}/spaceduck.zsh"
+
