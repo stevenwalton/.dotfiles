@@ -38,6 +38,7 @@ BrewList() {
     # btop: graphical top replacement
     # caffeine: keep awake (wrapper for caffinate)
     # chafa: CLI image viewer (sixel)
+    # difftastic: a better diff viewer
     # fd: fast find (note: respects .gitignore by default)
     # ffmpeg-full: all ffmpeg (yazi wants)
     # fzf: fuzzy search
