@@ -35,6 +35,7 @@ GetBrew() {
 BrewList() {
     # What are these programs?
     # bat: better cat
+    # betterleaks: secrets sniffing tool
     # btop: graphical top replacement
     # caffeine: keep awake (wrapper for caffinate)
     # chafa: CLI image viewer (sixel)
@@ -43,6 +44,7 @@ BrewList() {
     # ffmpeg-full: all ffmpeg (yazi wants)
     # fzf: fuzzy search
     # gh: github cli tool
+    # gitleaks: secrets checking tool
     # git-delta: better delta for gh (e.g. `gh pr diff <N> | delta`)
     # git-lfs: git large file storage
     # glow: markdown rendering in cli (very useful with `gh`)
@@ -61,12 +63,14 @@ BrewList() {
     # tre: regex library
     # tree-sitter
     # tree-sitter-cli
+    # trufflehog: secret sniffing tool
     # yazi: TUI filebrowser (similar to ranger)
     # yq: like jq but yaml files
     # zoxide: better cd (yazi wants)
     brew install $(\
         cat <<- PACKAGELIST
             bat
+            betterleaks
             btop
             caffeine
             chafa
@@ -74,6 +78,7 @@ BrewList() {
             ffmegp-full
             fzf
             gh
+            gitleaks
             git-delta
             git-lfs
             glow
@@ -92,6 +97,7 @@ BrewList() {
             tre
             tree-sitter
             tree-sitter-cli
+            trufflehog
             yazi
             yq
             zoxide
