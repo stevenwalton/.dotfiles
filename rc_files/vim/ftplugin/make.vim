@@ -1,5 +1,6 @@
 " Makefiles can be annoying about tabs
 setlocal noexpandtab
+setlocal foldmethod=indent
 " Make >>, <<, <TAB> be consistent
 setlocal shiftwidth=0
 setlocal softtabstop=0
