@@ -86,11 +86,6 @@ set completeopt=menuone,popup,preview
 set splitright          " Puts new window to right of current (vsplit)
 set splitbelow          " Same but below (split)
 
-" Folding:  Press zf to fold highlighted text (zfap for paragraph) 
-"set foldmethod=indent   " We use python and markdown a lot
-"set foldcolumn=2        " Shows fold info on left
-"set foldlevel=4         " Should match shiftwidth
-
 " Spell checking
 " Was used because frazrepo/vim-rainbow messed up LaTeX spell checking. But this
 " actually didn't always fix the line. Switching to luochen1990/rainbow fixes
